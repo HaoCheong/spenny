@@ -1,4 +1,4 @@
-from typing import List, Union, Optional
+from typing import List, Union, Optional, Literal
 from pydantic import BaseModel
 
 # ======== BASE ========
@@ -7,25 +7,33 @@ from pydantic import BaseModel
 class BucketBase(BaseModel):
     name: str
     description: str
-    current_amount: int
+    current_amount: float
+
+    class Config:
+        orm_mode = True
 
 
 class FlowEventBase(BaseModel):
     name: str
     description: str
-    type: str
-    from_id: Union[int, None]
-    to_id: Union[int, None]
+    change_amount: float
+    type: Literal["ADD", "SUB", "MOV"]
+    frequency: str
+    from_bucket_id: Union[int, None]
+    to_bucket_id: Union[int, None]
+
+    class Config:
+        orm_mode = True
 
 # ======== CREATE ========
 
 
 class BucketCreate(BucketBase):
-    id: int
+    pass
 
 
 class FlowEventCreate(FlowEventBase):
-    id: int
+    pass
 # ======== READNR ========
 
 
@@ -40,11 +48,13 @@ class FlowEventReadNR(FlowEventBase):
 
 
 class BucketReadWR(BucketReadNR):
-    pass
+    from_events: List[FlowEventReadNR]
+    # to_events: List[FlowEventReadNR]
 
 
 class FlowEventReadWR(FlowEventReadNR):
-    pass
+    from_bucket: BucketReadNR
+    # to_bucket: BucketReadNR
 
 # ======== UPDATE ========
 
@@ -52,7 +62,7 @@ class FlowEventReadWR(FlowEventReadNR):
 class BucketUpdate(BucketBase):
     name: Optional[str]
     description: Optional[str]
-    current_amount: Optional[int]
+    current_amount: Optional[float]
 
 
 class FlowEventUpdate(FlowEventBase):

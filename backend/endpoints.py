@@ -11,16 +11,11 @@ import helpers
 
 router = APIRouter()
 
-# ======== MEALS ENDPOINT ========
+# ======== BUCKET ENDPOINT ========
 
 
 @router.post("/bucket", response_model=schemas.BucketReadNR, tags=['bucket'])
 def create_bucket(bucket: schemas.BucketCreate, db: Session = Depends(get_db)):
-    db_bucket = cruds.get_bucket_by_id(db, bucket=bucket.id)
-
-    if db_bucket:
-        raise HTTPException(status_code=400, detail="Bucket already exist")
-
     return cruds.create_bucket(db=db, bucket=bucket)
 
 
@@ -54,3 +49,42 @@ def delete_bucket_by_id(bucket_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Bucket does not exist")
 
     return cruds.delete_bucket_by_id(db, id=bucket_id)
+
+# ======== FLOW EVENT ENDPOINT ========
+
+
+@router.post("/flowEvent", response_model=schemas.FlowEventReadNR, tags=['flowEvent'])
+def create_flowEvent(flowEvent: schemas.FlowEventCreate, db: Session = Depends(get_db)):
+    return cruds.create_flowEvent(db=db, flowEvent=flowEvent)
+
+
+@router.get("/flowEvents", response_model=List[schemas.FlowEventReadNR], tags=['flowEvent'])
+def get_all_flowEvents(limit: int = 10, db: Session = Depends(get_db)):
+    return cruds.get_all_flowEvents(db=db, limit=limit)
+
+
+@router.get('/flowEvents/{flowEvent_id}', response_model=schemas.FlowEventReadWR, tags=['flowEvent'])
+def get_flowEvent_by_id(flowEvent_id: int, db: Session = Depends(get_db)):
+    db_flowEvent = cruds.get_flowEvent_by_id(db=db, id=flowEvent_id)
+    if not db_flowEvent:
+        raise HTTPException(status_code=400, detail="FlowEvent does not exist")
+
+    return db_flowEvent
+
+
+@router.patch('/flowEvent/{flowEvent_id}', response_model=schemas.FlowEventReadWR, tags=['flowEvent'])
+def update_flowEvent_by_id(flowEvent_id: int, new_flowEvent: schemas.FlowEventUpdate, db: Session = Depends(get_db)):
+    db_flowEvent = cruds.get_flowEvent_by_id(db=db, id=flowEvent_id)
+    if not db_flowEvent:
+        raise HTTPException(status_code=400, detail="FlowEvent does not exist")
+
+    return cruds.update_flowEvent_by_id(db=db, id=flowEvent_id, new_flowEvent=new_flowEvent)
+
+
+@router.delete('/flowEvent/{flowEvent_id}', tags=['flowEvent'])
+def delete_flowEvent_by_id(flowEvent_id: int, db: Session = Depends(get_db)):
+    db_flowEvent = cruds.get_flowEvent_by_id(db, id=flowEvent_id)
+    if not db_flowEvent:
+        raise HTTPException(status_code=400, detail="FlowEvent does not exist")
+
+    return cruds.delete_flowEvent_by_id(db, id=flowEvent_id)

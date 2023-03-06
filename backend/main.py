@@ -11,8 +11,8 @@ import metadata
 from database import SessionLocal, engine
 from fastapi.middleware.cors import CORSMiddleware
 
+models.Base.metadata.drop_all(bind=engine)
 models.Base.metadata.create_all(bind=engine)
-# models.Base.metadata.drop_all(bind=engine)
 
 # Initialising instance of the backend
 app = FastAPI(title="Spenny", openapi_tags=metadata.tags_metadata)
