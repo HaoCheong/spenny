@@ -63,7 +63,7 @@ def get_all_flowEvents(limit: int = 10, db: Session = Depends(get_db)):
     return cruds.get_all_flowEvents(db=db, limit=limit)
 
 
-@router.get('/flowEvents/{flowEvent_id}', response_model=schemas.FlowEventReadWR, tags=['flowEvent'])
+@router.get('/flowEvent/{flowEvent_id}', response_model=schemas.FlowEventReadWR, tags=['flowEvent'])
 def get_flowEvent_by_id(flowEvent_id: int, db: Session = Depends(get_db)):
     db_flowEvent = cruds.get_flowEvent_by_id(db=db, id=flowEvent_id)
     if not db_flowEvent:
@@ -88,3 +88,47 @@ def delete_flowEvent_by_id(flowEvent_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="FlowEvent does not exist")
 
     return cruds.delete_flowEvent_by_id(db, id=flowEvent_id)
+
+# ======== LOG ENDPOINT ========
+
+
+@router.post("/log", response_model=schemas.LogReadNR, tags=['log'])
+def create_log(log: schemas.LogCreate, db: Session = Depends(get_db)):
+    return cruds.create_log(db=db, log=log)
+
+
+@router.get("/logs", response_model=List[schemas.LogReadNR], tags=['log'])
+def get_all_logs(limit: int = 10, db: Session = Depends(get_db)):
+    return cruds.get_all_logs(db=db, limit=limit)
+
+
+@router.get("/logs/{bucket_id}", response_model=List[schemas.LogReadNR], tags=['log'])
+def get_all_logs_by_bucket_id(bucket_id: int, limit: int = 10, db: Session = Depends(get_db)):
+    return cruds.get_all_logs_by_bucket_id(db=db, limit=limit, bucket_id=bucket_id)
+
+
+@router.get('/log/{log_id}', response_model=schemas.LogReadWR, tags=['log'])
+def get_log_by_id(log_id: int, db: Session = Depends(get_db)):
+    db_log = cruds.get_log_by_id(db=db, id=log_id)
+    if not db_log:
+        raise HTTPException(status_code=400, detail="Log does not exist")
+
+    return db_log
+
+
+@router.patch('/log/{log_id}', response_model=schemas.LogReadWR, tags=['log'])
+def update_log_by_id(log_id: int, new_log: schemas.LogUpdate, db: Session = Depends(get_db)):
+    db_log = cruds.get_log_by_id(db=db, id=log_id)
+    if not db_log:
+        raise HTTPException(status_code=400, detail="Log does not exist")
+
+    return cruds.update_log_by_id(db=db, id=log_id, new_log=new_log)
+
+
+@router.delete('/log/{log_id}', tags=['log'])
+def delete_log_by_id(log_id: int, db: Session = Depends(get_db)):
+    db_log = cruds.get_log_by_id(db, id=log_id)
+    if not db_log:
+        raise HTTPException(status_code=400, detail="Log does not exist")
+
+    return cruds.delete_log_by_id(db, id=log_id)

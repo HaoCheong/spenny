@@ -6,5 +6,9 @@ tags_metadata = [
     {
         "name": "flowEvent",
         "description": "CRUD features for Flow Events",
+    },
+    {
+        "name": "log",
+        "description": "CRUD features for logs"
     }
 ]

@@ -1,7 +1,21 @@
-from sqlalchemy import Column, ForeignKey, Float, Integer, String
+from sqlalchemy import Column, ForeignKey, Float, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 
 from database import Base
+
+
+class Log(Base):
+    __tablename__ = "logs"
+    id = Column(Integer, primary_key=True, index=True, unique=True)
+    name = Column(String)
+    description = Column(String)
+    type = Column(String)
+    amount = Column(Float)
+    # date_created = Column(DateTime)
+    date_created = Column(String)
+
+    bucket_id = Column(Integer, ForeignKey("buckets.id"))
+    bucket = relationship("Bucket", back_populates="logs")
 
 
 class Bucket(Base):
@@ -11,10 +25,13 @@ class Bucket(Base):
     description = Column(String)
     current_amount = Column(Float)
 
-    from_events = relationship(
-        "FlowEvent")
+    logs = relationship("Log", back_populates="bucket")
+
+    # from_events = relationship(
+    #     "FlowEvent", back_populates="from_bucket")
+
     # to_events = relationship(
-    #     "FlowEvent", foreign_keys='to_bucket_id')
+    #     "FlowEvent", back_populates="to_bucket")
 
 
 class FlowEvent(Base):
@@ -27,9 +44,10 @@ class FlowEvent(Base):
     frequency = Column(String)
     # next_trigger = Column(DateTime)
     from_bucket_id = Column(Integer, ForeignKey("buckets.id"))
-    # from_bucket_id = Column(Integer)
-    from_bucket = relationship("Bucket", back_populates="from_events")
+    from_bucket = relationship("Bucket", foreign_keys=[
+                               from_bucket_id])
 
-    # to_bucket_id = Column(Integer, ForeignKey("buckets.id"))
-    # # to_bucket_id = Column(Integer)
-    # to_bucket = relationship("Bucket", back_populates="to_events")
+    to_bucket_id = Column(Integer, ForeignKey("buckets.id"))
+    # to_bucket_id = Column(Integer)
+    to_bucket = relationship("Bucket", foreign_keys=[
+                             to_bucket_id])

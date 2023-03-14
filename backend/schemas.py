@@ -25,6 +25,18 @@ class FlowEventBase(BaseModel):
     class Config:
         orm_mode = True
 
+
+class LogBase(BaseModel):
+    name: str
+    description: str
+    type: Literal["ADD", "SUB", "MOV"]
+    amount: float
+    date_created: str
+    bucket_id: int
+
+    class Config:
+        orm_mode = True
+
 # ======== CREATE ========
 
 
@@ -34,6 +46,11 @@ class BucketCreate(BucketBase):
 
 class FlowEventCreate(FlowEventBase):
     pass
+
+
+class LogCreate(LogBase):
+    pass
+
 # ======== READNR ========
 
 
@@ -44,17 +61,26 @@ class BucketReadNR(BucketBase):
 class FlowEventReadNR(FlowEventBase):
     id: int
 
+
+class LogReadNR(LogBase):
+    id: int
 # ======== READWR ========
 
 
 class BucketReadWR(BucketReadNR):
-    from_events: List[FlowEventReadNR]
+    pass
+    # from_events: List[FlowEventReadNR]
     # to_events: List[FlowEventReadNR]
 
 
 class FlowEventReadWR(FlowEventReadNR):
-    from_bucket: BucketReadNR
-    # to_bucket: BucketReadNR
+    from_bucket: Union[BucketReadNR, None]
+    to_bucket: BucketReadNR
+
+
+class LogReadWR(LogBase):
+    bucket_id: int
+    bucket: BucketReadNR
 
 # ======== UPDATE ========
 
@@ -69,3 +95,11 @@ class FlowEventUpdate(FlowEventBase):
     name: Optional[str]
     description: Optional[str]
     type: Optional[str]
+
+
+class LogUpdate(LogBase):
+    name: Optional[str]
+    description: Optional[str]
+    type: Optional[Literal["ADD", "SUB", "MOV"]]
+    amount: Optional[float]
+    date_created: Optional[str]
