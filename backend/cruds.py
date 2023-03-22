@@ -1,7 +1,17 @@
 from sqlalchemy.orm import Session
 import models
 import schemas
+from fastapi.encoders import jsonable_encoder
 
+
+# {from_events: [], to_events:[]}
+def get_bucket_flowEvents(db: Session, bucket_id:int):
+    fromEvents = db.query(models.FlowEvent).filter(models.FlowEvent.from_bucket_id == bucket_id).all()
+    toEvents = db.query(models.FlowEvent).filter(models.FlowEvent.to_bucket_id == bucket_id).all()
+
+    return {"from_events": fromEvents, "to_events": toEvents}
+
+# ========== CRUDS ==========
 
 def create_bucket(db: Session, bucket: schemas.BucketCreate):
     db_bucket = models.Bucket(
@@ -16,12 +26,25 @@ def create_bucket(db: Session, bucket: schemas.BucketCreate):
     return db_bucket
 
 
+# Should return all the buckets and their
 def get_all_buckets(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Bucket).offset(skip).limit(limit).all()
+    # all_buckets = []
+    buckets = db.query(models.Bucket).offset(skip).limit(limit).all()
+    # for bucket in buckets:
+    #     je_bucket = jsonable_encoder(bucket)
+    #     flowEvents = get_bucket_flowEvents(db=db, bucket_id=bucket.id)
+    #     je_bucket['from_events'] = flowEvents["from_events"]
+    #     je_bucket['to_events'] = flowEvents["to_events"]
+    #     all_buckets.append(je_bucket)
 
+    return buckets
 
 def get_bucket_by_id(db: Session, id: int):
-    return db.query(models.Bucket).filter(models.Bucket.id == id).first()
+    bucket = jsonable_encoder(db.query(models.Bucket).filter(models.Bucket.id == id).first())
+    flowEvents = get_bucket_flowEvents(db=db, bucket_id=id)
+    bucket['from_events'] = flowEvents["from_events"]
+    bucket['to_events'] = flowEvents["to_events"]
+    return bucket
 
 
 def update_bucket_by_id(db: Session, id: int, new_bucket: schemas.BucketUpdate):

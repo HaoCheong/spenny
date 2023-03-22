@@ -68,9 +68,8 @@ class LogReadNR(LogBase):
 
 
 class BucketReadWR(BucketReadNR):
-    pass
-    # from_events: List[FlowEventReadNR]
-    # to_events: List[FlowEventReadNR]
+    from_events: List[FlowEventReadNR]
+    to_events: List[FlowEventReadNR]
 
 
 class FlowEventReadWR(FlowEventReadNR):

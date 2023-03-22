@@ -132,3 +132,16 @@ def delete_log_by_id(log_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Log does not exist")
 
     return cruds.delete_log_by_id(db, id=log_id)
+
+
+# ========== TEST ==========
+
+# A test endpoint to easily test our certain functions via swagger
+@router.get('/TEST')
+def test(db: Session = Depends(get_db)):
+    return cruds.get_bucket_flowEvents(bucket_id=1, db=db)
+    # cruds.get_bucket_flowEvents(bucket_id=2, db=db)
+    # cruds.get_bucket_flowEvents(bucket_id=3, db=db)
+    # cruds.get_bucket_flowEvents(bucket_id=4, db=db)
+    # cruds.get_bucket_flowEvents(bucket_id=5, db=db)
+    # return {"Success": True}
