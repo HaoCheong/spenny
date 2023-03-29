@@ -61,6 +61,7 @@ class BucketReadNR(BucketBase):
 
 class FlowEventReadNR(FlowEventBase):
     id: int
+    next_trigger: datetime
 
 
 class LogReadNR(LogBase):

@@ -25,7 +25,7 @@ def get_all_buckets(limit: int = 10, db: Session = Depends(get_db)):
     return cruds.get_all_buckets(db=db, limit=limit)
 
 
-@router.get('/buckets/{bucket_id}', response_model=schemas.BucketReadWR, tags=['bucket'])
+@router.get('/bucket/{bucket_id}', response_model=schemas.BucketReadWR, tags=['bucket'])
 def get_bucket_by_id(bucket_id: int, db: Session = Depends(get_db)):
     db_bucket = cruds.get_bucket_by_id(db=db, id=bucket_id)
     if not db_bucket:

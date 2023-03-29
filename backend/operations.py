@@ -65,6 +65,7 @@ def update_all_buckets(db: Session):
         # Checks if its time to trigger yet
         date_now = datetime.now()
         if (date_now < fe.next_trigger):
+            print("NOT YET")
             continue
 
         # Will loop until current fe next trigger is past the current time (Useful if long time no trigger)
