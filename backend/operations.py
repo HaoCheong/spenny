@@ -9,7 +9,7 @@ from helpers import add_time
 # Update a singular bucket value
 
 
-def update_bucket_values(fe: schemas.FlowEventReadNR, db: Session):
+def update_bucket_values(fe: schemas.FlowEventReadNR, db: Session, old_date: datetime):
     # Grab the two potential buckets
     from_bucket = None
     to_bucket = None
@@ -28,7 +28,7 @@ def update_bucket_values(fe: schemas.FlowEventReadNR, db: Session):
                 description=fe.description,
                 type=fe.type,
                 amount=(fe.change_amount) * -1,
-                date_created=datetime.now(),
+                date_created=old_date,
                 bucket_id=fe.from_bucket_id
             )
             cruds.create_log(db=db, log=new_log)
@@ -47,12 +47,10 @@ def update_bucket_values(fe: schemas.FlowEventReadNR, db: Session):
                 description=fe.description,
                 type=fe.type,
                 amount=fe.change_amount,
-                date_created=datetime.now(),
+                date_created=old_date,
                 bucket_id=fe.to_bucket_id
             )
             cruds.create_log(db=db, log=new_log)
-    # print("FROM BUCKET", from_bucket)
-    # print("TO BUCKET", to_bucket)
 
 
 # Iterate through all flow events and update their value
@@ -67,18 +65,23 @@ def update_all_buckets(db: Session):
         # Checks if its time to trigger yet
         date_now = datetime.now()
         if (date_now < fe.next_trigger):
-            print("NOT YET", date_now, fe.next_trigger)
             continue
 
-        # Alter next trigger in flowEvent
-        new_date = add_time(fe.next_trigger, fe.frequency)
+        # Will loop until current fe next trigger is past the current time (Useful if long time no trigger)
+        curr_fe = fe
+        while (date_now > curr_fe.next_trigger):
 
-        # Updating FlowEvent Dates
-        changed_fe = {"next_trigger": new_date}
-        res = cruds.update_flowEvent_by_id(
-            db=db, id=fe.id, new_flowEvent=schemas.FlowEventUpdate(next_trigger=new_date))
+            # Update the dates
+            new_date = add_time(curr_fe.next_trigger, curr_fe.frequency)
+            changed_fe = {"next_trigger": new_date}
+            res = cruds.update_flowEvent_by_id(
+                db=db, id=curr_fe.id, new_flowEvent=schemas.FlowEventUpdate(next_trigger=new_date))
 
-        # Updating Bucket Values
-        update_bucket_values(fe=res, db=db)
+            # Update individual buckets
+            update_bucket_values(fe=res, db=db, old_date=curr_fe.next_trigger)
+
+            # Set values for next loop
+            curr_fe = res
+            date_now = datetime.now()
 
     return {"Success": True}
