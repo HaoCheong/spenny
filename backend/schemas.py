@@ -1,4 +1,5 @@
 from typing import List, Union, Optional, Literal
+from datetime import datetime
 from pydantic import BaseModel
 
 # ======== BASE ========
@@ -31,7 +32,7 @@ class LogBase(BaseModel):
     description: str
     type: Literal["ADD", "SUB", "MOV"]
     amount: float
-    date_created: str
+    date_created: datetime
     bucket_id: int
 
     class Config:
@@ -77,7 +78,7 @@ class FlowEventReadWR(FlowEventReadNR):
     to_bucket: BucketReadNR
 
 
-class LogReadWR(LogBase):
+class LogReadWR(LogReadNR):
     bucket_id: int
     bucket: BucketReadNR
 
@@ -93,7 +94,12 @@ class BucketUpdate(BucketBase):
 class FlowEventUpdate(FlowEventBase):
     name: Optional[str]
     description: Optional[str]
-    type: Optional[str]
+    change_amount: Optional[float]
+    type: Optional[Literal["ADD", "SUB", "MOV"]]
+    frequency: Optional[str]
+    next_trigger: Optional[datetime]
+    from_bucket_id: Optional[int]
+    to_bucket_id: Optional[int]
 
 
 class LogUpdate(LogBase):

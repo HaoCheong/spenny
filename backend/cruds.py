@@ -2,16 +2,21 @@ from sqlalchemy.orm import Session
 import models
 import schemas
 from fastapi.encoders import jsonable_encoder
+from datetime import datetime
+from helpers import add_time
 
 
 # {from_events: [], to_events:[]}
-def get_bucket_flowEvents(db: Session, bucket_id:int):
-    fromEvents = db.query(models.FlowEvent).filter(models.FlowEvent.from_bucket_id == bucket_id).all()
-    toEvents = db.query(models.FlowEvent).filter(models.FlowEvent.to_bucket_id == bucket_id).all()
+def get_bucket_flowEvents(db: Session, bucket_id: int):
+    fromEvents = db.query(models.FlowEvent).filter(
+        models.FlowEvent.from_bucket_id == bucket_id).all()
+    toEvents = db.query(models.FlowEvent).filter(
+        models.FlowEvent.to_bucket_id == bucket_id).all()
 
     return {"from_events": fromEvents, "to_events": toEvents}
 
 # ========== CRUDS ==========
+
 
 def create_bucket(db: Session, bucket: schemas.BucketCreate):
     db_bucket = models.Bucket(
@@ -39,8 +44,10 @@ def get_all_buckets(db: Session, skip: int = 0, limit: int = 100):
 
     return buckets
 
+
 def get_bucket_by_id(db: Session, id: int):
-    bucket = jsonable_encoder(db.query(models.Bucket).filter(models.Bucket.id == id).first())
+    bucket = jsonable_encoder(
+        db.query(models.Bucket).filter(models.Bucket.id == id).first())
     flowEvents = get_bucket_flowEvents(db=db, bucket_id=id)
     bucket['from_events'] = flowEvents["from_events"]
     bucket['to_events'] = flowEvents["to_events"]
@@ -74,11 +81,19 @@ def delete_bucket_by_id(db: Session, id: int):
 
 
 def create_flowEvent(db: Session, flowEvent: schemas.FlowEventCreate):
+
+    # Find the next date of trigger
+    # Get the frequency + the current date time
+    curr_time = datetime.now()
+    print("CURR", curr_time)
+    next_date = add_time(curr_time, flowEvent.frequency)
+
     db_flowEvent = models.FlowEvent(
         name=flowEvent.name,
         description=flowEvent.description,
         change_amount=flowEvent.change_amount,
         frequency=flowEvent.frequency,
+        next_trigger=next_date,
         type=flowEvent.type,
         from_bucket_id=flowEvent.from_bucket_id,
         to_bucket_id=flowEvent.to_bucket_id

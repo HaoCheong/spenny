@@ -11,9 +11,7 @@ class Log(Base):
     description = Column(String)
     type = Column(String)
     amount = Column(Float)
-    # date_created = Column(DateTime)
-    date_created = Column(String)
-
+    date_created = Column(DateTime)
     bucket_id = Column(Integer, ForeignKey("buckets.id"))
     bucket = relationship("Bucket", back_populates="logs")
 
@@ -42,12 +40,11 @@ class FlowEvent(Base):
     change_amount = Column(Float)
     type = Column(String)
     frequency = Column(String)
-    # next_trigger = Column(DateTime)
+    next_trigger = Column(DateTime)
     from_bucket_id = Column(Integer, ForeignKey("buckets.id"))
     from_bucket = relationship("Bucket", foreign_keys=[
                                from_bucket_id])
 
     to_bucket_id = Column(Integer, ForeignKey("buckets.id"))
-    # to_bucket_id = Column(Integer)
     to_bucket = relationship("Bucket", foreign_keys=[
                              to_bucket_id])

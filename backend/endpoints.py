@@ -8,6 +8,7 @@ from fastapi.encoders import jsonable_encoder
 import cruds
 import schemas
 import helpers
+import operations
 
 router = APIRouter()
 
@@ -134,14 +135,17 @@ def delete_log_by_id(log_id: int, db: Session = Depends(get_db)):
     return cruds.delete_log_by_id(db, id=log_id)
 
 
-# ========== TEST ==========
+# ========== OPERATION =========
 
-# A test endpoint to easily test our certain functions via swagger
+# When trigger it will run this application and update all the flow amount
+@router.put('/updateValues')
+def update_all_buckets(db: Session = Depends(get_db)):
+    return operations.update_all_buckets(db=db)
+
+# ========== TEST ==========
+# # A test endpoint to easily test our certain functions via swagger
+
+
 @router.get('/TEST')
 def test(db: Session = Depends(get_db)):
     return cruds.get_bucket_flowEvents(bucket_id=1, db=db)
-    # cruds.get_bucket_flowEvents(bucket_id=2, db=db)
-    # cruds.get_bucket_flowEvents(bucket_id=3, db=db)
-    # cruds.get_bucket_flowEvents(bucket_id=4, db=db)
-    # cruds.get_bucket_flowEvents(bucket_id=5, db=db)
-    # return {"Success": True}
