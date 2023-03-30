@@ -29,7 +29,6 @@ const BucketDisplay = ({ bucket_id }) => {
 
     const getBucketData = async () => {
         const res = await axios.get(`${BACKEND_URL}/bucket/${1}`)
-        console.log('RES', res)
         setBucket(res.data)
     }
 

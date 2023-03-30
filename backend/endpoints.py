@@ -103,9 +103,9 @@ def get_all_logs(limit: int = 10, db: Session = Depends(get_db)):
     return cruds.get_all_logs(db=db, limit=limit)
 
 
-@router.get("/logs/{bucket_id}", response_model=List[schemas.LogReadNR], tags=['log'])
-def get_all_logs_by_bucket_id(bucket_id: int, limit: int = 10, db: Session = Depends(get_db)):
-    return cruds.get_all_logs_by_bucket_id(db=db, limit=limit, bucket_id=bucket_id)
+@router.get("/logs/{bucket_id}/{date}", response_model=List[schemas.LogReadNR], tags=['log'])
+def get_all_logs_by_bucket_id(bucket_id: int, date: str, db: Session = Depends(get_db)):
+    return cruds.get_all_logs_by_bucket_id(db=db, date=date, bucket_id=bucket_id)
 
 
 @router.get('/log/{log_id}', response_model=schemas.LogReadWR, tags=['log'])
