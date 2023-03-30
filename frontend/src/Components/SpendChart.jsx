@@ -25,15 +25,21 @@ const SpendChart = ({ bucket_id }) => {
     }
 
     const logsDataMapper = () => {
+        const dateHash = {}
+        const today = new Date()
+        console.log('TODAY RAW', today)
+        console.log('TODAY MID', today.setHours(0, 0, 0, 0))
+
         //Find the dates of the last 28 days
         //For Each day
-        //Group the logs into groups of days, sum the amount, set as data point
+        //Group the logs into groups of days, sum the amount, set as data point (You can parse dates from python style to js style directly)
         //Cap until 28 days (you can have a config to set limit)
         //Pass into bucket
     }
 
     React.useEffect(() => {
         getLogs()
+        logsDataMapper()
     }, [])
 
     const data = [
