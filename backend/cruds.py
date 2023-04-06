@@ -83,7 +83,7 @@ def delete_bucket_by_id(db: Session, id: int):
 
 def create_flowEvent(db: Session, flowEvent: schemas.FlowEventCreate):
 
-    # Find the next date of trigger
+    # Find the next date of trigger, should be user inserted
     # Get the frequency + the current date time
     curr_time = datetime.now()
     print("CURR", curr_time)

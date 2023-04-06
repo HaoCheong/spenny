@@ -18,11 +18,11 @@ const FlowEventDisplayCard = ({ fe }) => {
             break
 
         case 'SUB':
-            bgColor = '#c92a2a'
+            bgColor = '#ff5154'
             break
 
         case 'MOV':
-            bgColor = '#e67700'
+            bgColor = '#FFD23F'
             break
 
         default:

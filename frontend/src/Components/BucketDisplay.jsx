@@ -28,7 +28,7 @@ const BucketDisplay = ({ bucket_id }) => {
     const [bucket, setBucket] = React.useState({ from_events: [] })
 
     const getBucketData = async () => {
-        const res = await axios.get(`${BACKEND_URL}/bucket/${1}`)
+        const res = await axios.get(`${BACKEND_URL}/bucket/${bucket_id}`)
         setBucket(res.data)
     }
 
@@ -37,7 +37,7 @@ const BucketDisplay = ({ bucket_id }) => {
     }, [])
 
     return (
-        <Card maxW="md" bg="#afce82" variant="elevated">
+        <Card minWidth="sm" bg="white" variant="elevated" minHeight="md">
             <CardBody>
                 <Box bg="white">
                     <SpendChart bucket_id={1} />
@@ -67,7 +67,7 @@ const BucketDisplay = ({ bucket_id }) => {
             <Divider />
             <CardFooter>
                 <ButtonGroup spacing="2">
-                    <Button variant="solid" colorScheme="blue">
+                    <Button variant="solid" bgColor="#00a6fb" color="white">
                         View Bucket
                     </Button>
                 </ButtonGroup>
