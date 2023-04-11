@@ -28,7 +28,7 @@ import { BACKEND_URL } from '../config.js'
 import axios from 'axios'
 import ResponseAlert from './ResponseAlert'
 
-const CreateFlowEventModal = () => {
+const EventTriggerModal = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [alertInfo, setAlertInfo] = React.useState({
         isOpen: false,
@@ -52,8 +52,6 @@ const CreateFlowEventModal = () => {
             description: '',
             change_amount: 0,
             type: 'ADD',
-            frequency: '',
-            next_trigger: '',
             from_bucket_id: null,
             to_bucket_id: null,
         },
@@ -68,31 +66,27 @@ const CreateFlowEventModal = () => {
             type: yup
                 .string('Enter flow event type')
                 .matches('^(ADD|SUB|MOV)$', 'Has to either ADD, SUB, MOV'),
-            frequency: yup
-                .string('Enter your frequency of trigger')
-                .matches(
-                    '^[0-9]+(n|h|d|w|m|y){1}$',
-                    'It does not match expected format. (I.E 1n = 1 Minute, 3h = 3 Hours)'
-                ),
+            // from_bucket_id: yup.number(
+            //     'Either enter a valid bucket id or empty'
+            // ),
+            // to_bucket_id: yup.number('Either enter a valid bucket id or empty'),
         }),
         onSubmit: async (values) => {
             console.log('VAL', values)
-            const newFlowEvent = {
+            const newTrigger = {
                 name: values.name,
                 description: values.description,
                 change_amount: values.change_amount,
                 type: values.type,
-                frequency: values.frequency,
-                next_trigger: values.next_trigger,
                 from_bucket_id: values.from_bucket_id,
                 to_bucket_id: values.to_bucket_id,
             }
             try {
-                await axios.post(`${BACKEND_URL}/flowEvent`, newFlowEvent)
+                await axios.put(`${BACKEND_URL}/soloTrigger`, newTrigger)
                 setAlertInfo({
                     isOpen: true,
                     type: 'success',
-                    message: 'Flow Event Successfully Created',
+                    message: 'Event Successful Created',
                 })
             } catch (err) {
                 setAlertInfo({
@@ -106,19 +100,19 @@ const CreateFlowEventModal = () => {
 
     return (
         <>
-            <Button onClick={onOpen}>Flow Event Modal</Button>
+            <Button onClick={onOpen}>Single Event Trigger</Button>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <form onSubmit={formik.handleSubmit}>
                     <ModalContent>
-                        <ModalHeader>Create New Flow Event</ModalHeader>
+                        <ModalHeader>Move money around</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
                             <VStack spacing="1em">
                                 <FormValidator formik={formik} propName="name">
                                     <Input
                                         id="name"
-                                        placeholder="Flow Event Name"
+                                        placeholder="Event Name"
                                         focusBorderColor="blue.500"
                                         onChange={formik.handleChange}
                                         value={formik.values.name}
@@ -131,7 +125,7 @@ const CreateFlowEventModal = () => {
                                 >
                                     <Textarea
                                         id="description"
-                                        placeholder="Flow Event Description"
+                                        placeholder="Event Description"
                                         focusBorderColor="blue.500"
                                         onChange={formik.handleChange}
                                         value={formik.values.description}
@@ -155,7 +149,7 @@ const CreateFlowEventModal = () => {
                                 </FormValidator>
                                 <FormValidator formik={formik} propName="type">
                                     <Select
-                                        placeholder="Select Flow Event Type"
+                                        placeholder="Select Event Type"
                                         onChange={(e) => {
                                             formik.setFieldValue(
                                                 'type',
@@ -174,31 +168,6 @@ const CreateFlowEventModal = () => {
                                             another
                                         </option>
                                     </Select>
-                                </FormValidator>
-                                <FormValidator
-                                    formik={formik}
-                                    propName="Frequency"
-                                >
-                                    <Input
-                                        id="frequency"
-                                        placeholder="Flow Event Frequency"
-                                        focusBorderColor="blue.500"
-                                        onChange={formik.handleChange}
-                                        value={formik.values.frequency}
-                                    />
-                                </FormValidator>
-                                <FormValidator
-                                    formik={formik}
-                                    propName="next_trigger"
-                                >
-                                    <Input
-                                        id="next_trigger"
-                                        placeholder="Start Date and time"
-                                        focusBorderColor="blue.500"
-                                        onChange={formik.handleChange}
-                                        value={formik.values.next_trigger}
-                                        type="datetime-local"
-                                    />
                                 </FormValidator>
                                 <FormValidator
                                     formik={formik}
@@ -252,7 +221,7 @@ const CreateFlowEventModal = () => {
 
                         <ModalFooter>
                             <Button colorScheme="green" type="submit">
-                                Create
+                                Run Trigger
                             </Button>
                             <Button
                                 colorScheme="blue"
@@ -272,4 +241,4 @@ const CreateFlowEventModal = () => {
     )
 }
 
-export default CreateFlowEventModal
+export default EventTriggerModal

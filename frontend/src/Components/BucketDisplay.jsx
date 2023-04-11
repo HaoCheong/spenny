@@ -37,10 +37,16 @@ const BucketDisplay = ({ bucket_id }) => {
     }, [])
 
     return (
-        <Card minWidth="sm" bg="white" variant="elevated" minHeight="md">
+        <Card
+            minW="sm"
+            bg="#49416D"
+            variant="elevated"
+            color="white"
+            minH="120vh"
+        >
             <CardBody>
                 <Box bg="white">
-                    <SpendChart bucket_id={1} />
+                    <SpendChart bucket_id={bucket_id} />
                 </Box>
 
                 <Stack mt="6" spacing="3">
@@ -55,7 +61,7 @@ const BucketDisplay = ({ bucket_id }) => {
                     <Box
                         sx={{
                             overflowY: 'scroll',
-                            maxH: '16em',
+                            maxH: '16rem',
                         }}
                     >
                         {bucket.from_events.map((fe, idx) => {

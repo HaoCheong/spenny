@@ -85,16 +85,16 @@ def create_flowEvent(db: Session, flowEvent: schemas.FlowEventCreate):
 
     # Find the next date of trigger, should be user inserted
     # Get the frequency + the current date time
-    curr_time = datetime.now()
-    print("CURR", curr_time)
-    next_date = add_time(curr_time, flowEvent.frequency)
+    # curr_time = datetime.now()
+    # print("CURR", curr_time)
+    # next_date = add_time(curr_time, flowEvent.frequency)
 
     db_flowEvent = models.FlowEvent(
         name=flowEvent.name,
         description=flowEvent.description,
         change_amount=flowEvent.change_amount,
         frequency=flowEvent.frequency,
-        next_trigger=next_date,
+        next_trigger=flowEvent.next_trigger,
         type=flowEvent.type,
         from_bucket_id=flowEvent.from_bucket_id,
         to_bucket_id=flowEvent.to_bucket_id

@@ -46,7 +46,7 @@ class BucketCreate(BucketBase):
 
 
 class FlowEventCreate(FlowEventBase):
-    pass
+    next_trigger: datetime
 
 
 class LogCreate(LogBase):
@@ -109,3 +109,14 @@ class LogUpdate(LogBase):
     type: Optional[Literal["ADD", "SUB", "MOV"]]
     amount: Optional[float]
     date_created: Optional[str]
+
+# ======== TRIGGER ========
+
+
+class TriggerBase(BaseModel):
+    name: str
+    description: str
+    change_amount: float
+    type: Literal["ADD", "SUB", "MOV"]
+    from_bucket_id: Union[int, None]
+    to_bucket_id: Union[int, None]

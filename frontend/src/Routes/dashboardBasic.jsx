@@ -8,10 +8,13 @@ import {
     Box,
     Button,
     useDisclosure,
+    Text,
 } from '@chakra-ui/react'
 import BucketDisplay from '../Components/BucketDisplay'
-import CreateBucketModal from '../Components/BucketModal'
+import CreateBucketModal from '../Components/CreateBucketModal'
 import CreateFlowEventModal from '../Components/CreateFlowEventModal'
+import DeleteBucketModal from '../Components/DeleteBucketModal'
+import EventTriggerModal from '../Components/EventTriggerModal'
 const BACKEND_URL = 'http://127.0.0.1:8000'
 
 const DashboardBasic = () => {
@@ -19,8 +22,16 @@ const DashboardBasic = () => {
 
     const getAllBucket = async () => {
         const res = await axios.get(`${BACKEND_URL}/buckets`)
-        console.log('BUK LIST', res.data)
         setBucketList(res.data)
+    }
+
+    const handleUpdate = async () => {
+        try {
+            await axios.put(`${BACKEND_URL}/updateValues`)
+            console.log('Running update')
+        } catch (err) {
+            console.error('Error', err)
+        }
     }
 
     React.useEffect(() => {
@@ -31,14 +42,21 @@ const DashboardBasic = () => {
         <>
             <Box
                 sx={{
-                    backgroundColor: '#49416D',
-                    width: '100%',
-                    height: '100%',
+                    width: '100vw',
+                    height: '100vh',
                 }}
             >
-                <VStack sx={{ margin: '1rem' }}>
+                <HStack gap={5} margin="2rem">
+                    <Text fontSize="5xl">Spenny V1.0</Text>
                     <CreateBucketModal />
                     <CreateFlowEventModal />
+                    <DeleteBucketModal />
+                    <EventTriggerModal />
+                    <Button colorScheme="green" onClick={handleUpdate}>
+                        Run Update
+                    </Button>
+                </HStack>
+                <VStack sx={{ margin: '1rem' }}>
                     <Box
                         sx={{
                             width: '100%',
@@ -47,8 +65,13 @@ const DashboardBasic = () => {
                         }}
                     >
                         <HStack sx={{ overflowX: 'scroll' }}>
-                            {bucketList.map((bucket) => {
-                                return <BucketDisplay bucket_id={bucket.id} />
+                            {bucketList.map((bucket, idx) => {
+                                return (
+                                    <BucketDisplay
+                                        key={idx}
+                                        bucket_id={bucket.id}
+                                    />
+                                )
                             })}
                         </HStack>
                         {/* <BucketDisplay bucket_id={1} /> */}

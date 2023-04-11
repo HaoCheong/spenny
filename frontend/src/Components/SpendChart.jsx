@@ -26,7 +26,9 @@ const SpendChart = ({ bucket_id }) => {
             cap_date.getMonth() + 1
         }-${cap_date.getFullYear()}`
 
-        const res = await axios.get(`${BACKEND_URL}/logs/${1}/${cap_date_str}`)
+        const res = await axios.get(
+            `${BACKEND_URL}/logs/${bucket_id}/${cap_date_str}`
+        )
         setLogs(res.data)
         // console.log('BRUH')
     }

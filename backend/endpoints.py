@@ -21,7 +21,7 @@ def create_bucket(bucket: schemas.BucketCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/buckets", response_model=List[schemas.BucketReadNR], tags=['bucket'])
-def get_all_buckets(limit: int = 10, db: Session = Depends(get_db)):
+def get_all_buckets(limit: int = 50, db: Session = Depends(get_db)):
     return cruds.get_all_buckets(db=db, limit=limit)
 
 
@@ -60,7 +60,7 @@ def create_flowEvent(flowEvent: schemas.FlowEventCreate, db: Session = Depends(g
 
 
 @router.get("/flowEvents", response_model=List[schemas.FlowEventReadNR], tags=['flowEvent'])
-def get_all_flowEvents(limit: int = 10, db: Session = Depends(get_db)):
+def get_all_flowEvents(limit: int = 50, db: Session = Depends(get_db)):
     return cruds.get_all_flowEvents(db=db, limit=limit)
 
 
@@ -99,7 +99,7 @@ def create_log(log: schemas.LogCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/logs", response_model=List[schemas.LogReadNR], tags=['log'])
-def get_all_logs(limit: int = 10, db: Session = Depends(get_db)):
+def get_all_logs(limit: int = 1000, db: Session = Depends(get_db)):
     return cruds.get_all_logs(db=db, limit=limit)
 
 
@@ -141,6 +141,11 @@ def delete_log_by_id(log_id: int, db: Session = Depends(get_db)):
 @router.put('/updateValues')
 def update_all_buckets(db: Session = Depends(get_db)):
     return operations.update_all_buckets(db=db)
+
+
+@router.put('/soloTrigger')
+def solo_trigger(trigger: schemas.TriggerBase, db: Session = Depends(get_db)):
+    return operations.solo_trigger(trigger=trigger, db=db)
 
 # ========== TEST ==========
 # # A test endpoint to easily test our certain functions via swagger

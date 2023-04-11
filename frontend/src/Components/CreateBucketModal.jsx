@@ -37,9 +37,9 @@ const CreateBucketModal = () => {
 
     const formik = useFormik({
         initialValues: {
-            name: 'Test Bucket',
-            description: 'This is a test bucket',
-            curr_amount: 100,
+            name: '',
+            description: '',
+            curr_amount: 0,
         },
         validationSchema: yup.object({
             name: yup
