@@ -18,7 +18,9 @@ import {
     Textarea,
     useDisclosure,
     VStack,
+    MenuItem,
 } from '@chakra-ui/react'
+import { DeleteIcon } from '@chakra-ui/icons'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import React from 'react'
@@ -75,7 +77,9 @@ const DeleteBucketModal = () => {
 
     return (
         <>
-            <Button onClick={onOpen}>Delete Bucket</Button>
+            <MenuItem onClick={onOpen} icon={<DeleteIcon />}>
+                Delete Bucket
+            </MenuItem>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <form onSubmit={formik.handleSubmit}>

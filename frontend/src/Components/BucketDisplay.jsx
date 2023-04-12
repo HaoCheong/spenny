@@ -23,6 +23,7 @@ import axios from 'axios'
 import { BACKEND_URL } from '../config.js'
 import FlowEventDisplayCard from './FlowEventDisplayCard.jsx'
 import SpendChart from './SpendChart.jsx'
+import ViewBucketModal from './ViewBucketModal.jsx'
 
 const BucketDisplay = ({ bucket_id }) => {
     const [bucket, setBucket] = React.useState({ from_events: [] })
@@ -58,6 +59,7 @@ const BucketDisplay = ({ bucket_id }) => {
                         {bucket.description}
                     </Text>
                     <Divider />
+                    <Text fontSize="2xl">Flow Events</Text>
                     <Box
                         sx={{
                             overflowY: 'scroll',
@@ -73,9 +75,7 @@ const BucketDisplay = ({ bucket_id }) => {
             <Divider />
             <CardFooter>
                 <ButtonGroup spacing="2">
-                    <Button variant="solid" bgColor="#00a6fb" color="white">
-                        View Bucket
-                    </Button>
+                    <ViewBucketModal bucket={bucket} />
                 </ButtonGroup>
             </CardFooter>
         </Card>

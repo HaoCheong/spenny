@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { ViewIcon } from '@chakra-ui/icons'
+import ViewFlowEventModal from './ViewFlowEventModal'
 
 const FlowEventDisplayCard = ({ fe }) => {
     let bgColor
@@ -47,10 +48,7 @@ const FlowEventDisplayCard = ({ fe }) => {
                         {fe.change_amount}
                     </Text>
                     <CardFooter width="20%">
-                        <IconButton
-                            aria-label="Search database"
-                            icon={<ViewIcon />}
-                        />
+                        <ViewFlowEventModal fe={fe} />
                     </CardFooter>
                 </HStack>
             </Card>

@@ -166,7 +166,7 @@ def get_all_logs(db: Session, skip: int = 0, limit: int = 100):
 
 def get_all_logs_by_bucket_id(db: Session, bucket_id: int, date: str):
     cap_date = datetime.strptime(date, "%d-%m-%Y")
-    return db.query(models.Log).filter(models.Log.bucket_id == bucket_id).filter(models.Log.date_created > cap_date).order_by(desc(models.Log.date_created)).all()
+    return db.query(models.Log).filter(models.Log.bucket_id == bucket_id).filter(models.Log.date_created > cap_date).order_by(models.Log.date_created).all()
 
 
 def get_log_by_id(db: Session, id: int):

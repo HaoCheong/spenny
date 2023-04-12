@@ -17,7 +17,9 @@ import {
     Textarea,
     useDisclosure,
     VStack,
+    MenuItem,
 } from '@chakra-ui/react'
+import { AddIcon } from '@chakra-ui/icons'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import React from 'react'
@@ -75,7 +77,9 @@ const CreateBucketModal = () => {
 
     return (
         <>
-            <Button onClick={onOpen}>Bucket Modal</Button>
+            <MenuItem onClick={onOpen} icon={<AddIcon />}>
+                Add Bucket
+            </MenuItem>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <form onSubmit={formik.handleSubmit}>

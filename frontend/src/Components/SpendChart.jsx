@@ -35,7 +35,7 @@ const SpendChart = ({ bucket_id }) => {
 
     const logsDataMapper = async () => {
         const dateHash = {}
-        console.log('LOGS', logs)
+        // console.log('LOGS', logs)
         logs.forEach((log) => {
             const curr_date = new Date(Date.parse(log.date_created))
             const date_key = `${curr_date.getDate()}-${curr_date.getMonth()}-${curr_date.getFullYear()}`
@@ -51,7 +51,7 @@ const SpendChart = ({ bucket_id }) => {
         Object.entries(dateHash).forEach(([key, value]) => {
             points.push({ name: key, amt: value })
         })
-        console.log('POINTS', points)
+        // console.log('POINTS', points)
         setDataPoints(points)
     }
 

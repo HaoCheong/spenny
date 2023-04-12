@@ -9,20 +9,34 @@ import {
     Button,
     useDisclosure,
     Text,
+    Menu,
+    MenuButton,
+    MenuList,
+    Divider,
 } from '@chakra-ui/react'
+import { ChevronDownIcon } from '@chakra-ui/icons'
 import BucketDisplay from '../Components/BucketDisplay'
 import CreateBucketModal from '../Components/CreateBucketModal'
 import CreateFlowEventModal from '../Components/CreateFlowEventModal'
 import DeleteBucketModal from '../Components/DeleteBucketModal'
 import EventTriggerModal from '../Components/EventTriggerModal'
+
 const BACKEND_URL = 'http://127.0.0.1:8000'
 
 const DashboardBasic = () => {
     const [bucketList, setBucketList] = React.useState([])
-
+    const [totalAmount, setTotalAmount] = React.useState(0)
     const getAllBucket = async () => {
         const res = await axios.get(`${BACKEND_URL}/buckets`)
         setBucketList(res.data)
+    }
+
+    const getTotalAmount = async () => {
+        let final = 0
+        bucketList.forEach((bucket) => {
+            final += bucket.current_amount
+        })
+        setTotalAmount(final)
     }
 
     const handleUpdate = async () => {
@@ -38,6 +52,10 @@ const DashboardBasic = () => {
         getAllBucket()
     }, [])
 
+    React.useEffect(() => {
+        getTotalAmount()
+    }, [bucketList])
+
     return (
         <>
             <Box
@@ -48,13 +66,23 @@ const DashboardBasic = () => {
             >
                 <HStack gap={5} margin="2rem">
                     <Text fontSize="5xl">Spenny V1.0</Text>
-                    <CreateBucketModal />
-                    <CreateFlowEventModal />
-                    <DeleteBucketModal />
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            Actions
+                        </MenuButton>
+                        <MenuList>
+                            <CreateBucketModal />
+                            <DeleteBucketModal />
+                            <Divider />
+                            <CreateFlowEventModal />
+                        </MenuList>
+                    </Menu>
+
                     <EventTriggerModal />
                     <Button colorScheme="green" onClick={handleUpdate}>
                         Run Update
                     </Button>
+                    <Text fontSize="3xl">Total In Account: {totalAmount}</Text>
                 </HStack>
                 <VStack sx={{ margin: '1rem' }}>
                     <Box
