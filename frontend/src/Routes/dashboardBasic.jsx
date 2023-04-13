@@ -20,6 +20,9 @@ import CreateBucketModal from '../Components/CreateBucketModal'
 import CreateFlowEventModal from '../Components/CreateFlowEventModal'
 import DeleteBucketModal from '../Components/DeleteBucketModal'
 import EventTriggerModal from '../Components/EventTriggerModal'
+import ViewRecent from '../Components/ViewRecent'
+import ViewStats from '../Components/ViewStats'
+import ViewUpcoming from '../Components/ViewUpcoming'
 
 const BACKEND_URL = 'http://127.0.0.1:8000'
 
@@ -75,6 +78,16 @@ const DashboardBasic = () => {
                             <DeleteBucketModal />
                             <Divider />
                             <CreateFlowEventModal />
+                        </MenuList>
+                    </Menu>
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            Statistics
+                        </MenuButton>
+                        <MenuList>
+                            <ViewStats />
+                            <ViewRecent />
+                            <ViewUpcoming />
                         </MenuList>
                     </Menu>
 

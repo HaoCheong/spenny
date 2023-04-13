@@ -22,7 +22,7 @@ const BucketStats = ({ bucket }) => {
                         <StatNumber>${bucket.current_amount}</StatNumber>
                     </Stat>
                     <Stat>
-                        <StatLabel>In/Outflow Events Ratio</StatLabel>
+                        <StatLabel>Out/Inflow Events Ratio</StatLabel>
 
                         {bucket.from_events && bucket.to_events ? (
                             <StatNumber>
