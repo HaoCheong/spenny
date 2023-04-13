@@ -9,9 +9,16 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { ViewIcon } from '@chakra-ui/icons'
+
 import ViewFlowEventModal from './ViewFlowEventModal'
 
 const FlowEventDisplayCard = ({ fe }) => {
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    }
     let bgColor
     switch (fe.type) {
         case 'ADD':
@@ -25,7 +32,6 @@ const FlowEventDisplayCard = ({ fe }) => {
         case 'MOV':
             bgColor = '#FFD23F'
             break
-
         default:
             break
     }
@@ -42,7 +48,13 @@ const FlowEventDisplayCard = ({ fe }) => {
                 <HStack width="100%">
                     <CardBody width="80%" color="white">
                         <Heading size="md">{fe.name}</Heading>
-                        <Text py="2">{fe.description}</Text>
+                        <Text py="2">
+                            Next Date:{' '}
+                            {new Date(fe.next_trigger).toLocaleDateString(
+                                undefined,
+                                options
+                            )}
+                        </Text>
                     </CardBody>
                     <Text py="2" fontSize="xl">
                         {fe.change_amount}

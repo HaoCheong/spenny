@@ -53,7 +53,7 @@ const CreateFlowEventModal = () => {
             name: '',
             description: '',
             change_amount: 0,
-            type: 'ADD',
+            type: '',
             frequency: '',
             next_trigger: '',
             from_bucket_id: null,
@@ -204,52 +204,67 @@ const CreateFlowEventModal = () => {
                                         type="datetime-local"
                                     />
                                 </FormValidator>
-                                <FormValidator
-                                    formik={formik}
-                                    propName="from_bucket_id"
-                                >
-                                    <Select
-                                        placeholder="Select Bucket to flow from"
-                                        onChange={(e) => {
-                                            formik.setFieldValue(
-                                                'from_bucket_id',
-                                                parseInt(e.target.value)
-                                            )
-                                        }}
+                                {formik.values.type === 'ADD' ? (
+                                    <></>
+                                ) : (
+                                    <FormValidator
+                                        formik={formik}
+                                        propName="from_bucket_id"
                                     >
-                                        {bucketList.map((bucket) => {
-                                            return (
-                                                <option
-                                                    value={parseInt(bucket.id)}
-                                                >
-                                                    {bucket.name}
-                                                </option>
-                                            )
-                                        })}
-                                    </Select>
-                                </FormValidator>
-                                <FormValidator
-                                    formik={formik}
-                                    propName="to_bucket_id"
-                                >
-                                    <Select
-                                        placeholder="Select bucket to flow to"
-                                        onChange={(e) => {
-                                            formik.setFieldValue(
-                                                'to_bucket_id',
-                                                parseInt(e.target.value)
-                                            )
-                                        }}
+                                        <Select
+                                            placeholder="Select Bucket to flow from"
+                                            onChange={(e) => {
+                                                formik.setFieldValue(
+                                                    'from_bucket_id',
+                                                    parseInt(e.target.value)
+                                                )
+                                            }}
+                                        >
+                                            {bucketList.map((bucket, idx) => {
+                                                return (
+                                                    <option
+                                                        key={idx}
+                                                        value={parseInt(
+                                                            bucket.id
+                                                        )}
+                                                    >
+                                                        {bucket.name}
+                                                    </option>
+                                                )
+                                            })}
+                                        </Select>
+                                    </FormValidator>
+                                )}
+
+                                {formik.values.type === 'SUB' ? (
+                                    <></>
+                                ) : (
+                                    <FormValidator
+                                        formik={formik}
+                                        propName="to_bucket_id"
                                     >
-                                        {bucketList.map((bucket) => {
-                                            return (
-                                                <option value={bucket.id}>
-                                                    {bucket.name}
-                                                </option>
-                                            )
-                                        })}
-                                    </Select>
-                                </FormValidator>
+                                        <Select
+                                            placeholder="Select bucket to flow to"
+                                            onChange={(e) => {
+                                                formik.setFieldValue(
+                                                    'to_bucket_id',
+                                                    parseInt(e.target.value)
+                                                )
+                                            }}
+                                        >
+                                            {bucketList.map((bucket, idx) => {
+                                                return (
+                                                    <option
+                                                        key={idx}
+                                                        value={bucket.id}
+                                                    >
+                                                        {bucket.name}
+                                                    </option>
+                                                )
+                                            })}
+                                        </Select>
+                                    </FormValidator>
+                                )}
                                 <ResponseAlert alertInfo={alertInfo} />
                             </VStack>
                         </ModalBody>

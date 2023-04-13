@@ -101,9 +101,12 @@ const DeleteBucketModal = () => {
                                             )
                                         }}
                                     >
-                                        {bucketList.map((bucket) => {
+                                        {bucketList.map((bucket, idx) => {
                                             return (
-                                                <option value={bucket.id}>
+                                                <option
+                                                    key={idx}
+                                                    value={bucket.id}
+                                                >
                                                     {bucket.name}
                                                 </option>
                                             )

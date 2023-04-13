@@ -24,6 +24,7 @@ import { BACKEND_URL } from '../config.js'
 import FlowEventDisplayCard from './FlowEventDisplayCard.jsx'
 import SpendChart from './SpendChart.jsx'
 import ViewBucketModal from './ViewBucketModal.jsx'
+import BucketStats from './BucketStats.jsx'
 
 const BucketDisplay = ({ bucket_id }) => {
     const [bucket, setBucket] = React.useState({ from_events: [] })
@@ -52,12 +53,11 @@ const BucketDisplay = ({ bucket_id }) => {
 
                 <Stack mt="6" spacing="3">
                     <Heading size="lg">{bucket.name}</Heading>
-                    <Text color="blue.600" fontSize="2xl">
-                        Current Amount: ${bucket.current_amount}
-                    </Text>
+                    <BucketStats bucket={bucket} />
                     <Text sx={{ overflowY: 'scroll', maxH: '10em' }}>
                         {bucket.description}
                     </Text>
+
                     <Divider />
                     <Text fontSize="2xl">Flow Events</Text>
                     <Box

@@ -18,6 +18,7 @@ const DATE_CAP = 28
 const SpendChart = ({ bucket_id }) => {
     const [logs, setLogs] = React.useState([])
     const [dataPoints, setDataPoints] = React.useState([])
+    const [bucket, setBucket] = React.useState({})
 
     const getLogs = async () => {
         const cap_date = new Date(new Date().setHours(0, 0, 0, 0))
@@ -33,7 +34,12 @@ const SpendChart = ({ bucket_id }) => {
         // console.log('BRUH')
     }
 
-    const logsDataMapper = async () => {
+    const getBucketData = async () => {
+        const res = await axios.get(`${BACKEND_URL}/bucket/${bucket_id}`)
+        setBucket(res.data)
+    }
+
+    const spendingMapper = async () => {
         const dateHash = {}
         // console.log('LOGS', logs)
         logs.forEach((log) => {
@@ -55,14 +61,41 @@ const SpendChart = ({ bucket_id }) => {
         setDataPoints(points)
     }
 
+    const changeInAmountMapper = async () => {
+        const dateHash = {}
+        // console.log('LOGS', logs)
+        logs.forEach((log) => {
+            const curr_date = new Date(Date.parse(log.date_created))
+            const date_key = `${curr_date.getDate()}-${curr_date.getMonth()}-${curr_date.getFullYear()}`
+
+            if (dateHash[date_key]) {
+                dateHash[date_key] += log.amount
+            } else {
+                dateHash[date_key] = log.amount
+            }
+        })
+
+        let points = []
+        let curr_amount = bucket.current_amount
+        Object.entries(dateHash)
+            .slice()
+            .reverse()
+            .forEach(([key, value]) => {
+                curr_amount -= value
+                points.push({ name: key, amt: curr_amount })
+            })
+        setDataPoints(points.slice().reverse())
+    }
+
     // startup()
 
     React.useEffect(() => {
         getLogs()
+        getBucketData()
     }, [])
 
     React.useEffect(() => {
-        logsDataMapper()
+        changeInAmountMapper()
     }, [logs])
 
     return (
