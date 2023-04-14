@@ -17,8 +17,9 @@ import {
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import BucketDisplay from '../Components/BucketDisplay'
 import CreateBucketModal from '../Components/CreateBucketModal'
-import CreateFlowEventModal from '../Components/CreateFlowEventModal'
 import DeleteBucketModal from '../Components/DeleteBucketModal'
+import CreateFlowEventModal from '../Components/CreateFlowEventModal'
+import DeleteFlowEventModal from '../Components/DeleteFlowEventModal'
 import EventTriggerModal from '../Components/EventTriggerModal'
 import ViewRecent from '../Components/ViewRecent'
 import ViewStats from '../Components/ViewStats'
@@ -28,6 +29,7 @@ const BACKEND_URL = 'http://127.0.0.1:8000'
 
 const DashboardBasic = () => {
     const [bucketList, setBucketList] = React.useState([])
+    const [flowEventList, setFlowEventList] = React.useState([])
     const [totalAmount, setTotalAmount] = React.useState(0)
     const getAllBucket = async () => {
         const res = await axios.get(`${BACKEND_URL}/buckets`)
@@ -78,6 +80,7 @@ const DashboardBasic = () => {
                             <DeleteBucketModal />
                             <Divider />
                             <CreateFlowEventModal />
+                            <DeleteFlowEventModal />
                         </MenuList>
                     </Menu>
                     <Menu>
@@ -115,7 +118,6 @@ const DashboardBasic = () => {
                                 )
                             })}
                         </HStack>
-                        {/* <BucketDisplay bucket_id={1} /> */}
                     </Box>
                 </VStack>
             </Box>

@@ -1,6 +1,7 @@
 import {
     Button,
     ListItem,
+    UnorderedList,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -8,7 +9,6 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
-    UnorderedList,
     useDisclosure,
 } from '@chakra-ui/react'
 import React from 'react'
