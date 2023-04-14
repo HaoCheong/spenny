@@ -57,7 +57,7 @@ const ViewRecent = () => {
                     <ModalBody>
                         <VStack spacing="1em">
                             <Select
-                                placeholder="All Buckets"
+                                placeholder="Select a bucket to view"
                                 onChange={(e) => {
                                     getLogs(e.target.value)
                                 }}
