@@ -10,7 +10,7 @@ import {
 import React from 'react'
 import { ViewIcon } from '@chakra-ui/icons'
 
-import ViewFlowEventModal from './ViewFlowEventModal'
+import ViewFlowEventModal from '../FlowEventModals/ViewFlowEventModal'
 
 const FlowEventDisplayCard = ({ fe }) => {
     const options = {
@@ -22,11 +22,11 @@ const FlowEventDisplayCard = ({ fe }) => {
     let bgColor
     switch (fe.type) {
         case 'ADD':
-            bgColor = '#5c940d'
+            bgColor = '#23CE6B'
             break
 
         case 'SUB':
-            bgColor = '#ff5154'
+            bgColor = '#EE4266'
             break
 
         case 'MOV':

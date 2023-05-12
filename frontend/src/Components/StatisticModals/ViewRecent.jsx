@@ -16,9 +16,9 @@ import {
 import React from 'react'
 import { QuestionIcon } from '@chakra-ui/icons'
 
-import { BACKEND_URL } from '../config.js'
+import { BACKEND_URL } from '../../config.js'
 import axios from 'axios'
-import LogCard from './LogCard'
+import LogCard from '../DisplayCards/LogCard.jsx'
 
 const ViewRecent = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -38,7 +38,7 @@ const ViewRecent = () => {
         const res = await axios.get(
             `${BACKEND_URL}/logs/${bucket_id}/${cap_date_str}`
         )
-        setLogList(res.data)
+        setLogList(res.data.reverse())
     }
 
     React.useEffect(() => {

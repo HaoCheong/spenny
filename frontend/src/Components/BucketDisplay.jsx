@@ -21,9 +21,9 @@ import {
 import React from 'react'
 import axios from 'axios'
 import { BACKEND_URL } from '../config.js'
-import FlowEventDisplayCard from './FlowEventDisplayCard.jsx'
+import FlowEventDisplayCard from './DisplayCards/FlowEventDisplayCard.jsx'
 import SpendChart from './SpendChart.jsx'
-import ViewBucketModal from './ViewBucketModal.jsx'
+import ViewBucketModal from './BucketModals/ViewBucketModal.jsx'
 import BucketStats from './BucketStats.jsx'
 
 const BucketDisplay = ({ bucket_id }) => {
@@ -41,7 +41,7 @@ const BucketDisplay = ({ bucket_id }) => {
     return (
         <Card
             minW="sm"
-            bg="#49416D"
+            bg="#2A1E5C"
             variant="elevated"
             color="white"
             minH="120vh"

@@ -24,11 +24,11 @@ import { AddIcon } from '@chakra-ui/icons'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import React from 'react'
-import FormValidator from './FormValidator'
+import FormValidator from '../FormValidator'
 
-import { BACKEND_URL } from '../config.js'
+import { BACKEND_URL } from '../../config.js'
 import axios from 'axios'
-import ResponseAlert from './ResponseAlert'
+import ResponseAlert from '../ResponseAlert'
 
 const CreateFlowEventModal = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()

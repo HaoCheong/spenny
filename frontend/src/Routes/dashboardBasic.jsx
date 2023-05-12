@@ -16,20 +16,19 @@ import {
 } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import BucketDisplay from '../Components/BucketDisplay'
-import CreateBucketModal from '../Components/CreateBucketModal'
-import DeleteBucketModal from '../Components/DeleteBucketModal'
-import CreateFlowEventModal from '../Components/CreateFlowEventModal'
-import DeleteFlowEventModal from '../Components/DeleteFlowEventModal'
+import CreateBucketModal from '../Components/BucketModals/CreateBucketModal'
+import DeleteBucketModal from '../Components/BucketModals/DeleteBucketModal'
+import CreateFlowEventModal from '../Components/FlowEventModals/CreateFlowEventModal'
+import DeleteFlowEventModal from '../Components/FlowEventModals/DeleteFlowEventModal'
 import EventTriggerModal from '../Components/EventTriggerModal'
-import ViewRecent from '../Components/ViewRecent'
-import ViewStats from '../Components/ViewStats'
-import ViewUpcoming from '../Components/ViewUpcoming'
+import ViewRecent from '../Components/StatisticModals/ViewRecent'
+import ViewStats from '../Components/StatisticModals/ViewStats'
+import ViewUpcoming from '../Components/StatisticModals/ViewUpcoming'
 
 const BACKEND_URL = 'http://127.0.0.1:8000'
 
 const DashboardBasic = () => {
     const [bucketList, setBucketList] = React.useState([])
-    const [flowEventList, setFlowEventList] = React.useState([])
     const [totalAmount, setTotalAmount] = React.useState(0)
     const getAllBucket = async () => {
         const res = await axios.get(`${BACKEND_URL}/buckets`)
@@ -47,7 +46,6 @@ const DashboardBasic = () => {
     const handleUpdate = async () => {
         try {
             await axios.put(`${BACKEND_URL}/updateValues`)
-            console.log('Running update')
         } catch (err) {
             console.error('Error', err)
         }
@@ -67,6 +65,7 @@ const DashboardBasic = () => {
                 sx={{
                     width: '100vw',
                     height: '100vh',
+                    backgroundColor: '#B892FF',
                 }}
             >
                 <HStack gap={5} margin="2rem">

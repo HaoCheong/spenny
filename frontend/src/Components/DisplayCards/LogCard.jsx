@@ -16,7 +16,6 @@ import {
 } from '@chakra-ui/react'
 
 const LogCard = ({ log }) => {
-    console.log('LOG', log)
     const date = new Date(log.date_created)
     const date_created_str = `${date.getDate()}-${
         date.getMonth() + 1
