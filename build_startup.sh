@@ -1,7 +1,7 @@
   
 # Builds images on first run, rebuild on subsequent run
   
-#!/bin/sh
+#!/bin/bash
   
 BE_DOCKER_PATH="/home/hcheong/projects/spenny/backend/"
 BE_IMAGE="spenny_backend_img"

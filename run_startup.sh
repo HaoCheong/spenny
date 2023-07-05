@@ -1,6 +1,6 @@
 # Run Container on first run, rerun container on subsequent
   
-#!/bin/sh
+#!/bin/bash
   
 BE_DOCKER_PATH="/home/hcheong/projects/spenny/backend/app"
 BE_IMAGE="spenny_backend_img"
@@ -24,15 +24,17 @@ if docker container inspect ${FE_CONT} > /dev/null 2>&1; then
 	docker stop ${FE_CONT}
 	docker rm ${FE_CONT}
 fi
-  
-# Run Backend
-docker run -p 9101:8000 \
--d \
---mount type=bind,source="${BE_DOCKER_PATH}",target=/app/ \
---name ${BE_CONT} ${BE_IMAGE}
-  
-# # Run Frontend
-docker run -p 9102:3000 \
--d \
---mount type=bind,source="${FE_DOCKER_PATH}",target=/app/ \
---name ${FE_CONT} ${FE_IMAGE}
+
+if [ "$1" != "stop" ]; then
+	# Run Backend
+	docker run -p 9101:8000 \
+	-d \
+	--mount type=bind,source="${BE_DOCKER_PATH}",target=/app/ \
+	--name ${BE_CONT} ${BE_IMAGE}
+	
+	# # Run Frontend
+	docker run -p 9102:3000 \
+	-d \
+	--mount type=bind,source="${FE_DOCKER_PATH}",target=/app/ \
+	--name ${FE_CONT} ${FE_IMAGE}
+fi
