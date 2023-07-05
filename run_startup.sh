@@ -33,5 +33,6 @@ docker run -p 9101:8000 \
   
 # # Run Frontend
 docker run -p 9102:3000 \
+-d \
 --mount type=bind,source="${FE_DOCKER_PATH}",target=/app/ \
 --name ${FE_CONT} ${FE_IMAGE}
