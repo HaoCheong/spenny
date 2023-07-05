@@ -25,7 +25,7 @@ import ViewRecent from '../Components/StatisticModals/ViewRecent'
 import ViewStats from '../Components/StatisticModals/ViewStats'
 import ViewUpcoming from '../Components/StatisticModals/ViewUpcoming'
 
-const BACKEND_URL = 'http://127.0.0.1:8000'
+import { BACKEND_URL } from '../config.js'
 
 const DashboardBasic = () => {
     const [bucketList, setBucketList] = React.useState([])

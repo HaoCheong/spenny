@@ -1,5 +1,5 @@
-fastapi==0.95.2
-pydantic==1.10.2
+fastapi==0.99.1
+pydantic==1.10.9
 python_dateutil==2.8.2
-requests==2.28.1
-SQLAlchemy==1.4.41
+Requests==2.31.0
+SQLAlchemy==2.0.17
