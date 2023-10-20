@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Float, Integer, String, DateTime
+from sqlalchemy import Column, ForeignKey, Float, Integer, String, DateTime, JSON
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -22,6 +22,7 @@ class Bucket(Base):
     name = Column(String)
     description = Column(String)
     current_amount = Column(Float)
+    properties = Column(JSON) # Should be JSON when its
 
     logs = relationship("Log", back_populates="bucket")
 
@@ -41,6 +42,7 @@ class FlowEvent(Base):
     type = Column(String)
     frequency = Column(String)
     next_trigger = Column(DateTime)
+
     from_bucket_id = Column(Integer, ForeignKey("buckets.id"))
     from_bucket = relationship("Bucket", foreign_keys=[
                                from_bucket_id])

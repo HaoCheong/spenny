@@ -4,15 +4,17 @@ from pydantic import BaseModel
 
 # ======== BASE ========
 
+class BucketPropertiesBase(BaseModel):
+    invisible: bool
 
 class BucketBase(BaseModel):
     name: str
     description: str
     current_amount: float
+    properties: BucketPropertiesBase
 
     class Config:
         orm_mode = True
-
 
 class FlowEventBase(BaseModel):
     name: str
@@ -90,6 +92,7 @@ class BucketUpdate(BucketBase):
     name: Optional[str]
     description: Optional[str]
     current_amount: Optional[float]
+    properties: Optional[BucketPropertiesBase]
 
 
 class FlowEventUpdate(FlowEventBase):

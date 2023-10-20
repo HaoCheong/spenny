@@ -23,7 +23,8 @@ def create_bucket(db: Session, bucket: schemas.BucketCreate):
     db_bucket = models.Bucket(
         name=bucket.name,
         description=bucket.description,
-        current_amount=bucket.current_amount
+        current_amount=bucket.current_amount,
+        properties=jsonable_encoder(bucket.properties)
     )
 
     db.add(db_bucket)
@@ -34,15 +35,7 @@ def create_bucket(db: Session, bucket: schemas.BucketCreate):
 
 # Should return all the buckets and their
 def get_all_buckets(db: Session, skip: int = 0, limit: int = 100):
-    # all_buckets = []
     buckets = db.query(models.Bucket).offset(skip).limit(limit).all()
-    # for bucket in buckets:
-    #     je_bucket = jsonable_encoder(bucket)
-    #     flowEvents = get_bucket_flowEvents(db=db, bucket_id=bucket.id)
-    #     je_bucket['from_events'] = flowEvents["from_events"]
-    #     je_bucket['to_events'] = flowEvents["to_events"]
-    #     all_buckets.append(je_bucket)
-
     return buckets
 
 
