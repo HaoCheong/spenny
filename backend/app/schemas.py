@@ -1,14 +1,31 @@
+
+"""schemas.py
+
+The expected structure/schema of a input or output value
+
+- For type safety during DB manipulation
+- Technically optionally, but necessary for auto-documentation
+- Can be thought of as the JSON the database expect to receive and/or return
+
+"""
+
 from typing import List, Union, Optional, Literal
 from datetime import datetime
 from pydantic import BaseModel
 
-# ======== BASE ========
 
+# ======== BUCKET SETTINGS ======== 
+
+class BucketSettings(BaseModel):
+    counted: bool
+
+# ======== BASE ========
 
 class BucketBase(BaseModel):
     name: str
     description: str
     current_amount: float
+    settings: BucketSettings
 
     class Config:
         orm_mode = True
@@ -66,6 +83,7 @@ class FlowEventReadNR(FlowEventBase):
 
 class LogReadNR(LogBase):
     id: int
+
 # ======== READWR ========
 
 
@@ -111,7 +129,6 @@ class LogUpdate(LogBase):
     date_created: Optional[str]
 
 # ======== TRIGGER ========
-
 
 class TriggerBase(BaseModel):
     name: str
