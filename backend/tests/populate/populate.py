@@ -1,10 +1,15 @@
+'''populate.py
+
+Generates the sample database as per the example in docs
+Acts as basic smoke testing for the APIs
+
+'''
+
 import requests
 from datetime import datetime, timedelta
 import random
   
-  
 BACKEND_URL = "http://127.0.0.1:8000"
-  
   
 def get_random_date():
 	day_shift = random.randint(1, 7)

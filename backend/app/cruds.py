@@ -1,10 +1,28 @@
+"""cruds.py
+
+All the functions which directly manipulate the database. Access via main.py
+
+- All data passed here should be valid data (Validation is done in main)
+- Follows the standard: Create, Read, Update, Delete, (Assignment optional)
+
+- db.add(): Adds to local database
+- db.commit(): Commit changes in local database to actual database
+- db.refresh(): Refresh local instances of object
+
+- create_###: Create an instance of the object and add to DB
+- get_all_###: Get all instance of object from table in DB
+- get_###_by_id: Get specific instance of object from table in DB (via given ID)
+- update_###_by_id: Update specific instance of object from table in DB (via given ID)
+- delete_###_by_id: Delete specific instance of object from table in DB (via given ID)
+"""
+
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
-import models
-import schemas
+import app.models as models
+import app.schemas as schemas
 from fastapi.encoders import jsonable_encoder
 from datetime import datetime
-from helpers import add_time
+from app.helpers import add_time
 
 
 # {from_events: [], to_events:[]}
@@ -34,17 +52,8 @@ def create_bucket(db: Session, bucket: schemas.BucketCreate):
 
 # Should return all the buckets and their
 def get_all_buckets(db: Session, skip: int = 0, limit: int = 100):
-    # all_buckets = []
     buckets = db.query(models.Bucket).offset(skip).limit(limit).all()
-    # for bucket in buckets:
-    #     je_bucket = jsonable_encoder(bucket)
-    #     flowEvents = get_bucket_flowEvents(db=db, bucket_id=bucket.id)
-    #     je_bucket['from_events'] = flowEvents["from_events"]
-    #     je_bucket['to_events'] = flowEvents["to_events"]
-    #     all_buckets.append(je_bucket)
-
     return buckets
-
 
 def get_bucket_by_id(db: Session, id: int):
     bucket = jsonable_encoder(
@@ -82,12 +91,6 @@ def delete_bucket_by_id(db: Session, id: int):
 
 
 def create_flowEvent(db: Session, flowEvent: schemas.FlowEventCreate):
-
-    # Find the next date of trigger, should be user inserted
-    # Get the frequency + the current date time
-    # curr_time = datetime.now()
-    # print("CURR", curr_time)
-    # next_date = add_time(curr_time, flowEvent.frequency)
 
     db_flowEvent = models.FlowEvent(
         name=flowEvent.name,
