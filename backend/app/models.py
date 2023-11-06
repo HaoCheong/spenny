@@ -1,7 +1,17 @@
-from sqlalchemy import Column, ForeignKey, Float, Integer, String, DateTime
-from sqlalchemy.orm import relationship
+"""models.py
 
-from database import Base
+Python class which gets translated into actual DB tables
+Can be thought of how the application understands the database structure
+
+Terms:
+- Base: Indicate a table
+- __tablename__: Name of the table that will be created
+
+"""
+
+from sqlalchemy import Column, ForeignKey, Float, Integer, String, DateTime, JSON
+from sqlalchemy.orm import relationship
+from app.database import Base
 
 
 class Log(Base):
@@ -14,6 +24,7 @@ class Log(Base):
     date_created = Column(DateTime)
     bucket_id = Column(Integer, ForeignKey("buckets.id"))
     bucket = relationship("Bucket", back_populates="logs")
+    
 
 
 class Bucket(Base):
@@ -22,6 +33,7 @@ class Bucket(Base):
     name = Column(String)
     description = Column(String)
     current_amount = Column(Float)
+    settings = Column(JSON)
 
     logs = relationship("Log", back_populates="bucket")
 

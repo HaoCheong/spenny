@@ -5,10 +5,10 @@ from fastapi import Depends, FastAPI, HTTPException, APIRouter
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
 
-import cruds
-import schemas
-import helpers
-import operations
+import app.cruds as cruds
+import app.schemas as schemas
+import app.helpers as helpers
+import app.operations as operations
 
 router = APIRouter()
 
