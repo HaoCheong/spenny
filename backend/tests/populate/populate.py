@@ -1,19 +1,16 @@
 import requests
 from datetime import datetime, timedelta
 import random
-  
-  
+
 BACKEND_URL = "http://127.0.0.1:8000"
-  
-  
+
 def get_random_date():
 	day_shift = random.randint(1, 7)
 	today_date = datetime.now()
 	new_date = today_date + timedelta(days=day_shift)
   
 	return str(new_date)
-  
-  
+
 ALL_BUCKETS = [
 	{
 		"name": "Total",

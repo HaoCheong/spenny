@@ -2,12 +2,14 @@
 # Builds images on first run, rebuild on subsequent run
   
 #!/bin/bash
-  
-BE_DOCKER_PATH="/home/hcheong/projects/spenny/backend/"
+
+ABS_PATH=$("pwd")
+
+BE_DOCKER_PATH="${ABS_PATH}/backend/"
 BE_IMAGE="spenny_backend_img"
 BE_CONT="spenny_backend_cont"
   
-FE_DOCKER_PATH="/home/hcheong/projects/spenny/frontend/"
+FE_DOCKER_PATH="${ABS_PATH}/frontend/"
 FE_IMAGE="spenny_frontend_img"
 FE_CONT="spenny_frontend_cont"
   
