@@ -1,9 +1,7 @@
 # Run Container on first run, rerun container on subsequent
   
 #!/bin/bash
-
 ABS_PATH=$("pwd")
-
 BE_DOCKER_PATH="${ABS_PATH}/backend/app"
 BE_IMAGE="spenny_backend_img"
 BE_CONT="spenny_backend_cont"
