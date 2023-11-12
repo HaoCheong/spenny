@@ -36,7 +36,7 @@ def root():
     return {"connection": True}
 
 app.include_router(operation_endpoints.router)
-app.include_router(bucket_endpoints.routers)
-app.include_router(flow_event_endpoints.routers)
-app.include_router(log_endpoints.routers)
+app.include_router(bucket_endpoints.router)
+app.include_router(flow_event_endpoints.router)
+app.include_router(log_endpoints.router)
 

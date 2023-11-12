@@ -1,9 +1,6 @@
-from typing import List
-
-from helpers import get_db
-from fastapi import Depends, FastAPI, HTTPException, APIRouter
+from app.helpers import get_db
+from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
-from fastapi.encoders import jsonable_encoder
 
 import app.schemas.trigger_schemas as schemas
 import app.operations.bucket_operations as bucket_operations

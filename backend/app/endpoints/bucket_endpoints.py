@@ -1,6 +1,6 @@
 from typing import List
 
-from helpers import get_db
+from app.helpers import get_db
 from fastapi import Depends, FastAPI, HTTPException, APIRouter
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder

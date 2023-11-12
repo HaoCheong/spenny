@@ -1,10 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import desc
-import models
-import schemas
-from fastapi.encoders import jsonable_encoder
 from datetime import datetime
-from helpers import add_time
 
 import app.schemas.log_schemas as schemas
 import app.models.log_model as models
