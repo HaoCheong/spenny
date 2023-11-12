@@ -8,15 +8,9 @@ Acts as basic smoke testing for the APIs
 import requests
 from datetime import datetime, timedelta
 import random
-<<<<<<< HEAD
-  
-BACKEND_URL = "http://127.0.0.1:8000"
-  
-=======
 
 BACKEND_URL = "http://127.0.0.1:8000"
 
->>>>>>> f6c987c5d47295c32301375147826999d79cb416
 def get_random_date():
 	day_shift = random.randint(1, 7)
 	today_date = datetime.now()
@@ -28,27 +22,42 @@ ALL_BUCKETS = [
 	{
 		"name": "Total",
 		"description": "Total amount in account",
-		"current_amount": 10000.0
+		"current_amount": 10000.0,
+		"properties": {
+			"invisible": False
+		}
 	},
 	{
 		"name": "Savings",
 		"description": "General Savings",
-		"current_amount": 1800.0
+		"current_amount": 1800.0,
+		"properties": {
+			"invisible": False
+		}
 	},
 	{
 		"name": "Lifestyle",
 		"description": "Everything from food to fun",
-		"current_amount": 200.0
+		"current_amount": 200.0,
+		"properties": {
+			"invisible": False
+		}
 	},
 	{
 		"name": "Food",
 		"description": "My crippling eating habits",
-		"current_amount": 0.0
+		"current_amount": 0.0,
+		"properties": {
+			"invisible": False
+		}
 	},
 	{
 		"name": "Fun",
 		"description": "For my hobbies and fun stuff ",
-		"current_amount": 0.0
+		"current_amount": 0.0,
+		"properties": {
+			"invisible": False
+		}
 	},
   
 ]
@@ -157,4 +166,4 @@ def populate_flow_event():
   
 if __name__ == "__main__":
 	populate_buckets()
-	populate_flow_event()
+	# populate_flow_event()
