@@ -1,25 +1,27 @@
 from sqlalchemy.orm import Session
-import models
-import schemas
-import cruds
-from fastapi.encoders import jsonable_encoder
 from datetime import datetime
-from helpers import add_time
 
-def solo_trigger(trigger: schemas.TriggerBase, db: Session):
+import app.schemas.trigger_schemas as trigger_schemas
+import app.schemas.bucket_schemas as bucket_schemas
+import app.schemas.log_schemas as log_schemas
+
+import app.cruds.bucket_cruds as bucket_cruds
+import app.cruds.log_cruds as log_cruds
+
+def solo_trigger(trigger: trigger_schemas.TriggerBase, db: Session):
     # Grab details of the a trigger
     if (trigger.from_bucket_id is not None):
         print("HERE 1", trigger)
-        from_bucket = cruds.get_bucket_by_id(db=db, id=trigger.from_bucket_id)
+        from_bucket = bucket_cruds.get_bucket_by_id(db=db, id=trigger.from_bucket_id)
         # update bucket value
         if (trigger.type == "SUB" or trigger.type == "MOV"):
             new_value = from_bucket["current_amount"] - trigger.change_amount
             print("FROM NEW VALUE", new_value)
-            new_bucket = schemas.BucketUpdate(current_amount=new_value)
-            cruds.update_bucket_by_id(
+            new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
+            bucket_cruds.update_bucket_by_id(
                 db=db, id=trigger.from_bucket_id, new_bucket=new_bucket)
             # create log
-            new_log = schemas.LogCreate(
+            new_log = log_schemas.LogCreate(
                 name=trigger.name,
                 description=trigger.description,
                 type=trigger.type,
@@ -27,19 +29,19 @@ def solo_trigger(trigger: schemas.TriggerBase, db: Session):
                 date_created=datetime.now(),
                 bucket_id=trigger.from_bucket_id
             )
-            cruds.create_log(db=db, log=new_log)
+            log_cruds.create_log(db=db, log=new_log)
 
     if (trigger.to_bucket_id is not None):
-        to_bucket = cruds.get_bucket_by_id(db=db, id=trigger.to_bucket_id)
+        to_bucket = bucket_cruds.get_bucket_by_id(db=db, id=trigger.to_bucket_id)
         # update bucket value
         if (trigger.type == "ADD" or trigger.type == "MOV"):
             new_value = to_bucket["current_amount"] + trigger.change_amount
             print("TO NEW VALUE", new_value)
-            new_bucket = schemas.BucketUpdate(current_amount=new_value)
-            cruds.update_bucket_by_id(
+            new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
+            bucket_cruds.update_bucket_by_id(
                 db=db, id=trigger.to_bucket_id, new_bucket=new_bucket)
             # create log
-            new_log = schemas.LogCreate(
+            new_log = log_schemas.LogCreate(
                 name=trigger.name,
                 description=trigger.description,
                 type=trigger.type,
@@ -47,6 +49,6 @@ def solo_trigger(trigger: schemas.TriggerBase, db: Session):
                 date_created=datetime.now(),
                 bucket_id=trigger.to_bucket_id
             )
-            cruds.create_log(db=db, log=new_log)
+            log_cruds.create_log(db=db, log=new_log)
 
     return {"SUccess": True}

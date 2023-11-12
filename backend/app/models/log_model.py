@@ -1,7 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Float, Integer, String, DateTime, JSON
 from sqlalchemy.orm import relationship
 
-from database import Base
+from app.database import Base
 
 # Relationship: Many To One Relationship with Bucket
 class Log(Base):
