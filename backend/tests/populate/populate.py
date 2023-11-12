@@ -8,18 +8,23 @@ Acts as basic smoke testing for the APIs
 import requests
 from datetime import datetime, timedelta
 import random
+<<<<<<< HEAD
   
 BACKEND_URL = "http://127.0.0.1:8000"
   
+=======
+
+BACKEND_URL = "http://127.0.0.1:8000"
+
+>>>>>>> f6c987c5d47295c32301375147826999d79cb416
 def get_random_date():
 	day_shift = random.randint(1, 7)
 	today_date = datetime.now()
 	new_date = today_date + timedelta(days=day_shift)
   
 	return str(new_date)
-  
-  
-all_buckets = [
+
+ALL_BUCKETS = [
 	{
 		"name": "Total",
 		"description": "Total amount in account",
@@ -48,7 +53,7 @@ all_buckets = [
   
 ]
   
-all_flows = [
+ALL_FLOWS = [
 	{
 		"name": "Main Job income",
 		"description": "My main salary",
@@ -120,24 +125,36 @@ all_flows = [
 		"next_trigger": get_random_date()
 	},
 ]
-  
-  
-def add_all_buckets():
-	for bkt in all_buckets:
-		res = requests.post("{}/bucket".format(BACKEND_URL), json=bkt)
-		if (res.status_code == 200):
-			print(
-				"ADDED BUCKET - {}, {}".format(bkt['name'], bkt['current_amount']))
-  
-  
-def add_all_flowEvents():
-	for fe in all_flows:
-		res = requests.post("{}/flowEvent".format(BACKEND_URL), json=fe)
-		if (res.status_code == 200):
-			print(
-				"ADDED FLOW EVENT - {}, {}, {}".format(fe['name'], fe['type'], fe['change_amount']))
+
+
+def populate_buckets():
+	''' Populates database with bucket data '''
+	print("========== ADDING BUCKETS ==========")
+	for bkt in ALL_BUCKETS:
+		try:
+			res = requests.post(f"{BACKEND_URL}/bucket", json=bkt)
+			if res.status_code != 200:
+				raise ValueError
+			
+			print("Added BUCKET - %s" % bkt)
+		except ValueError:
+			print("Failed to add BUCKET - %s" % bkt)
+
+
+def populate_flow_event():
+	''' Populates database with flow event data '''
+	print("========== ADDING FLOW EVENT ==========")
+	for fe in ALL_FLOWS:
+		try:
+			res = requests.post(f"{BACKEND_URL}/flowEvent", json=fe)
+			if res.status_code != 200:
+				raise ValueError
+			
+			print("Added FLOW EVENT - %s" % fe)
+		except ValueError:
+			print("Failed to add FLOW EVENT - %s" % fe)
   
   
 if __name__ == "__main__":
-	add_all_buckets()
-	add_all_flowEvents()
+	populate_buckets()
+	populate_flow_event()
