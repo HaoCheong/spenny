@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 
 from app.database import Base
 
-# Relationship: Many To One Relationship with Bucket
+
 class Log(Base):
     __tablename__ = "logs"
     id = Column(Integer, primary_key=True, index=True, unique=True)
