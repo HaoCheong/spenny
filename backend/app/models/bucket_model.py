@@ -15,8 +15,15 @@ class Bucket(Base):
 
     logs = relationship("Log", back_populates="bucket")
 
+
+    # from_events = relationship(
+    #     "FlowEvent", back_populates="from_bucket", foreign_keys="FlowEvent.from_bucket_id")
+
+    # to_events = relationship(
+    #     "FlowEvent", back_populates="to_bucket", foreign_keys="FlowEvent.to_bucket_id")
+
     from_events = relationship(
-        "FlowEvent", back_populates="from_bucket")
+        "FlowEvent", back_populates="from_bucket", foreign_keys="FlowEvent.from_bucket_id")
 
     to_events = relationship(
-        "FlowEvent", back_populates="to_bucket")
+        "FlowEvent", back_populates="to_bucket", foreign_keys="FlowEvent.to_bucket_id")
