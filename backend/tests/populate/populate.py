@@ -9,7 +9,7 @@ import requests
 from datetime import datetime, timedelta
 import random
 
-BACKEND_URL = "http://127.0.0.1:8000"
+BACKEND_URL = "http://127.0.0.1:8881"
 
 def get_random_date():
 	day_shift = random.randint(1, 7)
@@ -166,4 +166,4 @@ def populate_flow_event():
   
 if __name__ == "__main__":
 	populate_buckets()
-	# populate_flow_event()
+	populate_flow_event()
