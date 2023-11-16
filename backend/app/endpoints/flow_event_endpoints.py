@@ -13,17 +13,17 @@ router = APIRouter()
 # ======== FLOW EVENT ENDPOINT ========
 
 
-@router.post("/flowEvent", response_model=schemas.FlowEventReadNR, tags=['flowEvent'])
+@router.post("/flowEvent", response_model=schemas.FlowEventReadNR, tags=['Flow Event'])
 def create_flowEvent(flowEvent: schemas.FlowEventCreate, db: Session = Depends(get_db)):
     return cruds.create_flowEvent(db=db, flowEvent=flowEvent)
 
 
-@router.get("/flowEvents", response_model=List[schemas.FlowEventReadNR], tags=['flowEvent'])
+@router.get("/flowEvents", response_model=List[schemas.FlowEventReadNR], tags=['Flow Event'])
 def get_all_flowEvents(limit: int = 50, db: Session = Depends(get_db)):
     return cruds.get_all_flowEvents(db=db, limit=limit)
 
 
-@router.get('/flowEvent/{flowEvent_id}', response_model=schemas.FlowEventReadWR, tags=['flowEvent'])
+@router.get('/flowEvent/{flowEvent_id}', response_model=schemas.FlowEventReadWR, tags=['Flow Event'])
 def get_flowEvent_by_id(flowEvent_id: int, db: Session = Depends(get_db)):
     db_flowEvent = cruds.get_flowEvent_by_id(db=db, id=flowEvent_id)
     if not db_flowEvent:
@@ -32,7 +32,7 @@ def get_flowEvent_by_id(flowEvent_id: int, db: Session = Depends(get_db)):
     return db_flowEvent
 
 
-@router.patch('/flowEvent/{flowEvent_id}', response_model=schemas.FlowEventReadWR, tags=['flowEvent'])
+@router.patch('/flowEvent/{flowEvent_id}', response_model=schemas.FlowEventReadWR, tags=['Flow Event'])
 def update_flowEvent_by_id(flowEvent_id: int, new_flowEvent: schemas.FlowEventUpdate, db: Session = Depends(get_db)):
     db_flowEvent = cruds.get_flowEvent_by_id(db=db, id=flowEvent_id)
     if not db_flowEvent:
@@ -41,7 +41,7 @@ def update_flowEvent_by_id(flowEvent_id: int, new_flowEvent: schemas.FlowEventUp
     return cruds.update_flowEvent_by_id(db=db, id=flowEvent_id, new_flowEvent=new_flowEvent)
 
 
-@router.delete('/flowEvent/{flowEvent_id}', tags=['flowEvent'])
+@router.delete('/flowEvent/{flowEvent_id}', tags=['Flow Event'])
 def delete_flowEvent_by_id(flowEvent_id: int, db: Session = Depends(get_db)):
     db_flowEvent = cruds.get_flowEvent_by_id(db, id=flowEvent_id)
     if not db_flowEvent:
