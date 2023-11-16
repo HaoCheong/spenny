@@ -67,31 +67,39 @@ def buckets_data():
             {
                 "name": "Savings",
                 "description": "General Savings",
-                "current_amount": 1800.0,
+                "current_amount": 5000.0,
+                "properties": {
+                    "invisible": False
+                }
+            },
+            {
+                "name": "Household",
+                "description": "Fund for household requirements",
+                "current_amount": 1000.0,
                 "properties": {
                     "invisible": False
                 }
             },
             {
                 "name": "Lifestyle",
-                "description": "Everything from food to fun",
-                "current_amount": 200.0,
+                "description": "For the week by week spending",
+                "current_amount": 1000.0,
                 "properties": {
                     "invisible": False
                 }
             },
             {
                 "name": "Food",
-                "description": "My crippling eating habits",
-                "current_amount": 0.0,
+                "description": "Food spending",
+                "current_amount": 500.0,
                 "properties": {
                     "invisible": False
                 }
             },
             {
                 "name": "Fun",
-                "description": "For my hobbies and fun stuff ",
-                "current_amount": 0.0,
+                "description": "Fun spending",
+                "current_amount": 200.0,
                 "properties": {
                     "invisible": False
                 }
@@ -104,76 +112,154 @@ def flow_events_data():
         {
             "name": "Main Job income",
             "description": "My main salary",
-            "change_amount": 5562.0,
+            "change_amount": 5000.0,
             "type": "ADD",
-            "frequency": "5d",
+            "frequency": "1m",
             "from_bucket_id": None,
             "to_bucket_id": 1,
-            "next_trigger": get_days_since_today(5)
+            "next_trigger": str(get_days_since_today(30))
         },
         {
-            "name": "Savings",
+            "name": "Weekly Lifestyle Move",
             "description": "Automated saving move",
-            "change_amount": 1800.0,
-            "type": "MOV",
-            "frequency": "3d",
-            "from_bucket_id": 1,
-            "to_bucket_id": 2,
-            "next_trigger": get_days_since_today(5)
-        },
-        {
-            "name": "Rent",
-            "description": "Purely to live at my apartment",
-            "change_amount": 560.0,
-            "type": "SUB",
-            "frequency": "5d",
-            "from_bucket_id": 1,
-            "to_bucket_id": None,
-            "next_trigger": get_days_since_today(5)
-        },
-        {
-            "name": "Gym",
-            "description": "Fitness Finance",
-            "change_amount": 18.0,
-            "type": "SUB",
-            "frequency": "2d",
-            "from_bucket_id": 1,
-            "to_bucket_id": None,
-            "next_trigger": get_days_since_today(5)
-        },
-        {
-            "name": "Lifestyle",
-            "description": "Money for actually living in the cruel world",
             "change_amount": 240.0,
             "type": "MOV",
-            "frequency": "4d",
+            "frequency": "1w",
+            "from_bucket_id": 1,
+            "to_bucket_id": 4,
+            "next_trigger": str(get_days_since_today(7))
+        },
+        {
+            "name": "Gym Spending",
+            "description": "For exercise",
+            "change_amount": 180.0,
+            "type": "SUB",
+            "frequency": "1w",
+            "from_bucket_id": 1,
+            "to_bucket_id": None,
+            "next_trigger": str(get_days_since_today(7))
+        },
+        {
+            "name": "Household spending move",
+            "description": "Moving Total to household spending",
+            "change_amount": 600.0,
+            "type": "MOV",
+            "frequency": "1w",
             "from_bucket_id": 1,
             "to_bucket_id": 3,
-            "next_trigger": get_days_since_today(5)
+            "next_trigger": str(get_days_since_today(7))
         },
         {
-            "name": "Food",
-            "description": "Budget for eating",
+            "name": "Savings Move",
+            "description": "Money to be saved on untouched",
+            "change_amount": 2000.0,
+            "type": "MOV",
+            "frequency": "1w",
+            "from_bucket_id": 1,
+            "to_bucket_id": 2,
+            "next_trigger": str(get_days_since_today(7))
+        },
+        {
+            "name": "Weekly Rent Spending",
+            "description": "Moving household into rent",
+            "change_amount": 560.0,
+            "type": "SUB",
+            "frequency": "1w",
+            "from_bucket_id": 3,
+            "to_bucket_id": None,
+            "next_trigger": str(get_days_since_today(7))
+        },
+        {
+            "name": "Weekly Utiltity Spending",
+            "description": "Electricity + Gas + Internet",
+            "change_amount": 160.0,
+            "type": "SUB",
+            "frequency": "1m",
+            "from_bucket_id": 3,
+            "to_bucket_id": None,
+            "next_trigger": str(get_days_since_today(30))
+        },
+
+        {
+            "name": "Weekly Food Move",
+            "description": "Food funding move",
             "change_amount": 200.0,
             "type": "MOV",
-            "frequency": "3d",
-            "from_bucket_id": 3,
-            "to_bucket_id": 4,
-            "next_trigger": get_days_since_today(5)
+            "frequency": "1w",
+            "from_bucket_id": 4,
+            "to_bucket_id": 5,
+            "next_trigger": str(get_days_since_today(7))
         },
         {
-            "name": "Fun",
-            "description": "Hobby Funding",
+            "name": "Weekly Fun Move",
+            "description": "Food funding move",
             "change_amount": 40.0,
             "type": "MOV",
-            "frequency": "1d",
-            "from_bucket_id": 3,
-            "to_bucket_id": 5,
-            "next_trigger": get_days_since_today(5)
-        },
+            "frequency": "1w",
+            "from_bucket_id": 4,
+            "to_bucket_id": 6,
+            "next_trigger": str(get_days_since_today(7))
+        }
     ]
 
 @pytest.fixture
-def log_data():
-    pass
+def logs_data():
+    return [
+        {
+            "name": "Main Job income",
+            "description": "My main salary",
+            "type": "ADD",
+            "amount": 5000,
+            "date_created": str(get_days_since_today(60)),
+            "bucket_id": 1
+        },
+        {
+            "name": "Gym Spending",
+            "description": "For exercise",
+            "type": "SUB",
+            "amount": 18,
+            "date_created": str(get_days_since_today(9)),
+            "bucket_id": 1
+        },
+        {
+            "name": "Household spending move",
+            "description": "Moving Total to household spending",
+            "type": "MOV",
+            "amount": 600,
+            "date_created": str(get_days_since_today(13)),
+            "bucket_id": 1
+        },
+        {
+            "name": "Savings Move",
+            "description": "Money to be saved on untouched",
+            "type": "MOV",
+            "amount": 2000,
+            "date_created": str(get_days_since_today(60)),
+            "bucket_id": 1
+        },
+        {
+            "name": "Woolies shopping",
+            "description": "Friday woolies shopping",
+            "type": "SUB",
+            "amount": 65,
+            "date_created": str(get_days_since_today(3)),
+            "bucket_id": 5
+        },
+        {
+            "name": "Eating at Cafe de la Cafe",
+            "description": "Brekkie",
+            "type": "SUB",
+            "amount": 30,
+            "date_created": str(get_days_since_today(2)),
+            "bucket_id": 5
+        },
+        {
+            "name": "Bought Video Game 2: More games",
+            "description": "Let me be happy",
+            "type": "SUB",
+            "amount": 55,
+            "date_created": str(get_days_since_today(1)),
+            "bucket_id": 6
+        }
+    ]
 
