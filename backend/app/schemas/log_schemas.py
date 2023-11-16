@@ -33,8 +33,8 @@ class LogReadWR(LogReadNR):
 # ======== UPDATE SCHEMAS ========
 
 class LogUpdate(LogBase):
-    name: Optional[str]
-    description: Optional[str]
-    type: Optional[Literal["ADD", "SUB", "MOV"]]
-    amount: Optional[float]
-    date_created: Optional[str]
+    name: Optional[str] = None
+    description: Optional[str] = None
+    type: Optional[Literal["ADD", "SUB", "MOV"]] = None
+    amount: Optional[float] = None
+    date_created: Optional[str] = None
