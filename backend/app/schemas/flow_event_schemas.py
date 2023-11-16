@@ -30,16 +30,16 @@ class FlowEventReadNR(FlowEventBase):
 class FlowEventReadWR(FlowEventReadNR):
     from app.schemas.bucket_schemas import BucketReadNR
     from_bucket: Union[BucketReadNR, None]
-    to_bucket: BucketReadNR
+    to_bucket: Union[BucketReadNR, None]
 
 # ======== UPDATE SCHEMAS ========
 
 class FlowEventUpdate(FlowEventBase):
-    name: Optional[str]
-    description: Optional[str]
-    change_amount: Optional[float]
-    type: Optional[Literal["ADD", "SUB", "MOV"]]
-    frequency: Optional[str]
-    next_trigger: Optional[datetime]
-    from_bucket_id: Optional[int]
-    to_bucket_id: Optional[int]
+    name: Optional[str] = None
+    description: Optional[str] = None
+    change_amount: Optional[float] = None
+    type: Optional[Literal["ADD", "SUB", "MOV"]] = None
+    frequency: Optional[str] = None
+    next_trigger: Optional[datetime] = None
+    from_bucket_id: Optional[int] = None
+    to_bucket_id: Optional[int] = None
