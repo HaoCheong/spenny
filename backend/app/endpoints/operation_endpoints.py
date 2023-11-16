@@ -13,12 +13,12 @@ router = APIRouter()
 # ========== OPERATION =========
 
 # When trigger it will run this application and update all the flow amount
-@router.put('/updateValues')
+@router.put('/updateValues', tags=['Operations'])
 def update_all_buckets(db: Session = Depends(get_db)):
     return bucket_operations.update_all_buckets(db=db)
 
 
-@router.put('/soloTrigger')
+@router.put('/soloTrigger', tags=['Operations'])
 def solo_trigger(trigger: schemas.TriggerBase, db: Session = Depends(get_db)):
     return trigger_operations.solo_trigger(trigger=trigger, db=db)
 
