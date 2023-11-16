@@ -48,24 +48,51 @@ def update_bucket_by_bucket_id(bucket_id, bucket_dict):
 @unpack
 def create_flow_event(flow_event_data):
     ''' Wrapper to emulate creating an flow_event '''
-    return client.post('/flow_event', json=flow_event_data)
+    return client.post('/flowEvent', json=flow_event_data)
 
 @unpack
 def get_all_flow_events():
     ''' Wrapper to emulate getting all flow_events '''
-    return client.get('/flow_events')
+    return client.get('/flowEvents')
 
 @unpack
 def get_flow_event_by_flow_event_id(flow_event_id):
     ''' Wrapper to emulate getting specified flow_event '''
-    return client.get(f'/flow_event/{flow_event_id}')
+    return client.get(f'/flowEvent/{flow_event_id}')
 
 @unpack
 def delete_flow_event_by_flow_event_id(flow_event_id):
     ''' Wrapper to emulate deleting specified flow_event '''
-    return client.delete(f'/flow_event/{flow_event_id}')
+    return client.delete(f'/flowEvent/{flow_event_id}')
 
 @unpack
 def update_flow_event_by_flow_event_id(flow_event_id, flow_event_dict):
     ''' Wrapper to emulate updating specified flow_event '''
-    return client.patch(f'/flow_event/{flow_event_id}', json=flow_event_dict)
+    return client.patch(f'/flowEvent/{flow_event_id}', json=flow_event_dict)
+
+# ======== LOG WRAPPERS ========
+
+@unpack
+def create_log(log_data):
+    ''' Wrapper to emulate creating an log '''
+    return client.post('/log', json=log_data)
+
+@unpack
+def get_all_logs():
+    ''' Wrapper to emulate getting all logs '''
+    return client.get('/logs')
+
+@unpack
+def get_log_by_log_id(log_id):
+    ''' Wrapper to emulate getting specified log '''
+    return client.get(f'/log/{log_id}')
+
+@unpack
+def delete_log_by_log_id(log_id):
+    ''' Wrapper to emulate deleting specified log '''
+    return client.delete(f'/log/{log_id}')
+
+@unpack
+def update_log_by_log_id(log_id, log_dict):
+    ''' Wrapper to emulate updating specified log '''
+    return client.patch(f'/log/{log_id}', json=log_dict)
