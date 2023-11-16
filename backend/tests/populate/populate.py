@@ -135,6 +135,65 @@ ALL_FLOWS = [
 	},
 ]
 
+ALL_LOGS = [
+        {
+            "name": "Main Job income",
+            "description": "My main salary",
+            "type": "ADD",
+            "amount": 5000,
+            "date_created": get_random_date(),
+            "bucket_id": 1
+        },
+        {
+            "name": "Gym Spending",
+            "description": "For exercise",
+            "type": "SUB",
+            "amount": 18,
+            "date_created": get_random_date(),
+            "bucket_id": 1
+        },
+        {
+            "name": "Household spending move",
+            "description": "Moving Total to household spending",
+            "type": "MOV",
+            "amount": 600,
+            "date_created": get_random_date(),
+            "bucket_id": 1
+        },
+        {
+            "name": "Savings Move",
+            "description": "Money to be saved on untouched",
+            "type": "MOV",
+            "amount": 2000,
+            "date_created": get_random_date(),
+            "bucket_id": 1
+        },
+        {
+            "name": "Woolies shopping",
+            "description": "Friday woolies shopping",
+            "type": "SUB",
+            "amount": 65,
+            "date_created": get_random_date(),
+            "bucket_id": 5
+        },
+        {
+            "name": "Eating at Cafe de la Cafe",
+            "description": "Brekkie",
+            "type": "SUB",
+            "amount": 30,
+            "date_created": get_random_date(),
+            "bucket_id": 5
+        },
+        {
+            "name": "Bought Video Game 2: More games",
+            "description": "Let me be happy",
+            "type": "SUB",
+            "amount": 55,
+            "date_created": get_random_date(),
+            "bucket_id": 6
+        }
+    ]
+
 
 def populate_buckets():
 	''' Populates database with bucket data '''
@@ -150,7 +209,7 @@ def populate_buckets():
 			print("Failed to add BUCKET - %s" % bkt)
 
 
-def populate_flow_event():
+def populate_flow_events():
 	''' Populates database with flow event data '''
 	print("========== ADDING FLOW EVENT ==========")
 	for fe in ALL_FLOWS:
@@ -162,8 +221,23 @@ def populate_flow_event():
 			print("Added FLOW EVENT - %s" % fe)
 		except ValueError:
 			print("Failed to add FLOW EVENT - %s" % fe)
+
+
+def populate_logs():
+	''' Populates database with log data '''
+	print("========== ADDING LOG ==========")
+	for fe in ALL_LOGS:
+		try:
+			res = requests.post(f"{BACKEND_URL}/log", json=fe)
+			if res.status_code != 200:
+				raise ValueError
+			
+			print("Added LOG - %s" % fe)
+		except ValueError:
+			print("Failed to add LOG - %s" % fe)
   
   
 if __name__ == "__main__":
 	populate_buckets()
-	populate_flow_event()
+	populate_flow_events()
+	populate_logs()
