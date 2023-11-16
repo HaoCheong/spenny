@@ -34,7 +34,7 @@ class BucketReadWR(BucketReadNR):
 # ======== UPDATE SCHEMAS ========
 
 class BucketUpdate(BucketBase):
-    name: Optional[str]
-    description: Optional[str]
-    current_amount: Optional[float]
-    properties: Optional[BucketPropertiesBase]
+    name: Optional[str] = None
+    description: Optional[str] = None
+    current_amount: Optional[float] = None
+    properties: Optional[BucketPropertiesBase] = None
