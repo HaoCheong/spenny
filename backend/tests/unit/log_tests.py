@@ -24,9 +24,7 @@ def test_get_all_log(reset_db, logs_data):
 def test_get_log_by_log_id(reset_db, logs_data):
     ''' Testing the success case of getting specified log '''
     log = wrappers.create_log(logs_data[0])['data']
-    print("log", log, log['id'])
-    ret_log = wrappers.get_log_by_log_id(log['id'])
-    print("ret_log", ret_log)
+    ret_log = wrappers.get_log_by_log_id(log['id'])['data']
     assert log["name"] == ret_log["name"]
 
 def test_invalid_get_log_by_log_id(reset_db, logs_data):

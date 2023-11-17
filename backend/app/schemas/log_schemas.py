@@ -28,7 +28,7 @@ class LogReadNR(LogBase):
 class LogReadWR(LogReadNR):
     from app.schemas.bucket_schemas import BucketReadNR
     bucket_id: int
-    bucket: BucketReadNR
+    bucket: Union[BucketReadNR, None]
 
 # ======== UPDATE SCHEMAS ========
 
@@ -37,4 +37,4 @@ class LogUpdate(LogBase):
     description: Optional[str] = None
     type: Optional[Literal["ADD", "SUB", "MOV"]] = None
     amount: Optional[float] = None
-    date_created: Optional[str] = None
+    date_created: Optional[datetime] = None
