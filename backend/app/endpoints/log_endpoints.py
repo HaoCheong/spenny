@@ -33,7 +33,7 @@ def get_log_by_id(log_id: int, db: Session = Depends(get_db)):
     db_log = cruds.get_log_by_id(db=db, id=log_id)
     if not db_log:
         raise HTTPException(status_code=400, detail="Log does not exist")
-
+    
     return db_log
 
 
