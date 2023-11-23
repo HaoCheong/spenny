@@ -1,15 +1,18 @@
 tags_metadata = [
     {
-        "name": "bucket",
+        "name": "Bucket",
         "description": "CRUD features for Buckets",
     },
     {
-        "name": "flowEvent",
+        "name": "Flow Event",
         "description": "CRUD features for Flow Events",
     },
     {
-        "name": "log",
+        "name": "Log",
         "description": "CRUD features for logs"
-    }
-    
+    },
+    {
+        "name": "Operations",
+        "description": "Operation related to other non-direct DB manipulation"
+    },
 ]
