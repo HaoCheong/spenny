@@ -5,7 +5,7 @@ FROM python:3.10
 WORKDIR /app
 
 # Copy the requirement txt into the app
-COPY ./app/requirements.txt /app/
+COPY ./requirements.txt /app/
 
 # Install all the backend dependencies
 RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
