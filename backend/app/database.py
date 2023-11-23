@@ -15,7 +15,7 @@ from sqlalchemy.orm import sessionmaker
 import pathlib
 
 ABS_PATH = pathlib.Path().resolve()
-SQLALCHEMY_DATABASE_URL = f"sqlite:////{ABS_PATH}/app/db/spenny_test.db"
+SQLALCHEMY_DATABASE_URL = f"sqlite:////{ABS_PATH}/app/db/spenny.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
