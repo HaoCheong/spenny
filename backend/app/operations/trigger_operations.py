@@ -9,14 +9,13 @@ import app.cruds.bucket_cruds as bucket_cruds
 import app.cruds.log_cruds as log_cruds
 
 def solo_trigger(trigger: trigger_schemas.TriggerBase, db: Session):
+
     # Grab details of the a trigger
     if (trigger.from_bucket_id is not None):
-        print("HERE 1", trigger)
         from_bucket = bucket_cruds.get_bucket_by_id(db=db, id=trigger.from_bucket_id)
         # update bucket value
         if (trigger.type == "SUB" or trigger.type == "MOV"):
             new_value = from_bucket["current_amount"] - trigger.change_amount
-            print("FROM NEW VALUE", new_value)
             new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
             bucket_cruds.update_bucket_by_id(
                 db=db, id=trigger.from_bucket_id, new_bucket=new_bucket)
@@ -36,7 +35,6 @@ def solo_trigger(trigger: trigger_schemas.TriggerBase, db: Session):
         # update bucket value
         if (trigger.type == "ADD" or trigger.type == "MOV"):
             new_value = to_bucket["current_amount"] + trigger.change_amount
-            print("TO NEW VALUE", new_value)
             new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
             bucket_cruds.update_bucket_by_id(
                 db=db, id=trigger.to_bucket_id, new_bucket=new_bucket)
@@ -51,4 +49,4 @@ def solo_trigger(trigger: trigger_schemas.TriggerBase, db: Session):
             )
             log_cruds.create_log(db=db, log=new_log)
 
-    return {"SUccess": True}
+    return {"Success": True}
