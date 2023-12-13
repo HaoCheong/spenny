@@ -96,3 +96,9 @@ def delete_log_by_log_id(log_id):
 def update_log_by_log_id(log_id, log_dict):
     ''' Wrapper to emulate updating specified log '''
     return client.patch(f'/log/{log_id}', json=log_dict)
+
+# ======== OPERATION WRAPPERS ========
+
+@unpack
+def update_all_buckets():
+    return client.put('/updateValues')
