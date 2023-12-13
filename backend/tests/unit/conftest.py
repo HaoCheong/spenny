@@ -9,7 +9,6 @@ from fastapi.testclient import TestClient
 import pytest
 from datetime import datetime, timedelta
 
-
 import pathlib
 
 ABS_PATH = pathlib.Path().resolve()
@@ -263,3 +262,17 @@ def logs_data():
         }
     ]
 
+@pytest.fixture
+def fake_populate(reset_db, flow_events_data, buckets_data, logs_data):
+    '''Populate a test database to the sample structure'''
+
+    from unit import wrappers
+
+    for bucket in buckets_data:
+        wrappers.create_bucket(bucket)
+
+    for fe in flow_events_data:
+        wrappers.create_flow_event(fe)
+
+    for log in logs_data:
+        wrappers.create_log(log)
