@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from app.helpers import add_time
 
+from fastapi.encoders import jsonable_encoder
+
 # Update a singular bucket value
 import app.cruds.bucket_cruds as bucket_cruds
 import app.cruds.log_cruds as log_cruds
@@ -18,7 +20,7 @@ def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, ol
     to_bucket = None
 
     if (fe.from_bucket_id is not None):
-        from_bucket = bucket_cruds.get_bucket_by_id(db=db, id=fe.from_bucket_id)
+        from_bucket = jsonable_encoder(bucket_cruds.get_bucket_by_id(db=db, id=fe.from_bucket_id))
         # update bucket value
         if (fe.type == "SUB" or fe.type == "MOV"):
             new_value = from_bucket["current_amount"] - fe.change_amount
@@ -37,7 +39,7 @@ def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, ol
             log_cruds.create_log(db=db, log=new_log)
 
     if (fe.to_bucket_id is not None):
-        to_bucket = bucket_cruds.get_bucket_by_id(db=db, id=fe.to_bucket_id)
+        to_bucket = jsonable_encoder(bucket_cruds.get_bucket_by_id(db=db, id=fe.to_bucket_id))
         # update bucket value
         if (fe.type == "ADD" or fe.type == "MOV"):
             new_value = to_bucket["current_amount"] + fe.change_amount
