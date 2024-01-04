@@ -56,7 +56,10 @@ const CreateBucketModal = () => {
             const newBucket = {
                 name: values.name,
                 description: values.description,
-                current_amount: values.curr_amount,
+                current_amount: parseFloat(values.curr_amount),
+                properties: {
+                    invisible: false
+                }
             }
             try {
                 await axios.post(`${BACKEND_URL}/bucket`, newBucket)
@@ -119,7 +122,6 @@ const CreateBucketModal = () => {
                                 >
                                     <Input
                                         id="curr_amount"
-                                        type="number"
                                         placeholder="Current Amount"
                                         focusBorderColor="blue.500"
                                         onChange={formik.handleChange}
