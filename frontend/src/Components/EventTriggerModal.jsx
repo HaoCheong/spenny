@@ -72,15 +72,16 @@ const EventTriggerModal = () => {
             // to_bucket_id: yup.number('Either enter a valid bucket id or empty'),
         }),
         onSubmit: async (values) => {
-            console.log('VAL', values)
+            
             const newTrigger = {
                 name: values.name,
                 description: values.description,
-                change_amount: values.change_amount,
+                change_amount: parseFloat(values.change_amount),
                 type: values.type,
                 from_bucket_id: values.from_bucket_id,
                 to_bucket_id: values.to_bucket_id,
             }
+            console.log('newTrigger', newTrigger)
             try {
                 await axios.put(`${BACKEND_URL}/soloTrigger`, newTrigger)
                 setAlertInfo({
@@ -105,7 +106,7 @@ const EventTriggerModal = () => {
                 <ModalOverlay />
                 <form onSubmit={formik.handleSubmit}>
                     <ModalContent>
-                        <ModalHeader>Move money around</ModalHeader>
+                        <ModalHeader>Move money around $</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
                             <VStack spacing="1em">
@@ -140,7 +141,6 @@ const EventTriggerModal = () => {
                                 >
                                     <Input
                                         id="change_amount"
-                                        type="number"
                                         placeholder="Amount to change"
                                         focusBorderColor="blue.500"
                                         onChange={formik.handleChange}
