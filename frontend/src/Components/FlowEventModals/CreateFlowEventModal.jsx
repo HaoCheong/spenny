@@ -78,11 +78,10 @@ const CreateFlowEventModal = () => {
                 ),
         }),
         onSubmit: async (values) => {
-            console.log('VAL', values)
             const newFlowEvent = {
                 name: values.name,
                 description: values.description,
-                change_amount: values.change_amount,
+                change_amount: parseFloat(values.change_amount),
                 type: values.type,
                 frequency: values.frequency,
                 next_trigger: values.next_trigger,
@@ -150,7 +149,6 @@ const CreateFlowEventModal = () => {
                                 >
                                     <Input
                                         id="change_amount"
-                                        type="number"
                                         placeholder="Amount to change"
                                         focusBorderColor="blue.500"
                                         onChange={formik.handleChange}
