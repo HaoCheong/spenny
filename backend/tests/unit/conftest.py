@@ -1,5 +1,5 @@
 from app.database import Base
-from app.helpers import get_db
+from app.helpers import get_db, get_config
 from app.main import app
 
 from sqlalchemy.pool import StaticPool
@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 
 import pathlib
 
+config = get_config()
 ABS_PATH = pathlib.Path().resolve()
 SQLALCHEMY_DATABASE_URL = f"sqlite:///{ABS_PATH}/app/db/spenny_test.db"
 
