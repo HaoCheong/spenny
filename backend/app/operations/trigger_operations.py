@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from datetime import datetime
 
+from fastapi.encoders import jsonable_encoder
+
 import app.schemas.trigger_schemas as trigger_schemas
 import app.schemas.bucket_schemas as bucket_schemas
 import app.schemas.log_schemas as log_schemas
@@ -12,7 +14,7 @@ def solo_trigger(trigger: trigger_schemas.TriggerBase, db: Session):
 
     # Grab details of the a trigger
     if (trigger.from_bucket_id is not None):
-        from_bucket = bucket_cruds.get_bucket_by_id(db=db, id=trigger.from_bucket_id)
+        from_bucket = jsonable_encoder(bucket_cruds.get_bucket_by_id(db=db, id=trigger.from_bucket_id))
         # update bucket value
         if (trigger.type == "SUB" or trigger.type == "MOV"):
             new_value = from_bucket["current_amount"] - trigger.change_amount
@@ -31,7 +33,7 @@ def solo_trigger(trigger: trigger_schemas.TriggerBase, db: Session):
             log_cruds.create_log(db=db, log=new_log)
 
     if (trigger.to_bucket_id is not None):
-        to_bucket = bucket_cruds.get_bucket_by_id(db=db, id=trigger.to_bucket_id)
+        to_bucket = jsonable_encoder(bucket_cruds.get_bucket_by_id(db=db, id=trigger.to_bucket_id))
         # update bucket value
         if (trigger.type == "ADD" or trigger.type == "MOV"):
             new_value = to_bucket["current_amount"] + trigger.change_amount

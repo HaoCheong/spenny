@@ -12,7 +12,6 @@ import {
 import React from 'react'
 
 const BucketStats = ({ bucket }) => {
-    console.log('Bucket', bucket)
     return (
         <Card bg="#3AAED8" color="white">
             <CardBody>
