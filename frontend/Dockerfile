@@ -12,12 +12,13 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY package-lock.json ./
 COPY yarn.lock ./
-RUN npm install
 RUN npm install react-scripts@3.4.1 -g
+RUN npm install
 # RUN yarn install
   
 # Add all the contents from directory
 #COPY . ./
 # EXPOSE 8000
 # Start app
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
 CMD ["npm", "start"]
