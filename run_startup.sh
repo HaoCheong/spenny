@@ -5,12 +5,12 @@ ABS_PATH=$("pwd")
 BE_DOCKER_PATH="${ABS_PATH}/backend/app"
 BE_IMAGE="spenny_backend_img"
 BE_CONT="spenny_backend_cont_dev"
-BE_PORT=8881
+BE_PORT=9991
   
 FE_DOCKER_PATH="${ABS_PATH}/frontend/"
 FE_IMAGE="spenny_frontend_img"
 FE_CONT="spenny_frontend_cont_dev"
-FE_PORT=8882
+FE_PORT=9992
   
 # Stop and remove backend container
 if docker container inspect ${BE_CONT} > /dev/null 2>&1; then
