@@ -1,6 +1,7 @@
 //Wrapper for FormControl and inputs for cleaner management
 
 import { FormControl, FormErrorMessage } from '@chakra-ui/react'
+import React from 'react';
 
 const FormValidator = ({ children, propName, formik }) => {
     return (

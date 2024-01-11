@@ -4,7 +4,7 @@ import requests
 import sys
 # Mainly so that I can use my phone as a method of triggering spenny
 
-BUCKET_ID = 6
+BUCKET_ID = 3
 
 if __name__ == "__main__":
 
