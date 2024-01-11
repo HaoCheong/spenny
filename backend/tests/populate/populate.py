@@ -9,7 +9,7 @@ import requests
 from datetime import datetime, timedelta
 import random
 
-BACKEND_URL = "http://127.0.0.1:9101"
+BACKEND_URL = "http://127.0.0.1:9991"
 
 def get_random_date():
 	day_shift = random.randint(1, 7)
