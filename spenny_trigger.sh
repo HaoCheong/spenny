@@ -1,0 +1,1 @@
+ssh hcheong@1.158.95.151 -m "./projects/spenny/lifestyle_wrapper.py $1 $2"
