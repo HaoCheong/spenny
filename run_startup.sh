@@ -4,12 +4,13 @@
 ABS_PATH=$("pwd")
 BE_DOCKER_PATH="${ABS_PATH}/backend/app"
 BE_IMAGE="spenny_backend_img"
-BE_CONT="spenny_backend_cont"
+BE_CONT="spenny_backend_cont_dev"
+BE_PORT=8881
   
 FE_DOCKER_PATH="${ABS_PATH}/frontend/"
 FE_IMAGE="spenny_frontend_img"
-FE_CONT="spenny_frontend_cont"
-  
+FE_CONT="spenny_frontend_cont_dev"
+FE_PORT=8882
   
 # Stop and remove backend container
 if docker container inspect ${BE_CONT} > /dev/null 2>&1; then
@@ -27,13 +28,13 @@ fi
 
 if [ "$1" != "stop" ]; then
 	# Run Backend
-	docker run -p 9101:8000 \
+	docker run -p ${BE_PORT}:8000 \
 	-d \
 	--mount type=bind,source="${BE_DOCKER_PATH}",target=/app/ \
 	--name ${BE_CONT} ${BE_IMAGE}
 	
 	# # Run Frontend
-	docker run -p 9102:3000 \
+	docker run -p ${FE_PORT}:3000 \
 	-d \
 	--mount type=bind,source="${FE_DOCKER_PATH}",target=/app/ \
 	--name ${FE_CONT} ${FE_IMAGE}
