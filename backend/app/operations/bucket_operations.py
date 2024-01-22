@@ -16,13 +16,15 @@ import app.schemas.log_schemas as log_schemas
 
 def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, old_date: datetime):
     '''
-    Updates the bucket valuies based on the Flow Event
+    Updates the bucket values based on the Flow Event
     '''    
     # Grab the two potential buckets
     from_bucket = None
     to_bucket = None
 
+    # Apply FE operation on the FROM Bucket
     if (fe.from_bucket_id is not None):
+        
         from_bucket = jsonable_encoder(
             bucket_cruds.get_bucket_by_id(
                 db=db,
@@ -30,7 +32,7 @@ def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, ol
             )
         )
 
-        # update bucket value
+        # Update bucket value
         if (fe.type == "SUB" or fe.type == "MOV"):
             new_value = from_bucket["current_amount"] - fe.change_amount
             new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
@@ -40,7 +42,7 @@ def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, ol
                 new_bucket=new_bucket
             )
             
-            # create log
+            # Create Log
             new_log = log_schemas.LogCreate(
                 name=fe.name,
                 description=fe.description,
@@ -49,8 +51,10 @@ def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, ol
                 date_created=old_date,
                 bucket_id=fe.from_bucket_id
             )
+
             log_cruds.create_log(db=db, log=new_log)
 
+    # Apply the FE operation to the TO bucket
     if (fe.to_bucket_id is not None):
 
         to_bucket = jsonable_encoder(bucket_cruds.get_bucket_by_id(db=db, id=fe.to_bucket_id))
@@ -59,6 +63,7 @@ def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, ol
         if (fe.type == "ADD" or fe.type == "MOV"):
             new_value = to_bucket["current_amount"] + fe.change_amount
             new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
+            
             bucket_cruds.update_bucket_by_id(
                 db=db,
                 id=fe.to_bucket_id,
@@ -88,7 +93,7 @@ def update_all_buckets(db: Session):
 
     for fe in flowEvents:
 
-        # Checks if its time to trigger yet
+        # Will skip the flow event if it is not its time to trigger
         date_now = datetime.now()
         if (date_now < fe.next_trigger):
             continue
@@ -99,7 +104,7 @@ def update_all_buckets(db: Session):
 
             # Update the next trigger date
             new_date = add_time(curr_fe.next_trigger, curr_fe.frequency)
-            
+
             res = flow_event_cruds.update_flowEvent_by_id(
                 db=db,
                 id=curr_fe.id,
@@ -115,6 +120,5 @@ def update_all_buckets(db: Session):
 
             # Set values for next loop
             curr_fe = res
-            date_now = datetime.now()
 
     return {"Success": True}
