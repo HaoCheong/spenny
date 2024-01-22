@@ -12,7 +12,7 @@ router = APIRouter()
 
 # ========== OPERATION =========
 
-# When trigger it will run this application and update all the flow amount
+# When trigger it will run this application and update all the flow amount to the current date
 @router.put('/updateValues', tags=['Operations'])
 def update_all_buckets(db: Session = Depends(get_db)):
     return bucket_operations.update_all_buckets(db=db)

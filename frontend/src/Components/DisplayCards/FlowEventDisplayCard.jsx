@@ -42,13 +42,17 @@ const FlowEventDisplayCard = ({ fe }) => {
                 direction={{ base: 'column', sm: 'row' }}
                 overflow="hidden"
                 variant="elevated"
-                bg={bgColor}
-                mt="2"
+                borderWidth="5px"
+                borderColor={bgColor}
+                bg="#0a1c09"
+                width="100%"
+                minH="150px"
+                padding="10px"
             >
-                <HStack width="100%">
-                    <CardBody width="80%" color="white">
+                <HStack spacing={1}>
+                    <CardBody color="white" padding="0">
                         <Heading size="md">{fe.name}</Heading>
-                        <Text py="2">
+                        <Text>
                             Next Date:{' '}
                             {new Date(fe.next_trigger).toLocaleDateString(
                                 undefined,
@@ -56,7 +60,7 @@ const FlowEventDisplayCard = ({ fe }) => {
                             )}
                         </Text>
                     </CardBody>
-                    <Text py="2" fontSize="xl">
+                    <Text fontSize="xl">
                         {fe.change_amount}
                     </Text>
                     <CardFooter width="20%">

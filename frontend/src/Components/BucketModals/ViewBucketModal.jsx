@@ -21,8 +21,8 @@ const ViewBucketModal = ({ bucket }) => {
             <Button
                 onClick={onOpen}
                 variant="solid"
-                bgColor="#00a6fb"
-                color="white"
+                bgColor="#aedf8b"
+                color="black"
             >
                 View Bucket
             </Button>
