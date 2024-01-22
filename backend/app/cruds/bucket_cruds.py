@@ -5,7 +5,7 @@ import app.models.bucket_model as bucket_model
 import app.models.flow_event_model as flow_event_model
 import app.schemas.bucket_schemas as schemas
 
-# {from_events: [], to_events:[]}
+
 def get_bucket_flowEvents(db: Session, bucket_id: int):
     fromEvents = db.query(flow_event_model.FlowEvent).filter(
         flow_event_model.FlowEvent.from_bucket_id == bucket_id).all()
@@ -15,8 +15,6 @@ def get_bucket_flowEvents(db: Session, bucket_id: int):
     return {"from_events": fromEvents, "to_events": toEvents}
 
 # ========== CRUDS ==========
-
-
 def create_bucket(db: Session, bucket: schemas.BucketCreate):
     db_bucket = bucket_model.Bucket(
         name=bucket.name,
