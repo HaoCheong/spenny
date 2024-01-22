@@ -5,9 +5,11 @@ import Dashboard from './Routes/Dashboard';
 import { ChakraProvider } from '@chakra-ui/react'
 import React from 'react';
 
+
 const App = () => {
   return (
     <ChakraProvider>
+      
       <BrowserRouter>
         <Routes>
           <Route path="/Dashboard" element={<Dashboard />} />
