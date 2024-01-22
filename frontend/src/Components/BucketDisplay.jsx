@@ -13,6 +13,8 @@ import {
     CardBody,
     CardFooter,
     Divider,
+    HStack,
+    VStack,
     Heading,
     Image,
     Stack,
@@ -27,10 +29,11 @@ import ViewBucketModal from './BucketModals/ViewBucketModal.jsx'
 import BucketStats from './BucketStats.jsx'
 
 const BucketDisplay = ({ bucket_id }) => {
-    const [bucket, setBucket] = React.useState({ from_events: [] })
+    const [bucket, setBucket] = React.useState({ from_events: [], to_events: [] })
 
     const getBucketData = async () => {
         const res = await axios.get(`${BACKEND_URL}/bucket/${bucket_id}`)
+        console.log(res.data)
         setBucket(res.data)
     }
 
@@ -41,35 +44,47 @@ const BucketDisplay = ({ bucket_id }) => {
     return (
         <Card
             minW="sm"
-            bg="#2A1E5C"
+            minH="300px"
+            maxH="1500px"
+            height="100%"
+            bg="black"
+            borderWidth="2px"
+            borderColor='#7bcf3f'
             variant="elevated"
             color="white"
-            minH="120vh"
         >
-            <CardBody>
+            <CardBody height="70%">
                 <Box bg="white">
                     <SpendChart bucket_id={bucket_id} />
                 </Box>
 
-                <Stack mt="6" spacing="3">
+                <Stack height="75%" spacing="5px">
                     <Heading size="lg">{bucket.name}</Heading>
                     <BucketStats bucket={bucket} />
-                    <Text sx={{ overflowY: 'scroll', maxH: '10em' }}>
+                    <Text minH='30px' sx={{ overflowY: 'scroll' }}>
                         {bucket.description}
                     </Text>
 
                     <Divider />
+
                     <Text fontSize="2xl">Flow Events</Text>
-                    <Box
-                        sx={{
-                            overflowY: 'scroll',
-                            maxH: '16rem',
-                        }}
+                    {/* <Box height="100%" bg='green'>TEST</Box> */}
+                    <VStack
+                         gap={1}
+                         overflowY='scroll'
+                         padding={3}
+                         minH="50px"
+                         height="100%"
                     >
                         {bucket.from_events.map((fe, idx) => {
                             return <FlowEventDisplayCard key={idx} fe={fe} />
                         })}
-                    </Box>
+
+                        {bucket.to_events.map((fe, idx) => {
+                            return <FlowEventDisplayCard key={idx} fe={fe} />
+                        })}
+
+                    </VStack>
                 </Stack>
             </CardBody>
             <Divider />
