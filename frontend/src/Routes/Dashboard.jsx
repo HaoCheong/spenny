@@ -65,13 +65,14 @@ const Dashboard = () => {
                 sx={{
                     width: '100vw',
                     height: '100vh',
-                    backgroundColor: '#B892FF',
+                    backgroundColor: '#000000',
+                    color: 'white'
                 }}
             >
                 <HStack gap={5} margin="2rem">
                     <Text fontSize="5xl">Spenny V1.0</Text>
                     <Menu>
-                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton colorScheme='gray' as={Button} rightIcon={<ChevronDownIcon />}>
                             Actions
                         </MenuButton>
                         <MenuList>
@@ -83,7 +84,7 @@ const Dashboard = () => {
                         </MenuList>
                     </Menu>
                     <Menu>
-                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton colorScheme='gray' as={Button} rightIcon={<ChevronDownIcon />}>
                             Statistics
                         </MenuButton>
                         <MenuList>
@@ -102,12 +103,13 @@ const Dashboard = () => {
                 <VStack sx={{ margin: '1rem' }}>
                     <Box
                         sx={{
-                            width: '100%',
-                            height: '100%',
                             padding: '1em',
+                            width:"100vw",
+                            height:"85vh",
                         }}
                     >
-                        <HStack sx={{ overflowX: 'scroll' }}>
+
+                        <HStack sx={{ overflowX: 'scroll', height: "100%"}}>
                             {bucketList.map((bucket, idx) => {
                                 return (
                                     <BucketDisplay
