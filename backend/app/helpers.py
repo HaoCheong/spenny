@@ -22,6 +22,8 @@ def get_db():
 
 
 def add_time(date, sum_date):
+    ''' Add a given date to a given frequency'''
+
     # Grab the last character
     increment_size = sum_date[-1]
     amount = int(sum_date[:-1])
