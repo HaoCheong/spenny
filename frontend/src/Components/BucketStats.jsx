@@ -11,23 +11,54 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 
+
+
 const BucketStats = ({ bucket }) => {
+    const get_fe_amount = (bucket_list) => {
+        let total_flow_amount = 0
+        bucket_list.forEach((bucket_item) => {
+            total_flow_amount = bucket_item.change_amount
+        })
+        return total_flow_amount
+    }
+
     return (
-        <Card bg="#3AAED8" color="white">
+        <Card
+            bg="#123d16"
+            color="white"
+            borderWidth="2px"
+            borderColor='#7bcf3f'
+        >
             <CardBody>
                 <StatGroup>
-                    <Stat>
-                        <StatLabel>Current Amount</StatLabel>
+                    <Stat m="2">
+                        <StatLabel>Current</StatLabel>
                         <StatNumber>${bucket.current_amount}</StatNumber>
                     </Stat>
-                    <Stat>
-                        <StatLabel>Out/Inflow Events Ratio</StatLabel>
 
-                        {bucket.from_events && bucket.to_events ? (
-                            <StatNumber>
-                                {bucket.from_events.length}:
-                                {bucket.to_events.length}
-                            </StatNumber>
+                    <Stat>
+                        <StatLabel>Inflow</StatLabel>
+                        {bucket.to_events ? (
+                            <>
+                                <StatNumber>
+                                    {get_fe_amount(bucket.to_events)}
+                                </StatNumber>
+                                <StatArrow type='increase' />
+                            </>
+                        ) : (
+                            <></>
+                        )}
+                    </Stat>
+
+                    <Stat>
+                        <StatLabel>Outflow</StatLabel>
+                        {bucket.from_events ? (
+                            <>
+                                <StatNumber>
+                                    {get_fe_amount(bucket.from_events)}
+                                </StatNumber>
+                                <StatArrow type='decrease' />
+                            </>
                         ) : (
                             <></>
                         )}
