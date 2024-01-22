@@ -101,7 +101,7 @@ const EventTriggerModal = () => {
 
     return (
         <>
-            <Button onClick={onOpen}>Single Event Trigger</Button>
+            <Button onClick={onOpen}  colorScheme='gray'>Single Event Trigger</Button>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <form onSubmit={formik.handleSubmit}>
