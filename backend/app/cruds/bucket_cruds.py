@@ -37,10 +37,6 @@ def get_all_buckets(db: Session, skip: int = 0, limit: int = 100):
 
 def get_bucket_by_id(db: Session, id: int):
     bucket = db.query(bucket_model.Bucket).filter(bucket_model.Bucket.id == id).first()
-    # print("BRUKET", bucket )
-    # flowEvents = get_bucket_flowEvents(db=db, bucket_id=id)
-    # bucket['from_events'] = flowEvents["from_events"]
-    # bucket['to_events'] = flowEvents["to_events"]
     return bucket
 
 
