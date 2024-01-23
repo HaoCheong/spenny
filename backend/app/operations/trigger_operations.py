@@ -17,7 +17,9 @@ def solo_trigger(trigger: trigger_schemas.TriggerBase, db: Session):
         from_bucket = jsonable_encoder(bucket_cruds.get_bucket_by_id(db=db, id=trigger.from_bucket_id))
         # update bucket value
         if (trigger.type == "SUB" or trigger.type == "MOV"):
-            new_value = from_bucket["current_amount"] - trigger.change_amount
+            print("D")
+            new_value = round(from_bucket["current_amount"] - trigger.change_amount,2)
+            print("D",new_value)
             new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
             bucket_cruds.update_bucket_by_id(
                 db=db, id=trigger.from_bucket_id, new_bucket=new_bucket)
@@ -36,7 +38,9 @@ def solo_trigger(trigger: trigger_schemas.TriggerBase, db: Session):
         to_bucket = jsonable_encoder(bucket_cruds.get_bucket_by_id(db=db, id=trigger.to_bucket_id))
         # update bucket value
         if (trigger.type == "ADD" or trigger.type == "MOV"):
-            new_value = to_bucket["current_amount"] + trigger.change_amount
+            print("C")
+            new_value = round(to_bucket["current_amount"] + trigger.change_amount,2)
+            print("C",new_value)
             new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
             bucket_cruds.update_bucket_by_id(
                 db=db, id=trigger.to_bucket_id, new_bucket=new_bucket)
