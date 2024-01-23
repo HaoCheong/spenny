@@ -25,6 +25,7 @@ import ViewRecent from '../Components/StatisticModals/ViewRecent.jsx'
 import ViewStats from '../Components/StatisticModals/ViewStats.jsx'
 import ViewUpcoming from '../Components/StatisticModals/ViewUpcoming.jsx'
 
+import logo from '../asset/spenny_logo_2.png'
 import { BACKEND_URL } from '../config.js'
 
 const Dashboard = () => {
@@ -70,7 +71,7 @@ const Dashboard = () => {
                 }}
             >
                 <HStack gap={5} margin="2rem">
-                    <Text fontSize="5xl">Spenny V1.0</Text>
+                    <img src={logo} width="100rem" height="100rem"/>
                     <Menu>
                         <MenuButton colorScheme='gray' as={Button} rightIcon={<ChevronDownIcon />}>
                             Actions
