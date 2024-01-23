@@ -34,7 +34,8 @@ def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, ol
 
         # Update bucket value
         if (fe.type == "SUB" or fe.type == "MOV"):
-            new_value = from_bucket["current_amount"] - fe.change_amount
+            new_value = round(from_bucket["current_amount"] - fe.change_amount,2)
+            print("A",new_value)
             new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
             bucket_cruds.update_bucket_by_id(
                 db=db,
@@ -61,7 +62,8 @@ def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, ol
 
         # update bucket value
         if (fe.type == "ADD" or fe.type == "MOV"):
-            new_value = to_bucket["current_amount"] + fe.change_amount
+            new_value = round(to_bucket["current_amount"] + fe.change_amount,2)
+            print("B",new_value)
             new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
             
             bucket_cruds.update_bucket_by_id(
