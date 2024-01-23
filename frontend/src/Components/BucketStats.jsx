@@ -34,6 +34,7 @@ const BucketStats = ({ bucket }) => {
                     <Stat m="2">
                         <StatLabel>Current</StatLabel>
                         <StatNumber>${bucket.current_amount}</StatNumber>
+                        
                     </Stat>
 
                     <Stat>
@@ -41,7 +42,7 @@ const BucketStats = ({ bucket }) => {
                         {bucket.to_events ? (
                             <>
                                 <StatNumber>
-                                    {get_fe_amount(bucket.to_events)}
+                                    ${get_fe_amount(bucket.to_events)}
                                 </StatNumber>
                                 <StatArrow type='increase' />
                             </>
@@ -55,7 +56,7 @@ const BucketStats = ({ bucket }) => {
                         {bucket.from_events ? (
                             <>
                                 <StatNumber>
-                                    {get_fe_amount(bucket.from_events)}
+                                    ${get_fe_amount(bucket.from_events)}
                                 </StatNumber>
                                 <StatArrow type='decrease' />
                             </>
