@@ -18,6 +18,9 @@ import {
     useDisclosure,
     VStack,
     MenuItem,
+    Switch,
+    FormControl,
+    FormLabel,
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import { useFormik } from 'formik'
@@ -42,6 +45,7 @@ const CreateBucketModal = () => {
             name: '',
             description: '',
             curr_amount: 0,
+            invisible: false,
         },
         validationSchema: yup.object({
             name: yup
@@ -58,9 +62,10 @@ const CreateBucketModal = () => {
                 description: values.description,
                 current_amount: parseFloat(values.curr_amount),
                 properties: {
-                    invisible: false
-                }
+                    invisible: values.invisible,
+                },
             }
+            // console.log('newBucket', newBucket)
             try {
                 await axios.post(`${BACKEND_URL}/bucket`, newBucket)
                 setAlertInfo({
@@ -128,6 +133,29 @@ const CreateBucketModal = () => {
                                         value={formik.values.curr_amount}
                                     />
                                 </FormValidator>
+                                <FormValidator
+                                    formik={formik}
+                                    propName="invisible"
+                                >
+                                    <FormControl
+                                        display="flex"
+                                        alignItems="center"
+                                    >
+                                        <FormLabel>
+                                            Invisible (Not counted in total)
+                                        </FormLabel>
+                                        <Switch
+                                            onChange={(e) => {
+                                                formik.setFieldValue(
+                                                    'invisible',
+                                                    e.target.checked
+                                                )
+                                            }}
+                                            value={formik.values.invisible}
+                                        />
+                                    </FormControl>
+                                </FormValidator>
+
                                 <ResponseAlert alertInfo={alertInfo} />
                             </VStack>
                         </ModalBody>
