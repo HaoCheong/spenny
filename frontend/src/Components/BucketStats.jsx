@@ -9,13 +9,11 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 
-
-
 const BucketStats = ({ bucket }) => {
     const get_fe_amount = (bucket_list) => {
         let total_flow_amount = 0
         bucket_list.forEach((bucket_item) => {
-            total_flow_amount = bucket_item.change_amount
+            total_flow_amount += bucket_item.change_amount
         })
         return total_flow_amount
     }
@@ -25,14 +23,13 @@ const BucketStats = ({ bucket }) => {
             bg="#123d16"
             color="white"
             borderWidth="2px"
-            borderColor='#7bcf3f'
+            borderColor="#7bcf3f"
         >
             <CardBody>
                 <StatGroup>
                     <Stat m="2">
                         <StatLabel>Current</StatLabel>
                         <StatNumber>${bucket.current_amount}</StatNumber>
-                        
                     </Stat>
 
                     <Stat>
@@ -42,7 +39,7 @@ const BucketStats = ({ bucket }) => {
                                 <StatNumber>
                                     ${get_fe_amount(bucket.to_events)}
                                 </StatNumber>
-                                <StatArrow type='increase' />
+                                <StatArrow type="increase" />
                             </>
                         ) : (
                             <></>
@@ -56,7 +53,7 @@ const BucketStats = ({ bucket }) => {
                                 <StatNumber>
                                     ${get_fe_amount(bucket.from_events)}
                                 </StatNumber>
-                                <StatArrow type='decrease' />
+                                <StatArrow type="decrease" />
                             </>
                         ) : (
                             <></>
