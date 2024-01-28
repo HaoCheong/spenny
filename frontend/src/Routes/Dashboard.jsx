@@ -29,6 +29,9 @@ import logo from '../asset/spenny_logo_2.png'
 import { BACKEND_URL } from '../config.js'
 
 const Dashboard = () => {
+
+    const [focusBucketId, setFocusBucketId] = React.useState(null)
+
     const [bucketList, setBucketList] = React.useState([])
     const [totalAmount, setTotalAmount] = React.useState(0)
     const getAllBucket = async () => {

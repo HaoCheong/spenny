@@ -13,7 +13,6 @@ import {
     Textarea,
     useDisclosure,
     VStack,
-    MenuItem,
     Switch,
     FormControl,
     FormLabel,
@@ -69,7 +68,6 @@ const EditBucketModal = ({bucket}) => {
                     invisible: values.invisible,
                 },
             }
-            console.log("EDITTING", editBucket)
             try {
                 await axios.patch(`${BACKEND_URL}/bucket/${bucket.id}`, editBucket)
                 setAlertInfo({
