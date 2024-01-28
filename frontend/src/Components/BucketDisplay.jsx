@@ -29,7 +29,13 @@ import ViewBucketModal from './BucketModals/ViewBucketModal.jsx'
 import BucketStats from './BucketStats.jsx'
 
 const BucketDisplay = ({ bucket_id }) => {
-    const [bucket, setBucket] = React.useState({ from_events: [], to_events: [] })
+    const [bucket, setBucket] = React.useState({
+        properties: {
+            invisible: false,
+        },
+        from_events: [],
+        to_events: [],
+    })
 
     const getBucketData = async () => {
         const res = await axios.get(`${BACKEND_URL}/bucket/${bucket_id}`)
@@ -49,7 +55,8 @@ const BucketDisplay = ({ bucket_id }) => {
             height="100%"
             bg="black"
             borderWidth="2px"
-            borderColor='#7bcf3f'
+            // borderColor='#7bcf3f'
+            borderColor={bucket.properties.invisible ? '#CD02D9' : '#7bcf3f'}
             variant="elevated"
             color="white"
         >
@@ -61,7 +68,7 @@ const BucketDisplay = ({ bucket_id }) => {
                 <Stack height="75%" spacing="5px">
                     <Heading size="lg">{bucket.name}</Heading>
                     <BucketStats bucket={bucket} />
-                    <Text minH='30px' sx={{ overflowY: 'scroll' }}>
+                    <Text minH="30px" sx={{ overflowY: 'scroll' }}>
                         {bucket.description}
                     </Text>
 
@@ -70,11 +77,11 @@ const BucketDisplay = ({ bucket_id }) => {
                     <Text fontSize="2xl">Flow Events</Text>
                     {/* <Box height="100%" bg='green'>TEST</Box> */}
                     <VStack
-                         gap={1}
-                         overflowY='scroll'
-                         padding={3}
-                         minH="50px"
-                         height="100%"
+                        gap={1}
+                        overflowY="scroll"
+                        padding={3}
+                        minH="50px"
+                        height="100%"
                     >
                         {bucket.from_events.map((fe, idx) => {
                             return <FlowEventDisplayCard key={idx} fe={fe} />
@@ -83,7 +90,6 @@ const BucketDisplay = ({ bucket_id }) => {
                         {bucket.to_events.map((fe, idx) => {
                             return <FlowEventDisplayCard key={idx} fe={fe} />
                         })}
-
                     </VStack>
                 </Stack>
             </CardBody>

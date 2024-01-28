@@ -39,6 +39,10 @@ const ViewBucketModal = ({ bucket }) => {
                             <ListItem>
                                 Description: {bucket.description}
                             </ListItem>
+                            <ListItem>
+                                Invisible (Not counted in total):{' '}
+                                {bucket.properties.invisible ? 'True' : 'False'}
+                            </ListItem>
                         </UnorderedList>
                     </ModalBody>
                     <ModalFooter>
