@@ -1,12 +1,7 @@
 //Display Modal for creating, updating and deleting buckets
 
 import {
-    Alert,
-    AlertDescription,
-    AlertIcon,
-    AlertTitle,
     Button,
-    Input,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -15,7 +10,6 @@ import {
     ModalHeader,
     ModalOverlay,
     Select,
-    Textarea,
     useDisclosure,
     VStack,
     MenuItem,
