@@ -5,10 +5,8 @@ import {
     Heading,
     HStack,
     Text,
-    IconButton,
 } from '@chakra-ui/react'
 import React from 'react'
-import { ViewIcon } from '@chakra-ui/icons'
 
 import ViewFlowEventModal from '../FlowEventModals/ViewFlowEventModal'
 
