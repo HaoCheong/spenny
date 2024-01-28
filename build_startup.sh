@@ -34,4 +34,4 @@ docker build -t ${BE_IMAGE} ${BE_DOCKER_PATH}
   
 # Build frontend image
 echo "Building frontend image"
-docker build -t ${FE_IMAGE} ${FE_DOCKER_PATH}
+docker build --no-cache -t ${FE_IMAGE} ${FE_DOCKER_PATH}
