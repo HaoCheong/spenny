@@ -39,7 +39,9 @@ const Dashboard = () => {
     const getTotalAmount = async () => {
         let final = 0
         bucketList.forEach((bucket) => {
-            final += bucket.current_amount
+            if (!bucket.properties.invisible) {
+                final += bucket.current_amount
+            }
         })
         setTotalAmount(final)
     }
@@ -67,13 +69,17 @@ const Dashboard = () => {
                     width: '100vw',
                     height: '100vh',
                     backgroundColor: '#000000',
-                    color: 'white'
+                    color: 'white',
                 }}
             >
                 <HStack gap={5} margin="2rem">
-                    <img src={logo} width="100rem" height="100rem"/>
+                    <img src={logo} width="100rem" height="100rem" />
                     <Menu>
-                        <MenuButton colorScheme='gray' as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton
+                            colorScheme="gray"
+                            as={Button}
+                            rightIcon={<ChevronDownIcon />}
+                        >
                             Actions
                         </MenuButton>
                         <MenuList>
@@ -85,7 +91,11 @@ const Dashboard = () => {
                         </MenuList>
                     </Menu>
                     <Menu>
-                        <MenuButton colorScheme='gray' as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton
+                            colorScheme="gray"
+                            as={Button}
+                            rightIcon={<ChevronDownIcon />}
+                        >
                             Statistics
                         </MenuButton>
                         <MenuList>
@@ -105,12 +115,11 @@ const Dashboard = () => {
                     <Box
                         sx={{
                             padding: '1em',
-                            width:"100vw",
-                            height:"85vh",
+                            width: '100vw',
+                            height: '85vh',
                         }}
                     >
-
-                        <HStack sx={{ overflowX: 'scroll', height: "100%"}}>
+                        <HStack sx={{ overflowX: 'scroll', height: '100%' }}>
                             {bucketList.map((bucket, idx) => {
                                 return (
                                     <BucketDisplay

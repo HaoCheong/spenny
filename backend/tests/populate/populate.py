@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 '''populate.py
 
 Generates the sample database as per the example in docs
@@ -9,7 +11,7 @@ import requests
 from datetime import datetime, timedelta
 import random
 
-BACKEND_URL = "http://127.0.0.1:9991"
+BACKEND_URL = "http://127.0.0.1:8000"
 
 def get_random_date():
 	day_shift = random.randint(1, 7)
