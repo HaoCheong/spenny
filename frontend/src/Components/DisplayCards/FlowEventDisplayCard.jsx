@@ -4,11 +4,13 @@ import {
     CardFooter,
     Heading,
     HStack,
+    VStack,
     Text,
 } from '@chakra-ui/react'
 import React from 'react'
 
 import ViewFlowEventModal from '../FlowEventModals/ViewFlowEventModal'
+import EditFlowEventModal from '../FlowEventModals/EditFlowEventModal'
 
 const FlowEventDisplayCard = ({ fe }) => {
     const options = {
@@ -59,10 +61,14 @@ const FlowEventDisplayCard = ({ fe }) => {
                         </Text>
                     </CardBody>
                     <Text fontSize="xl">
-                        {fe.change_amount}
+                        ${fe.change_amount}
                     </Text>
                     <CardFooter width="20%">
-                        <ViewFlowEventModal fe={fe} />
+                       <VStack>
+                            <ViewFlowEventModal fe={fe} />
+                            <EditFlowEventModal fe={fe} />
+                        </VStack> 
+                        
                     </CardFooter>
                 </HStack>
             </Card>
