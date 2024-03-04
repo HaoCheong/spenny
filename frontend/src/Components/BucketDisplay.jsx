@@ -26,6 +26,7 @@ import { BACKEND_URL } from '../config.js'
 import FlowEventDisplayCard from './DisplayCards/FlowEventDisplayCard.jsx'
 import SpendChart from './SpendChart.jsx'
 import ViewBucketModal from './BucketModals/ViewBucketModal.jsx'
+import EditBucketModal from './BucketModals/EditBucketModal.jsx'
 import BucketStats from './BucketStats.jsx'
 
 const BucketDisplay = ({ bucket_id }) => {
@@ -35,11 +36,14 @@ const BucketDisplay = ({ bucket_id }) => {
         },
         from_events: [],
         to_events: [],
+        name: "",
+        description: "",
+        currentAmount: 0,
+        id: 0
     })
 
     const getBucketData = async () => {
         const res = await axios.get(`${BACKEND_URL}/bucket/${bucket_id}`)
-        console.log(res.data)
         setBucket(res.data)
     }
 
@@ -97,6 +101,7 @@ const BucketDisplay = ({ bucket_id }) => {
             <CardFooter>
                 <ButtonGroup spacing="2">
                     <ViewBucketModal bucket={bucket} />
+                    <EditBucketModal bucket={bucket} />
                 </ButtonGroup>
             </CardFooter>
         </Card>
