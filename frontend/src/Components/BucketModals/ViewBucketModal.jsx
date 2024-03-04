@@ -15,7 +15,6 @@ import React from 'react'
 
 const ViewBucketModal = ({ bucket }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    // console.log('BUCKET', bucket)
     return (
         <>
             <Button
