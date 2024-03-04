@@ -62,16 +62,24 @@ const CreateFlowEventModal = () => {
             description: yup
                 .string('Enter Bucket Description')
                 .required('Bucket Description Required'),
-            change_amount: yup.number('Enter a valid starting amount'),
+            change_amount: yup
+                .number('Enter a valid starting amount')
+                .min(0.01)
+                .required("Please enter a valid change amount, minimum of 0.01"),
             type: yup
                 .string('Enter flow event type')
-                .matches('^(ADD|SUB|MOV)$', 'Has to either ADD, SUB, MOV'),
+                .matches('^(ADD|SUB|MOV)$', 'Has to either ADD, SUB, MOV')
+                .required("Please select a type"),
             frequency: yup
                 .string('Enter your frequency of trigger')
                 .matches(
                     '^[0-9]+(n|h|d|w|m|y){1}$',
                     'It does not match expected format. (I.E 1n = 1 Minute, 3h = 3 Hours)'
-                ),
+                )
+                .required("Please select a valid frequency: d = days, w = weeks"),
+            next_trigger: yup
+                .string('Enter a valid next trigger')
+                .required("Please enter a valid next trigger"),
         }),
         onSubmit: async (values) => {
             const newFlowEvent = {
@@ -84,6 +92,7 @@ const CreateFlowEventModal = () => {
                 from_bucket_id: values.from_bucket_id,
                 to_bucket_id: values.to_bucket_id,
             }
+            console.log("newFlowEvent", newFlowEvent)
             try {
                 await axios.post(`${BACKEND_URL}/flowEvent`, newFlowEvent)
                 setAlertInfo({
@@ -175,7 +184,7 @@ const CreateFlowEventModal = () => {
                                 </FormValidator>
                                 <FormValidator
                                     formik={formik}
-                                    propName="Frequency"
+                                    propName="frequency"
                                 >
                                     <Input
                                         id="frequency"
