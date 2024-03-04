@@ -54,7 +54,9 @@ const CreateBucketModal = () => {
             description: yup
                 .string('Enter Bucket Description')
                 .required('Bucket Description Required'),
-            curr_amount: yup.number('Enter a valid starting amount'),
+            curr_amount: yup
+                .number('Enter a valid starting amount')
+                .required("Please enter a valid starting amount, 0 at the minimum"),
         }),
         onSubmit: async (values) => {
             const newBucket = {
