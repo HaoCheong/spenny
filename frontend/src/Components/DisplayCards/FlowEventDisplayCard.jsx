@@ -11,6 +11,7 @@ import React from 'react'
 
 import ViewFlowEventModal from '../FlowEventModals/ViewFlowEventModal'
 import EditFlowEventModal from '../FlowEventModals/EditFlowEventModal'
+import BringForwardModal from '../FlowEventModals/BringForwardModal'
 
 const FlowEventDisplayCard = ({ fe }) => {
     const options = {
@@ -67,6 +68,7 @@ const FlowEventDisplayCard = ({ fe }) => {
                        <VStack>
                             <ViewFlowEventModal fe={fe} />
                             <EditFlowEventModal fe={fe} />
+                            <BringForwardModal fe={fe} />
                         </VStack> 
                         
                     </CardFooter>

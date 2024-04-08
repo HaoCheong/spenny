@@ -15,51 +15,11 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 
+import { freqToText, amountToText, dateToText } from './helper.jsx'
+
 const ViewFlowEventModal = ({ fe }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-
-    //Change the frequency to english text
-    const freqToText = () => {
-        const interval = fe.frequency.slice(-1)
-        const time = fe.frequency.slice(0, -1)
-        // console.log(time, interval)
-        switch (interval) {
-            case 'n':
-                return `${time} Minute(s)`
-            case 'h':
-                return `${time} Hour(s)`
-            case 'd':
-                return `${time} Days(s)`
-            case 'w':
-                return `${time} Week(s)`
-            case 'm':
-                return `${time} Month(s)`
-            case 'y':
-                return `${time} Year(s)`
-            default:
-                break
-        }
-    }
-
-    const amountToText = () => {
-        switch (fe.type) {
-            case 'ADD':
-                return `+${fe.change_amount}`
-            case 'SUB':
-                return `-${fe.change_amount}`
-            case 'MOV':
-                return `Moving ${fe.change_amount}`
-            default:
-                break
-        }
-    }
-
-    //Given type and amount generate english text
-
-    //Convert Date to Readable standard
-    const dateToText = () => {}
-
-    // console.log('FE', fe)
+    
     return (
         <>
             <IconButton icon={<ViewIcon />} onClick={onOpen} />
@@ -70,10 +30,10 @@ const ViewFlowEventModal = ({ fe }) => {
                     <ModalCloseButton />
                     <ModalBody>
                         <UnorderedList>
-                            <ListItem>Description: {fe.description}</ListItem>
-                            <ListItem>Frequency: {freqToText()}</ListItem>
-                            <ListItem>Change Amount: {amountToText()}</ListItem>
-                            <ListItem>Next date: {fe.next_trigger}</ListItem>
+                            <ListItem><b>Description</b>: {fe.description}</ListItem>
+                            <ListItem><b>Frequency</b>: {freqToText({fe})}</ListItem>
+                            <ListItem><b>Change Amount</b>: {amountToText({fe})}</ListItem>
+                            <ListItem><b>Next date</b>: {fe.next_trigger}</ListItem>
                         </UnorderedList>
                     </ModalBody>
                     <ModalFooter>
