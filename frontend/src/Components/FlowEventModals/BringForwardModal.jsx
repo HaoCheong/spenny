@@ -29,6 +29,7 @@ import FormValidator from '../FormValidator'
 import { BACKEND_URL } from '../../config.js'
 import axios from 'axios'
 import { freqToText, amountToText, dateToText } from './helper.jsx'
+import ResponseAlert from '../ResponseAlert.jsx'
 
 /**
  * Notes:
@@ -40,13 +41,37 @@ import { freqToText, amountToText, dateToText } from './helper.jsx'
 
 const BringForwardModal = ({fe}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const [alertInfo, setAlertInfo] = React.useState({
+        isOpen: false,
+        type: '',
+        message: '',
+    })
+
     
     const formik = useFormik({
         initialValues: {
             money_include: false,
         },
         onSubmit: async (values) => {
-            console.log(values)
+            const newBringForward = {
+                money_include: values.money_include,
+                flow_event_id: fe.id,
+            }
+            try {
+                await axios.put(`${BACKEND_URL}/bringForward`, newBringForward)
+                setAlertInfo({
+                    isOpen: true,
+                    type: 'success',
+                    message: 'Successfully brought forward event',
+                })
+            } catch (err) {
+                setAlertInfo({
+                    isOpen: true,
+                    type: 'error',
+                    message: err.response.data.detail,
+                })
+            }
         },
     })
 
@@ -104,7 +129,7 @@ const BringForwardModal = ({fe}) => {
                                     Checking this means you will transfer the money as specified as well as move the date. Runs as if you are triggering the flow event pre-emptively
                                 </Alert> : <></>}
                                 
-
+                                <ResponseAlert alertInfo={alertInfo} />
                                        
                             </VStack>
                         </ModalBody>
