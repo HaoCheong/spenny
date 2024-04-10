@@ -11,3 +11,8 @@ class TriggerBase(BaseModel):
     type: Literal["ADD", "SUB", "MOV"]
     from_bucket_id: Union[int, None]
     to_bucket_id: Union[int, None]
+
+class BringForwardBase(BaseModel):
+    money_include: bool
+    flow_event_id: int
+
