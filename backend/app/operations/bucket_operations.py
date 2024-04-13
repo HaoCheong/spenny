@@ -13,6 +13,7 @@ import app.schemas.flow_event_schemas as flow_event_schemas
 import app.schemas.bucket_schemas as bucket_schemas
 import app.schemas.log_schemas as log_schemas
 
+# TODO These needs to be better atomised instead of these odd monolithic functions
 
 def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, old_date: datetime):
     '''
