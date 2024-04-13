@@ -58,6 +58,7 @@ const Dashboard = () => {
     }
 
     React.useEffect(() => {
+        handleUpdate()
         getAllBucket()
     }, [])
 
