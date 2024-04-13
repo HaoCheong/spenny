@@ -14,8 +14,14 @@ import {
     Textarea,
     useDisclosure,
     VStack,
-    MenuItem,
-    IconButton
+    IconButton,
+    Divider,
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+    Box,
+    HStack
 } from '@chakra-ui/react'
 import { EditIcon } from '@chakra-ui/icons'
 import { useFormik } from 'formik'
@@ -45,7 +51,24 @@ const EditFlowEventModal = ({fe}) => {
         getAllBuckets()
     }, [])
 
-    
+    const handleDelete = async () => {
+        console.log("TESTS")
+        try {
+            await axios.delete(`${BACKEND_URL}/flowEvent/${fe.id}`)
+            setAlertInfo({
+                isOpen: true,
+                type: 'success',
+                message: 'Flow Event Successfully Deleted',
+            })
+            onClose()
+        } catch (err) {
+            setAlertInfo({
+                isOpen: true,
+                type: 'error',
+                message: err.response.data.detail,
+            })
+        }
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -282,6 +305,21 @@ const EditFlowEventModal = ({fe}) => {
                                         </Select>
                                     </FormValidator>
                                 )}
+                                <Divider />
+                                <Alert status='error'>
+                                    <AlertIcon />
+                                    <HStack>
+                                        <Box>
+                                            <AlertTitle>Delete Flow Event</AlertTitle>
+                                            <AlertDescription>
+                                            You can delete the flow event. This action is irreversible.
+                                            </AlertDescription>
+                                        </Box>
+                                        <Button colorScheme="red" variant="outline" onClick={handleDelete}>
+                                            Delete
+                                        </Button>
+                                    </HStack>
+                                </Alert>
                                 <ResponseAlert alertInfo={alertInfo} />
                             </VStack>
                         </ModalBody>
