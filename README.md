@@ -1,6 +1,6 @@
 # Spenny v1.1.0
 
-***
+
 ## Changelog
 
 Date: Mon 15 Apr 2024
@@ -14,7 +14,7 @@ Date: Mon 15 Apr 2024
 	- Allows user to update trigger date by how ever long they have set the frequency of the update
 	- Update trigger can also include the relevant money flow event. Allow users to pre-maturely trigger an event while maintaining frequency consistency.
 
-***
+
 ## Overview
 
 Spenny is a basic web application built to better track and monitor ones spending by being able to automate as well as organize your money into discrete buckets.
@@ -22,7 +22,7 @@ Spenny is a basic web application built to better track and monitor ones spendin
 Conceptually, money is organized into buckets and flow events can be created to automatically transfer, add, and remove money from buckets, mimicking the action of recurring payments. Buckets are representative of how one will allocate money and flow events is the process of that allocation.
 
 Idea is by having a better eye on ones view of the allocation of money, the better one can budget their money to ensure none is wasted.
-***
+
 ## Installation
 
 There are application can be ran as either local docker containers if you want to host the container on a separate server or completely locally. Scripts have also been created to help the process
@@ -48,7 +48,6 @@ cd frontend
 npm install
 ```
 
-***
 ## Startup
 
 ### Docker
@@ -78,7 +77,6 @@ To start the FastAPI backend, run the following command from the `frontend` fold
 npm start
 ```
 
-***
 ## Testing
 
 Several Testing system and types are provided:
