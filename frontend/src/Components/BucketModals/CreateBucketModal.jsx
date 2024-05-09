@@ -67,7 +67,6 @@ const CreateBucketModal = () => {
                     invisible: values.invisible,
                 },
             }
-            // console.log('newBucket', newBucket)
             try {
                 await axios.post(`${BACKEND_URL}/bucket`, newBucket)
                 setAlertInfo({
