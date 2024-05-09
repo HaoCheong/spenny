@@ -42,7 +42,6 @@ const DeleteFlowEventModal = () => {
     const getBucketFlowEvents = async (bucket_id) => {
         const res = await axios.get(`${BACKEND_URL}/bucket/${bucket_id}`)
         const allFlowEvents = res.data.from_events.concat(res.data.to_events)
-        console.log('ALL FE', allFlowEvents)
         setFlowEventList(allFlowEvents)
     }
 
@@ -58,7 +57,6 @@ const DeleteFlowEventModal = () => {
             flowEvent_remove: yup.number('Enter flowEvent to remove'),
         }),
         onSubmit: async (values) => {
-            // console.log('Values', values
             try {
                 await axios.delete(
                     `${BACKEND_URL}/flowEvent/${values.flowEvent_remove}`
