@@ -33,7 +33,7 @@ import { BACKEND_URL } from '../../config.js'
 import axios from 'axios'
 import ResponseAlert from '../ResponseAlert'
 
-const EditFlowEventModal = ({fe}) => {
+const EditFlowEventModal = ({ fe }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [alertInfo, setAlertInfo] = React.useState({
         isOpen: false,
@@ -52,7 +52,6 @@ const EditFlowEventModal = ({fe}) => {
     }, [])
 
     const handleDelete = async () => {
-        console.log("TESTS")
         try {
             await axios.delete(`${BACKEND_URL}/flowEvent/${fe.id}`)
             setAlertInfo({
@@ -115,7 +114,6 @@ const EditFlowEventModal = ({fe}) => {
                 from_bucket_id: values.from_bucket_id,
                 to_bucket_id: values.to_bucket_id,
             }
-            console.log("newFlowEvent", newFlowEvent)
             try {
                 await axios.patch(`${BACKEND_URL}/flowEvent/${fe.id}`, newFlowEvent)
                 setAlertInfo({
@@ -134,14 +132,14 @@ const EditFlowEventModal = ({fe}) => {
     })
 
     const handleOpen = () => {
-        formik.setFieldValue('name',fe.name)
-        formik.setFieldValue('description',fe.description)
-        formik.setFieldValue('change_amount',fe.change_amount)
-        formik.setFieldValue('type',fe.type)
-        formik.setFieldValue('frequency',fe.frequency)
-        formik.setFieldValue('next_trigger',fe.next_trigger)
-        formik.setFieldValue('from_bucket_id',fe.from_bucket_id)
-        formik.setFieldValue('to_bucket_id',fe.to_bucket_id)
+        formik.setFieldValue('name', fe.name)
+        formik.setFieldValue('description', fe.description)
+        formik.setFieldValue('change_amount', fe.change_amount)
+        formik.setFieldValue('type', fe.type)
+        formik.setFieldValue('frequency', fe.frequency)
+        formik.setFieldValue('next_trigger', fe.next_trigger)
+        formik.setFieldValue('from_bucket_id', fe.from_bucket_id)
+        formik.setFieldValue('to_bucket_id', fe.to_bucket_id)
         onOpen()
     }
 
@@ -257,7 +255,7 @@ const EditFlowEventModal = ({fe}) => {
                                                 )
                                             }}
                                             value={formik.values.from_bucket_id}
-                                            
+
                                         >
                                             {bucketList.map((bucket, idx) => {
                                                 return (
@@ -312,7 +310,7 @@ const EditFlowEventModal = ({fe}) => {
                                         <Box>
                                             <AlertTitle>Delete Flow Event</AlertTitle>
                                             <AlertDescription>
-                                            You can delete the flow event. This action is irreversible.
+                                                You can delete the flow event. This action is irreversible.
                                             </AlertDescription>
                                         </Box>
                                         <Button colorScheme="red" variant="outline" onClick={handleDelete}>
