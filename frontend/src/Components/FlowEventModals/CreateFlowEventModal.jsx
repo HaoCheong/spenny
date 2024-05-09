@@ -92,7 +92,6 @@ const CreateFlowEventModal = () => {
                 from_bucket_id: values.from_bucket_id,
                 to_bucket_id: values.to_bucket_id,
             }
-            console.log("newFlowEvent", newFlowEvent)
             try {
                 await axios.post(`${BACKEND_URL}/flowEvent`, newFlowEvent)
                 setAlertInfo({

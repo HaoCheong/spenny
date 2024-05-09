@@ -72,7 +72,7 @@ const EventTriggerModal = () => {
             // to_bucket_id: yup.number('Either enter a valid bucket id or empty'),
         }),
         onSubmit: async (values) => {
-            
+
             const newTrigger = {
                 name: values.name,
                 description: values.description,
@@ -81,7 +81,6 @@ const EventTriggerModal = () => {
                 from_bucket_id: values.from_bucket_id,
                 to_bucket_id: values.to_bucket_id,
             }
-            console.log('newTrigger', newTrigger)
             try {
                 await axios.put(`${BACKEND_URL}/soloTrigger`, newTrigger)
                 setAlertInfo({
@@ -101,7 +100,7 @@ const EventTriggerModal = () => {
 
     return (
         <>
-            <Button onClick={onOpen}  colorScheme='gray'>Single Event Trigger</Button>
+            <Button onClick={onOpen} colorScheme='gray'>Single Event Trigger</Button>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <form onSubmit={formik.handleSubmit}>
