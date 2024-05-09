@@ -23,15 +23,13 @@ const SpendChart = ({ bucket_id }) => {
     const getLogs = async () => {
         const cap_date = new Date(new Date().setHours(0, 0, 0, 0))
         cap_date.setDate(cap_date.getDate() - DATE_CAP)
-        const cap_date_str = `${cap_date.getDate()}-${
-            cap_date.getMonth() + 1
-        }-${cap_date.getFullYear()}`
+        const cap_date_str = `${cap_date.getDate()}-${cap_date.getMonth() + 1
+            }-${cap_date.getFullYear()}`
 
         const res = await axios.get(
             `${BACKEND_URL}/logs/${bucket_id}/${cap_date_str}`
         )
         setLogs(res.data)
-        // console.log('BRUH')
     }
 
     const getBucketData = async () => {
@@ -41,7 +39,6 @@ const SpendChart = ({ bucket_id }) => {
 
     const spendingMapper = async () => {
         const dateHash = {}
-        // console.log('LOGS', logs)
         logs.forEach((log) => {
             const curr_date = new Date(Date.parse(log.date_created))
             const date_key = `${curr_date.getDate()}-${curr_date.getMonth()}-${curr_date.getFullYear()}`
@@ -57,13 +54,11 @@ const SpendChart = ({ bucket_id }) => {
         Object.entries(dateHash).forEach(([key, value]) => {
             points.push({ name: key, amt: value })
         })
-        // console.log('POINTS', points)
         setDataPoints(points)
     }
 
     const changeInAmountMapper = async () => {
         const dateHash = {}
-        // console.log('LOGS', logs)
         logs.forEach((log) => {
             const curr_date = new Date(Date.parse(log.date_created))
             const date_key = `${curr_date.getDate()}-${curr_date.getMonth()}-${curr_date.getFullYear()}`

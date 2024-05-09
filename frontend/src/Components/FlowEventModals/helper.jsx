@@ -1,8 +1,7 @@
 //Change the frequency to english text
-export const freqToText = ({fe}) => {
+export const freqToText = ({ fe }) => {
     const interval = fe.frequency.slice(-1)
     const time = fe.frequency.slice(0, -1)
-    // console.log(time, interval)
     switch (interval) {
         case 'n':
             return `${time} Minute(s)`
@@ -22,7 +21,7 @@ export const freqToText = ({fe}) => {
 }
 
 // Converts the type and amount to a textual response
-export const amountToText = ({fe}) => {
+export const amountToText = ({ fe }) => {
     switch (fe.type) {
         case 'ADD':
             return `+${fe.change_amount}`
@@ -36,4 +35,4 @@ export const amountToText = ({fe}) => {
 }
 
 //Convert Date to Readable standard TODO
-export const dateToText = ({fe}) => {}
+export const dateToText = ({ fe }) => { }
