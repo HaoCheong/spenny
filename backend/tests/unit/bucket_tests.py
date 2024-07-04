@@ -1,5 +1,6 @@
-from unit.conftest import client, SUCCESS, ERROR
-from unit import wrappers
+from tests.unit.client_fixtures import client, SUCCESS, ERROR, reset_db
+from tests.unit.data_fixtures import buckets_data
+from tests.unit import wrappers
 
 def test_create_bucket(reset_db, buckets_data):
     ''' Testing the success case of creating an bucket '''
