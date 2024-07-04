@@ -1,5 +1,6 @@
-from unit.conftest import client, SUCCESS, ERROR
-from unit import wrappers
+from tests.unit.client_fixtures import client, SUCCESS, ERROR, reset_db
+from tests.unit.data_fixtures import flow_events_data
+from tests.unit import wrappers
 
 def test_create_flow_event(reset_db, flow_events_data):
     ''' Testing the success case of creating an flow_event '''
