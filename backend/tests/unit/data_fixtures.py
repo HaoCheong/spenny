@@ -1,63 +1,67 @@
 import pytest
 from datetime import datetime, timedelta
+from tests.unit.client_fixtures import reset_db
+
 
 def get_days_since_today(days):
     today = str(datetime.now()).split(" ")[0]
     today_midnight = datetime.strptime(today, "%Y-%m-%d")
     return today_midnight + timedelta(days=days)
 
+
 @pytest.fixture
 def buckets_data():
     return [
-            {
-                "name": "Total",
-                "description": "Total amount in account",
-                "current_amount": 10000.0,
-                "properties": {
+        {
+            "name": "Total",
+            "description": "Total amount in account",
+            "current_amount": 10000.0,
+            "properties": {
                     "invisible": False
-                }
-            },
-            {
-                "name": "Savings",
-                "description": "General Savings",
-                "current_amount": 5000.0,
-                "properties": {
-                    "invisible": False
-                }
-            },
-            {
-                "name": "Household",
-                "description": "Fund for household requirements",
-                "current_amount": 1000.0,
-                "properties": {
-                    "invisible": False
-                }
-            },
-            {
-                "name": "Lifestyle",
-                "description": "For the week by week spending",
-                "current_amount": 1000.0,
-                "properties": {
-                    "invisible": False
-                }
-            },
-            {
-                "name": "Food",
-                "description": "Food spending",
-                "current_amount": 500.0,
-                "properties": {
-                    "invisible": False
-                }
-            },
-            {
-                "name": "Fun",
-                "description": "Fun spending",
-                "current_amount": 200.0,
-                "properties": {
-                    "invisible": False
-                }
             }
-        ]
+        },
+        {
+            "name": "Savings",
+            "description": "General Savings",
+            "current_amount": 5000.0,
+            "properties": {
+                    "invisible": False
+            }
+        },
+        {
+            "name": "Household",
+            "description": "Fund for household requirements",
+            "current_amount": 1000.0,
+            "properties": {
+                    "invisible": False
+            }
+        },
+        {
+            "name": "Lifestyle",
+            "description": "For the week by week spending",
+            "current_amount": 1000.0,
+            "properties": {
+                    "invisible": False
+            }
+        },
+        {
+            "name": "Food",
+            "description": "Food spending",
+            "current_amount": 500.0,
+            "properties": {
+                    "invisible": False
+            }
+        },
+        {
+            "name": "Fun",
+            "description": "Fun spending",
+            "current_amount": 200.0,
+            "properties": {
+                    "invisible": False
+            }
+        }
+    ]
+
 
 @pytest.fixture
 def flow_events_data():
@@ -155,6 +159,7 @@ def flow_events_data():
         }
     ]
 
+
 @pytest.fixture
 def logs_data():
     return [
@@ -216,9 +221,12 @@ def logs_data():
         }
     ]
 
+
 @pytest.fixture
-def fake_populate(reset_db, flow_events_data, buckets_data, logs_data):
-    '''Populate a test database to the sample structure'''
+def populate_database(reset_db, flow_events_data, buckets_data, logs_data):
+    '''
+    Populate a test database to the sample structure
+    '''
 
     from unit import wrappers
 
