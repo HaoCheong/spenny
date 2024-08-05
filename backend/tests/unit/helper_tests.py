@@ -1,8 +1,9 @@
-import pytest
 from datetime import datetime
 import app.helpers as h
 import app.operations.operation_helpers as oh
-from tests.unit.data_fixtures import populate_database
+
+from tests.unit.data_fixtures import *
+from tests.unit.client_fixtures import *
 
 
 def test_add_time():
@@ -45,7 +46,7 @@ def test_add_time():
     assert res is None, f'Altered time with invalid frequency increment format'
 
 
-def test_change_bucket_value(populate_database):
+def test_change_bucket_value():
     pass
 
 
