@@ -33,6 +33,7 @@ def log_operation(log_details: Dict, log_time: datetime, db: Session) -> LogRead
     '''
     Wraps the creation and the logging
     '''
+
     new_log = LogCreate(
         name=log_details["name"],
         description=log_details["description"],
