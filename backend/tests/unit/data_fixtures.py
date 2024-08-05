@@ -1,6 +1,5 @@
 import pytest
 from datetime import datetime, timedelta
-from tests.unit.client_fixtures import reset_db
 
 
 def get_days_since_today(days):
