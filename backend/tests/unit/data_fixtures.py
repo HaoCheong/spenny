@@ -1,5 +1,6 @@
 import pytest
 from datetime import datetime, timedelta
+from tests.unit.client_fixtures import reset_db
 
 
 def get_days_since_today(days):
@@ -227,7 +228,7 @@ def populate_database(reset_db, flow_events_data, buckets_data, logs_data):
     Populate a test database to the sample structure
     '''
 
-    from unit import wrappers
+    from tests.unit import wrappers
 
     for bucket in buckets_data:
         wrappers.create_bucket(bucket)

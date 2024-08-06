@@ -1,5 +1,5 @@
 from tests.unit.data_fixtures import *
-from tests.unit.client_fixtures import *
+
 from tests.unit import wrappers
 
 # ========== Bucket Operations Tests ==========
@@ -27,4 +27,12 @@ def test_bring_forward():
 
 
 def test_change_bucket_value():
+    pass
+
+# ========== OTHER ==========
+
+
+def test_other(populate_database):
+    db_buckets = wrappers.get_all_buckets()
+    print("DB_BUCKET", db_buckets)
     pass
