@@ -15,17 +15,19 @@ import app.schemas.log_schemas as log_schemas
 
 # TODO These needs to be better atomised instead of these odd monolithic functions
 
+
 def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, old_date: datetime):
     '''
     Updates the bucket values based on the Flow Event
-    '''    
+    '''
+
     # Grab the two potential buckets
     from_bucket = None
     to_bucket = None
 
     # Apply FE operation on the FROM Bucket
     if (fe.from_bucket_id is not None):
-        
+
         from_bucket = jsonable_encoder(
             bucket_cruds.get_bucket_by_id(
                 db=db,
@@ -36,15 +38,15 @@ def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, ol
         # Update bucket value
         if (fe.type == "SUB" or fe.type == "MOV"):
 
-            
-            new_value = round(from_bucket["current_amount"] - fe.change_amount,2)
+            new_value = round(
+                from_bucket["current_amount"] - fe.change_amount, 2)
             new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
             bucket_cruds.update_bucket_by_id(
                 db=db,
                 id=fe.from_bucket_id,
                 new_bucket=new_bucket
             )
-            
+
             # Create Log
             new_log = log_schemas.LogCreate(
                 name=fe.name,
@@ -60,19 +62,21 @@ def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, ol
     # Apply the FE operation to the TO bucket
     if (fe.to_bucket_id is not None):
 
-        to_bucket = jsonable_encoder(bucket_cruds.get_bucket_by_id(db=db, id=fe.to_bucket_id))
+        to_bucket = jsonable_encoder(
+            bucket_cruds.get_bucket_by_id(db=db, id=fe.to_bucket_id))
 
         # update bucket value
         if (fe.type == "ADD" or fe.type == "MOV"):
-            new_value = round(to_bucket["current_amount"] + fe.change_amount,2)
+            new_value = round(
+                to_bucket["current_amount"] + fe.change_amount, 2)
             new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
-            
+
             bucket_cruds.update_bucket_by_id(
                 db=db,
                 id=fe.to_bucket_id,
                 new_bucket=new_bucket
             )
-            
+
             # create log
             new_log = log_schemas.LogCreate(
                 name=fe.name,
@@ -88,9 +92,11 @@ def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, ol
             )
 
 # Iterate through all flow events and update their value
+
+
 def update_all_buckets(db: Session):
     ''' Update all the buckets based on the flow event '''
- 
+
     # Get all Flow Events
     flowEvents = flow_event_cruds.get_all_flowEvents(db=db)
 
@@ -111,7 +117,8 @@ def update_all_buckets(db: Session):
             res = flow_event_cruds.update_flowEvent_by_id(
                 db=db,
                 id=curr_fe.id,
-                new_flowEvent=flow_event_schemas.FlowEventUpdate(next_trigger=new_date)
+                new_flowEvent=flow_event_schemas.FlowEventUpdate(
+                    next_trigger=new_date)
             )
 
             # Update the related buckets value
