@@ -26,7 +26,7 @@ const ViewRecent = () => {
     const [bucketList, setBucketList] = React.useState([])
     const [logList, setLogList] = React.useState([])
     const getAllBuckets = async () => {
-        const res = await axios.get(`${BACKEND_URL}/buckets`)
+        const res = await axios.get(`${BACKEND_URL}/api/v1/buckets`)
         setBucketList(res.data)
     }
     const getLogs = async (bucket_id) => {
@@ -36,7 +36,7 @@ const ViewRecent = () => {
         }-${cap_date.getFullYear()}`
 
         const res = await axios.get(
-            `${BACKEND_URL}/logs/${bucket_id}/${cap_date_str}`
+            `${BACKEND_URL}/api/v1/logs/${bucket_id}/${cap_date_str}`
         )
         setLogList(res.data.reverse())
     }

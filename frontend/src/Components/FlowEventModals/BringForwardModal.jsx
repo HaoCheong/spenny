@@ -59,7 +59,7 @@ const BringForwardModal = ({fe}) => {
                 flow_event_id: fe.id,
             }
             try {
-                await axios.put(`${BACKEND_URL}/bringForward`, newBringForward)
+                await axios.put(`${BACKEND_URL}/api/v1/bringForward`, newBringForward)
                 setAlertInfo({
                     isOpen: true,
                     type: 'success',

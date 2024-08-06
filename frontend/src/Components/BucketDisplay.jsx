@@ -43,7 +43,7 @@ const BucketDisplay = ({ bucket_id }) => {
     })
 
     const getBucketData = async () => {
-        const res = await axios.get(`${BACKEND_URL}/bucket/${bucket_id}`)
+        const res = await axios.get(`${BACKEND_URL}/api/v1/bucket/${bucket_id}`)
         setBucket(res.data)
     }
 

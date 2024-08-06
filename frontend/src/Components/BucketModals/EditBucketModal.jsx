@@ -71,7 +71,7 @@ const EditBucketModal = ({bucket}) => {
                 },
             }
             try {
-                await axios.patch(`${BACKEND_URL}/bucket/${bucket.id}`, editBucket)
+                await axios.patch(`${BACKEND_URL}/api/v1/bucket/${bucket.id}`, editBucket)
                 setAlertInfo({
                     isOpen: true,
                     type: 'success',
