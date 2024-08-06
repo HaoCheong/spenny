@@ -38,7 +38,7 @@ const EventTriggerModal = () => {
     const [bucketList, setBucketList] = React.useState([])
 
     const getAllBuckets = async () => {
-        const res = await axios.get(`${BACKEND_URL}/buckets`)
+        const res = await axios.get(`${BACKEND_URL}/api/v1/buckets`)
         setBucketList(res.data)
     }
 
@@ -82,7 +82,7 @@ const EventTriggerModal = () => {
                 to_bucket_id: values.to_bucket_id,
             }
             try {
-                await axios.put(`${BACKEND_URL}/soloTrigger`, newTrigger)
+                await axios.put(`${BACKEND_URL}/api/v1/soloTrigger`, newTrigger)
                 setAlertInfo({
                     isOpen: true,
                     type: 'success',
