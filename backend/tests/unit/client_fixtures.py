@@ -28,7 +28,7 @@ TestingSessionLocal = sessionmaker(
 Base.metadata.create_all(bind=engine)
 
 
-def override_get_db():
+def get_test_db():
     '''
     Overiddes the database with a testing database
     '''
@@ -40,7 +40,7 @@ def override_get_db():
 
 
 # Overiddes a dependency function with another function
-app.dependency_overrides[get_db] = override_get_db
+app.dependency_overrides[get_db] = get_test_db
 
 client = TestClient(app)
 
