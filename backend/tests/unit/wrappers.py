@@ -116,6 +116,7 @@ def update_log_by_log_id(log_id, log_dict):
 
 # ======== OPERATION WRAPPERS ========
 
+
 @unpack
 def update_all_buckets():
-    return client.put('/updateValues')
+    return client.put('/api/v1/updateValues')

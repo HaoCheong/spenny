@@ -82,7 +82,7 @@ const EventTriggerModal = () => {
                 to_bucket_id: values.to_bucket_id,
             }
             try {
-                await axios.put(`${BACKEND_URL}/api/v1/soloTrigger`, newTrigger)
+                await axios.put(`${BACKEND_URL}/api/v1/manualTrigger`, newTrigger)
                 setAlertInfo({
                     isOpen: true,
                     type: 'success',
