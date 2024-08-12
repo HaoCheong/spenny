@@ -46,9 +46,9 @@ def test_change_bucket_value(populate_database):
 # ========== OTHER ==========
 
 
-def test_other(populate_database):
+def test_other(populate_database, get_test_db):
 
-    test_db = get_test_db()
+    test_db = get_test_db
     db_buckets = wrappers.get_all_buckets()
 
     print("DB_BUCKET", db_buckets)
