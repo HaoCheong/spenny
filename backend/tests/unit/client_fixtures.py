@@ -28,6 +28,18 @@ TestingSessionLocal = sessionmaker(
 Base.metadata.create_all(bind=engine)
 
 
+def override_get_db():
+    '''
+    Overiddes the database with a testing database
+    '''
+    try:
+        db = TestingSessionLocal()
+        yield db
+    finally:
+        db.close()
+
+
+@pytest.fixture
 def get_test_db():
     '''
     Overiddes the database with a testing database
@@ -40,7 +52,7 @@ def get_test_db():
 
 
 # Overiddes a dependency function with another function
-app.dependency_overrides[get_db] = get_test_db
+app.dependency_overrides[get_db] = override_get_db
 
 client = TestClient(app)
 
