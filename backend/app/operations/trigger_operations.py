@@ -129,7 +129,7 @@ def manual_trigger(trigger: trigger_schemas.TriggerBase, db: Session) -> Dict:
     db_to_bucket = jsonable_encoder(
         bucket_cruds.get_bucket_by_id(db=db, id=trigger["to_bucket_id"]))
 
-    if trigger.type == "ADD":
+    if trigger["type"] == "ADD":
 
         # Adds values from the TO BUCKET
         change_bucket_value(db_to_bucket, 'ADD', trigger["change_amount"], db)
@@ -140,11 +140,11 @@ def manual_trigger(trigger: trigger_schemas.TriggerBase, db: Session) -> Dict:
             type=trigger["type"],
             amount=(trigger["change_amount"]) * -1,
             date_created=datetime.now(),
-            bucket_id=trigger["from_bucket_id"]
+            bucket_id=trigger["to_bucket_id"]
         )
         log_cruds.create_log(db=db, log=new_log)
 
-    elif trigger.type == "SUB":
+    elif trigger["type"] == "SUB":
 
         # Subtracts values from the FROM BUCKET
         change_bucket_value(db_from_bucket, 'SUB',
@@ -160,7 +160,7 @@ def manual_trigger(trigger: trigger_schemas.TriggerBase, db: Session) -> Dict:
         )
         log_cruds.create_log(db=db, log=new_log)
 
-    elif trigger.type == "MOV":
+    elif trigger["type"] == "MOV":
 
         # Subtracts from FROM BUCKET
         change_bucket_value(db_from_bucket, 'SUB',
@@ -208,6 +208,6 @@ def bring_forward(details: trigger_schemas.BringForwardBase, db: Session) -> Dic
             "to_bucket_id": db_flow_event.to_bucket_id
         }
 
-        solo_trigger(trigger_details, db)
+        manual_trigger(trigger_details, db)
 
     return {"Success": True}
