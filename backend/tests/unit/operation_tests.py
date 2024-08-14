@@ -19,7 +19,30 @@ def test_update_bucket_values(populate_database):
     pass
 
 
-def test_update_all_buckets(populate_database):
+def test_update_all_buckets(populate_database, get_test_db):
+
+    # Get and prepare mocked data
+    test_db = get_test_db
+    test_datetime = datetime(2024, 6, 23, 0, 0, 0, 0)
+
+    # test_all_buckets = wrappers.get_all_buckets()['data']
+    # for tb in test_all_buckets:
+    #     print("PRE - ", tb)
+
+    test_flow_events = wrappers.get_all_flow_events()['data']
+    for tb in test_flow_events:
+        print("PRE - ", tb)
+
+    bko.update_all_buckets(test_db, test_datetime)
+
+    # test_all_buckets = wrappers.get_all_buckets()['data']
+    # for tb in test_all_buckets:
+    #     print("POST - ", tb)
+
+    test_flow_events = wrappers.get_all_flow_events()['data']
+    for tb in test_flow_events:
+        print("POST - ", tb)
+
     pass
 
 

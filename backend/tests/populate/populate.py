@@ -7,6 +7,7 @@ Acts as basic smoke testing for the APIs
 
 '''
 
+from typing import Optional
 import requests
 from datetime import datetime, timedelta
 import random
@@ -14,11 +15,21 @@ import random
 BACKEND_URL = "http://127.0.0.1:8000"
 
 
-def get_random_date():
+def get_test_date() -> str:
     day_shift = random.randint(1, 7)
     today_date = datetime.now()
     new_date = today_date + timedelta(days=day_shift)
 
+    return str(new_date)
+
+
+def get_test_date(date: Optional[datetime]):
+    if date is not None:
+        return str(date)
+
+    day_shift = random.randint(1, 7)
+    today_date = datetime.now()
+    new_date = today_date + timedelta(days=day_shift)
     return str(new_date)
 
 
@@ -75,7 +86,7 @@ ALL_FLOWS = [
                 "frequency": "5d",
                 "from_bucket_id": None,
                 "to_bucket_id": 1,
-                "next_trigger": get_random_date()
+                "next_trigger": get_test_date()
     },
     {
         "name": "Savings",
@@ -85,7 +96,7 @@ ALL_FLOWS = [
                 "frequency": "3d",
                 "from_bucket_id": 1,
                 "to_bucket_id": 2,
-                "next_trigger": get_random_date()
+                "next_trigger": get_test_date()
     },
     {
         "name": "Rent",
@@ -95,7 +106,7 @@ ALL_FLOWS = [
                 "frequency": "5d",
                 "from_bucket_id": 1,
                 "to_bucket_id": None,
-                "next_trigger": get_random_date()
+                "next_trigger": get_test_date()
     },
     {
         "name": "Gym",
@@ -105,7 +116,7 @@ ALL_FLOWS = [
                 "frequency": "2d",
                 "from_bucket_id": 1,
                 "to_bucket_id": None,
-                "next_trigger": get_random_date()
+                "next_trigger": get_test_date()
     },
     {
         "name": "Lifestyle",
@@ -115,7 +126,7 @@ ALL_FLOWS = [
                 "frequency": "4d",
                 "from_bucket_id": 1,
                 "to_bucket_id": 3,
-                "next_trigger": get_random_date()
+                "next_trigger": get_test_date()
     },
     {
         "name": "Food",
@@ -125,7 +136,7 @@ ALL_FLOWS = [
                 "frequency": "3d",
                 "from_bucket_id": 3,
                 "to_bucket_id": 4,
-                "next_trigger": get_random_date()
+                "next_trigger": get_test_date()
     },
     {
         "name": "Fun",
@@ -135,7 +146,7 @@ ALL_FLOWS = [
                 "frequency": "1d",
                 "from_bucket_id": 3,
                 "to_bucket_id": 5,
-                "next_trigger": get_random_date()
+                "next_trigger": get_test_date()
     },
 ]
 
@@ -145,7 +156,7 @@ ALL_LOGS = [
         "description": "My main salary",
         "type": "ADD",
         "amount": 5000,
-        "date_created": get_random_date(),
+        "date_created": get_test_date(),
         "bucket_id": 1
     },
     {
@@ -153,7 +164,7 @@ ALL_LOGS = [
         "description": "For exercise",
         "type": "SUB",
         "amount": 18,
-        "date_created": get_random_date(),
+        "date_created": get_test_date(),
         "bucket_id": 1
     },
     {
@@ -161,7 +172,7 @@ ALL_LOGS = [
         "description": "Moving Total to household spending",
         "type": "MOV",
         "amount": 600,
-        "date_created": get_random_date(),
+        "date_created": get_test_date(),
         "bucket_id": 1
     },
     {
@@ -169,7 +180,7 @@ ALL_LOGS = [
         "description": "Money to be saved on untouched",
         "type": "MOV",
         "amount": 2000,
-        "date_created": get_random_date(),
+        "date_created": get_test_date(),
         "bucket_id": 1
     },
     {
@@ -177,7 +188,7 @@ ALL_LOGS = [
         "description": "Friday woolies shopping",
         "type": "SUB",
         "amount": 65,
-        "date_created": get_random_date(),
+        "date_created": get_test_date(),
         "bucket_id": 5
     },
     {
@@ -185,7 +196,7 @@ ALL_LOGS = [
         "description": "Brekkie",
         "type": "SUB",
         "amount": 30,
-        "date_created": get_random_date(),
+        "date_created": get_test_date(),
         "bucket_id": 5
     },
     {
@@ -193,7 +204,7 @@ ALL_LOGS = [
         "description": "Let me be happy",
         "type": "SUB",
         "amount": 55,
-        "date_created": get_random_date(),
+        "date_created": get_test_date(),
         "bucket_id": 6
     }
 ]
