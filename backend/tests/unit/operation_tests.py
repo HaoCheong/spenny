@@ -91,6 +91,7 @@ def test_manual_trigger(populate_database, get_test_db):
 
 def test_bring_forward(populate_database, get_test_db):
 
+    # Get and prepare mock data
     test_db = get_test_db
     test_bucket_from = jsonable_encoder(
         wrappers.get_bucket_by_bucket_id(1))['data']
@@ -99,35 +100,36 @@ def test_bring_forward(populate_database, get_test_db):
     test_next_trigger = datetime.strptime(
         test_flow_event.get('next_trigger'), "%Y-%m-%dT%H:%M:%S")
 
+    # Test Valid Case exclusive of bringing money forward
     test_bring_forward = schemas.BringForwardBase(
         money_include=False,
         flow_event_id=test_flow_event.get("id")
     )
-    print("test_next_trigger 1", test_next_trigger)
+
     tro.bring_forward(test_bring_forward, test_db)
     test_bucket_from = jsonable_encoder(
         wrappers.get_bucket_by_bucket_id(1))['data']
     test_flow_event = jsonable_encoder(
         wrappers.get_flow_event_by_flow_event_id(1))['data']
+
     assert test_bucket_from.get("current_amount") == 10000.0
     assert datetime.strptime(
         test_flow_event.get('next_trigger'), "%Y-%m-%dT%H:%M:%S") == test_next_trigger + relativedelta(months=1)
 
+    # Test Valid Case inclusive of bringing money forward
+    test_next_trigger = datetime.strptime(
+        test_flow_event.get('next_trigger'), "%Y-%m-%dT%H:%M:%S")
     test_bring_forward = schemas.BringForwardBase(
         money_include=True,
         flow_event_id=test_flow_event.get("id")
     )
 
-    # Error: Its doubling the next trigger?
     tro.bring_forward(test_bring_forward, test_db)
     test_bucket_from = jsonable_encoder(
         wrappers.get_bucket_by_bucket_id(1))['data']
     test_flow_event = jsonable_encoder(
         wrappers.get_flow_event_by_flow_event_id(1))['data']
-    test_next_trigger = datetime.strptime(
-        test_flow_event.get('next_trigger'), "%Y-%m-%dT%H:%M:%S")
 
-    print("test_next_trigger 2", test_next_trigger)
     assert test_bucket_from.get("current_amount") == 15000.0
     assert datetime.strptime(
         test_flow_event.get('next_trigger'), "%Y-%m-%dT%H:%M:%S") == test_next_trigger + relativedelta(months=1)
@@ -145,7 +147,8 @@ def test_change_bucket_value(populate_database, get_test_db):
     assert test_bucket.get("current_amount") == 10000.0
 
     # Test that adding works
-    res = oph.change_bucket_value(test_bucket, 'ADD', test_amount, test_db)
+    oph.change_bucket_value(test_bucket, 'ADD', test_amount, test_db)
+    test_bucket = jsonable_encoder(wrappers.get_bucket_by_bucket_id(1))['data']
     assert test_bucket.get("current_amount") == 10100.0
 
     # Test that subtraction works
