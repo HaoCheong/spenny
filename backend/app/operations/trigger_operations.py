@@ -116,7 +116,7 @@ from app.operations.operation_helpers import change_bucket_value
 #         return {"Success": True}
 
 
-def manual_trigger(trigger: trigger_schemas.TriggerBase, db: Session, date_triggered: datetime = datetime.now(),) -> Dict:
+def manual_trigger(trigger: trigger_schemas.TriggerBase, db: Session, date_triggered: datetime = datetime.now()) -> Dict:
     '''
     Manual triggers an event for one or more buckets. Such as Add, Sub, Move 
     '''
