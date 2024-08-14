@@ -116,7 +116,7 @@ from app.operations.operation_helpers import change_bucket_value
 #         return {"Success": True}
 
 
-def manual_trigger(trigger: trigger_schemas.TriggerBase, db: Session) -> Dict:
+def manual_trigger(trigger: trigger_schemas.TriggerBase, db: Session, date_triggered: datetime = datetime.now(),) -> Dict:
     '''
     Manual triggers an event for one or more buckets. Such as Add, Sub, Move 
     '''
@@ -139,7 +139,7 @@ def manual_trigger(trigger: trigger_schemas.TriggerBase, db: Session) -> Dict:
             description=trigger["description"],
             type=trigger["type"],
             amount=(trigger["change_amount"]) * -1,
-            date_created=datetime.now(),
+            date_created=date_triggered,
             bucket_id=trigger["to_bucket_id"]
         )
         log_cruds.create_log(db=db, log=new_log)
@@ -155,7 +155,7 @@ def manual_trigger(trigger: trigger_schemas.TriggerBase, db: Session) -> Dict:
             description=trigger["description"],
             type=trigger["type"],
             amount=(trigger["change_amount"]) * -1,
-            date_created=datetime.now(),
+            date_created=date_triggered,
             bucket_id=trigger["from_bucket_id"]
         )
         log_cruds.create_log(db=db, log=new_log)
@@ -174,7 +174,7 @@ def manual_trigger(trigger: trigger_schemas.TriggerBase, db: Session) -> Dict:
             description=trigger["description"],
             type=trigger["type"],
             amount=(trigger["change_amount"]) * -1,
-            date_created=datetime.now(),
+            date_created=date_triggered,
             bucket_id=trigger["from_bucket_id"]
         )
         log_cruds.create_log(db=db, log=new_log)
