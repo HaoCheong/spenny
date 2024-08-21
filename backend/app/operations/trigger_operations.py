@@ -179,6 +179,20 @@ def manual_trigger(trigger: trigger_schemas.TriggerBase, db: Session, date_trigg
         )
         log_cruds.create_log(db=db, log=new_log)
 
+    elif trigger['type'] == "MULT":
+        change_bucket_value(db_to_bucket, 'MULT',
+                            trigger["change_amount"], db)
+
+        new_log = log_schemas.LogCreate(
+            name=trigger["name"],
+            description=trigger["description"],
+            type=trigger["type"],
+            amount=((trigger["change_amount"]) + 1) * db_to_bucket,
+            date_created=date_triggered,
+            bucket_id=trigger["from_bucket_id"]
+        )
+        log_cruds.create_log(db=db, log=new_log)
+
     return {"Success": True}
 
 
@@ -190,6 +204,7 @@ def bring_forward(details: trigger_schemas.BringForwardBase, db: Session) -> Dic
     # Updates the time
     new_date = add_time(db_flow_event.next_trigger,
                         db_flow_event.frequency)
+
     flow_event_cruds.update_flowEvent_by_id(
         db=db,
         id=db_flow_event.id,
@@ -200,8 +215,8 @@ def bring_forward(details: trigger_schemas.BringForwardBase, db: Session) -> Dic
     # Moves money if needed
     if (details.money_include):
         trigger_details = {
-            "name": f"Bring Forward - {db_flow_event.name}",
-            "description": f"Bring Forward - {db_flow_event.description}",
+            "name": db_flow_event.name,
+            "description": db_flow_event.description,
             "change_amount": db_flow_event.change_amount,
             "type": db_flow_event.type,
             "from_bucket_id": db_flow_event.from_bucket_id,

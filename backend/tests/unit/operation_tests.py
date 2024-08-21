@@ -15,10 +15,6 @@ import app.schemas.trigger_schemas as schemas
 # ========== Bucket Operations Tests ==========
 
 
-def test_update_bucket_values(populate_database):
-    pass
-
-
 def test_update_all_buckets(populate_database, get_test_db):
 
     # Get and prepare mocked data
@@ -30,8 +26,9 @@ def test_update_all_buckets(populate_database, get_test_db):
     #     print("PRE - ", tb)
 
     test_flow_events = wrappers.get_all_flow_events()['data']
-    for tb in test_flow_events:
-        print("PRE - ", tb)
+    for tfe in test_flow_events:
+        pre_time = datetime.strptime(tfe['next_trigger'], "%Y-%m-%dT%H:%M:%S")
+        assert pre_time < test_datetime
 
     bko.update_all_buckets(test_db, test_datetime)
 
@@ -40,10 +37,9 @@ def test_update_all_buckets(populate_database, get_test_db):
     #     print("POST - ", tb)
 
     test_flow_events = wrappers.get_all_flow_events()['data']
-    for tb in test_flow_events:
-        print("POST - ", tb)
-
-    pass
+    for tfe in test_flow_events:
+        post_time = datetime.strptime(tfe['next_trigger'], "%Y-%m-%dT%H:%M:%S")
+        assert post_time >= test_datetime
 
 
 # ========== Trigger Operations Tests ==========
@@ -188,6 +184,14 @@ def test_change_bucket_value(populate_database, get_test_db):
     oph.change_bucket_value(test_bucket, 'ADD', -1 * test_amount, test_db)
     test_bucket = jsonable_encoder(wrappers.get_bucket_by_bucket_id(1))['data']
     assert test_bucket.get("current_amount") == 9900.0
+
+    oph.change_bucket_value(test_bucket, 'MULT', 0.1, test_db)
+    test_bucket = jsonable_encoder(wrappers.get_bucket_by_bucket_id(1))['data']
+    assert test_bucket.get("current_amount") == 10890.0
+
+    oph.change_bucket_value(test_bucket, 'MULT', -0.1, test_db)
+    test_bucket = jsonable_encoder(wrappers.get_bucket_by_bucket_id(1))['data']
+    assert test_bucket.get("current_amount") == 9801.0
 
 # ========== OTHER ==========
 
