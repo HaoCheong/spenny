@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 from app.helpers import get_db
 from fastapi import Depends, FastAPI, HTTPException, APIRouter
