@@ -27,13 +27,13 @@ const SpendChart = ({ bucket_id }) => {
             }-${cap_date.getFullYear()}`
 
         const res = await axios.get(
-            `${BACKEND_URL}/logs/${bucket_id}/${cap_date_str}`
+            `${BACKEND_URL}/api/v1/logs/${bucket_id}/${cap_date_str}`
         )
         setLogs(res.data)
     }
 
     const getBucketData = async () => {
-        const res = await axios.get(`${BACKEND_URL}/bucket/${bucket_id}`)
+        const res = await axios.get(`${BACKEND_URL}/api/v1/bucket/${bucket_id}`)
         setBucket(res.data)
     }
 

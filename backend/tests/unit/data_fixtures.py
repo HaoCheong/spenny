@@ -1,8 +1,19 @@
 import pytest
 from datetime import datetime, timedelta
+from tests.unit.client_fixtures import reset_db
+from typing import Optional
 
 
-def get_days_since_today(days):
+def get_days_since_today(days) -> datetime:
+    today = str(datetime.now()).split(" ")[0]
+    today_midnight = datetime.strptime(today, "%Y-%m-%d")
+    return today_midnight + timedelta(days=days)
+
+
+def get_test_date(days: int, test_date: Optional[datetime] = None) -> datetime:
+    if test_date is not None:
+        return test_date
+
     today = str(datetime.now()).split(" ")[0]
     today_midnight = datetime.strptime(today, "%Y-%m-%d")
     return today_midnight + timedelta(days=days)
@@ -73,7 +84,7 @@ def flow_events_data():
             "frequency": "1m",
             "from_bucket_id": None,
             "to_bucket_id": 1,
-            "next_trigger": str(get_days_since_today(30))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Weekly Lifestyle Move",
@@ -83,7 +94,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 1,
             "to_bucket_id": 4,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Gym Spending",
@@ -93,7 +104,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 1,
             "to_bucket_id": None,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Household spending move",
@@ -103,7 +114,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 1,
             "to_bucket_id": 3,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Savings Move",
@@ -113,7 +124,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 1,
             "to_bucket_id": 2,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Weekly Rent Spending",
@@ -123,7 +134,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 3,
             "to_bucket_id": None,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Weekly Utiltity Spending",
@@ -133,7 +144,7 @@ def flow_events_data():
             "frequency": "1m",
             "from_bucket_id": 3,
             "to_bucket_id": None,
-            "next_trigger": str(get_days_since_today(30))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
 
         {
@@ -144,7 +155,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 4,
             "to_bucket_id": 5,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Weekly Fun Move",
@@ -154,7 +165,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 4,
             "to_bucket_id": 6,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         }
     ]
 
@@ -227,7 +238,7 @@ def populate_database(reset_db, flow_events_data, buckets_data, logs_data):
     Populate a test database to the sample structure
     '''
 
-    from unit import wrappers
+    from tests.unit import wrappers
 
     for bucket in buckets_data:
         wrappers.create_bucket(bucket)
