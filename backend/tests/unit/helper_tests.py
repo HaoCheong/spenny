@@ -44,11 +44,3 @@ def test_add_time():
 
     res = h.add_time(test_time, "5a")
     assert res is None, f'Altered time with invalid frequency increment format'
-
-
-def test_change_bucket_value():
-    pass
-
-
-def test_log_operation():
-    pass
