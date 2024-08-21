@@ -1,5 +1,6 @@
 from tests.unit.data_fixtures import *
-from tests.unit.client_fixtures import *
+from tests.unit.client_fixtures import SUCCESS, ERROR, client, reset_db
+
 import json
 
 
@@ -116,6 +117,7 @@ def update_log_by_log_id(log_id, log_dict):
 
 # ======== OPERATION WRAPPERS ========
 
+
 @unpack
 def update_all_buckets():
-    return client.put('/updateValues')
+    return client.put('/api/v1/updateValues')

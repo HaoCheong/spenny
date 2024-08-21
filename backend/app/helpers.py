@@ -29,12 +29,13 @@ def add_time(date: datetime, sum_date: str) -> datetime:
     - n: minutes
     - h: hours
     - d: days
+    - w: weeks
     - m: months
     - y: years
     '''
 
     # Check if sum_date format is correct
-    if (re.match(r"^[0-9]+[(n|h|d|m|y)]{1}$", sum_date) is None):
+    if (re.match(r"^[0-9]+[(n|h|d|m|w|y)]{1}$", sum_date) is None):
         print("Sum Date does not match expected format: <freq><incr>")
         return None
 
