@@ -1,12 +1,13 @@
 from sqlalchemy.orm import Session
 from datetime import datetime
 from app.helpers import add_time
+from app.operations.trigger_operations import bring_forward
 
 from fastapi.encoders import jsonable_encoder
 
 # Update a singular bucket value
 import app.cruds.flow_event_cruds as flow_event_cruds
-
+import app.schemas.trigger_schemas as trigger_schemas
 import app.operations.trigger_operations as tro
 
 
@@ -133,36 +134,29 @@ import app.operations.trigger_operations as tro
 def update_all_buckets(db: Session, datetime_bound: datetime = datetime.now()):
 
     # Get all Flow Events
-    flowEvents = flow_event_cruds.get_all_flowEvents(db=db)
+    all_flowEvents = flow_event_cruds.get_all_flowEvents(db=db)
 
-    for fe in flowEvents:
+    for fe in all_flowEvents:
+        # PFIX: Why the fuck is this necessary for thr next trigger to carry forward v
+        access: str = fe.id
         curr_fe = jsonable_encoder(fe)
         curr_next_trigger = datetime.strptime(
             curr_fe['next_trigger'], "%Y-%m-%dT%H:%M:%S")
 
-        # Skips if the current datetime is valid
-        if (datetime_bound < curr_next_trigger):
+        if (datetime_bound <= curr_next_trigger):
             continue
 
-        # Loops until next trigger is no longer behind the bounding date
-
         while curr_next_trigger < datetime_bound:
-            # Generate the Trigger Dict
-            fe_action = {
-                "name": curr_fe['name'],
-                "description": curr_fe['description'],
-                "change_amount": curr_fe['change_amount'],
-                "type": curr_fe['type'],
-                "from_bucket_id": curr_fe['from_bucket_id'],
-                "to_bucket_id": curr_fe['to_bucket_id']
-            }
 
-            # Do a single trigger
-            tro.manual_trigger(trigger=fe_action, db=db,
-                               date_triggered=curr_next_trigger)
-            print("INFIINTY")
-            # Regrab the flow events (PFIX: Might be adjusted)
+            bring_forward_details = trigger_schemas.BringForwardBase(
+                money_include=True,
+                flow_event_id=curr_fe['id']
+            )
+
+            bring_forward(details=bring_forward_details, db=db)
+
             curr_fe = jsonable_encoder(
                 flow_event_cruds.get_flowEvent_by_id(db=db, id=curr_fe['id']))
+
             curr_next_trigger = datetime.strptime(
                 curr_fe['next_trigger'], "%Y-%m-%dT%H:%M:%S")
