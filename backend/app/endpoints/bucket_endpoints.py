@@ -13,17 +13,17 @@ router = APIRouter()
 # ======== BUCKET ENDPOINT ========
 
 
-@router.post("/api/v1/bucket", response_model=schemas.BucketReadNR, tags=['Bucket'])
+@router.post("/bucket", response_model=schemas.BucketReadNR, tags=['Bucket'])
 def create_bucket(bucket: schemas.BucketCreate, db: Session = Depends(get_db)):
     return cruds.create_bucket(db=db, bucket=bucket)
 
 
-@router.get("/api/v1/buckets", response_model=List[schemas.BucketReadNR], tags=['Bucket'])
+@router.get("/buckets", response_model=List[schemas.BucketReadNR], tags=['Bucket'])
 def get_all_buckets(limit: int = 50, db: Session = Depends(get_db)):
     return cruds.get_all_buckets(db=db, limit=limit)
 
 
-@router.get('/api/v1/bucket/{bucket_id}', response_model=schemas.BucketReadWR, tags=['Bucket'])
+@router.get('/bucket/{bucket_id}', response_model=schemas.BucketReadWR, tags=['Bucket'])
 def get_bucket_by_id(bucket_id: int, db: Session = Depends(get_db)):
     db_bucket = cruds.get_bucket_by_id(db=db, id=bucket_id)
     if not db_bucket:
@@ -32,7 +32,7 @@ def get_bucket_by_id(bucket_id: int, db: Session = Depends(get_db)):
     return db_bucket
 
 
-@router.patch('/api/v1/bucket/{bucket_id}', response_model=schemas.BucketReadWR, tags=['Bucket'])
+@router.patch('/bucket/{bucket_id}', response_model=schemas.BucketReadWR, tags=['Bucket'])
 def update_bucket_by_id(bucket_id: int, new_bucket: schemas.BucketUpdate, db: Session = Depends(get_db)):
     db_bucket = cruds.get_bucket_by_id(db=db, id=bucket_id)
     if not db_bucket:
@@ -41,7 +41,7 @@ def update_bucket_by_id(bucket_id: int, new_bucket: schemas.BucketUpdate, db: Se
     return cruds.update_bucket_by_id(db=db, id=bucket_id, new_bucket=new_bucket)
 
 
-@router.delete('/api/v1/bucket/{bucket_id}', tags=['Bucket'])
+@router.delete('/bucket/{bucket_id}', tags=['Bucket'])
 def delete_bucket_by_id(bucket_id: int, db: Session = Depends(get_db)):
     db_bucket = cruds.get_bucket_by_id(db, id=bucket_id)
     if not db_bucket:

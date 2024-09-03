@@ -16,12 +16,12 @@ router = APIRouter()
 # When trigger it will run this application and update all the flow amount to the current date
 
 
-@router.put('/api/v1/updateValues', tags=['Operations'])
+@router.put('/updateValues', tags=['Operations'])
 def update_all_buckets(db: Session = Depends(get_db)):
     return bucket_operations.update_all_buckets(db=db)
 
 
-@router.put('/api/v1/bringForward', tags=['Operations'])
+@router.put('/bringForward', tags=['Operations'])
 def bring_forward(details: schemas.BringForwardBase, db: Session = Depends(get_db)):
 
     db_flowEvent = flow_event_cruds.get_flowEvent_by_id(
@@ -34,7 +34,7 @@ def bring_forward(details: schemas.BringForwardBase, db: Session = Depends(get_d
     return trigger_operations.bring_forward(details=details, db=db)
 
 
-@router.put('/api/v1/manualTrigger', tags=['Operations'])
+@router.put('/manualTrigger', tags=['Operations'])
 def manual_trigger(trigger: schemas.TriggerBase, db: Session = Depends(get_db)):
     # Verify that both of the trigger buckets are not None
     if trigger.from_bucket_id is None and trigger.to_bucket_id is None:
