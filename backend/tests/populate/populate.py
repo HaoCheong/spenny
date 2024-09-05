@@ -12,18 +12,10 @@ import requests
 from datetime import datetime, timedelta
 import random
 
-BACKEND_URL = "http://127.0.0.1:8000"
+BACKEND_URL = "http://127.0.0.1:9991"
 
 
-def get_test_date() -> str:
-    day_shift = random.randint(1, 7)
-    today_date = datetime.now()
-    new_date = today_date + timedelta(days=day_shift)
-
-    return str(new_date)
-
-
-def get_test_date(date: Optional[datetime]):
+def get_test_date(date: Optional[datetime] = None):
     if date is not None:
         return str(date)
 
@@ -215,7 +207,7 @@ def populate_buckets():
     print("========== ADDING BUCKETS ==========")
     for bkt in ALL_BUCKETS:
         try:
-            res = requests.post(f"{BACKEND_URL}/bucket", json=bkt)
+            res = requests.post(f"{BACKEND_URL}/api/v1/bucket", json=bkt)
             if res.status_code != 200:
                 raise ValueError
 
@@ -229,7 +221,7 @@ def populate_flow_events():
     print("========== ADDING FLOW EVENT ==========")
     for fe in ALL_FLOWS:
         try:
-            res = requests.post(f"{BACKEND_URL}/flowEvent", json=fe)
+            res = requests.post(f"{BACKEND_URL}/api/v1/flowEvent", json=fe)
             if res.status_code != 200:
                 raise ValueError
 
@@ -243,7 +235,7 @@ def populate_logs():
     print("========== ADDING LOG ==========")
     for fe in ALL_LOGS:
         try:
-            res = requests.post(f"{BACKEND_URL}/log", json=fe)
+            res = requests.post(f"{BACKEND_URL}/api/v1/log", json=fe)
             if res.status_code != 200:
                 raise ValueError
 
