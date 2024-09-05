@@ -7,10 +7,11 @@ Acts as basic smoke testing for the APIs
 
 '''
 
-from typing import Optional
-import requests
-from datetime import datetime, timedelta
 import random
+from datetime import datetime, timedelta
+from typing import Optional
+
+import requests
 
 BACKEND_URL = "http://127.0.0.1:9991"
 

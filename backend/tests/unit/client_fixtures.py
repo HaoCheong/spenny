@@ -1,15 +1,15 @@
-from app.database import Base
-from app.helpers import get_db, get_config
-from app.main import app
-
-from sqlalchemy.pool import StaticPool
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
-from fastapi.testclient import TestClient
-import pytest
+import pathlib
 from datetime import datetime, timedelta
 
-import pathlib
+import pytest
+from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
+
+from app.database import Base
+from app.helpers import get_config, get_db
+from app.main import app
 
 # vvvvvvvvvv SQLAlchemy CONFIGURATION vvvvvvvvvv
 
