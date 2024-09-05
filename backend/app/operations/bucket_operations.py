@@ -1,15 +1,14 @@
-from sqlalchemy.orm import Session
 from datetime import datetime
-from app.helpers import add_time
-from app.operations.trigger_operations import bring_forward
 
 from fastapi.encoders import jsonable_encoder
+from sqlalchemy.orm import Session
 
 # Update a singular bucket value
 import app.cruds.flow_event_cruds as flow_event_cruds
-import app.schemas.trigger_schemas as trigger_schemas
 import app.operations.trigger_operations as tro
-
+import app.schemas.trigger_schemas as trigger_schemas
+from app.helpers import add_time
+from app.operations.trigger_operations import bring_forward
 
 # TODO These needs to be better atomised instead of these odd monolithic functions
 
