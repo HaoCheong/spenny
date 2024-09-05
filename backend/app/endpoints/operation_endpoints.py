@@ -54,7 +54,7 @@ def manual_trigger(trigger: schemas.TriggerBase, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=404, detail="Requested To bucket does not exist")
 
-    return trigger_operations.solo_trigger(trigger=trigger, db=db)
+    return trigger_operations.manual_trigger(trigger=trigger, db=db)
 
 
 @router.get('/TEST')
