@@ -1,6 +1,6 @@
-from tests.unit.data_fixtures import *
-from tests.unit.client_fixtures import *
 from tests.unit import wrappers
+from tests.unit.client_fixtures import *
+from tests.unit.data_fixtures import *
 
 
 def test_create_log(reset_db, logs_data):
