@@ -5,16 +5,16 @@ from typing import Dict
 from fastapi.encoders import jsonable_encoder
 from fastapi import HTTPException
 
-import app.schemas.trigger_schemas as trigger_schemas
-import app.schemas.bucket_schemas as bucket_schemas
-import app.schemas.log_schemas as log_schemas
-import app.schemas.flow_event_schemas as flow_event_schemas
+import app.api.schemas.trigger_schemas as trigger_schemas
+import app.api.schemas.bucket_schemas as bucket_schemas
+import app.api.schemas.log_schemas as log_schemas
+import app.api.schemas.flow_event_schemas as flow_event_schemas
 
-import app.cruds.bucket_cruds as bucket_cruds
-import app.cruds.log_cruds as log_cruds
-import app.cruds.flow_event_cruds as flow_event_cruds
+import app.api.cruds.bucket_cruds as bucket_cruds
+import app.api.cruds.log_cruds as log_cruds
+import app.api.cruds.flow_event_cruds as flow_event_cruds
 
-from app.helpers import add_time
+from app.utils.helpers import add_time
 from app.operations.operation_helpers import change_bucket_value
 
 

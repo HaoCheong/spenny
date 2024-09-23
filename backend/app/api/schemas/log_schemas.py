@@ -26,7 +26,7 @@ class LogReadNR(LogBase):
     id: int
 
 class LogReadWR(LogReadNR):
-    from app.schemas.bucket_schemas import BucketReadNR
+    from app.api.schemas.bucket_schemas import BucketReadNR
     bucket_id: int
     bucket: Union[BucketReadNR, None]
 

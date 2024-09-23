@@ -1,12 +1,12 @@
-from app.helpers import get_db
+from app.utils.helpers import get_db
 from fastapi import Depends, APIRouter, HTTPException
 from sqlalchemy.orm import Session
 
-import app.schemas.trigger_schemas as schemas
+import app.api.schemas.trigger_schemas as schemas
 import app.operations.bucket_operations as bucket_operations
 import app.operations.trigger_operations as trigger_operations
-import app.cruds.bucket_cruds as bucket_cruds
-import app.cruds.flow_event_cruds as flow_event_cruds
+import app.api.cruds.bucket_cruds as bucket_cruds
+import app.api.cruds.flow_event_cruds as flow_event_cruds
 
 
 router = APIRouter()

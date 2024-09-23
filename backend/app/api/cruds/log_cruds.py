@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from datetime import datetime
 
-import app.schemas.log_schemas as schemas
-import app.models.log_model as models
+import app.api.schemas.log_schemas as schemas
+import app.api.models.log_model as models
 
 # ======== LOG ========
 

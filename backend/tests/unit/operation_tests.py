@@ -9,7 +9,7 @@ import app.operations.operation_helpers as oph
 import app.operations.trigger_operations as tro
 import app.operations.bucket_operations as bko
 
-import app.schemas.trigger_schemas as schemas
+import app.api.schemas.trigger_schemas as schemas
 
 
 # ========== Bucket Operations Tests ==========

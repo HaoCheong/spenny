@@ -1,5 +1,5 @@
-from app.database import Base
-from app.helpers import get_db, get_config
+from app.database.database_manager import Base
+from app.utils.helpers import get_db, get_config
 from app.main import app
 
 from sqlalchemy.pool import StaticPool
@@ -15,7 +15,7 @@ import pathlib
 
 config = get_config()
 ABS_PATH = pathlib.Path().resolve()
-SQLALCHEMY_DATABASE_URL = f"sqlite:///{ABS_PATH}/app/db/spenny_test.db"
+SQLALCHEMY_DATABASE_URL = f"sqlite:///{ABS_PATH}/app/database/spenny_test.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
