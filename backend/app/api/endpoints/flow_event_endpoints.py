@@ -1,12 +1,12 @@
 from typing import List
 
-from app.helpers import get_db
+from app.utils.helpers import get_db
 from fastapi import Depends, FastAPI, HTTPException, APIRouter
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
 
-import app.schemas.flow_event_schemas as schemas
-import app.cruds.flow_event_cruds as cruds
+import app.api.schemas.flow_event_schemas as schemas
+import app.api.cruds.flow_event_cruds as cruds
 
 router = APIRouter()
 

@@ -1,13 +1,13 @@
 from sqlalchemy.orm import Session
 from datetime import datetime
-from app.helpers import add_time
+from app.utils.helpers import add_time
 from app.operations.trigger_operations import bring_forward
 
 from fastapi.encoders import jsonable_encoder
 
 # Update a singular bucket value
-import app.cruds.flow_event_cruds as flow_event_cruds
-import app.schemas.trigger_schemas as trigger_schemas
+import app.api.cruds.flow_event_cruds as flow_event_cruds
+import app.api.schemas.trigger_schemas as trigger_schemas
 import app.operations.trigger_operations as tro
 
 
