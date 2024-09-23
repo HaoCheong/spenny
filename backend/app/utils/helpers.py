@@ -6,14 +6,6 @@ import pathlib
 import re
 
 
-def get_config():
-    config = None
-    ABS_PATH = pathlib.Path().resolve()
-    with open(f'{ABS_PATH}/app/configs/spenny_backend_config.yml', encoding='utf-8') as c:
-        config = yaml.safe_load(c)
-        return config
-
-
 def get_db():
     from app.database.database_manager import SessionLocal
     db = SessionLocal()

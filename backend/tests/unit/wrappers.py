@@ -1,5 +1,5 @@
-from tests.unit.data_fixtures import *
-from tests.unit.client_fixtures import SUCCESS, ERROR, client, reset_db
+from tests.data_fixtures import *
+from tests.client_fixtures import SUCCESS, ERROR, client, reset_db
 
 import json
 
