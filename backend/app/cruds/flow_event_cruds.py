@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 import app.models.flow_event_model as models
 import app.schemas.flow_event_schemas as schemas
 
+
 def create_flowEvent(db: Session, flowEvent: schemas.FlowEventCreate):
 
     db_flowEvent = models.FlowEvent(

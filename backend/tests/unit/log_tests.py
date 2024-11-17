@@ -1,16 +1,19 @@
-from unit.conftest import client, SUCCESS, ERROR
-from unit import wrappers
+from tests.unit import wrappers
+from tests.unit.client_fixtures import *
+from tests.unit.data_fixtures import *
+
 
 def test_create_log(reset_db, logs_data):
     ''' Testing the success case of creating an log '''
     assert wrappers.create_log(logs_data[0])['status'] == SUCCESS
 
+
 def test_get_all_log(reset_db, logs_data):
     ''' Testing the success case of getting all logs '''
-    
+
     # Passes all log test data into database
     logs = [wrappers.create_log(logs_data[i])
-                for i in range(0, len(logs_data))]
+            for i in range(0, len(logs_data))]
 
     # Checks all responses succeeds
     for log in logs:
@@ -33,10 +36,11 @@ def test_invalid_get_log_by_log_id(reset_db, logs_data):
     ret_log = wrappers.get_log_by_log_id(log['id'] + 200)
     assert ret_log['status'] == ERROR
 
+
 def test_delete_log_by_log_id(reset_db, logs_data):
     ''' Testing the success case of deleting log '''
     log = wrappers.create_log(logs_data[0])['data']
-    
+
     # Check pre-delete status
     pre_check_res = wrappers.get_log_by_log_id(log['id'])
     assert pre_check_res['status'] == SUCCESS

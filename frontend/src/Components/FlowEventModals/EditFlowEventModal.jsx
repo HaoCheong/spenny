@@ -43,7 +43,7 @@ const EditFlowEventModal = ({ fe }) => {
     const [bucketList, setBucketList] = React.useState([])
 
     const getAllBuckets = async () => {
-        const res = await axios.get(`${BACKEND_URL}/buckets`)
+        const res = await axios.get(`${BACKEND_URL}/api/v1/buckets`)
         setBucketList(res.data)
     }
 
@@ -53,7 +53,7 @@ const EditFlowEventModal = ({ fe }) => {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`${BACKEND_URL}/flowEvent/${fe.id}`)
+            await axios.delete(`${BACKEND_URL}/api/v1/flowEvent/${fe.id}`)
             setAlertInfo({
                 isOpen: true,
                 type: 'success',
@@ -115,7 +115,7 @@ const EditFlowEventModal = ({ fe }) => {
                 to_bucket_id: values.to_bucket_id,
             }
             try {
-                await axios.patch(`${BACKEND_URL}/flowEvent/${fe.id}`, newFlowEvent)
+                await axios.patch(`${BACKEND_URL}/api/v1/flowEvent/${fe.id}`, newFlowEvent)
                 setAlertInfo({
                     isOpen: true,
                     type: 'success',

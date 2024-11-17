@@ -40,7 +40,7 @@ const DeleteBucketModal = () => {
 
     const [bucketList, setBucketList] = React.useState([])
     const getAllBuckets = async () => {
-        const res = await axios.get(`${BACKEND_URL}/buckets`)
+        const res = await axios.get(`${BACKEND_URL}/api/v1/buckets`)
         setBucketList(res.data)
     }
 
@@ -58,7 +58,7 @@ const DeleteBucketModal = () => {
         onSubmit: async (values) => {
             try {
                 await axios.delete(
-                    `${BACKEND_URL}/bucket/${values.bucket_remove}`
+                    `${BACKEND_URL}/api/v1/bucket/${values.bucket_remove}`
                 )
                 setAlertInfo({
                     isOpen: true,

@@ -21,7 +21,7 @@ import {
     useDisclosure,
 } from '@chakra-ui/react'
 
-import { ArrowForwardIcon,  } from '@chakra-ui/icons'
+import { ArrowForwardIcon, } from '@chakra-ui/icons'
 import { useFormik } from 'formik'
 import React from 'react'
 import FormValidator from '../FormValidator'
@@ -36,10 +36,10 @@ import ResponseAlert from '../ResponseAlert.jsx'
  * - 2 types of bring forward
  *  - Trigger with money: Premptively bring forward cash of that day and do said trasnfer of money
  *  - Trigger without money: Premeptive bring forward cash but do not do said transfer of money. Simply bring date forward
- * */ 
+ * */
 
 
-const BringForwardModal = ({fe}) => {
+const BringForwardModal = ({ fe }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const [alertInfo, setAlertInfo] = React.useState({
@@ -48,7 +48,7 @@ const BringForwardModal = ({fe}) => {
         message: '',
     })
 
-    
+
     const formik = useFormik({
         initialValues: {
             money_include: false,
@@ -59,7 +59,7 @@ const BringForwardModal = ({fe}) => {
                 flow_event_id: fe.id,
             }
             try {
-                await axios.put(`${BACKEND_URL}/bringForward`, newBringForward)
+                await axios.put(`${BACKEND_URL}/api/v1/bringForward`, newBringForward)
                 setAlertInfo({
                     isOpen: true,
                     type: 'success',
@@ -86,19 +86,19 @@ const BringForwardModal = ({fe}) => {
                         <ModalCloseButton />
                         <ModalBody>
                             <VStack spacing="2em">
-                            
-                            <Alert status='info'>
-                                <AlertIcon />
-                                This action will bring the date forward up to the next trigger date.
-                            </Alert>
+
+                                <Alert status='info'>
+                                    <AlertIcon />
+                                    This action will bring the date forward up to the next trigger date.
+                                </Alert>
 
 
-                            <UnorderedList>
-                                <ListItem><b>Description</b>: {fe.description}</ListItem>
-                                <ListItem><b>Frequency</b>: {freqToText({fe})}</ListItem>
-                                <ListItem><b>Change Amount</b>: {amountToText({fe})}</ListItem>
-                                <ListItem><b>Next date</b>: {fe.next_trigger}</ListItem>
-                            </UnorderedList>
+                                <UnorderedList>
+                                    <ListItem><b>Description</b>: {fe.description}</ListItem>
+                                    <ListItem><b>Frequency</b>: {freqToText({ fe })}</ListItem>
+                                    <ListItem><b>Change Amount</b>: {amountToText({ fe })}</ListItem>
+                                    <ListItem><b>Next date</b>: {fe.next_trigger}</ListItem>
+                                </UnorderedList>
 
                                 <FormValidator
                                     formik={formik}
@@ -123,14 +123,14 @@ const BringForwardModal = ({fe}) => {
                                     </FormControl>
                                 </FormValidator>
 
-                                { formik.values.money_include ? 
-                                <Alert status='warning'>
-                                    <AlertIcon />
-                                    Checking this means you will transfer the money as specified as well as move the date. Runs as if you are triggering the flow event pre-emptively
-                                </Alert> : <></>}
-                                
+                                {formik.values.money_include ?
+                                    <Alert status='warning'>
+                                        <AlertIcon />
+                                        Checking this means you will transfer the money as specified as well as move the date. Runs as if you are triggering the flow event pre-emptively
+                                    </Alert> : <></>}
+
                                 <ResponseAlert alertInfo={alertInfo} />
-                                       
+
                             </VStack>
                         </ModalBody>
 
