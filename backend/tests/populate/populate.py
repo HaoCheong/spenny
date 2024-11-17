@@ -208,7 +208,7 @@ ALL_LOGS = [
             "description": "My main salary",
             "type": "ADD",
             "amount": 5000,
-            "date_created": get_random_date(),
+            "date_created": get_test_date(),
             "bucket_id": 1
         },
         {
@@ -216,7 +216,7 @@ ALL_LOGS = [
             "description": "For exercise",
             "type": "SUB",
             "amount": 18,
-            "date_created": get_random_date(),
+            "date_created": get_test_date(),
             "bucket_id": 1
         },
         {
@@ -224,7 +224,7 @@ ALL_LOGS = [
             "description": "Moving Total to household spending",
             "type": "MOV",
             "amount": 600,
-            "date_created": get_random_date(),
+            "date_created": get_test_date(),
             "bucket_id": 1
         },
         {
@@ -232,7 +232,7 @@ ALL_LOGS = [
             "description": "Money to be saved on untouched",
             "type": "MOV",
             "amount": 2000,
-            "date_created": get_random_date(),
+            "date_created": get_test_date(),
             "bucket_id": 1
         },
         {
@@ -240,7 +240,7 @@ ALL_LOGS = [
             "description": "Friday woolies shopping",
             "type": "SUB",
             "amount": 65,
-            "date_created": get_random_date(),
+            "date_created": get_test_date(),
             "bucket_id": 5
         },
         {
@@ -248,7 +248,7 @@ ALL_LOGS = [
             "description": "Brekkie",
             "type": "SUB",
             "amount": 30,
-            "date_created": get_random_date(),
+            "date_created": get_test_date(),
             "bucket_id": 5
         },
         {
@@ -256,7 +256,7 @@ ALL_LOGS = [
             "description": "Let me be happy",
             "type": "SUB",
             "amount": 55,
-            "date_created": get_random_date(),
+            "date_created": get_test_date(),
             "bucket_id": 6
         }
     ]
