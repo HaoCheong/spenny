@@ -1,5 +1,6 @@
-from typing import List, Union, Optional, Literal
 from datetime import datetime
+from typing import List, Literal, Optional, Union
+
 from pydantic import BaseModel
 
 # ======== BASE SCHEMA ========

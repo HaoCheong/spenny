@@ -36,7 +36,7 @@ const CreateFlowEventModal = () => {
     const [bucketList, setBucketList] = React.useState([])
 
     const getAllBuckets = async () => {
-        const res = await axios.get(`${BACKEND_URL}/buckets`)
+        const res = await axios.get(`${BACKEND_URL}/api/v1/buckets`)
         setBucketList(res.data)
     }
 
@@ -93,7 +93,7 @@ const CreateFlowEventModal = () => {
                 to_bucket_id: values.to_bucket_id,
             }
             try {
-                await axios.post(`${BACKEND_URL}/flowEvent`, newFlowEvent)
+                await axios.post(`${BACKEND_URL}/api/v1/flowEvent`, newFlowEvent)
                 setAlertInfo({
                     isOpen: true,
                     type: 'success',

@@ -35,12 +35,12 @@ const DeleteFlowEventModal = () => {
     const [bucketList, setBucketList] = React.useState([])
     const [flowEventList, setFlowEventList] = React.useState([])
     const getAllBuckets = async () => {
-        const res = await axios.get(`${BACKEND_URL}/buckets`)
+        const res = await axios.get(`${BACKEND_URL}/api/v1/buckets`)
         setBucketList(res.data)
     }
 
     const getBucketFlowEvents = async (bucket_id) => {
-        const res = await axios.get(`${BACKEND_URL}/bucket/${bucket_id}`)
+        const res = await axios.get(`${BACKEND_URL}/api/v1/bucket/${bucket_id}`)
         const allFlowEvents = res.data.from_events.concat(res.data.to_events)
         setFlowEventList(allFlowEvents)
     }
@@ -59,7 +59,7 @@ const DeleteFlowEventModal = () => {
         onSubmit: async (values) => {
             try {
                 await axios.delete(
-                    `${BACKEND_URL}/flowEvent/${values.flowEvent_remove}`
+                    `${BACKEND_URL}/api/v1/flowEvent/${values.flowEvent_remove}`
                 )
                 setAlertInfo({
                     isOpen: true,
