@@ -1,4 +1,11 @@
 
+import pathlib
+import re
+from datetime import datetime, timedelta
+
+import yaml
+from dateutil.relativedelta import relativedelta
+
 from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 import yaml
@@ -12,6 +19,14 @@ def get_config():
         config = yaml.safe_load(c)
         return config
 
+def get_config():
+    config = None
+    ABS_PATH = pathlib.Path().resolve()
+    with open(f'{ABS_PATH}/app/spenny_backend_config.yml', encoding='utf-8') as c:
+        config = yaml.safe_load(c)
+        return config
+
+
 def get_db():
     from app.database import SessionLocal
     db = SessionLocal()
@@ -21,8 +36,21 @@ def get_db():
         db.close()
 
 
-def add_time(date, sum_date):
-    ''' Add a given date to a given frequency '''
+def add_time(date: datetime, sum_date: str) -> datetime:
+    '''
+    Add a given frequency to a given datetime
+    - n: minutes
+    - h: hours
+    - d: days
+    - w: weeks
+    - m: months
+    - y: years
+    '''
+
+    # Check if sum_date format is correct
+    if (re.match(r"^[0-9]+[(n|h|d|m|w|y)]{1}$", sum_date) is None):
+        print("Sum Date does not match expected format: <freq><incr>")
+        return None
 
     # Grab the last character
     increment_size = sum_date[-1]
