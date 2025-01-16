@@ -33,7 +33,7 @@ class FlowEventReadNR(FlowEventBase):
 
 
 class FlowEventReadWR(FlowEventReadNR):
-    from app.schemas.bucket_schemas import BucketReadNR
+    from app.api.schemas.bucket_schemas import BucketReadNR
     from_bucket: Union[BucketReadNR, None]
     to_bucket: Union[BucketReadNR, None]
 

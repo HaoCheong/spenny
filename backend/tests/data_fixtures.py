@@ -1,110 +1,76 @@
-from app.database import Base
-from app.helpers import get_db, get_config
-from app.main import app
-
-from sqlalchemy.pool import StaticPool
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
-from fastapi.testclient import TestClient
 import pytest
 from datetime import datetime, timedelta
+from typing import Optional
+from tests.client_fixtures import reset_db
 
-import pathlib
-
-config = get_config()
-ABS_PATH = pathlib.Path().resolve()
-SQLALCHEMY_DATABASE_URL = f"sqlite:///{ABS_PATH}/app/db/spenny_test.db"
-
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool,
-)
-TestingSessionLocal = sessionmaker(
-    autocommit=False, autoflush=False, bind=engine)
-
-Base.metadata.create_all(bind=engine)
-
-# Overiddes the database with a testing database
-def override_get_db():
-    try:
-        db = TestingSessionLocal()
-        yield db
-    finally:
-        db.close()
-
-# Overiddes a dependency function with another function
-app.dependency_overrides[get_db] = override_get_db
-
-client = TestClient(app)
-
-SUCCESS = 200
-ERROR = 400
-
-def get_days_since_today(days):
+def get_days_since_today(days) -> datetime:
     today = str(datetime.now()).split(" ")[0]
     today_midnight = datetime.strptime(today, "%Y-%m-%d")
     return today_midnight + timedelta(days=days)
 
-@pytest.fixture
-def reset_db():
-    ''' Resets the database via dropping '''
-    Base.metadata.create_all(bind=engine)
-    yield
-    Base.metadata.drop_all(bind=engine)
+
+def get_test_date(days: int, test_date: Optional[datetime] = None) -> datetime:
+    if test_date is not None:
+        return test_date
+
+    today = str(datetime.now()).split(" ")[0]
+    today_midnight = datetime.strptime(today, "%Y-%m-%d")
+    return today_midnight + timedelta(days=days)
+
 
 @pytest.fixture
 def buckets_data():
     return [
-            {
-                "name": "Total",
-                "description": "Total amount in account",
-                "current_amount": 10000.0,
-                "properties": {
+        {
+            "name": "Total",
+            "description": "Total amount in account",
+            "current_amount": 10000.0,
+            "properties": {
                     "invisible": False
-                }
-            },
-            {
-                "name": "Savings",
-                "description": "General Savings",
-                "current_amount": 5000.0,
-                "properties": {
-                    "invisible": False
-                }
-            },
-            {
-                "name": "Household",
-                "description": "Fund for household requirements",
-                "current_amount": 1000.0,
-                "properties": {
-                    "invisible": False
-                }
-            },
-            {
-                "name": "Lifestyle",
-                "description": "For the week by week spending",
-                "current_amount": 1000.0,
-                "properties": {
-                    "invisible": False
-                }
-            },
-            {
-                "name": "Food",
-                "description": "Food spending",
-                "current_amount": 500.0,
-                "properties": {
-                    "invisible": False
-                }
-            },
-            {
-                "name": "Fun",
-                "description": "Fun spending",
-                "current_amount": 200.0,
-                "properties": {
-                    "invisible": False
-                }
             }
-        ]
+        },
+        {
+            "name": "Savings",
+            "description": "General Savings",
+            "current_amount": 5000.0,
+            "properties": {
+                    "invisible": False
+            }
+        },
+        {
+            "name": "Household",
+            "description": "Fund for household requirements",
+            "current_amount": 1000.0,
+            "properties": {
+                    "invisible": False
+            }
+        },
+        {
+            "name": "Lifestyle",
+            "description": "For the week by week spending",
+            "current_amount": 1000.0,
+            "properties": {
+                    "invisible": False
+            }
+        },
+        {
+            "name": "Food",
+            "description": "Food spending",
+            "current_amount": 500.0,
+            "properties": {
+                    "invisible": False
+            }
+        },
+        {
+            "name": "Fun",
+            "description": "Fun spending",
+            "current_amount": 200.0,
+            "properties": {
+                    "invisible": False
+            }
+        }
+    ]
+
 
 @pytest.fixture
 def flow_events_data():
@@ -117,7 +83,7 @@ def flow_events_data():
             "frequency": "1m",
             "from_bucket_id": None,
             "to_bucket_id": 1,
-            "next_trigger": str(get_days_since_today(30))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Weekly Lifestyle Move",
@@ -127,7 +93,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 1,
             "to_bucket_id": 4,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Gym Spending",
@@ -137,7 +103,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 1,
             "to_bucket_id": None,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Household spending move",
@@ -147,7 +113,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 1,
             "to_bucket_id": 3,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Savings Move",
@@ -157,7 +123,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 1,
             "to_bucket_id": 2,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Weekly Rent Spending",
@@ -167,7 +133,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 3,
             "to_bucket_id": None,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Weekly Utiltity Spending",
@@ -177,7 +143,7 @@ def flow_events_data():
             "frequency": "1m",
             "from_bucket_id": 3,
             "to_bucket_id": None,
-            "next_trigger": str(get_days_since_today(30))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
 
         {
@@ -188,7 +154,7 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 4,
             "to_bucket_id": 5,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         },
         {
             "name": "Weekly Fun Move",
@@ -198,9 +164,10 @@ def flow_events_data():
             "frequency": "1w",
             "from_bucket_id": 4,
             "to_bucket_id": 6,
-            "next_trigger": str(get_days_since_today(7))
+            "next_trigger": str(get_test_date(0, datetime(2024, 6, 6, 0, 0, 0, 0)))
         }
     ]
+
 
 @pytest.fixture
 def logs_data():
@@ -263,11 +230,14 @@ def logs_data():
         }
     ]
 
-@pytest.fixture
-def fake_populate(reset_db, flow_events_data, buckets_data, logs_data):
-    '''Populate a test database to the sample structure'''
 
-    from unit import wrappers
+@pytest.fixture
+def populate_database(reset_db, flow_events_data, buckets_data, logs_data):
+    '''
+    Populate a test database to the sample structure
+    '''
+
+    from tests.unit import wrappers
 
     for bucket in buckets_data:
         wrappers.create_bucket(bucket)

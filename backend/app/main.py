@@ -3,13 +3,15 @@ from typing import List
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-import app.database as database
-import app.endpoints.bucket_endpoints as bucket_endpoints
-import app.endpoints.flow_event_endpoints as flow_event_endpoints
-import app.endpoints.log_endpoints as log_endpoints
-import app.endpoints.operation_endpoints as operation_endpoints
 import app.metadata as metadata
-from app.database import engine
+import app.database.database_manager as database
+
+from app.database.database_manager import engine
+
+import app.api.endpoints.operation_endpoints as operation_endpoints
+import app.api.endpoints.bucket_endpoints as bucket_endpoints
+import app.api.endpoints.flow_event_endpoints as flow_event_endpoints
+import app.api.endpoints.log_endpoints as log_endpoints
 
 database.Base.metadata.create_all(bind=engine)
 
