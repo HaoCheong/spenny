@@ -1,17 +1,9 @@
 from datetime import datetime
-<<<<<<< HEAD
 import app.utils.helpers as h
 import app.operations.operation_helpers as oh
 
 from tests.data_fixtures import *
 from tests.client_fixtures import *
-=======
-
-import app.helpers as h
-import app.operations.operation_helpers as oh
-from tests.unit.client_fixtures import *
-from tests.unit.data_fixtures import *
->>>>>>> master
 
 
 def test_add_time():
