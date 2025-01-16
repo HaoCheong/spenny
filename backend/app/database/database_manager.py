@@ -14,6 +14,9 @@ import pathlib
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import pathlib
+# from configs.config_manager import config
+from app.configs.config_manager import config
 
 from app.helpers import get_config
 

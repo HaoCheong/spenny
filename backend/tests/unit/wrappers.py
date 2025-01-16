@@ -1,7 +1,7 @@
-import json
+from tests.data_fixtures import *
+from tests.client_fixtures import SUCCESS, ERROR, client, reset_db
 
-from tests.unit.client_fixtures import ERROR, SUCCESS, client, reset_db
-from tests.unit.data_fixtures import *
+import json
 
 
 def unpack(function):
