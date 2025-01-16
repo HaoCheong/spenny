@@ -18,12 +18,15 @@ import pathlib
 # from configs.config_manager import config
 from app.configs.config_manager import config
 
-ABS_PATH = pathlib.Path().resolve()
-SQLALCHEMY_DATABASE_URL = f"sqlite:////{ABS_PATH}/app/database/{config.get_config()['DB_FILE_NAME']}"
+from app.helpers import get_config
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+import os
+
+config = get_config()
+ABS_PATH = pathlib.Path().resolve()
+POSTGRES_DATABASE_URL = f"postgresql://{os.environ.get('SPENNY_DB_USER')}:{os.environ.get('SPENNY_DB_PASS')}@{os.environ.get('SPENNY_DB_HOST')}:{os.environ.get('SPENNY_DB_PORT')}/{os.environ.get('SPENNY_DB_NAME')}"
+
+engine = create_engine(POSTGRES_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
