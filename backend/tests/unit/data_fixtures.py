@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 from typing import Optional
 
 import pytest
-
 from tests.unit.client_fixtures import reset_db
 
 
