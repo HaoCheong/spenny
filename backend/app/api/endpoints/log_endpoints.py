@@ -1,12 +1,13 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from app.utils.helpers import get_db
+from fastapi import Depends, FastAPI, HTTPException, APIRouter
+from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
-import app.cruds.log_cruds as cruds
-import app.schemas.log_schemas as schemas
-from app.helpers import get_db
+import app.api.schemas.log_schemas as schemas
+import app.api.cruds.log_cruds as cruds
 
 router = APIRouter()
 
@@ -33,7 +34,7 @@ def get_log_by_id(log_id: int, db: Session = Depends(get_db)):
     db_log = cruds.get_log_by_id(db=db, id=log_id)
     if not db_log:
         raise HTTPException(status_code=400, detail="Log does not exist")
-    
+
     return db_log
 
 
