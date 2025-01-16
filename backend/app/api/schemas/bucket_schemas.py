@@ -28,7 +28,7 @@ class BucketReadNR(BucketBase):
     id: int
 
 class BucketReadWR(BucketReadNR):
-    from app.schemas.flow_event_schemas import FlowEventReadNR
+    from app.api.schemas.flow_event_schemas import FlowEventReadNR
     from_events: List[FlowEventReadNR]
     to_events: List[FlowEventReadNR]
 
