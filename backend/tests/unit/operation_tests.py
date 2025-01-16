@@ -192,15 +192,3 @@ def test_change_bucket_value(populate_database, get_test_db):
     oph.change_bucket_value(test_bucket, 'MULT', -0.1, test_db)
     test_bucket = jsonable_encoder(wrappers.get_bucket_by_bucket_id(1))['data']
     assert test_bucket.get("current_amount") == 9801.0
-
-# ========== OTHER ==========
-
-
-def test_other(populate_database, get_test_db):
-
-    test_db = get_test_db
-    db_buckets = wrappers.get_all_buckets()
-
-    print("DB_BUCKET", db_buckets)
-    print("TEST_DB", type(test_db))
-    pass
