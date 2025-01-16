@@ -17,13 +17,13 @@ from sqlalchemy.orm import sessionmaker
 
 from app.helpers import get_config
 
+import os
+
 config = get_config()
 ABS_PATH = pathlib.Path().resolve()
-SQLALCHEMY_DATABASE_URL = f"sqlite:////{ABS_PATH}/app/db/{config['DB_FILE_NAME']}"
+POSTGRES_DATABASE_URL = f"postgresql://{os.environ.get('SPENNY_DB_USER')}:{os.environ.get('SPENNY_DB_PASS')}@{os.environ.get('SPENNY_DB_HOST')}:{os.environ.get('SPENNY_DB_PORT')}/{os.environ.get('SPENNY_DB_NAME')}"
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+engine = create_engine(POSTGRES_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()

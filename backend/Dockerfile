@@ -17,4 +17,5 @@ WORKDIR /
 # ENTRYPOINT ["tail", "-f", "/dev/null"]
 
 # Run the container
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+ENTRYPOINT ["uvicorn"]
+CMD ["app.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -13,7 +13,7 @@ from typing import Optional
 
 import requests
 
-BACKEND_URL = "http://127.0.0.1:9991"
+BACKEND_URL = "http://localhost:8888"
 
 
 def get_test_date(date: Optional[datetime] = None):
