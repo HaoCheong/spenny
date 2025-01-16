@@ -14,12 +14,12 @@ import pathlib
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import pathlib
+# from configs.config_manager import config
+from app.configs.config_manager import config
 
-from app.helpers import get_config
-
-config = get_config()
 ABS_PATH = pathlib.Path().resolve()
-SQLALCHEMY_DATABASE_URL = f"sqlite:////{ABS_PATH}/app/db/{config['DB_FILE_NAME']}"
+SQLALCHEMY_DATABASE_URL = f"sqlite:////{ABS_PATH}/app/database/{config.get_config()['DB_FILE_NAME']}"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}

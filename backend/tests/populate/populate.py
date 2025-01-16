@@ -7,11 +7,12 @@ Acts as basic smoke testing for the APIs
 
 '''
 
+from typing import Optional
+import requests
+from datetime import datetime, timedelta
 import random
 from datetime import datetime, timedelta
 from typing import Optional
-
-import requests
 
 BACKEND_URL = "http://127.0.0.1:9991"
 
@@ -201,65 +202,6 @@ ALL_LOGS = [
         "bucket_id": 6
     }
 ]
-
-ALL_LOGS = [
-        {
-            "name": "Main Job income",
-            "description": "My main salary",
-            "type": "ADD",
-            "amount": 5000,
-            "date_created": get_test_date(),
-            "bucket_id": 1
-        },
-        {
-            "name": "Gym Spending",
-            "description": "For exercise",
-            "type": "SUB",
-            "amount": 18,
-            "date_created": get_test_date(),
-            "bucket_id": 1
-        },
-        {
-            "name": "Household spending move",
-            "description": "Moving Total to household spending",
-            "type": "MOV",
-            "amount": 600,
-            "date_created": get_test_date(),
-            "bucket_id": 1
-        },
-        {
-            "name": "Savings Move",
-            "description": "Money to be saved on untouched",
-            "type": "MOV",
-            "amount": 2000,
-            "date_created": get_test_date(),
-            "bucket_id": 1
-        },
-        {
-            "name": "Woolies shopping",
-            "description": "Friday woolies shopping",
-            "type": "SUB",
-            "amount": 65,
-            "date_created": get_test_date(),
-            "bucket_id": 5
-        },
-        {
-            "name": "Eating at Cafe de la Cafe",
-            "description": "Brekkie",
-            "type": "SUB",
-            "amount": 30,
-            "date_created": get_test_date(),
-            "bucket_id": 5
-        },
-        {
-            "name": "Bought Video Game 2: More games",
-            "description": "Let me be happy",
-            "type": "SUB",
-            "amount": 55,
-            "date_created": get_test_date(),
-            "bucket_id": 6
-        }
-    ]
 
 
 def populate_buckets():

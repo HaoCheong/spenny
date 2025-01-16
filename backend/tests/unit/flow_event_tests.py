@@ -1,7 +1,8 @@
+from tests.data_fixtures import *
+from tests.client_fixtures import *
+from tests.client_fixtures import SUCCESS, ERROR
+
 from tests.unit import wrappers
-from tests.unit.client_fixtures import *
-from tests.unit.client_fixtures import ERROR, SUCCESS
-from tests.unit.data_fixtures import *
 
 
 def test_create_flow_event(reset_db, flow_events_data):
@@ -58,6 +59,7 @@ def test_delete_flow_event_by_flow_event_id(reset_db, flow_events_data):
     post_check_res = wrappers.get_flow_event_by_flow_event_id(flow_event['id'])
     assert post_check_res['status'] == ERROR
 
+
 def test_invalid_delete_flow_event_by_flow_event_id(reset_db, flow_events_data):
     ''' Testing the fail case of deleting flow_event '''
 
@@ -76,6 +78,7 @@ def test_invalid_delete_flow_event_by_flow_event_id(reset_db, flow_events_data):
     post_check_res = wrappers.get_flow_event_by_flow_event_id(flow_event['id'])
     assert post_check_res['status'] == SUCCESS
 
+
 def test_update_flow_event_by_flow_event_id(reset_db, flow_events_data):
     ''' Testing the success case of updating flow_event '''
 
@@ -92,6 +95,7 @@ def test_update_flow_event_by_flow_event_id(reset_db, flow_events_data):
 
     # Check the update values are correct
     assert update_flow_event['data']['name'] == new_flow_event['name']
+
 
 def test_invalid_update_flow_event_by_flow_event_id(reset_db, flow_events_data):
     ''' Testing the fail case of updating flow_event '''

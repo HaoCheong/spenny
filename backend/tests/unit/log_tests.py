@@ -1,6 +1,6 @@
+from tests.data_fixtures import *
+from tests.client_fixtures import *
 from tests.unit import wrappers
-from tests.unit.client_fixtures import *
-from tests.unit.data_fixtures import *
 
 
 def test_create_log(reset_db, logs_data):
@@ -24,11 +24,13 @@ def test_get_all_log(reset_db, logs_data):
     # print("all_logs", all_logs)
     assert len(logs) == len(all_logs)
 
+
 def test_get_log_by_log_id(reset_db, logs_data):
     ''' Testing the success case of getting specified log '''
     log = wrappers.create_log(logs_data[0])['data']
     ret_log = wrappers.get_log_by_log_id(log['id'])['data']
     assert log["name"] == ret_log["name"]
+
 
 def test_invalid_get_log_by_log_id(reset_db, logs_data):
     ''' Testing the failing case of getting specified log '''
@@ -53,6 +55,7 @@ def test_delete_log_by_log_id(reset_db, logs_data):
     post_check_res = wrappers.get_log_by_log_id(log['id'])
     assert post_check_res['status'] == ERROR
 
+
 def test_invalid_delete_log_by_log_id(reset_db, logs_data):
     ''' Testing the fail case of deleting log '''
 
@@ -70,6 +73,7 @@ def test_invalid_delete_log_by_log_id(reset_db, logs_data):
     post_check_res = wrappers.get_log_by_log_id(log['id'])
     assert post_check_res['status'] == SUCCESS
 
+
 def test_update_log_by_log_id(reset_db, logs_data):
     ''' Testing the success case of updating log '''
 
@@ -85,6 +89,7 @@ def test_update_log_by_log_id(reset_db, logs_data):
 
     # Check the update values are correct
     assert update_log['data']['name'] == new_log['name']
+
 
 def test_invalid_update_log_by_log_id(reset_db, logs_data):
     ''' Testing the fail case of updating log '''
