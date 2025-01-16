@@ -1,7 +1,6 @@
+from app.database.database_manager import Base
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-
-from app.database.database_manager import Base
 
 
 class FlowEvent(Base):

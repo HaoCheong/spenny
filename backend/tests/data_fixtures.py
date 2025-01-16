@@ -1,7 +1,9 @@
-import pytest
 from datetime import datetime, timedelta
 from typing import Optional
+
+import pytest
 from tests.client_fixtures import reset_db
+
 
 def get_days_since_today(days) -> datetime:
     today = str(datetime.now()).split(" ")[0]
