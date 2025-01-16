@@ -1,8 +1,6 @@
-from sqlalchemy.orm import Session
 from datetime import datetime
 from typing import Dict
 
-from fastapi.encoders import jsonable_encoder
 from fastapi import HTTPException
 
 import app.api.schemas.trigger_schemas as trigger_schemas

@@ -1,5 +1,5 @@
-from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
+from sqlalchemy.orm import Session
 
 import app.api.models.bucket_model as bucket_model
 import app.api.models.flow_event_model as flow_event_model

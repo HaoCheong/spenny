@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 from tests.data_fixtures import *
 from tests.client_fixtures import *
 from tests.client_fixtures import SUCCESS, ERROR
 
 from tests.unit import wrappers
+=======
+from tests.unit import wrappers
+from tests.unit.client_fixtures import *
+from tests.unit.client_fixtures import ERROR, SUCCESS
+from tests.unit.data_fixtures import *
+>>>>>>> master
 
 
 def test_create_flow_event(reset_db, flow_events_data):

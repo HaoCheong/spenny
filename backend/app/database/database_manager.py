@@ -9,6 +9,8 @@ Terms:
  - SessionLocal: A local instance of the database
 """
 
+import pathlib
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
