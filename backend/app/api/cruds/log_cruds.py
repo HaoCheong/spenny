@@ -1,8 +1,14 @@
-from sqlalchemy.orm import Session
 from datetime import datetime
 
+<<<<<<< HEAD:backend/app/api/cruds/log_cruds.py
 import app.api.schemas.log_schemas as schemas
 import app.api.models.log_model as models
+=======
+from sqlalchemy.orm import Session
+
+import app.models.log_model as models
+import app.schemas.log_schemas as schemas
+>>>>>>> master:backend/app/cruds/log_cruds.py
 
 # ======== LOG ========
 

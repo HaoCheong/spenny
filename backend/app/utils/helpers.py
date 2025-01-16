@@ -1,11 +1,40 @@
 
+<<<<<<< HEAD:backend/app/utils/helpers.py
 from datetime import timedelta, datetime
+=======
+import pathlib
+import re
+from datetime import datetime, timedelta
+
+import yaml
+from dateutil.relativedelta import relativedelta
+
+from datetime import timedelta
+>>>>>>> master:backend/app/helpers.py
 from dateutil.relativedelta import relativedelta
 import yaml
 import pathlib
 import re
 
 
+<<<<<<< HEAD:backend/app/utils/helpers.py
+=======
+def get_config():
+    config = None
+    ABS_PATH = pathlib.Path().resolve()
+    with open(f'{ABS_PATH}/app/spenny_backend_config.yml', encoding='utf-8') as c:
+        config = yaml.safe_load(c)
+        return config
+
+def get_config():
+    config = None
+    ABS_PATH = pathlib.Path().resolve()
+    with open(f'{ABS_PATH}/app/spenny_backend_config.yml', encoding='utf-8') as c:
+        config = yaml.safe_load(c)
+        return config
+
+
+>>>>>>> master:backend/app/helpers.py
 def get_db():
     from app.database.database_manager import SessionLocal
     db = SessionLocal()
