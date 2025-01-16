@@ -1,7 +1,6 @@
-from tests.data_fixtures import *
 from tests.client_fixtures import *
-from tests.client_fixtures import SUCCESS, ERROR
-
+from tests.client_fixtures import ERROR, SUCCESS
+from tests.data_fixtures import *
 from tests.unit import wrappers
 
 

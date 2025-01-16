@@ -1,10 +1,12 @@
+from datetime import datetime
 from typing import Dict, List
-from app.api.schemas.bucket_schemas import BucketReadWR, BucketUpdate, BucketReadNR
-from app.api.schemas.log_schemas import LogCreate, LogReadNR
+
 from app.api.cruds.bucket_cruds import update_bucket_by_id
 from app.api.cruds.log_cruds import create_log
+from app.api.schemas.bucket_schemas import (BucketReadNR, BucketReadWR,
+                                            BucketUpdate)
+from app.api.schemas.log_schemas import LogCreate, LogReadNR
 from sqlalchemy.orm import Session
-from datetime import datetime
 
 
 def change_bucket_value(bucket: BucketReadWR, op: str, change_amount: float, db: Session) -> BucketReadNR:

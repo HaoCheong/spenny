@@ -1,15 +1,14 @@
-from app.database.database_manager import Base
-from app.utils.helpers import get_db
-from app.main import app
-
-from sqlalchemy.pool import StaticPool
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
-from fastapi.testclient import TestClient
-import pytest
+import pathlib
 from datetime import datetime, timedelta
 
-import pathlib
+import pytest
+from app.database.database_manager import Base
+from app.main import app
+from app.utils.helpers import get_db
+from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 
 # vvvvvvvvvv SQLAlchemy CONFIGURATION vvvvvvvvvv
 ABS_PATH = pathlib.Path().resolve()

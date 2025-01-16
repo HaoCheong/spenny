@@ -1,7 +1,7 @@
 from datetime import datetime
 
-import app.api.schemas.log_schemas as schemas
 import app.api.models.log_model as models
+import app.api.schemas.log_schemas as schemas
 from sqlalchemy.orm import Session
 
 # ======== LOG ========
