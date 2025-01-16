@@ -27,7 +27,7 @@ import { BACKEND_URL } from '../../config.js'
 import axios from 'axios'
 import ResponseAlert from '../ResponseAlert'
 
-const EditBucketModal = ({bucket}) => {
+const EditBucketModal = ({ bucket }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [alertInfo, setAlertInfo] = React.useState({
         isOpen: false,
@@ -36,10 +36,10 @@ const EditBucketModal = ({bucket}) => {
     })
 
     const handleOpen = () => {
-        formik.setFieldValue('name',bucket.name)
-        formik.setFieldValue('description',bucket.description)
-        formik.setFieldValue('curr_amount',bucket.current_amount)
-        formik.setFieldValue('invisible',bucket.properties.invisible)
+        formik.setFieldValue('name', bucket.name)
+        formik.setFieldValue('description', bucket.description)
+        formik.setFieldValue('curr_amount', bucket.current_amount)
+        formik.setFieldValue('invisible', bucket.properties.invisible)
         onOpen()
     }
 
