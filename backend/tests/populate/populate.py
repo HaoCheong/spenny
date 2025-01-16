@@ -14,7 +14,9 @@ import random
 from datetime import datetime, timedelta
 from typing import Optional
 
-BACKEND_URL = "http://127.0.0.1:9991"
+import requests
+
+BACKEND_URL = "http://localhost:8888"
 
 
 def get_test_date(date: Optional[datetime] = None):
