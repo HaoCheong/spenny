@@ -2,10 +2,6 @@
 
 # New Running System: Encompasses testing, live deving and production setup all under one roof
 
-# Usage: ./run.sh <RUN_OPTION> 
-
-
-
 # vvvvvvvvvvvvvvvvvvvv CONFIGURATION vvvvvvvvvvvvvvvvvvvv
 
 PROJECT_NAME="Spenny"
@@ -14,17 +10,17 @@ LOCAL_PROJECT_PATH=/home/hcheong/projects/spenny
 SPENNY_DB_USER="spenny_user"
 SPENNY_DB_PASS="spenny_pwd"
 SPENNY_DB_NAME="spenny_test_database"
-SPENNY_DB_HOST="localhost"
+SPENNY_DB_HOST="192.168.30.238"
 SPENNY_DB_PORT="7777"
-SPENNY_DB_SQL_DUMP_FILE_PATH=""
-SPENNY_DB_SQL_DUMP_SCHEMA_ONLY=0
+SPENNY_DB_SQL_DUMP_FILE_PATH="/home/hcheong/projects/spenny/utils/spenny_sample_db.sql"
+SPENNY_DB_SQL_DUMP_SCHEMA_ONLY=1
 SPENNY_DB_CONTAINER_NAME="spenny_test_database_cont"
 SPENNY_DB_IMAGE_NAME="postgres:14.5"
 SPENNY_DB_TIMEZONE="Australia/Sydney"
 
-BACKEND_PORT=9999
+BACKEND_PORT=8888
 BACKEND_APP_PATH="${LOCAL_PROJECT_PATH}/backend"
-BACKEND_CONTAINER_URL="http://localhost:${BACKEND_PORT}"
+BACKEND_CONTAINER_URL="http://192.168.30.238:${BACKEND_PORT}"
 BACKEND_CONTAINER_NAME="spenny_test_backend_cont"
 BACKEND_IMAGE_NAME="spenny_test_backend_img"
 BACKEND_TIMEZONE="Australia/Sydney"
@@ -33,11 +29,11 @@ BACKEND_CONFIG_PATH=""
 BACKEND_LOG_PATH=""
 BACKEND_ENV="${LOCAL_PROJECT_PATH}/backend/.venv"
 
-FRONTEND_PORT=8888
+FRONTEND_PORT=9999
 FRONTEND_APP_PATH="${LOCAL_PROJECT_PATH}/frontend"
-FRONTEND_CONTAINER_URL="http://10.1.50.133:${FRONTEND_PORT}"
-FRONTEND_CONTAINER_NAME="airsig_sms_webapp_frontend_cont"
-FRONTEND_IMAGE_NAME="airsig_sms_webapp_frontend_img"
+FRONTEND_CONTAINER_URL="http://192.168.30.238:${FRONTEND_PORT}"
+FRONTEND_CONTAINER_NAME="spenny_test_frontend_cont"
+FRONTEND_IMAGE_NAME="spenny_test_frontend_img"
 FRONTNED_TIMEZONE="Australia/Sydney"
 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -103,7 +99,7 @@ function run_frontend {
         -d \
         -e "BACKEND_CONTAINER_URL=${BACKEND_CONTAINER_URL}" \
         -e "TZ=${FRONTEND_TIMEZONE}" \
-        --mount type=bind,source="${FRONTEND_APP_PATH}",target=/app/ \
+        --mount type=bind,source="${FRONTEND_APP_PATH}",target=/app \
         --name ${FRONTEND_CONTAINER_NAME} ${FRONTEND_IMAGE_NAME}
 }
 
@@ -132,6 +128,8 @@ function run_unit_test {
     # Set the Environment Variables
     set_env_locally
 
+    python3 -m pytest tests/unit/*_tests.py -v
+
 }
 
 run_option=$1
@@ -142,35 +140,33 @@ if [[ $run_option == "unit" ]]; then
     echo "========== RUNNING UNIT TESTS ($PROJECT_NAME) =========="
 
     # Tear down any existing DB container (ignore image)
-    remove_containers $SMS_CONTAINER_NAME
-    remove_containers $AIRSIG_CONTAINER_NAME
+    remove_containers $SPENNY_DB_CONTAINER_NAME
 
     # Spin up DB container (Pull image if it does not exist)
-    run_pg_container $SMS_POSTGRES_DB_USER $SMS_POSTGRES_DB_PASS $SMS_POSTGRES_DB_NAME $SMS_POSTGRES_DB_HOST $SMS_POSTGRES_DB_PORT $SMS_CONTAINER_NAME $SMS_IMAGE_NAME $SMS_TIMEZONE
-    run_pg_container $AIRSIG_POSTGRES_DB_USER $AIRSIG_POSTGRES_DB_PASS $AIRSIG_POSTGRES_DB_NAME $AIRSIG_POSTGRES_DB_HOST $AIRSIG_POSTGRES_DB_PORT $AIRSIG_CONTAINER_NAME $AIRSIG_IMAGE_NAME $AIRSIG_TIMEZONE
+    run_pg_container $SPENNY_DB_USER $SPENNY_DB_PASS $SPENNY_DB_NAME $SPENNY_DB_HOST $SPENNY_DB_PORT $SPENNY_DB_CONTAINER_NAME $SPENNY_DB_IMAGE_NAME $SPENNY_DB_TIMEZONE
 
     # Run Tests
     run_unit_test
 
     # Tear down any container (ignore image)
-    remove_containers $SMS_CONTAINER_NAME
-    remove_containers $AIRSIG_CONTAINER_NAME
+    remove_containers $SPENNY_DB_CONTAINER_NAME
 fi
 
 if [[ $run_option == "demo" ]]; then
+
     # Running a live demo with sample data
     echo "========== RUNNING DEMO MODE ($PROJECT_NAME) =========="
 
     # Pull Image
-    pull_image $SMS_IMAGE_NAME
+    pull_image $SPENNY_DB_IMAGE_NAME
 
     # Tear down any existing DB container (ignore image)
-    remove_containers $SMS_CONTAINER_NAME
+    remove_containers $SPENNY_DB_CONTAINER_NAME
 
     # Spin up DB container (Pull image if it does not exist)
-    run_pg_container $SMS_POSTGRES_DB_USER $SMS_POSTGRES_DB_PASS $SMS_POSTGRES_DB_NAME $SMS_POSTGRES_DB_HOST $SMS_POSTGRES_DB_PORT $SMS_CONTAINER_NAME $SMS_IMAGE_NAME $SMS_TIMEZONE
-    load_pg_dump_file $SMS_POSTGRES_DB_USER $SMS_POSTGRES_DB_PASS $SMS_POSTGRES_DB_NAME $SMS_POSTGRES_DB_HOST $SMS_POSTGRES_DB_PORT $SMS_SQL_DUMP_FILE_PATH
-    clear_content_pg_file $SMS_POSTGRES_DB_USER $SMS_POSTGRES_DB_PASS $SMS_POSTGRES_DB_NAME $SMS_POSTGRES_DB_HOST $SMS_POSTGRES_DB_PORT $SMS_SQL_DUMP_SCHEMA_ONLY
+    run_pg_container $SPENNY_DB_USER $SPENNY_DB_PASS $SPENNY_DB_NAME $SPENNY_DB_HOST $SPENNY_DB_PORT $SPENNY_DB_CONTAINER_NAME $SPENNY_DB_IMAGE_NAME $SPENNY_DB_TIMEZONE
+    load_pg_dump_file $SPENNY_DB_USER $SPENNY_DB_PASS $SPENNY_DB_NAME $SPENNY_DB_HOST $SPENNY_DB_PORT $SPENNY_DB_SQL_DUMP_FILE_PATH
+    clear_content_pg_file $SPENNY_DB_USER $SPENNY_DB_PASS $SPENNY_DB_NAME $SPENNY_DB_HOST $SPENNY_DB_PORT $SPENNY_DB_SQL_DUMP_SCHEMA_ONLY
 
     # Tear down Application Containers
     remove_containers $BACKEND_CONTAINER_NAME
@@ -195,26 +191,30 @@ if [[ $run_option == "demo" ]]; then
     show_container_url $BACKEND_CONTAINER_URL $BACKEND_CONTAINER_NAME
     show_container_url $FRONTEND_CONTAINER_URL $FRONTEND_CONTAINER_NAME
 
-    # Show DB Access
-    show_pg_access_cmd $SMS_POSTGRES_DB_USER $SMS_POSTGRES_DB_PASS $SMS_POSTGRES_DB_NAME $SMS_POSTGRES_DB_HOST $SMS_POSTGRES_DB_PORT $SMS_CONTAINER_NAME
-    show_pg_access_cmd $AIRSIG_POSTGRES_DB_USER $AIRSIG_POSTGRES_DB_PASS $AIRSIG_POSTGRES_DB_NAME $AIRSIG_POSTGRES_DB_HOST $AIRSIG_POSTGRES_DB_PORT $AIRSIG_CONTAINER_NAME
 fi
 
 if [[ $run_option == "stop" ]]; then 
     # Stop and remove all containers
+
+    remove_containers $BACKEND_CONTAINER_NAME
+    remove_containers $FRONTEND_CONTAINER_NAME
+
     exit 1
 fi
 
 if [[ $run_option == "clean" ]]; then 
     # Stop and remove all containers and image
-    remove_containers $SMS_CONTAINER_NAME
-    remove_containers $AIRSIG_CONTAINER_NAME
 
     remove_containers $BACKEND_CONTAINER_NAME
     remove_containers $FRONTEND_CONTAINER_NAME
     
-    remove_image $SMS_IMAGE_NAME
-    remove_image $AIRSIG_IMAGE_NAME
+    remove_image $BACKEND_IMAGE_NAME
+    remove_image $FRONTEND_IMAGE_NAME
+fi
+
+if [[ $run_option == "conf" ]]; then 
+    # Stop and remove all containers and image
+    show_config
 fi
 
 if [[ $run_option == "help" ]]; then
