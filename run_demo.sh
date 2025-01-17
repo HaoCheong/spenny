@@ -5,7 +5,7 @@
 # vvvvvvvvvvvvvvvvvvvv CONFIGURATION vvvvvvvvvvvvvvvvvvvv
 
 PROJECT_NAME="Spenny"
-LOCAL_PROJECT_PATH=="__SETUP__"
+LOCAL_PROJECT_PATH="__SETUP__"
 
 SPENNY_DB_USER="__SETUP__"
 SPENNY_DB_PASS="__SETUP__"
@@ -34,7 +34,7 @@ FRONTEND_APP_PATH="__SETUP__"
 FRONTEND_CONTAINER_URL="__SETUP__"
 FRONTEND_CONTAINER_NAME="__SETUP__"
 FRONTEND_IMAGE_NAME="__SETUP__"
-FRONTNED_TIMEZONE="__SETUP__"
+FRONTEND_TIMEZONE="__SETUP__"
 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -120,7 +120,7 @@ function run_unit_test {
     # Scripts to run unit tests (CHANGE REQUIRED PER PROJECT)
 
     # Get to the required root directory
-    cd /home/hcheong/projects/spenny/backend/
+    cd ${LOCAL_PROJECT_PATH}/backend/
     
     # Activate the appropriate env
     source "${BACKEND_ENV}/bin/activate"
