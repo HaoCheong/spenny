@@ -1,125 +1,41 @@
-from sqlalchemy.orm import Session
 from datetime import datetime
-from app.helpers import add_time
-
-from fastapi.encoders import jsonable_encoder
 
 # Update a singular bucket value
-import app.cruds.bucket_cruds as bucket_cruds
-import app.cruds.log_cruds as log_cruds
-import app.cruds.flow_event_cruds as flow_event_cruds
+import app.api.cruds.flow_event_cruds as flow_event_cruds
+import app.api.schemas.trigger_schemas as trigger_schemas
+import app.operations.trigger_operations as tro
+from app.operations.trigger_operations import bring_forward
+from app.utils.helpers import add_time
+from fastapi.encoders import jsonable_encoder
+from sqlalchemy.orm import Session
 
-import app.schemas.flow_event_schemas as flow_event_schemas
-import app.schemas.bucket_schemas as bucket_schemas
-import app.schemas.log_schemas as log_schemas
 
-# TODO These needs to be better atomised instead of these odd monolithic functions
+def update_all_buckets(db: Session, datetime_bound: datetime = datetime.now()):
 
-def update_bucket_values(fe: flow_event_schemas.FlowEventReadNR, db: Session, old_date: datetime):
-    '''
-    Updates the bucket values based on the Flow Event
-    '''    
-    # Grab the two potential buckets
-    from_bucket = None
-    to_bucket = None
-
-    # Apply FE operation on the FROM Bucket
-    if (fe.from_bucket_id is not None):
-        
-        from_bucket = jsonable_encoder(
-            bucket_cruds.get_bucket_by_id(
-                db=db,
-                id=fe.from_bucket_id
-            )
-        )
-
-        # Update bucket value
-        if (fe.type == "SUB" or fe.type == "MOV"):
-            new_value = round(from_bucket["current_amount"] - fe.change_amount,2)
-            new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
-            bucket_cruds.update_bucket_by_id(
-                db=db,
-                id=fe.from_bucket_id,
-                new_bucket=new_bucket
-            )
-            
-            # Create Log
-            new_log = log_schemas.LogCreate(
-                name=fe.name,
-                description=fe.description,
-                type=fe.type,
-                amount=(fe.change_amount) * -1,
-                date_created=old_date,
-                bucket_id=fe.from_bucket_id
-            )
-
-            log_cruds.create_log(db=db, log=new_log)
-
-    # Apply the FE operation to the TO bucket
-    if (fe.to_bucket_id is not None):
-
-        to_bucket = jsonable_encoder(bucket_cruds.get_bucket_by_id(db=db, id=fe.to_bucket_id))
-
-        # update bucket value
-        if (fe.type == "ADD" or fe.type == "MOV"):
-            new_value = round(to_bucket["current_amount"] + fe.change_amount,2)
-            new_bucket = bucket_schemas.BucketUpdate(current_amount=new_value)
-            
-            bucket_cruds.update_bucket_by_id(
-                db=db,
-                id=fe.to_bucket_id,
-                new_bucket=new_bucket
-            )
-            
-            # create log
-            new_log = log_schemas.LogCreate(
-                name=fe.name,
-                description=fe.description,
-                type=fe.type,
-                amount=fe.change_amount,
-                date_created=old_date,
-                bucket_id=fe.to_bucket_id
-            )
-            log_cruds.create_log(
-                db=db,
-                log=new_log
-            )
-
-# Iterate through all flow events and update their value
-def update_all_buckets(db: Session):
-    ''' Update all the buckets based on the flow event '''
- 
     # Get all Flow Events
-    flowEvents = flow_event_cruds.get_all_flowEvents(db=db)
+    all_flowEvents = flow_event_cruds.get_all_flowEvents(db=db)
 
-    for fe in flowEvents:
+    for fe in all_flowEvents:
+        # PFIX: Why the fuck is this necessary for thr next trigger to carry forward v
+        access: str = fe.id
+        curr_fe = jsonable_encoder(fe)
+        curr_next_trigger = datetime.strptime(
+            curr_fe['next_trigger'], "%Y-%m-%dT%H:%M:%S")
 
-        # Will skip the flow event if it is not its time to trigger
-        date_now = datetime.now()
-        if (date_now < fe.next_trigger):
+        if (datetime_bound <= curr_next_trigger):
             continue
 
-        # Will loop until current fe next trigger is past the current time (Useful if long time no trigger)
-        curr_fe = fe
-        while (date_now > curr_fe.next_trigger):
+        while curr_next_trigger < datetime_bound:
 
-            # Update the next trigger date
-            new_date = add_time(curr_fe.next_trigger, curr_fe.frequency)
-
-            res = flow_event_cruds.update_flowEvent_by_id(
-                db=db,
-                id=curr_fe.id,
-                new_flowEvent=flow_event_schemas.FlowEventUpdate(next_trigger=new_date)
+            bring_forward_details = trigger_schemas.BringForwardBase(
+                money_include=True,
+                flow_event_id=curr_fe['id']
             )
 
-            # Update the related buckets value
-            update_bucket_values(
-                fe=res,
-                db=db,
-                old_date=curr_fe.next_trigger
-            )
+            bring_forward(details=bring_forward_details, db=db)
 
-            # Set values for next loop
-            curr_fe = res
+            curr_fe = jsonable_encoder(
+                flow_event_cruds.get_flowEvent_by_id(db=db, id=curr_fe['id']))
 
-    return {"Success": True}
+            curr_next_trigger = datetime.strptime(
+                curr_fe['next_trigger'], "%Y-%m-%dT%H:%M:%S")

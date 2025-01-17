@@ -1,17 +1,14 @@
 from typing import List
 
+import app.api.endpoints.bucket_endpoints as bucket_endpoints
+import app.api.endpoints.flow_event_endpoints as flow_event_endpoints
+import app.api.endpoints.log_endpoints as log_endpoints
+import app.api.endpoints.operation_endpoints as operation_endpoints
+import app.database.database_manager as database
+import app.metadata as metadata
+from app.database.database_manager import engine
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-
-import app.metadata as metadata
-import app.database as database
-
-from app.database import engine
-
-import app.endpoints.operation_endpoints as operation_endpoints
-import app.endpoints.bucket_endpoints as bucket_endpoints
-import app.endpoints.flow_event_endpoints as flow_event_endpoints
-import app.endpoints.log_endpoints as log_endpoints
 
 database.Base.metadata.create_all(bind=engine)
 
@@ -35,8 +32,8 @@ app.add_middleware(
 def root():
     return {"connection": True}
 
-app.include_router(operation_endpoints.router)
-app.include_router(bucket_endpoints.router)
-app.include_router(flow_event_endpoints.router)
-app.include_router(log_endpoints.router)
+app.include_router(operation_endpoints.router, prefix="/api/v1")
+app.include_router(bucket_endpoints.router, prefix="/api/v1")
+app.include_router(flow_event_endpoints.router, prefix="/api/v1")
+app.include_router(log_endpoints.router, prefix="/api/v1")
 
