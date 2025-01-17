@@ -68,7 +68,7 @@ const CreateBucketModal = () => {
                 },
             }
             try {
-                await axios.post(`${BACKEND_URL}/bucket`, newBucket)
+                await axios.post(`${BACKEND_URL}/api/v1/bucket`, newBucket)
                 setAlertInfo({
                     isOpen: true,
                     type: 'success',

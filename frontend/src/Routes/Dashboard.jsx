@@ -35,7 +35,7 @@ const Dashboard = () => {
     const [bucketList, setBucketList] = React.useState([])
     const [totalAmount, setTotalAmount] = React.useState(0)
     const getAllBucket = async () => {
-        const res = await axios.get(`${BACKEND_URL}/buckets`)
+        const res = await axios.get(`${BACKEND_URL}/api/v1/buckets`)
         setBucketList(res.data)
     }
 
@@ -51,7 +51,7 @@ const Dashboard = () => {
 
     const handleUpdate = async () => {
         try {
-            await axios.put(`${BACKEND_URL}/updateValues`)
+            await axios.put(`${BACKEND_URL}/api/v1/updateValues`)
         } catch (err) {
             console.error('Error', err)
         }
