@@ -7,6 +7,7 @@ from tests.data_fixtures import *
 
 
 def test_add_time():
+
     test_time = datetime(2000, 8, 23, 15, 30, 58, 800000)
 
     # Test Minutes

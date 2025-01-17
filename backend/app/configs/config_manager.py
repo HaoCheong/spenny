@@ -17,4 +17,4 @@ class ConfigManager():
     def get_config(self) -> Dict:
         return self.__config
     
-config: ConfigManager = ConfigManager('/home/hcheong/projects/spenny/backend/app/configs/spenny_backend_config.yml')
+config: ConfigManager = ConfigManager('/app/configs/spenny_backend_config.yml')
