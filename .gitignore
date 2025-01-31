@@ -1,1 +1,5 @@
 .vscode/
+
+*.dump
+run_demo.sh
+run_live.sh

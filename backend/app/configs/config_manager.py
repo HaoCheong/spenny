@@ -3,6 +3,7 @@ from typing import Dict
 
 import yaml
 
+
 class ConfigManager():
 
     ''' Configuration creator and manager'''

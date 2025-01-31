@@ -29,7 +29,7 @@ def add_time(date: datetime, sum_date: str) -> datetime:
 
     # Check if sum_date format is correct
     if (re.match(r"^[0-9]+[(n|h|d|m|w|y)]{1}$", sum_date) is None):
-        print("Sum Date does not match expected format: <freq><incr>")
+        # Sum Date does not match expected format: <freq><incr>
         return None
 
     # Grab the last character

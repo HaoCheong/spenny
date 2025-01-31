@@ -8,8 +8,8 @@ import app.api.schemas.bucket_schemas as bucket_schemas
 import app.api.schemas.flow_event_schemas as flow_event_schemas
 import app.api.schemas.log_schemas as log_schemas
 import app.api.schemas.trigger_schemas as trigger_schemas
-from app.operations.operation_helpers import change_bucket_value
 from app.utils.helpers import add_time
+from app.utils.operation_helpers import change_bucket_value
 from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
@@ -122,6 +122,6 @@ def bring_forward(details: trigger_schemas.BringForwardBase, db: Session) -> Dic
             "to_bucket_id": db_flow_event.to_bucket_id
         }
 
-        manual_trigger(trigger_details, db)
+        manual_trigger(trigger_details, db, date_triggered=new_date)
 
     return {"Success": True}
