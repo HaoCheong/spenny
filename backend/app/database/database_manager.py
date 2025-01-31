@@ -12,14 +12,10 @@ Terms:
 import os
 import pathlib
 
-# from configs.config_manager import config
-from app.configs.config_manager import config
+# from app.configs.config_manager import config
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
-# from app.helpers import get_config
-
 
 ABS_PATH = pathlib.Path().resolve()
 POSTGRES_DATABASE_URL = f"postgresql://{os.environ.get('SPENNY_DB_USER')}:{os.environ.get('SPENNY_DB_PASS')}@{os.environ.get('SPENNY_DB_HOST')}:{os.environ.get('SPENNY_DB_PORT')}/{os.environ.get('SPENNY_DB_NAME')}"

@@ -20,7 +20,7 @@ def update_all_buckets(db: Session, datetime_bound: datetime = datetime.now()):
         access: str = fe.id
         curr_fe = jsonable_encoder(fe)
         curr_next_trigger = datetime.strptime(
-            curr_fe['next_trigger'], "%Y-%m-%dT%H:%M:%S")
+            curr_fe['next_trigger'].split(".")[0], "%Y-%m-%dT%H:%M:%S")
 
         if (datetime_bound <= curr_next_trigger):
             continue
@@ -38,4 +38,4 @@ def update_all_buckets(db: Session, datetime_bound: datetime = datetime.now()):
                 flow_event_cruds.get_flowEvent_by_id(db=db, id=curr_fe['id']))
 
             curr_next_trigger = datetime.strptime(
-                curr_fe['next_trigger'], "%Y-%m-%dT%H:%M:%S")
+                curr_fe['next_trigger'].split(".")[0], "%Y-%m-%dT%H:%M:%S")
