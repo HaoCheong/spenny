@@ -176,13 +176,13 @@ COPY public.buckets (id, name, description, current_amount, properties) FROM std
 --
 
 COPY public."flowEvents" (id, name, description, change_amount, type, frequency, next_trigger, from_bucket_id, to_bucket_id) FROM stdin;
-1	Main Job income	My main salary	5000	ADD	5d	2025-01-22 17:10:14.412421	\N	1
-2	Savings	Automated saving move	1800	MOV	3d	2025-01-19 17:10:14.412437	1	2
-3	Rent	Purely to live at my apartment	560	SUB	5d	2025-01-22 17:10:14.412438	1	\N
-4	Gym	Fitness Finance	18	SUB	2d	2025-01-22 17:10:14.41244	1	\N
-5	Lifestyle	Money for actually living in the cruel world	240	MOV	4d	2025-01-23 17:10:14.412441	1	3
-6	Food	Budget for eating	200	MOV	3d	2025-01-17 17:10:14.412442	3	4
-7	Fun	Hobby Funding	40	MOV	1d	2025-01-21 17:10:14.412444	3	5
+1	Main Job income	My main salary	5000	ADD	5d	2024-01-22 17:10:14.412421	\N	1
+2	Savings	Automated saving move	1800	MOV	3d	2024-01-19 17:10:14.412437	1	2
+3	Rent	Purely to live at my apartment	560	SUB	5d	2024-01-22 17:10:14.412438	1	\N
+4	Gym	Fitness Finance	18	SUB	2d	2024-01-22 17:10:14.41244	1	\N
+5	Lifestyle	Money for actually living in the cruel world	240	MOV	4d	2024-01-23 17:10:14.412441	1	3
+6	Food	Budget for eating	200	MOV	3d	2024-01-17 17:10:14.412442	3	4
+7	Fun	Hobby Funding	40	MOV	1d	2024-01-21 17:10:14.412444	3	5
 \.
 
 
@@ -191,12 +191,12 @@ COPY public."flowEvents" (id, name, description, change_amount, type, frequency,
 --
 
 COPY public.logs (id, name, description, type, amount, date_created, bucket_id) FROM stdin;
-1	Main Job income	My main salary	ADD	5000	2025-01-19 17:10:14.412455	1
-2	Gym Spending	For exercise	SUB	18	2025-01-22 17:10:14.412456	1
-3	Household spending move	Moving Total to household spending	MOV	600	2025-01-20 17:10:14.412458	1
-4	Savings Move	Money to be saved on untouched	MOV	2000	2025-01-18 17:10:14.412459	1
-5	Woolies shopping	Friday woolies shopping	SUB	65	2025-01-19 17:10:14.41246	5
-6	Eating at Cafe de la Cafe	Brekkie	SUB	30	2025-01-23 17:10:14.412461	5
+1	Main Job income	My main salary	ADD	5000	2024-01-19 17:10:14.412455	1
+2	Gym Spending	For exercise	SUB	18	2024-01-22 17:10:14.412456	1
+3	Household spending move	Moving Total to household spending	MOV	600	2024-01-20 17:10:14.412458	1
+4	Savings Move	Money to be saved on untouched	MOV	2000	2024-01-18 17:10:14.412459	1
+5	Woolies shopping	Friday woolies shopping	SUB	65	2024-01-19 17:10:14.41246	5
+6	Eating at Cafe de la Cafe	Brekkie	SUB	30	2024-01-23 17:10:14.412461	5
 \.
 
 

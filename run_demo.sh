@@ -5,36 +5,36 @@
 # vvvvvvvvvvvvvvvvvvvv CONFIGURATION vvvvvvvvvvvvvvvvvvvv
 
 PROJECT_NAME="Spenny"
-LOCAL_PROJECT_PATH="__SETUP__"
+LOCAL_PROJECT_PATH="/home/hcheong/projects/spenny"
 
-SPENNY_DB_USER="__SETUP__"
-SPENNY_DB_PASS="__SETUP__"
-SPENNY_DB_NAME="__SETUP__"
-SPENNY_DB_HOST="__SETUP__"
-SPENNY_DB_PORT="__SETUP__"
-SPENNY_DB_SQL_DUMP_FILE_PATH="__SETUP__"
-SPENNY_DB_SQL_DUMP_SCHEMA_ONLY="__SETUP__"
-SPENNY_DB_CONTAINER_NAME="__SETUP__"
-SPENNY_DB_IMAGE_NAME="__SETUP__"
-SPENNY_DB_TIMEZONE="__SETUP__"
+SPENNY_DB_USER="spenny_db_user"
+SPENNY_DB_PASS="spenny_db_pass123"
+SPENNY_DB_NAME="spenny_db"
+SPENNY_DB_HOST="172.17.0.1"
+SPENNY_DB_PORT="5432"
+SPENNY_DB_SQL_DUMP_FILE_PATH="/home/hcheong/projects/spenny/utils/spenny_sample_db.sql"
+SPENNY_DB_SQL_DUMP_SCHEMA_ONLY="0"
+SPENNY_DB_CONTAINER_NAME="spenny_db_cont"
+SPENNY_DB_IMAGE_NAME="postgres:14.5"
+SPENNY_DB_TIMEZONE="Australia/Sydney"
 
-BACKEND_PORT="__SETUP__"
-BACKEND_APP_PATH="__SETUP__"
-BACKEND_CONTAINER_URL="__SETUP__"
-BACKEND_CONTAINER_NAME="__SETUP__"
-BACKEND_IMAGE_NAME="__SETUP__"
-BACKEND_TIMEZONE="__SETUP__"
+BACKEND_PORT="9101"
+BACKEND_PATH="/home/hcheong/projects/spenny/backend"
+BACKEND_CONTAINER_URL="http://localhost:${BACKEND_PORT}"
+BACKEND_CONTAINER_NAME="spenny_backend_cont"
+BACKEND_IMAGE_NAME="spenny_backend_img"
+BACKEND_TIMEZONE="Australia/Sydney"
 
-BACKEND_CONFIG_PATH="__SETUP__"
-BACKEND_LOG_PATH="__SETUP__"
-BACKEND_ENV="__SETUP__"
+BACKEND_CONFIG_PATH=""
+BACKEND_LOG_PATH=""
+BACKEND_ENV="/home/hcheong/projects/spenny/backend/.venv"
 
-FRONTEND_PORT="__SETUP__"
-FRONTEND_APP_PATH="__SETUP__"
-FRONTEND_CONTAINER_URL="__SETUP__"
-FRONTEND_CONTAINER_NAME="__SETUP__"
-FRONTEND_IMAGE_NAME="__SETUP__"
-FRONTEND_TIMEZONE="__SETUP__"
+FRONTEND_PORT="9102"
+FRONTEND_PATH="/home/hcheong/projects/spenny/frontend"
+FRONTEND_CONTAINER_URL="http://localhost:${FRONTEND_PORT}"
+FRONTEND_CONTAINER_NAME="spenny_frontend_cont"
+FRONTEND_IMAGE_NAME="spenny_frontend_img"
+FRONTEND_TIMEZONE="Australia/Sydney"
 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -59,7 +59,7 @@ function show_config {
     echo "SPENNY_DB_TIMEZONE: ${SPENNY_DB_TIMEZONE}"
     echo "=============================="
     echo "BACKEND_PORT: ${BACKEND_PORT}"
-    echo "BACKEND_APP_PATH: ${BACKEND_APP_PATH}"
+    echo "BACKEND_PATH: ${BACKEND_PATH}"
     echo "BACKEND_CONTAINER_URL: ${BACKEND_CONTAINER_URL}"
     echo "BACKEND_CONTAINER_NAME: ${BACKEND_CONTAINER_NAME}"
     echo "BACKEND_IMAGE_NAME: ${BACKEND_IMAGE_NAME}"
@@ -69,7 +69,7 @@ function show_config {
     echo "BACKEND_ENV: ${BACKEND_ENV}"
     echo "=============================="
     echo "FRONTEND_PORT: ${FRONTEND_PORT}"
-    echo "FRONTEND_APP_PATH: ${FRONTEND_APP_PATH}"
+    echo "FRONTEND_PATH: ${FRONTEND_PATH}"
     echo "FRONTEND_CONTAINER_URL: ${FRONTEND_CONTAINER_URL}"
     echo "FRONTEND_CONTAINER_NAME: ${FRONTEND_CONTAINER_NAME}"
     echo "FRONTEND_IMAGE_NAME: ${FRONTEND_IMAGE_NAME}"
@@ -88,7 +88,7 @@ function run_backend {
         -e "SPENNY_DB_HOST=${SPENNY_DB_HOST}" \
         -e "SPENNY_DB_PORT=${SPENNY_DB_PORT}" \
         -e "TZ=${BACKEND_TIMEZONE}" \
-        --mount type=bind,source="${BACKEND_APP_PATH}/app",target=/app/ \
+        --mount type=bind,source="${BACKEND_PATH}/app",target=/app/ \
         --name ${BACKEND_CONTAINER_NAME} ${BACKEND_IMAGE_NAME}
 }
 
@@ -99,7 +99,7 @@ function run_frontend {
         -d \
         -e "BACKEND_CONTAINER_URL=${BACKEND_CONTAINER_URL}" \
         -e "TZ=${FRONTEND_TIMEZONE}" \
-        --mount type=bind,source="${FRONTEND_APP_PATH}",target=/app \
+        --mount type=bind,source="${FRONTEND_PATH}",target=/app \
         --name ${FRONTEND_CONTAINER_NAME} ${FRONTEND_IMAGE_NAME}
 }
 
@@ -173,8 +173,10 @@ if [[ $run_option == "demo" ]]; then
     remove_containers $FRONTEND_CONTAINER_NAME
 
     # Build Application Containers
-    build_image $BACKEND_IMAGE_NAME $BACKEND_APP_PATH
-    build_image $FRONTEND_IMAGE_NAME $FRONTEND_APP_PATH
+    build_image $BACKEND_IMAGE_NAME $BACKEND_PATH
+    build_image $FRONTEND_IMAGE_NAME $FRONTEND_PATH
+
+    sleep 2
 
     # Spin up Frontend Container
     run_backend
