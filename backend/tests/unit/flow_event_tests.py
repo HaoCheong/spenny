@@ -22,7 +22,6 @@ def test_get_all_flow_event(reset_db, flow_events_data):
 
     # Compare return list with input list
     all_flow_events = wrappers.get_all_flow_events()['data']
-    # print("all_flow_events", all_flow_events)
     assert len(flow_events) == len(all_flow_events)
 
 

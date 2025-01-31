@@ -21,7 +21,6 @@ def test_get_all_bucket(reset_db, buckets_data):
 
     # Compare return list with input list
     all_buckets = wrappers.get_all_buckets()['data']
-    # print("all_buckets", all_buckets)
     assert len(buckets) == len(all_buckets)
 
 
