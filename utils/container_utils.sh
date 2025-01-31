@@ -13,8 +13,8 @@ function remove_containers  {
     
     if docker container inspect $container > /dev/null 2>&1; then
         echo "> Stop and Remove Container - ${container}"
-        docker stop $container
-        docker rm $container
+        docker stop $container > /dev/null
+        docker rm $container > /dev/null
     else
         echo "> Container already removed - Container: ${container}"
     fi
@@ -28,7 +28,7 @@ function pull_image {
 
     if !docker image inspect $image > /dev/null 2>&1; then
         echo "> Pulling Image - IMAGE: ${image}"
-        docker pull $image
+        docker pull $image > /dev/null
     else
         echo "> Image already exist locally - Image: ${image}"
     fi
@@ -55,7 +55,7 @@ function build_image {
     image=$1
     image_path=$2
 
-    docker image inspect $image
+    docker image inspect $image > /dev/null
 
     if [[ $? -eq 1 ]]; then
         echo "========== BUILDING IMAGE - ${image}, ${image_path} =========="
