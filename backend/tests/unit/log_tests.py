@@ -21,7 +21,6 @@ def test_get_all_log(reset_db, logs_data):
 
     # Compare return list with input list
     all_logs = wrappers.get_all_logs()['data']
-    # print("all_logs", all_logs)
     assert len(logs) == len(all_logs)
 
 
