@@ -1,19 +1,9 @@
-# Spenny v1.1.0
+# Spenny v1.3.0
 
 
 ## Changelog
 
 Date: Mon 17 Jan 2025
-### Features
-- Flow events can now be edited
-- Flow events can now be deleted
-- Bucket can now be edited
-- Bucket can now be deleted
-- Triggering the flow events will now occur on every refresh of the page. Run update button no longer needed
-- Bring Forward Trigger for Flow Events
-	- Allows user to update trigger date by how ever long they have set the frequency of the update
-	- Update trigger can also include the relevant money flow event. Allow users to pre-maturely trigger an event while maintaining frequency consistency.
-
 
 ## Overview
 
