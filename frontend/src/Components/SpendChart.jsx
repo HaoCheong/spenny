@@ -82,8 +82,6 @@ const SpendChart = ({ bucket_id }) => {
         setDataPoints(points.slice().reverse())
     }
 
-    // startup()
-
     React.useEffect(() => {
         getLogs()
         getBucketData()
