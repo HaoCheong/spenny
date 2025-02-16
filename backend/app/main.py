@@ -28,7 +28,7 @@ app.add_middleware(
 # ======== ROOT ENDPOINT ========
 # Not necessary but good indication that connection been made
 
-@app.get("/")
+@app.get("/heartbeat")
 def root():
     return {"connection": True}
 
