@@ -1,4 +1,3 @@
-import 'reactflow/dist/style.css'
 import React from 'react'
 import axios from 'axios'
 import {
@@ -25,7 +24,7 @@ import ViewRecent from '../Components/StatisticModals/ViewRecent.jsx'
 import ViewStats from '../Components/StatisticModals/ViewStats.jsx'
 import ViewUpcoming from '../Components/StatisticModals/ViewUpcoming.jsx'
 
-import logo from '../asset/spenny_logo_2.png'
+import logo from '../assets/spenny_logo_2.png'
 import { BACKEND_URL } from '../config.js'
 
 const Dashboard = () => {
@@ -76,7 +75,7 @@ const Dashboard = () => {
                     color: 'white',
                 }}
             >
-                <HStack gap={5} margin="2rem">
+                <HStack gap={5} margin="0 2rem 2rem 2rem">
                     <img src={logo} width="100rem" height="100rem" />
                     <Menu>
                         <MenuButton
