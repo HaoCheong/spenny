@@ -7,12 +7,12 @@
 # vvvvvvvvvvvvvvvvvvvv CONFIGURATION vvvvvvvvvvvvvvvvvvvv
 
 PROJECT_NAME="Spenny v1.1 Demo"
-LOCAL_PROJECT_PATH="/home/hcheong/projects/spenny/new"
+LOCAL_PROJECT_PATH="/home/hcheong/Desktop/Other/spenny/new"
 
 SPENNY_POSTGRES_DB_USER="spenny_demo_db_user"
 SPENNY_POSTGRES_DB_PASS="spenny_demo_db_pass"
 SPENNY_POSTGRES_DB_NAME="spenny_demo_db"
-SPENNY_POSTGRES_DB_HOST="192.168.30.238"
+SPENNY_POSTGRES_DB_HOST="10.1.50.133"
 SPENNY_POSTGRES_DB_PORT="8681"
 SPENNY_SQL_DUMP_FILE_PATH=""
 SPENNY_SQL_DUMP_SCHEMA_ONLY=0
