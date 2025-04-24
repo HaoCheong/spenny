@@ -14,6 +14,10 @@ tags_metadata = [
     {
         "name": "Events",
         "description": "Operations with Events",
+    },
+    {
+        "name": "Event Bucket Assignment",
+        "description": "Operations with Events",
     }
 ]
 
