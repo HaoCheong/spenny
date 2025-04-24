@@ -17,17 +17,17 @@ from app.database.database import SessionDep
 
 router = APIRouter()
 
-@router.post("/event/", response_model=models.EventReadNR, tags=['Nutrition Plans'])
+@router.post("/event/", response_model=models.EventReadNR, tags=['Events'])
 def create_event(event: models.EventCreate, db: SessionDep):
     db_event = cruds.create_event(db=db, new_event=event)
     return db_event
 
-@router.get("/events/", response_model=list[models.EventReadNR], tags=['Nutrition Plans'])
+@router.get("/events/", response_model=list[models.EventReadNR], tags=['Events'])
 def get_all_events(db: SessionDep, offset: int = 0, limit: Annotated[int, Query(le=100)] = 100):
     db_events = cruds.get_all_events(db=db, offset=offset, limit=limit)
     return db_events
 
-@router.get("/event/{event_id}", response_model=models.EventReadWR, tags=['Nutrition Plans'])
+@router.get("/event/{event_id}", response_model=models.EventReadWR, tags=['Events'])
 def get_event_by_id(event_id: int, db: SessionDep):
     
     db_event = cruds.get_event_by_id(db=db, event_id=event_id)
@@ -36,7 +36,7 @@ def get_event_by_id(event_id: int, db: SessionDep):
     
     return db_event
 
-@router.patch("/event/{event_id}", response_model=models.EventReadWR, tags=['Nutrition Plans'])
+@router.patch("/event/{event_id}", response_model=models.EventReadWR, tags=['Events'])
 def update_event(event_id: int, new_event: models.EventUpdate, db: SessionDep):
 
     db_event = cruds.get_event_by_id(db=db, event_id=event_id)
@@ -45,7 +45,7 @@ def update_event(event_id: int, new_event: models.EventUpdate, db: SessionDep):
     
     return cruds.update_event_by_id(db=db, event_id=event_id, new_event=new_event)
 
-@router.delete("/event/{event_id}", tags=['Nutrition Plans'])
+@router.delete("/event/{event_id}", tags=['Events'])
 def delete_event(event_id: int, db: SessionDep):
     
     db_event = cruds.get_event_by_id(db=db, event_id=event_id)
