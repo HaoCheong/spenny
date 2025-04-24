@@ -12,6 +12,7 @@ from sqlmodel import Session
 
 import app.endpoints.event_endpoints as event_endpoints
 import app.endpoints.bucket_endpoints as bucket_endpoints
+import app.endpoints.bucket_event_assignment_endpoints as bucket_event_assignment_endpoints
 import app.metadata as metadata
 from app.database.database import create_db_and_tables
 
@@ -22,13 +23,17 @@ app = FastAPI(
     version=metadata.app_version
 )
 
+
 @app.on_event("startup")
 def on_startup():
     create_db_and_tables()
 
+
 @app.get("/")
 def root():
-    return { "connection": True }
+    return {"connection": True}
+
 
 app.include_router(event_endpoints.router)
 app.include_router(bucket_endpoints.router)
+app.include_router(bucket_event_assignment_endpoints.router)
