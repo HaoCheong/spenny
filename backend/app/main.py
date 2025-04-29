@@ -1,32 +1,46 @@
-''' Main File
+"""main.py (5)
 
-Calls and initialises the application.
-Endpoints and CRUDs are all split based on the associated SQL table.
+Where the endpoints are instantiated and functions are called
 
-'''
+- All the data validation are checked here
+- Error raising done on this level
 
-from typing import Annotated
+"""
 
-from fastapi import Depends, FastAPI
-from sqlmodel import Session
+from fastapi import FastAPI
 
-import app.endpoints.event_endpoints as event_endpoints
-import app.endpoints.bucket_endpoints as bucket_endpoints
-import app.endpoints.bucket_event_assignment_endpoints as bucket_event_assignment_endpoints
+import app.database.database as database
 import app.metadata as metadata
-from app.database.database import create_db_and_tables
 
+from app.database.database import engine
+from fastapi.middleware.cors import CORSMiddleware
+
+import app.endpoints.bucket_endpoints as bucket_endpoints
+import app.endpoints.event_endpoints as event_endpoints
+
+database.Base.metadata.create_all(bind=engine)
+
+# Initialising instance of the backend
 app = FastAPI(
     openapi_tags=metadata.tags_metadata,
+    swagger_ui_parameters=metadata.swagger_ui_parameters,
     title=metadata.app_title,
     description=metadata.app_desc,
-    version=metadata.app_version
+    version=metadata.app_version,
 )
 
+# Handles CORS, currently available to any origin. Need to be tweaked for security
+origins = ['*']
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.on_event("startup")
-def on_startup():
-    create_db_and_tables()
+# ======== ROOT ENDPOINT ========
+# Not necessary but good indication that connection been made
 
 
 @app.get("/")
@@ -34,6 +48,5 @@ def root():
     return {"connection": True}
 
 
-app.include_router(event_endpoints.router)
 app.include_router(bucket_endpoints.router)
-app.include_router(bucket_event_assignment_endpoints.router)
+app.include_router(event_endpoints.router)
