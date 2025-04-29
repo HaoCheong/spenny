@@ -1,70 +1,60 @@
-''' Event CRUDs
+from sqlalchemy.orm import Session
 
-Contains all the base functionailities for reading and writing event data into the database
-5 base functionality:
-- Create
-- Read All instance
-- Read an instance given an ID
-- Update an instance given an ID
-- Delete an instance given an ID
-
-'''
-
-from fastapi import HTTPException
-from sqlmodel import Session, select
-
-import app.models.event_models as models
+import app.models.event_models as model
+import app.schemas.event_schemas as schemas
 
 
-def create_event(db: Session, new_event: models.EventCreate):
-
-    db_event = models.Event.model_validate(new_event)
+def create_event(db: Session, event: schemas.EventCreate):
+    ''' Creating an new pet event '''
+    
+    db_event = model.Event(
+        name=event.name,
+        description=event.description,
+        trigger_datetime=event.trigger_datetime,
+        frequency=event.frequency,
+        event_type=event.event_type,
+        properties=event.properties,
+        created_at=event.created_at,
+        updated_at=event.updated_at
+    )
 
     db.add(db_event)
     db.commit()
     db.refresh(db_event)
-
     return db_event
 
 
-def get_all_events(db: Session, offset: int = 0, limit: int = 100):
-    event = db.exec(select(models.Event).offset(offset).limit(limit)).all()
-    return event
+def get_all_events(db: Session, skip: int = 0, limit: int = 100):
+    ''' Get every instance of pet event, using offset pagination '''
+    return db.query(model.Event).offset(skip).limit(limit).all()
 
 
-def get_event_by_id(db: Session, event_id: int):
-
-    event = db.get(models.Event, event_id)
-
-    if not event:
-        raise HTTPException(status_code=404, detail="Event not found")
-
-    return event
+def get_event_by_id(db: Session, id: str):
+    ''' Get specific instance of event based on provided event ID '''
+    return db.query(model.Event).filter(model.Event.id == id).first()
 
 
-def update_event_by_id(db: Session, event_id: int, new_event: models.EventUpdate):
-    event_db = db.get(models.Event, event_id)
+def update_event_by_id(db: Session, id: int, new_event: schemas.EventUpdate):
+    ''' Update specific fields of specified instance of event on provided event ID '''
+    db_event = db.query(model.Event).filter(model.Event.id == id).first()
 
-    if not event_db:
-        raise HTTPException(status_code=404, detail="Event not found")
+    # Converts new_event from model object to dictionary
+    update_event = new_event.dict(exclude_unset=True)
 
-    event_data = new_event.model_dump(exclude_unset=True)
-    event_db.sqlmodel_update(event_data)
+    # Loops through dictionary and update db_event
+    for key, value in update_event.items():
+        setattr(db_event, key, value)
 
-    db.add(event_db)
+    db.add(db_event)
     db.commit()
-    db.refresh(event_db)
+    db.refresh(db_event)
+    return db_event
 
-    return event_db
 
+def delete_event_by_id(db: Session, id: int):
+    ''' Delete specified instance of event on provided event ID '''
+    db_event = db.query(model.Event).filter(model.Event.id == id).first()
 
-def delete_event_by_id(db: Session, event_id: int):
-    event = db.get(models.Event, event_id)
-
-    if not event:
-        raise HTTPException(status_code=404, detail="Event not found")
-
-    db.delete(event)
+    db.delete(db_event)
     db.commit()
-
     return {"Success": True}
