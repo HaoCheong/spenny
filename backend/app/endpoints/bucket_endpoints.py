@@ -1,55 +1,48 @@
-''' Bucket Endpoints
+from typing import List
 
-Contains all the function that subsequently call the bucket CRUD functions (see CRUD files)
-Split was done because it allowed for simplified data validation and db calling.
-- Endpoints: Takes in and validates input correctness
-- CRUD: Focused on the logic of formatting and manipulating data, under the assumption that the provided data was correct
+from app.helpers import get_db
+from fastapi import Depends, HTTPException, APIRouter
+from sqlalchemy.orm import Session
 
-'''
-
-from typing import Annotated
-
-from fastapi import APIRouter, HTTPException, Query
-
+import app.schemas.bucket_schemas as schemas
 import app.cruds.bucket_cruds as cruds
-import app.models.bucket_models as models
-from app.database.database import SessionDep
 
 router = APIRouter()
 
-@router.post("/bucket/", response_model=models.BucketReadNR, tags=['Buckets'])
-def create_bucket(bucket: models.BucketCreate, db: SessionDep):
-    db_bucket = cruds.create_bucket(db=db, new_bucket=bucket)
-    return db_bucket
 
-@router.get("/buckets/", response_model=list[models.BucketReadNR], tags=['Buckets'])
-def get_all_buckets(db: SessionDep, offset: int = 0, limit: Annotated[int, Query(le=100)] = 100):
-    db_buckets = cruds.get_all_buckets(db=db, offset=offset, limit=limit)
+@router.post("/api/v1/bucket", response_model=schemas.BucketReadNR, tags=["Buckets"])
+def create_bucket(bucket: schemas.BucketCreate, db: Session = Depends(get_db)):
+    return cruds.create_bucket(db=db, bucket=bucket)
+
+
+@router.get("/api/v1/buckets", response_model=List[schemas.BucketReadNR], tags=["Buckets"])
+def get_all_buckets(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    db_buckets = cruds.get_all_buckets(db, skip, limit)
     return db_buckets
 
-@router.get("/bucket/{bucket_id}", response_model=models.BucketReadWR, tags=['Buckets'])
-def get_bucket_by_id(bucket_id: int, db: SessionDep):
-    
-    db_bucket = cruds.get_bucket_by_id(db=db, bucket_id=bucket_id)
-    if db_bucket is None:
+
+@router.get("/api/v1/bucket/{bucket_id}", response_model=schemas.BucketReadWR, tags=["Buckets"])
+def get_bucket_by_id(bucket_id: int, db: Session = Depends(get_db)):
+    db_bucket = cruds.get_bucket_by_id(db, id=bucket_id)
+    if not db_bucket:
         raise HTTPException(status_code=400, detail="Bucket does not exist")
-    
+
     return db_bucket
 
-@router.patch("/bucket/{bucket_id}", response_model=models.BucketReadWR, tags=['Buckets'])
-def update_bucket(bucket_id: int, new_bucket: models.BucketUpdate, db: SessionDep):
 
-    db_bucket = cruds.get_bucket_by_id(db=db, bucket_id=bucket_id)
-    if db_bucket is None:
+@router.patch("/api/v1/bucket/{bucket_id}", response_model=schemas.BucketReadNR, tags=["Buckets"])
+def update_bucket_by_id(bucket_id: int, new_bucket: schemas.BucketUpdate, db: Session = Depends(get_db)):
+    db_bucket = cruds.get_bucket_by_id(db, id=bucket_id)
+    if not db_bucket:
         raise HTTPException(status_code=400, detail="Bucket does not exist")
-    
-    return cruds.update_bucket_by_id(db=db, bucket_id=bucket_id, new_bucket=new_bucket)
 
-@router.delete("/bucket/{bucket_id}", tags=['Buckets'])
-def delete_bucket(bucket_id: int, db: SessionDep):
-    
-    db_bucket = cruds.get_bucket_by_id(db=db, bucket_id=bucket_id)
-    if db_bucket is None:
+    return cruds.update_bucket_by_id(db, id=bucket_id, new_bucket=new_bucket)
+
+
+@router.delete("/api/v1/bucket/{bucket_id}", tags=["Buckets"])
+def delete_bucket_by_id(bucket_id: int, db: Session = Depends(get_db)):
+    db_bucket = cruds.get_bucket_by_id(db, id=bucket_id)
+    if not db_bucket:
         raise HTTPException(status_code=400, detail="Bucket does not exist")
-    
-    return cruds.delete_bucket_by_id(db=db, bucket_id=bucket_id)
+
+    return cruds.delete_bucket_by_id(db, id=bucket_id)
