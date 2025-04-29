@@ -1,23 +1,12 @@
-''' Metadata
-
-Contains metadata details. Typically for developers and not production users.
-Descriptions are reflected on the generated Doc page
-
-'''
-
 # The tags for the FastAPI OpenAPI auto documenter
 tags_metadata = [
     {
         "name": "Buckets",
-        "description": "Operations with Buckets",
+        "description": "Operation on the Storage Buckets of Money",
     },
     {
         "name": "Events",
-        "description": "Operations with Events",
-    },
-    {
-        "name": "Event Bucket Assignment",
-        "description": "Operations with Events",
+        "description": "Operations with Flow and Action Events",
     }
 ]
 
@@ -25,8 +14,8 @@ swagger_ui_parameters = {
     "syntaxHighlight": True
 }
 
-app_title = 'Speny Backend FastAPI'
+app_title = 'Spenny Backend v1.1 FastAPI'
 app_version = '1.1.0'
 app_desc = '''
-The Spenny Money Tracking backend system
+This is the Spenny FastAPI Backend 
 '''
