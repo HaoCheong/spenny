@@ -42,4 +42,8 @@ class BucketUpdate(BucketBase):
     amount: Optional[int] = None
     is_invisible: Optional[bool] = None
 
+class BucketAllRead(BaseModel):
+    total: int
+    data: List[BucketReadNR]
+
 BucketReadWR.model_rebuild()
