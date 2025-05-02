@@ -15,10 +15,10 @@ def create_bucket(bucket: schemas.BucketCreate, db: Session = Depends(get_db)):
     return cruds.create_bucket(db=db, bucket=bucket)
 
 
-@router.get("/api/v1/buckets", response_model=List[schemas.BucketReadNR], tags=["Buckets"])
+@router.get("/api/v1/buckets", response_model=schemas.BucketAllRead, tags=["Buckets"])
 def get_all_buckets(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    db_buckets = cruds.get_all_buckets(db, skip, limit)
-    return db_buckets
+    db_bucket_data = cruds.get_all_buckets(db, skip, limit)
+    return db_bucket_data
 
 
 @router.get("/api/v1/bucket/{bucket_id}", response_model=schemas.BucketReadWR, tags=["Buckets"])
