@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ####################################################################
-########## POSTGRESQK CONTAINER MANAGEMENT UTILITY SCRIPT ##########
+########## POSTGRESQL CONTAINER MANAGEMENT UTILITY SCRIPT ##########
 ####################################################################
 
 
@@ -31,7 +31,7 @@ function run_pg_container {
             -e POSTGRES_DB=$db_name\
             -e TZ=$TIMEZONE\
             -p $db_port:5432\
-            --name $container_name $image_name
+            --name $container_name $image_name > /dev/null 2>&1
     fi
 
     sleep 2 # Buffer to let it start up internally
@@ -53,7 +53,7 @@ function load_pg_dump_file {
         echo "========== LOADING SQL DUMP FILE =========="
         echo "> Proceeding to load in PostgreSQL Dump File - Dump File Path: ${sql_db_file_path}"
 
-        $(PGPASSWORD=$db_pass psql -h localhost -p $db_port -d $db_name -U $db_user < "${sql_db_file_path}") > /dev/null 2>&1
+        $(PGPASSWORD=$db_pass psql -h localhost -p $db_port -d $db_name -U $db_user < "${sql_db_file_path}" > /dev/null 2>&1) 
 
     fi
 
@@ -77,7 +77,7 @@ function clear_content_pg_file {
 
         # Drop all content
         for tab in $pub_tables; do
-            $(PGPASSWORD=$db_pass psql -h localhost -p $db_port -d $db_name -U $db_user -t -c "DELETE FROM $tab CASCADE;") > /dev/null 2>&1
+            $(PGPASSWORD=$db_pass psql -h localhost -p $db_port -d $db_name -U $db_user -t -c "DELETE FROM $tab CASCADE;" > /dev/null 2>&1)
         done
 
     fi
@@ -113,6 +113,6 @@ function pg_run_db_query {
     desc=$7
 
     echo "> $desc"
-    $(PGPASSWORD=$db_pass psql -h localhost -p $db_port -d $db_name -U $db_user -t -c "$query") > /dev/null 2>&1
+    $(PGPASSWORD=$db_pass psql -h localhost -p $db_port -d $db_name -U $db_user -t -c "$query" > /dev/null 2>&1)
     
 }
