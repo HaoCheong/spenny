@@ -13,8 +13,8 @@ function remove_containers  {
     
     if docker container inspect $container > /dev/null 2>&1; then
         echo "> Stop and Remove Container - ${container}"
-        docker stop $container
-        docker rm $container
+        docker stop $container > /dev/null 2>&1
+        docker rm $container > /dev/null 2>&1
     else
         echo "> Container already removed - Container: ${container}"
     fi
@@ -28,7 +28,7 @@ function pull_image {
 
     if !docker image inspect $image > /dev/null 2>&1; then
         echo "> Pulling Image - IMAGE: ${image}"
-        docker pull $image
+        docker pull $image > /dev/null 2>&1
     else
         echo "> Image already exist locally - Image: ${image}"
     fi
@@ -38,12 +38,12 @@ function remove_image {
 
     image=$1
     
-    docker image inspect $image
+    docker image inspect $image > /dev/null 2>&1
 
     # Remove image if they exist
     if [[ $? -eq 0 ]]; then
         echo "> Removing Image - Image: ${image}"
-        docker rmi -f $image
+        docker rmi -f $image > /dev/null 2>&1
     else
         echo "> Image already removed - Image: ${image}"
     fi
@@ -54,13 +54,12 @@ function build_image {
 
     image=$1
     image_path=$2
-    dockerfile_name=$3
 
-    docker image inspect $image
+    docker image inspect $image > /dev/null 2>&1
 
     if [[ $? -eq 1 ]]; then
         echo "========== BUILDING IMAGE - ${image}, ${image_path} =========="
-        docker build --no-cache -f $dockerfile_name -t $image $image_path
+        docker build -t $image $image_path
     else
         echo "> Image already built - ${image}, ${image_path}"
     fi
@@ -69,9 +68,7 @@ function build_image {
 
 function show_config {
     # Shows the configuration values currently set
-
-    echo ">>> TODO <<<"
-    echo "========== END =========="
+    echo ">> Todo <<"
 }
 
 function show_container_status {
@@ -112,7 +109,7 @@ function run_container {
             -d \
             -e TZ=$timezone\
             -p $expose_port:8000\
-            --name $container_name $image_name
+            --name $container_name $image_name > /dev/null 2>&1
     fi
 
     sleep 2 # Buffer to let it start up internally
