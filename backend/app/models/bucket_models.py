@@ -15,3 +15,5 @@ class Bucket(Base):
     is_invisible: Mapped[bool] = mapped_column(Boolean)
     created_at: Mapped[datetime] = mapped_column(DateTime)
     updated_at: Mapped[datetime] = mapped_column(DateTime)
+
+    events: Mapped[list['Event']] = relationship("Event", back_populates="bucket")
