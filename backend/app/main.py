@@ -17,6 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 import app.endpoints.bucket_endpoints as bucket_endpoints
 import app.endpoints.event_endpoints as event_endpoints
+import app.endpoints.assignment_endpoints as assignment_endpoints
 
 database.Base.metadata.create_all(bind=engine)
 
@@ -47,6 +48,6 @@ app.add_middleware(
 def root():
     return {"connection": True}
 
-
+app.include_router(assignment_endpoints.router)
 app.include_router(bucket_endpoints.router)
 app.include_router(event_endpoints.router)
