@@ -7,6 +7,10 @@ tags_metadata = [
     {
         "name": "Events",
         "description": "Operations with Flow and Action Events",
+    },
+    {
+        "name": "Bucket Event Assignment",
+        "description": "Operations with Assigning Flow and Action Events to Buckets",
     }
 ]
 
