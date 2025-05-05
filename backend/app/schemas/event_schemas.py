@@ -1,25 +1,19 @@
-from typing import List, Optional, TYPE_CHECKING
-from pydantic import BaseModel, ConfigDict
+from typing import List, Optional, TYPE_CHECKING, Union, Literal, Annotated
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from datetime import datetime
 
 if TYPE_CHECKING:
     pass
 
-class AddBase(BaseModel):
+class AddProps(BaseModel):
     amount: int
-    model_config = ConfigDict(extra="forbid")
 
-
-class SubBase(BaseModel):
+class SubProps(BaseModel):
     amount: int
-    model_config = ConfigDict(extra="forbid")
 
-
-class MoveBase(BaseModel):
+class MoveProps(BaseModel):
     to_bucket_id: int
     amount: int
-    model_config = ConfigDict(extra="forbid")
-
 
 class EventBase(BaseModel):
     ''' Events Base Schema '''
@@ -28,14 +22,27 @@ class EventBase(BaseModel):
     description: str
     trigger_datetime: datetime
     frequency: str
-    event_type: str
-    properties: AddBase | SubBase | MoveBase
+    event_type: Literal["ADD", "SUB", "MOVE"]
+    properties: dict
     created_at: datetime
     updated_at: datetime
 
+    # PFIX: Might require moving to discrimnated union
+    @model_validator(mode='after')
+    def validate_properties(self):
+        if self.event_type == "ADD":
+            self.properties = AddProps(**self.properties)
+        elif self.event_type == "SUB":
+            self.properties = SubProps(**self.properties)
+        elif self.event_type == "MOVE":
+            self.properties = MoveProps(**self.properties)
+        else:
+            raise ValueError(f"Unknown properties for event type {self.event_type}")
+
+        return self
+    
    # Allow for Object Relational Mapping (Treating relation like nested objects)
     model_config = ConfigDict(from_attributes=True)
-
 
 class EventCreate(EventBase):
     ''' Event Create Schema '''
@@ -59,6 +66,6 @@ class EventUpdate(EventBase):
     trigger_datetime: Optional[datetime] = None
     frequency: Optional[str] = None
     event_type: Optional[str] = None
-    properties: Optional[AddBase | SubBase | MoveBase] = None
+    properties: Optional[dict] = None
 
 EventReadWR.model_rebuild()

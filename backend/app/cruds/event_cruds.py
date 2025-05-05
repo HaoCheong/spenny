@@ -6,14 +6,16 @@ import app.schemas.event_schemas as schemas
 
 def create_event(db: Session, event: schemas.EventCreate):
     ''' Creating an new pet event '''
-    
+
+    # event = schemas.EventUnion.model_validate(event)
+
     db_event = model.Event(
         name=event.name,
         description=event.description,
         trigger_datetime=event.trigger_datetime,
         frequency=event.frequency,
         event_type=event.event_type,
-        properties=event.properties,
+        properties=event.properties.model_dump(),
         created_at=event.created_at,
         updated_at=event.updated_at
     )
