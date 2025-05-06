@@ -1,0 +1,43 @@
+services:
+
+  db:
+    env_file:
+      - demo.env
+    container_name: ${SPENNY_DB_CONTAINER_NAME}
+    image: ${SPENNY_DB_IMAGE_NAME}
+    hostname: ${SPENNY_DB_HOST}
+    ports:
+      - ${SPENNY_DB_PORT}:5432
+    environment:
+      - POSTGRES_USER=${SPENNY_DB_USER}
+      - POSTGRES_PASSWORD=${SPENNY_DB_PASS}
+      - POSTGRES_DB=${SPENNY_DB_NAME}
+      - TZ=${SPENNY_DB_TIMEZONE} 
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+
+  backend:
+    env_file:
+      - demo.env
+    container_name: ${BACKEND_CONTAINER_NAME}
+    image: ${BACKEND_IMAGE_NAME}
+    build: ${BACKEND_APP_PATH}
+    ports:
+      - ${BACKEND_PORT}:8000
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SPENNY_DB_USER=${SPENNY_DB_USER}
+      - SPENNY_DB_PASS=${SPENNY_DB_PASS}
+      - SPENNY_DB_NAME=${SPENNY_DB_NAME}
+      - SPENNY_DB_HOST=${SPENNY_DB_HOST}
+      - SPENNY_DB_PORT=${SPENNY_DB_PORT}
+      - TZ=${SPENNY_DB_TIMEZONE}
+    volumes:
+      - ${BACKEND_APP_PATH}/app:/app
