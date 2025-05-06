@@ -1,11 +1,19 @@
 services:
 
   db:
+<<<<<<< HEAD
     container_name: ${SPENNY_DB_CONTAINER_NAME}
     image: ${SPENNY_DB_IMAGE_NAME}
     hostname: ${SPENNY_DB_HOST}
     volumes:
       - /home/hcheong/Desktop/Other/SIDE_PROJECTS/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
+=======
+    env_file:
+      - demo.env
+    container_name: ${SPENNY_DB_CONTAINER_NAME}
+    image: ${SPENNY_DB_IMAGE_NAME}
+    hostname: ${SPENNY_DB_HOST}
+>>>>>>> 856337b (Moving to docker compose)
     ports:
       - ${SPENNY_DB_PORT}:5432
     environment:
@@ -20,6 +28,7 @@ services:
       retries: 5
       start_period: 10s
       timeout: 5s
+<<<<<<< HEAD
     profiles:
     - test
     - demo
@@ -31,6 +40,15 @@ services:
       context: ./backend
       dockerfile: Dockerfile
 
+=======
+
+  backend:
+    env_file:
+      - demo.env
+    container_name: ${BACKEND_CONTAINER_NAME}
+    image: ${BACKEND_IMAGE_NAME}
+    build: ${BACKEND_APP_PATH}
+>>>>>>> 856337b (Moving to docker compose)
     ports:
       - ${BACKEND_PORT}:8000
     depends_on:
@@ -45,6 +63,7 @@ services:
       - TZ=${SPENNY_DB_TIMEZONE}
     volumes:
       - ${BACKEND_APP_PATH}/app:/app
+<<<<<<< HEAD
     profiles:
     - demo
     - live
@@ -66,3 +85,5 @@ services:
     profiles:
     - demo
     - live
+=======
+>>>>>>> 856337b (Moving to docker compose)
