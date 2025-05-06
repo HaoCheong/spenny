@@ -5,24 +5,41 @@ from datetime import datetime
 if TYPE_CHECKING:
     pass
 
+
 class AddProps(BaseModel):
+    ''' Properties required for ADD (Adding amount into a bucket) '''
     amount: int
+
 
 class SubProps(BaseModel):
+    ''' Properties required for SUB (Subtracting amount into a bucket) '''
     amount: int
 
+
 class MoveProps(BaseModel):
+    ''' Properties required for MOVE (Moving a set amount from the current bucket into another bucket) '''
     to_bucket_id: int
     amount: int
 
+
+class MultProps(BaseModel):
+    ''' Properties required for MULT (Increase the current bucket amount by a percentage) '''
+    percentage: float
+
+
+class CMVProps(BaseModel):
+    ''' Properties required for CMV (Clear and MoVe, Taking all that is remaining in the current bucket and moving it to another bucket) '''
+    to_bucket_id: int
+
+
 class EventBase(BaseModel):
     ''' Events Base Schema '''
-    
+
     name: str
     description: str
     trigger_datetime: datetime
     frequency: str
-    event_type: Literal["ADD", "SUB", "MOVE"]
+    event_type: Literal["ADD", "SUB", "MOVE", "MULT", "CMV"]
     properties: dict
     created_at: datetime
     updated_at: datetime
@@ -36,13 +53,19 @@ class EventBase(BaseModel):
             self.properties = SubProps(**self.properties)
         elif self.event_type == "MOVE":
             self.properties = MoveProps(**self.properties)
+        elif self.event_type == "MULT":
+            self.properties = MultProps(**self.properties)
+        elif self.event_type == "CMV":
+            self.properties = CMVProps(**self.properties)
         else:
-            raise ValueError(f"Unknown properties for event type {self.event_type}")
+            raise ValueError(
+                f"Unknown properties for event type {self.event_type}")
 
         return self
-    
+
    # Allow for Object Relational Mapping (Treating relation like nested objects)
     model_config = ConfigDict(from_attributes=True)
+
 
 class EventCreate(EventBase):
     ''' Event Create Schema '''
@@ -67,5 +90,6 @@ class EventUpdate(EventBase):
     frequency: Optional[str] = None
     event_type: Optional[str] = None
     properties: Optional[dict] = None
+
 
 EventReadWR.model_rebuild()
