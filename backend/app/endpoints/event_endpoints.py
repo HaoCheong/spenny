@@ -15,7 +15,7 @@ def create_event(event: schemas.EventCreate, db: Session = Depends(get_db)):
     return cruds.create_event(db=db, event=event)
 
 
-@router.get("/api/v1/events", response_model=List[schemas.EventReadNR], tags=["Events"])
+@router.get("/api/v1/events", response_model=schemas.EventAllRead, tags=["Events"])
 def get_all_events(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     db_events = cruds.get_all_events(db, skip, limit)
     return db_events

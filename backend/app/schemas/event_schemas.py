@@ -92,4 +92,9 @@ class EventUpdate(EventBase):
     properties: Optional[dict] = None
 
 
+class EventAllRead(BaseModel):
+    total: int
+    data: list[EventReadNR]
+
+
 EventReadWR.model_rebuild()
