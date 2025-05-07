@@ -28,7 +28,16 @@ def create_event(db: Session, event: schemas.EventCreate):
 
 def get_all_events(db: Session, skip: int = 0, limit: int = 100):
     ''' Get every instance of pet event, using offset pagination '''
-    return db.query(model.Event).offset(skip).limit(limit).all()
+
+    query = db.query(model.Event)
+
+    total = query.count()
+    data = query.offset(skip).limit(limit).all()
+
+    return {
+        "total": total,
+        "data": data
+    }
 
 
 def get_event_by_id(db: Session, id: str):

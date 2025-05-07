@@ -6,7 +6,7 @@ import app.schemas.log_schemas as schemas
 
 def create_log(db: Session, log: schemas.LogCreate):
     ''' Creating an new pet log '''
-    
+
     db_log = model.Log(
         name=log.name,
         description=log.description,
@@ -27,17 +27,34 @@ def create_log(db: Session, log: schemas.LogCreate):
 
 def get_all_logs(db: Session, skip: int = 0, limit: int = 100):
     ''' Get every instance of pet log, using offset pagination '''
-    total = db.query(model.Log).count()
-    data = db.query(model.Log).offset(skip).limit(limit).all()
+    query = db.query(model.Log)
+
+    total = query.count()
+    data = query.offset(skip).limit(limit).all()
+
     return {
         "total": total,
         "data": data
     }
 
 
-def get_log_by_id(db: Session, id: str):
+def get_log_by_id(db: Session, id: int):
     ''' Get specific instance of log based on provided log ID '''
     return db.query(model.Log).filter(model.Log.id == id).first()
+
+
+def get_all_logs_by_bucket_id(db: Session, bucket_id: int):
+    ''' Get specific instance of log based on provided log ID '''
+    query = db.query(model.Log).filter(model.Log.bucket_id == bucket_id)
+
+    total = query.count()
+    data = query.all()
+
+    return {
+        "total": total,
+        "data": data
+    }
+
 
 def delete_log_by_id(db: Session, id: int):
     ''' Delete specified instance of log on provided log ID '''
