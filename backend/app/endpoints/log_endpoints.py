@@ -21,6 +21,13 @@ def get_all_logs(skip: int = 0, limit: int = 100, db: Session = Depends(get_db))
     return db_log_data
 
 
+@router.get("/api/v1/logs/{bucket_id}", response_model=schemas.LogAllRead, tags=["Logs"])
+def get_all_logs(bucket_id: int, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    db_log_data = cruds.get_all_logs_by_bucket_id(
+        bucket_id=bucket_id, db=db, skip=skip, limit=limit)
+    return db_log_data
+
+
 @router.get("/api/v1/log/{log_id}", response_model=schemas.LogRead, tags=["Logs"])
 def get_log_by_id(log_id: int, db: Session = Depends(get_db)):
     db_log = cruds.get_log_by_id(db, id=log_id)
