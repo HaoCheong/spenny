@@ -43,12 +43,12 @@ def get_log_by_id(db: Session, id: int):
     return db.query(model.Log).filter(model.Log.id == id).first()
 
 
-def get_all_logs_by_bucket_id(db: Session, bucket_id: int):
+def get_all_logs_by_bucket_id(db: Session, bucket_id: int, skip: int = 0, limit: int = 100):
     ''' Get specific instance of log based on provided log ID '''
     query = db.query(model.Log).filter(model.Log.bucket_id == bucket_id)
 
     total = query.count()
-    data = query.all()
+    data = query.offset(skip).limit(limit).all()
 
     return {
         "total": total,
