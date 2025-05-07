@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 class BucketBase(BaseModel):
     ''' Buckets Base Schema '''
-    
+
     name: str
     description: str
     amount: int
@@ -42,8 +42,10 @@ class BucketUpdate(BucketBase):
     amount: Optional[int] = None
     is_invisible: Optional[bool] = None
 
+
 class BucketAllRead(BaseModel):
     total: int
-    data: List[BucketReadNR]
+    data: list[BucketReadNR]
+
 
 BucketReadWR.model_rebuild()

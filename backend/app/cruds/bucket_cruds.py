@@ -6,7 +6,7 @@ import app.schemas.bucket_schemas as schemas
 
 def create_bucket(db: Session, bucket: schemas.BucketCreate):
     ''' Creating an new pet bucket '''
-    
+
     db_bucket = model.Bucket(
         name=bucket.name,
         description=bucket.description,
@@ -24,8 +24,12 @@ def create_bucket(db: Session, bucket: schemas.BucketCreate):
 
 def get_all_buckets(db: Session, skip: int = 0, limit: int = 100):
     ''' Get every instance of pet bucket, using offset pagination '''
-    total = db.query(model.Bucket).count()
-    data = db.query(model.Bucket).offset(skip).limit(limit).all()
+
+    query = db.query(model.Bucket)
+
+    total = query.count()
+    data = query.offset(skip).limit(limit).all()
+
     return {
         "total": total,
         "data": data
