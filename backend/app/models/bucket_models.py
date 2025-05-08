@@ -16,4 +16,8 @@ class Bucket(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime)
     updated_at: Mapped[datetime] = mapped_column(DateTime)
 
-    events: Mapped[list['Event']] = relationship("Event", back_populates="bucket")
+    events: Mapped[list['Event']] = relationship(
+        "Event", back_populates="bucket")
+
+    def test_call(self):
+        print(f"I am {self.name}")
