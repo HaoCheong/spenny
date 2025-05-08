@@ -1,9 +1,10 @@
+
 from typing import List, Optional, TYPE_CHECKING, Union, Literal, Annotated
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from datetime import datetime
 
 if TYPE_CHECKING:
-    pass
+    from app.schemas.bucket_schemas import BucketReadNR
 
 
 class AddProps(BaseModel):
@@ -79,7 +80,7 @@ class EventReadNR(EventBase):
 
 class EventReadWR(EventReadNR):
     ''' Event Read w/ relation Schema '''
-    pass
+    bucket: "BucketReadNR"
 
 
 class EventUpdate(EventBase):
@@ -96,5 +97,5 @@ class EventAllRead(BaseModel):
     total: int
     data: list[EventReadNR]
 
-
+from app.schemas.bucket_schemas import BucketReadNR
 EventReadWR.model_rebuild()

@@ -3,7 +3,7 @@ from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
 if TYPE_CHECKING:
-    pass
+    from app.schemas.event_schemas import EventReadNR
 
 
 class BucketBase(BaseModel):
@@ -32,7 +32,7 @@ class BucketReadNR(BucketBase):
 
 class BucketReadWR(BucketReadNR):
     ''' Bucket Read w/ relation Schema '''
-    pass
+    events: List["EventReadNR"]
 
 
 class BucketUpdate(BucketBase):
@@ -47,5 +47,5 @@ class BucketAllRead(BaseModel):
     total: int
     data: list[BucketReadNR]
 
-
+from app.schemas.event_schemas import EventReadNR
 BucketReadWR.model_rebuild()
