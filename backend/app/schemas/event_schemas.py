@@ -1,4 +1,3 @@
-
 from typing import List, Optional, TYPE_CHECKING, Union, Literal, Annotated
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from datetime import datetime
@@ -40,10 +39,8 @@ class EventBase(BaseModel):
     description: str
     trigger_datetime: datetime
     frequency: str
-    event_type: Literal["ADD", "SUB", "MOVE", "MULT", "CMV"]
+    event_type: Literal["ADD", "SUB", "MOVE", "MULT", "CMV"] | None
     properties: dict
-    created_at: datetime
-    updated_at: datetime
 
     # PFIX: Might require moving to discrimnated union
     @model_validator(mode='after')
@@ -58,6 +55,8 @@ class EventBase(BaseModel):
             self.properties = MultProps(**self.properties)
         elif self.event_type == "CMV":
             self.properties = CMVProps(**self.properties)
+        elif self.event_type is None:
+            self.properties == None
         else:
             raise ValueError(
                 f"Unknown properties for event type {self.event_type}")
@@ -70,12 +69,16 @@ class EventBase(BaseModel):
 
 class EventCreate(EventBase):
     ''' Event Create Schema '''
+    created_at: datetime
+    updated_at: datetime
     pass
 
 
 class EventReadNR(EventBase):
     ''' Event Read w/o relation Schema '''
     id: int
+    created_at: datetime
+    updated_at: datetime
 
 
 class EventReadWR(EventReadNR):
@@ -91,6 +94,7 @@ class EventUpdate(EventBase):
     frequency: Optional[str] = None
     event_type: Optional[str] = None
     properties: Optional[dict] = None
+    updated_at: datetime
 
 
 class EventAllRead(BaseModel):

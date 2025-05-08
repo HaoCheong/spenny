@@ -42,7 +42,8 @@ def get_all_events(db: Session, skip: int = 0, limit: int = 100):
 
 def get_event_by_id(db: Session, id: str):
     ''' Get specific instance of event based on provided event ID '''
-    return db.query(model.Event).filter(model.Event.id == id).first()
+    db_event = db.query(model.Event).filter(model.Event.id == id).first()
+    return db_event
 
 
 def update_event_by_id(db: Session, id: int, new_event: schemas.EventUpdate):

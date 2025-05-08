@@ -13,8 +13,6 @@ class BucketBase(BaseModel):
     description: str
     amount: int
     is_invisible: bool
-    created_at: datetime
-    updated_at: datetime
 
    # Allow for Object Relational Mapping (Treating relation like nested objects)
     model_config = ConfigDict(from_attributes=True)
@@ -22,12 +20,15 @@ class BucketBase(BaseModel):
 
 class BucketCreate(BucketBase):
     ''' Bucket Create Schema '''
-    pass
+    created_at: datetime
+    updated_at: datetime
 
 
 class BucketReadNR(BucketBase):
     ''' Bucket Read w/o relation Schema '''
     id: int
+    created_at: datetime
+    updated_at: datetime
 
 
 class BucketReadWR(BucketReadNR):
@@ -41,6 +42,7 @@ class BucketUpdate(BucketBase):
     description: Optional[str] = None
     amount: Optional[int] = None
     is_invisible: Optional[bool] = None
+    updated_at: datetime
 
 
 class BucketAllRead(BaseModel):
