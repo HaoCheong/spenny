@@ -4,7 +4,7 @@ from datetime import datetime
 
 class LogBase(BaseModel):
     ''' Log Base Schema '''
-    
+
     name: str
     description: str
     event_id: int
@@ -12,19 +12,21 @@ class LogBase(BaseModel):
     event_properties: dict
     bucket_id: int
     bucket_name: str
-    created_at: datetime
-    updated_at: datetime
+
 
 class LogCreate(LogBase):
     ''' Log Base Schema '''
-    
+
     id: int
+    created_at: datetime
+    updated_at: datetime
+
 
 class LogRead(LogBase):
-    pass
+    created_at: datetime
+    updated_at: datetime
 
 
 class LogAllRead(BaseModel):
     total: int
     data: list[LogRead]
-
