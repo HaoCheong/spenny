@@ -18,6 +18,3 @@ class Bucket(Base):
 
     events: Mapped[list['Event']] = relationship(
         "Event", back_populates="bucket")
-
-    def test_call(self):
-        print(f"I am {self.name}")
