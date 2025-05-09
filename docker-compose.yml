@@ -6,6 +6,8 @@ services:
     container_name: ${SPENNY_DB_CONTAINER_NAME}
     image: ${SPENNY_DB_IMAGE_NAME}
     hostname: ${SPENNY_DB_HOST}
+    volumes:
+      - ${SPENNY_DB_SQL_DUMP_FILE_PATH}:/docker-entrypoint-initdb.d/init.sql 
     ports:
       - ${SPENNY_DB_PORT}:5432
     environment:
