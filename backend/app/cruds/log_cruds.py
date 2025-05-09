@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import and_
+from sqlalchemy import and_, desc
 
 import app.models.log_models as model
 import app.schemas.log_schemas as schemas
@@ -49,7 +49,7 @@ def get_all_logs_by_bucket_id(db: Session, bucket_id: int, skip: int = 0, limit:
     query = db.query(model.Log).filter(model.Log.bucket_id == bucket_id)
 
     total = query.count()
-    data = query.offset(skip).limit(limit).all()
+    data = query.offset(skip).limit(limit).order_by(model.Log.created_at.desc()).all()
 
     return {
         "total": total,
