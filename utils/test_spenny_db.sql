@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 14.5 (Debian 14.5-2.pgdg110+2)
--- Dumped by pg_dump version 16.8 (Ubuntu 16.8-0ubuntu0.24.04.1)
+-- Dumped by pg_dump version 14.17 (Ubuntu 14.17-0ubuntu0.22.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -15,13 +15,6 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: public; Type: SCHEMA; Schema: -; Owner: -
---
-
--- *not* creating schema, since initdb creates it
-
 
 SET default_tablespace = '';
 
@@ -184,20 +177,20 @@ COPY public.buckets (id, name, description, amount, is_invisible, created_at, up
 --
 
 COPY public.events (id, name, description, trigger_datetime, frequency, event_type, properties, created_at, updated_at, bucket_id) FROM stdin;
-1	Salary	Monthly Salary, paid on the last working day of the month	2025-06-01 11:26:42.614	1m	ADD	{"amount": 5500}	2025-05-08 11:26:42.614	2025-05-08 11:26:42.614	1
-2	Household Transfer	Monthly Transfer of household stuff	2025-06-02 11:28:02.028	1m	MOVE	{"to_bucket_id": 2, "amount": 2400}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	1
-3	Necessity Transfer	Monthly Transfer for necessity	2025-06-02 11:28:02.028	1m	MOVE	{"to_bucket_id": 3, "amount": 150}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	1
-4	Lifestyle Transfer	Monthly Transfer for lifestyle	2025-06-02 11:28:02.028	1m	MOVE	{"to_bucket_id": 4, "amount": 1260}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	1
-5	Savings Transfer	Monthly Transfer for to savings account	2025-06-02 11:28:02.028	1m	MOVE	{"to_bucket_id": 5, "amount": 1690}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	1
-6	Rent Transfer	Monthly Transfer for rent	2025-06-03 11:28:02.028	1m	MOVE	{"to_bucket_id": 6, "amount": 2000}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	2
-7	Bill Transfer	Monthly Transfer for utilities: Gas, Electric, Internet	2025-06-03 11:28:02.028	1m	MOVE	{"to_bucket_id": 7, "amount": 200}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	2
-13	Auto Rental Payment	Fortnightly rental payment	2025-06-14 11:28:02.028	2w	SUB	{"amount": 1000}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	2
-8	Health Insurance Transfer	Monthly Transfer for medicare health insurance	2025-06-03 11:28:02.028	1m	MOVE	{"to_bucket_id": 9, "amount": 150}	2025-05-08 11:40:12.202	2025-05-08 11:40:12.202	3
-14	Health Insurance Payment	Monthly Medicare payment	2025-06-07 11:28:02.028	1m	SUB	{"amount": 150}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	3
-9	Fun Fund Transfer	Weekly Transfer for fun stuff fund	2025-06-03 11:28:02.028	1w	MOVE	{"to_bucket_id": 10, "amount": 50}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	4
-10	Weekly Spending Transfer	Weekly Transfer for Groceries and what not	2025-06-03 11:28:02.028	1w	MOVE	{"to_bucket_id": 11, "amount": 200}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	4
-11	Gym Transfer	Weekly Transfer for gym membership	2025-06-03 11:28:02.028	1w	MOVE	{"to_bucket_id": 12, "amount": 15}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	4
-12	PT Transfer	Weekly Transfer for Personal Trainer	2025-06-03 11:28:02.028	2w	MOVE	{"to_bucket_id": 12, "amount": 100}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	4
+1	Salary	Monthly Salary, paid on the last working day of the month	2025-03-01 11:26:42.614	1m	ADD	{"amount": 5500}	2025-05-08 11:26:42.614	2025-05-08 11:26:42.614	1
+2	Household Transfer	Monthly Transfer of household stuff	2025-03-02 11:28:02.028	1m	MOVE	{"to_bucket_id": 2, "amount": 2400}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	1
+3	Necessity Transfer	Monthly Transfer for necessity	2025-03-02 11:28:02.028	1m	MOVE	{"to_bucket_id": 3, "amount": 150}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	1
+4	Lifestyle Transfer	Monthly Transfer for lifestyle	2025-03-02 11:28:02.028	1m	MOVE	{"to_bucket_id": 4, "amount": 1260}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	1
+5	Savings Transfer	Monthly Transfer for to savings account	2025-03-02 11:28:02.028	1m	MOVE	{"to_bucket_id": 5, "amount": 1690}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	1
+6	Rent Transfer	Monthly Transfer for rent	2025-03-03 11:28:02.028	1m	MOVE	{"to_bucket_id": 6, "amount": 2000}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	2
+7	Bill Transfer	Monthly Transfer for utilities: Gas, Electric, Internet	2025-03-03 11:28:02.028	1m	MOVE	{"to_bucket_id": 7, "amount": 200}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	2
+13	Auto Rental Payment	Fortnightly rental payment	2025-03-14 11:28:02.028	2w	SUB	{"amount": 1000}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	2
+8	Health Insurance Transfer	Monthly Transfer for medicare health insurance	2025-03-03 11:28:02.028	1m	MOVE	{"to_bucket_id": 9, "amount": 150}	2025-05-08 11:40:12.202	2025-05-08 11:40:12.202	3
+14	Health Insurance Payment	Monthly Medicare payment	2025-03-07 11:28:02.028	1m	SUB	{"amount": 150}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	3
+9	Fun Fund Transfer	Weekly Transfer for fun stuff fund	2025-03-03 11:28:02.028	1w	MOVE	{"to_bucket_id": 10, "amount": 50}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	4
+10	Weekly Spending Transfer	Weekly Transfer for Groceries and what not	2025-03-03 11:28:02.028	1w	MOVE	{"to_bucket_id": 11, "amount": 200}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	4
+11	Gym Transfer	Weekly Transfer for gym membership	2025-03-03 11:28:02.028	1w	MOVE	{"to_bucket_id": 12, "amount": 15}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	4
+12	PT Transfer	Weekly Transfer for Personal Trainer	2025-03-03 11:28:02.028	2w	MOVE	{"to_bucket_id": 12, "amount": 100}	2025-05-08 11:28:02.028	2025-05-08 11:28:02.028	4
 \.
 
 
@@ -281,14 +274,6 @@ CREATE INDEX ix_logs_id ON public.logs USING btree (id);
 
 ALTER TABLE ONLY public.events
     ADD CONSTRAINT events_bucket_id_fkey FOREIGN KEY (bucket_id) REFERENCES public.buckets(id);
-
-
---
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: -
---
-
-REVOKE USAGE ON SCHEMA public FROM PUBLIC;
-GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
 --
