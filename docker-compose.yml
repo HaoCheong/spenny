@@ -13,7 +13,12 @@ services:
     container_name: ${SPENNY_DB_CONTAINER_NAME}
     image: ${SPENNY_DB_IMAGE_NAME}
     hostname: ${SPENNY_DB_HOST}
+<<<<<<< HEAD
 >>>>>>> 856337b (Moving to docker compose)
+=======
+    volumes:
+      - ${SPENNY_DB_SQL_DUMP_FILE_PATH}:/docker-entrypoint-initdb.d/init.sql 
+>>>>>>> 385cba1 (Updated docker compose to use test SQL)
     ports:
       - ${SPENNY_DB_PORT}:5432
     environment:
