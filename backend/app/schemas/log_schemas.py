@@ -26,6 +26,11 @@ class LogRead(LogBase):
     created_at: datetime
     updated_at: datetime
 
+class LogTimeRange(BaseModel):
+    start_date: datetime
+    end_data: datetime
+
+
 
 class LogAllRead(BaseModel):
     total: int
