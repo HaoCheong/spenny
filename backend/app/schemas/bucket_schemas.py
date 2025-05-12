@@ -1,10 +1,18 @@
-from typing import List, Optional, TYPE_CHECKING
-from pydantic import BaseModel, ConfigDict
+from typing import List, Optional, TYPE_CHECKING, Literal
+from pydantic import BaseModel, ConfigDict, model_validator
 from datetime import datetime
 
 if TYPE_CHECKING:
     from app.schemas.event_schemas import EventReadNR
 
+class StoreProps(BaseModel):
+    pass
+
+class InvisibleProps(BaseModel):
+    pass
+
+class GoalProps(BaseModel):
+    target: int
 
 class BucketBase(BaseModel):
     ''' Buckets Base Schema '''
@@ -12,7 +20,22 @@ class BucketBase(BaseModel):
     name: str
     description: str
     amount: int
-    is_invisible: bool
+    bucket_type: Literal["STORE", "INVSB", "GOALS"] | None
+    @model_validator(mode='after')
+    def validate_properties(self):
+        if self.bucket_type == "STORE":
+            self.properties = None
+        elif self.bucket_type == "INVSB":
+            self.properties = None
+        elif self.bucket_type == "GOALS":
+            self.properties = GoalProps(**self.properties)
+        elif self.bucket_type is None:
+            self.properties == None
+        else:
+            raise ValueError(
+                f"Unknown properties for bucket type {self.bucket_type}")
+
+        return self
 
    # Allow for Object Relational Mapping (Treating relation like nested objects)
     model_config = ConfigDict(from_attributes=True)
@@ -27,6 +50,7 @@ class BucketCreate(BucketBase):
 class BucketReadNR(BucketBase):
     ''' Bucket Read w/o relation Schema '''
     id: int
+    properties: Optional[dict] = None
     created_at: datetime
     updated_at: datetime
 
@@ -41,7 +65,8 @@ class BucketUpdate(BucketBase):
     name: Optional[str] = None
     description: Optional[str] = None
     amount: Optional[int] = None
-    is_invisible: Optional[bool] = None
+    bucket_type: Optional[bool] = None
+    properties: Optional[dict] = None
     updated_at: datetime
 
 
