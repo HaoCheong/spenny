@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String, Boolean, DateTime
+from sqlalchemy import Integer, String, DateTime, JSON
 from sqlalchemy.orm import relationship, mapped_column, Mapped
 from app.database.database import Base
 from datetime import datetime
@@ -12,7 +12,8 @@ class Bucket(Base):
     name: Mapped[str] = mapped_column(String)
     description: Mapped[str] = mapped_column(String)
     amount: Mapped[int] = mapped_column(Integer)
-    is_invisible: Mapped[bool] = mapped_column(Boolean)
+    bucket_type: Mapped[str] = mapped_column(String)
+    properties: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(DateTime)
     updated_at: Mapped[datetime] = mapped_column(DateTime)
 
