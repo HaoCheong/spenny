@@ -29,9 +29,10 @@ CREATE TABLE public.buckets (
     name character varying NOT NULL,
     description character varying NOT NULL,
     amount integer NOT NULL,
-    is_invisible boolean NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    bucket_type character varying,
+    properties json
 );
 
 
@@ -156,19 +157,19 @@ ALTER TABLE ONLY public.logs ALTER COLUMN id SET DEFAULT nextval('public.logs_id
 -- Data for Name: buckets; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.buckets (id, name, description, amount, is_invisible, created_at, updated_at) FROM stdin;
-1	Start	Starting Bucket	5000	f	2025-05-08 11:10:33.951	2025-05-08 11:10:33.951
-2	Household	Household Expenses	0	f	2025-05-08 11:11:04.558	2025-05-08 11:11:04.558
-3	Necessity	Necessary Spending	0	f	2025-05-08 11:11:55.448	2025-05-08 11:11:55.448
-4	Lifestyle	Lifestyle personal uses	0	f	2025-05-08 11:11:55.448	2025-05-08 11:11:55.448
-5	Savings	Savings that are accumulated	0	f	2025-05-08 11:12:50.965	2025-05-08 11:12:50.965
-6	Debt	Debts I owe people	0	f	2025-05-08 11:13:23.688	2025-05-08 11:13:23.688
-7	Rent	Rent cost and portioning	0	f	2025-05-08 11:13:23.688	2025-05-08 11:13:23.688
-8	Bills	Utility Bills and Spending	0	f	2025-05-08 11:14:20.036	2025-05-08 11:14:20.036
-9	Health Insurance	Medical Health Insurance	0	f	2025-05-08 11:14:36.08	2025-05-08 11:14:36.08
-11	Weekly Spending	Grocery and Eating out spending	0	f	2025-05-08 11:15:03.186	2025-05-08 11:15:03.186
-12	Gym	Spending at the Gym	0	f	2025-05-08 11:17:12.596	2025-05-08 11:17:12.596
-10	Fun Fund	Spending for wants	0	f	2025-05-08 11:18:51.831	2025-05-08 11:18:51.831
+COPY public.buckets (id, name, description, amount, created_at, updated_at, bucket_type, properties) FROM stdin;
+1	Start	Starting Bucket	5000	2025-05-08 11:10:33.951	2025-05-08 11:10:33.951	STORE	\N
+2	Household	Household Expenses	0	2025-05-08 11:11:04.558	2025-05-08 11:11:04.558	STORE	\N
+3	Necessity	Necessary Spending	0	2025-05-08 11:11:55.448	2025-05-08 11:11:55.448	STORE	\N
+4	Lifestyle	Lifestyle personal uses	0	2025-05-08 11:11:55.448	2025-05-08 11:11:55.448	STORE	\N
+5	Savings	Savings that are accumulated	0	2025-05-08 11:12:50.965	2025-05-08 11:12:50.965	STORE	\N
+6	Debt	Debts I owe people	0	2025-05-08 11:13:23.688	2025-05-08 11:13:23.688	STORE	\N
+7	Rent	Rent cost and portioning	0	2025-05-08 11:13:23.688	2025-05-08 11:13:23.688	STORE	\N
+8	Bills	Utility Bills and Spending	0	2025-05-08 11:14:20.036	2025-05-08 11:14:20.036	STORE	\N
+9	Health Insurance	Medical Health Insurance	0	2025-05-08 11:14:36.08	2025-05-08 11:14:36.08	STORE	\N
+11	Weekly Spending	Grocery and Eating out spending	0	2025-05-08 11:15:03.186	2025-05-08 11:15:03.186	STORE	\N
+12	Gym	Spending at the Gym	0	2025-05-08 11:17:12.596	2025-05-08 11:17:12.596	STORE	\N
+10	Fun Fund	Spending for wants	0	2025-05-08 11:18:51.831	2025-05-08 11:18:51.831	STORE	\N
 \.
 
 

@@ -11,7 +11,8 @@ def create_bucket(db: Session, bucket: schemas.BucketCreate):
         name=bucket.name,
         description=bucket.description,
         amount=bucket.amount,
-        is_invisible=bucket.is_invisible,
+        bucket_type=bucket.bucket_type,
+        properties=bucket.properties.model_dump(),
         created_at=bucket.created_at,
         updated_at=bucket.updated_at
     )
