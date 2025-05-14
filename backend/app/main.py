@@ -19,8 +19,13 @@ import app.endpoints.bucket_endpoints as bucket_endpoints
 import app.endpoints.event_endpoints as event_endpoints
 import app.endpoints.assignment_endpoints as assignment_endpoints
 import app.endpoints.log_endpoints as log_endpoints
+from app.operations.event_operations import EventOperation
+from sqlalchemy.orm import Session
+from fastapi import Depends
+from app.helpers import get_db
 
 database.Base.metadata.create_all(bind=engine)
+
 
 # Initialising instance of the backend
 app = FastAPI(
@@ -48,6 +53,13 @@ app.add_middleware(
 @app.get("/")
 def root():
     return {"connection": True}
+
+
+@app.get("/call")
+def call(db: Session = Depends(get_db)):
+    EventOperation.update_all_events(db=db)
+    return {"connection": True}
+
 
 app.include_router(assignment_endpoints.router)
 app.include_router(bucket_endpoints.router)
