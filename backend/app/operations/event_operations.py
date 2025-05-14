@@ -7,66 +7,115 @@ import app.cruds.event_cruds as event_cruds
 import app.schemas.bucket_schemas as bucket_schemas
 import app.schemas.event_schemas as event_schemas
 
+from sqlalchemy.orm import Session
 from app.helpers import get_db
 from abc import abstractmethod, ABC
 
 
-class EventExecuter(ABC):
+class EventStrategy(ABC):
+    ''' Event Strategy Base Class '''
 
     @abstractmethod
-    def execute():
+    def execute(self, event, bucket):
         pass
+
+# ==================== Concreate Strategies ====================
+
+
+class AddStrategy(EventStrategy):
+
+    def execute(self, event, bucket):
+
+        print("EVENT", event)
+        print("BUCKET", bucket)
+        # Take the amount as per the property in the event
+
+        # Add it to the total
+
+        # Update via b
+        pass
+
+
+class SubStrategy(EventStrategy):
+    def execute(self, event, bucket):
+        pass
+
+
+class MovStrategy(EventStrategy):
+    def execute(self, event, bucket):
+        pass
+
+
+class MultStrategy(EventStrategy):
+    def execute(self, event, bucket):
+        pass
+
+
+class CMVStrategy(EventStrategy):
+    def execute(self, event, bucket):
+        pass
+
+# ==================== Client Interface/context ====================
+
+
+class EventContext:
+
+    def __init__(self, event_strat: EventStrategy | None, db: Session):
+        self._event_strat = event_strat
+        self._session = db
+
+    @property
+    def event_strat(self):
+        return self._event_strat
+
+    @event_strat.setter
+    def event_strat(self, new_strat: EventStrategy):
+        self._event_strat = new_strat
+
+    def execute_event(self, event: event_schemas.EventReadNR):
+        ''' Execute a single event'''
+
+        # Grab the bucket involve with the event
+        bucket = bucket_cruds.get_bucket_by_id(
+            db=self._session, id=event.bucket_id)
+
+        print("EVENT", event)
+        print("BUCKET", bucket)
+
+        res = self._event_strat.execute(event, bucket)
 
 
 class EventOperation:
 
-    def _add_event(EventExecuter):
-        pass
-
-    def _sub_event(EventExecuter):
-        pass
-
-    def _move_event(EventExecuter):
-        pass
-
-    def _mult_event(EventExecuter):
-        pass
-
-    def _cmv_event(EventExecuter):
-        pass
-
-    def execute_event(event: event_schemas.EventReadNR, exec_func):
-        ''' Execute a single event'''
-
-        # Determine the event type
-
-        # Given the event type, pass in the required event structure
-
-        #
-        pass
-
-    def update_all_events(self):
+    @staticmethod
+    def update_all_events(db):
         ''' Execute all the events and update them '''
 
         # Get all events
-
-        db = get_db()
-        event_data = event_cruds.get_all_events(db=db, skip=0, limit=1)
-        all_events_data = event_cruds.get_all_events(
-            db=db, skip=0, limit=event_data.total)
+        event_data = event_schemas.EventAllRead(
+            **event_cruds.get_all_events(db=db, skip=0, limit=1))
+        print("event_data", event_data)
+        all_events_data = event_schemas.EventAllRead(**event_cruds.get_all_events(
+            db=db, skip=0, limit=event_data.total))
         all_events = all_events_data.data
+
+        event_context = EventContext(None, db)
 
         # Iterate over all events
         for event in all_events:
             if event.event_type == "ADD":
-                self.execute_event(event, self._add_event)
+                event_context.event_strat = AddStrategy
             elif event.event_type == "SUB":
-                self.execute_event(event, self._sub_event)
+                event_context.event_strat = SubStrategy
             elif event.event_type == "MOV":
-                self.execute_event(event, self._add_event)
+                event_context.event_strat = MovStrategy
             elif event.event_type == "MULT":
-                self.execute_event(event, self._add_event)
+                event_context.event_strat = MultStrategy
             elif event.event_type == "CMV":
-                self.execute_event(event, self._add_event)
+                event_context.event_strat = CMVStrategy
             else:
-                pass
+                raise ValueError(
+                    f"Event Type {event.event_type} is not recognised")
+
+            # Execute the event given the context
+            event_context.execute_event(event)
