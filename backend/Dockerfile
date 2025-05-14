@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 WORKDIR /
 
 # Debugging entrypoint, keeps container alive to debug
-#ENTRYPOINT ["tail", "-f", "/dev/null"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
 
 # Run the container
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

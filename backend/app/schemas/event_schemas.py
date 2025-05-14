@@ -1,3 +1,4 @@
+from app.schemas.bucket_schemas import BucketReadNR
 from typing import List, Optional, TYPE_CHECKING, Union, Literal, Annotated
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from datetime import datetime
@@ -77,6 +78,7 @@ class EventCreate(EventBase):
 class EventReadNR(EventBase):
     ''' Event Read w/o relation Schema '''
     id: int
+    bucket_id: int
     created_at: datetime
     updated_at: datetime
 
@@ -101,5 +103,5 @@ class EventAllRead(BaseModel):
     total: int
     data: list[EventReadNR]
 
-from app.schemas.bucket_schemas import BucketReadNR
+
 EventReadWR.model_rebuild()
