@@ -3,6 +3,7 @@
 run_option=$1
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 local_path="/home/hcheong/projects/spenny"
 
 if [[ $run_option == "demo" ]]; then
@@ -20,6 +21,13 @@ local_path="/home/hcheong/projects/spenny"
 
 if [[ $run_option == "demo" ]]; then
     source demo.env
+=======
+local_path="/home/hcheong/Desktop/Other/spenny"
+
+if [[ $run_option == "demo" ]]; then
+    set -a && source demo.env && set +a
+    # docker compose build --no-cache
+>>>>>>> 2e77600 (Fixed up docker file and begin writing bucket execution)
     docker compose --env-file $local_path/demo.env up --force-recreate --remove-orphans --renew-anon-volumes -d
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
     echo "BACKEND URL -> $BACKEND_CONTAINER_URL"
@@ -30,6 +38,7 @@ if [[ $run_option == "demo" ]]; then
 fi
 
 if [[ $run_option == "live" ]]; then
+<<<<<<< HEAD
 <<<<<<< HEAD
     set -a && source live.env && set +a
     docker compose build --no-cache
@@ -44,6 +53,10 @@ if [[ $run_option == "live" ]]; then
     docker compose --env-file $local_path/live.env up --force-recreate --remove-orphans -d
 >>>>>>> 79d3c0a (Updated run sh pathing)
 =======
+=======
+    set -a && source live.env && set +a
+    docker compose build --no-cache
+>>>>>>> 2e77600 (Fixed up docker file and begin writing bucket execution)
     docker compose --env-file $local_path/live.env up --force-recreate --remove-orphans --renew-anon-volumes -d
 >>>>>>> f53ba7f (Updated the DB and updated the buckets model and schema to include bucket type)
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
@@ -81,11 +94,12 @@ fi
 echo "USAGE: ./run.sh [demo|live|unit|stop]"
 =======
 if [[ $run_option == "stop" ]]; then
+
     docker compose --env-file $local_path/demo.env stop 
-    docker compose --env-file $local_path/demo.env down -v
+    docker compose --env-file $local_path/demo.env down --volumes --remove-orphans
 
     docker compose --env-file $local_path/live.env stop 
-    docker compose --env-file $local_path/live.env down -v
+    docker compose --env-file $local_path/live.env down --volumes --remove-orphans
     exit 0
 fi
 

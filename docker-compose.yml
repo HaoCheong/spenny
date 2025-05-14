@@ -2,6 +2,7 @@ services:
 
   db:
 <<<<<<< HEAD
+<<<<<<< HEAD
     container_name: ${SPENNY_DB_CONTAINER_NAME}
     image: ${SPENNY_DB_IMAGE_NAME}
     hostname: ${SPENNY_DB_HOST}
@@ -10,6 +11,8 @@ services:
 =======
     env_file:
       - demo.env
+=======
+>>>>>>> 2e77600 (Fixed up docker file and begin writing bucket execution)
     container_name: ${SPENNY_DB_CONTAINER_NAME}
     image: ${SPENNY_DB_IMAGE_NAME}
     hostname: ${SPENNY_DB_HOST}
@@ -17,8 +20,12 @@ services:
 >>>>>>> 856337b (Moving to docker compose)
 =======
     volumes:
+<<<<<<< HEAD
       - ${SPENNY_DB_SQL_DUMP_FILE_PATH}:/docker-entrypoint-initdb.d/init.sql 
 >>>>>>> 385cba1 (Updated docker compose to use test SQL)
+=======
+      - /home/hcheong/Desktop/Other/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
+>>>>>>> 2e77600 (Fixed up docker file and begin writing bucket execution)
     ports:
       - ${SPENNY_DB_PORT}:5432
     environment:
@@ -48,12 +55,17 @@ services:
 =======
 
   backend:
-    env_file:
-      - demo.env
     container_name: ${BACKEND_CONTAINER_NAME}
     image: ${BACKEND_IMAGE_NAME}
+<<<<<<< HEAD
     build: ${BACKEND_APP_PATH}
 >>>>>>> 856337b (Moving to docker compose)
+=======
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+>>>>>>> 2e77600 (Fixed up docker file and begin writing bucket execution)
     ports:
       - ${BACKEND_PORT}:8000
     depends_on:
