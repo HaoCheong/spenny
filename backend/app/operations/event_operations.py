@@ -72,37 +72,51 @@ class EventContext:
     def event_strat(self, new_strat: EventStrategy):
         self._event_strat = new_strat
 
-    def execute_event(self, event: event_schemas.EventReadNR):
+    def execute_event(self, event: event_schemas.EventReadNR) -> event_schemas.EventReadNR | None:
         ''' Execute a single event'''
 
         # Grab the bucket involve with the event
-        bucket = bucket_cruds.get_bucket_by_id(
-            db=self._session, id=event.bucket_id)
+        bucket = bucket_schemas.BucketReadWR(**bucket_cruds.get_bucket_by_id(
+            db=self._session, id=event.bucket_id))
 
-        print("EVENT", event)
-        print("BUCKET", bucket)
-
+        # Execute the bucket
         res = self._event_strat.execute(event, bucket)
+
+        # Log the execution
+
+        # Update the trigger date
+
+        # Return the event as EventReadNR with new trigger date
 
 
 class EventOperation:
 
+    def trigger_date_sort(self, event):
+        return event.trigger_datetime
+
     @staticmethod
-    def update_all_events(db):
+    def update_all_events(self, db):
         ''' Execute all the events and update them '''
 
-        # Get all events
+        # Get all events in the database
         event_data = event_schemas.EventAllRead(
             **event_cruds.get_all_events(db=db, skip=0, limit=1))
-        print("event_data", event_data)
         all_events_data = event_schemas.EventAllRead(**event_cruds.get_all_events(
             db=db, skip=0, limit=event_data.total))
-        all_events = all_events_data.data
+        event_queue = all_events_data.data
 
+        # Sort the queue via trigger date
+        event_queue = sorted(
+            event_queue, key=lambda e: e.trigger_datetime, reverse=True)
+
+        # Set up the strategy context
         event_context = EventContext(None, db)
 
-        # Iterate over all events
-        for event in all_events:
+        # Execute until the queue is empty
+        while len(event_queue) != 0:
+
+            event = event_queue.pop()
+
             if event.event_type == "ADD":
                 event_context.event_strat = AddStrategy
             elif event.event_type == "SUB":
@@ -118,4 +132,8 @@ class EventOperation:
                     f"Event Type {event.event_type} is not recognised")
 
             # Execute the event given the context
-            event_context.execute_event(event)
+            next_event = event_context.execute_event(event)
+
+            # If the next event is valid
+            if next_event:
+                event_queue.append(next_event)
