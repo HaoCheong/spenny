@@ -5,12 +5,14 @@ import app.models.log_models as model
 import app.schemas.log_schemas as schemas
 from datetime import datetime
 
+
 def create_log(db: Session, log: schemas.LogCreate):
     ''' Creating an new pet log '''
 
     db_log = model.Log(
         name=log.name,
         description=log.description,
+        log_type=log.log_type,
         event_id=log.event_id,
         event_type=log.event_type,
         event_properties=log.event_properties,
@@ -49,12 +51,14 @@ def get_all_logs_by_bucket_id(db: Session, bucket_id: int, skip: int = 0, limit:
     query = db.query(model.Log).filter(model.Log.bucket_id == bucket_id)
 
     total = query.count()
-    data = query.offset(skip).limit(limit).order_by(model.Log.created_at.desc()).all()
+    data = query.order_by(model.Log.created_at.desc()
+                          ).offset(skip).limit(limit).all()
 
     return {
         "total": total,
         "data": data
     }
+
 
 def get_all_logs_by_time_range(db: Session, start_date: datetime, end_date: datetime, int, skip: int = 0, limit: int = 100):
     ''' Get specific instance of log based on provided log ID '''
@@ -62,7 +66,8 @@ def get_all_logs_by_time_range(db: Session, start_date: datetime, end_date: date
         and_(model.Log.created_at <= end_date, model.Log.created_at >= start_date))
 
     total = query.count()
-    data = query.offset(skip).limit(limit).all()
+    data = query.order_by(model.Log.created_at.desc()
+                          ).offset(skip).limit(limit).all()
 
     return {
         "total": total,
