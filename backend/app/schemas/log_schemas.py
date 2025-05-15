@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Literal
 
 
 class LogBase(BaseModel):
@@ -7,6 +8,7 @@ class LogBase(BaseModel):
 
     name: str
     description: str
+    log_type: Literal['EDIT', 'EVENT']
     event_id: int
     event_type: str
     event_properties: dict
@@ -26,10 +28,10 @@ class LogRead(LogBase):
     created_at: datetime
     updated_at: datetime
 
+
 class LogTimeRange(BaseModel):
     start_date: datetime
-    end_data: datetime
-
+    end_date: datetime
 
 
 class LogAllRead(BaseModel):
