@@ -12,6 +12,7 @@ class Log(Base):
 
     name: Mapped[str] = mapped_column(String)
     description: Mapped[str] = mapped_column(String)
+    log_type: Mapped[str] = mapped_column(String)
 
     event_id: Mapped[int] = mapped_column(Integer)
     event_type: Mapped[str] = mapped_column(String)
