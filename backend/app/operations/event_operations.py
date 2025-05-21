@@ -178,6 +178,8 @@ class EventOperation:
     def update_all_events(db, curr_datetime=datetime.now()):
         ''' Execute all the events and update them '''
 
+        # PFIX (Add the get_next_event crud to further simplify the process)
+
         # Get all events in the database
         all_events_data = event_schemas.EventAllRead.model_validate(event_cruds.get_all_events(
             db=db, skip=0, limit=1, all=True))
