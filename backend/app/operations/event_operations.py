@@ -1,20 +1,21 @@
 '''
-Service layer for Event
+Service layer for Event Operations
 '''
 
 import app.cruds.bucket_cruds as bucket_cruds
 import app.cruds.event_cruds as event_cruds
+import app.cruds.log_cruds as log_cruds
 
 import app.models.bucket_models as bucket_models
 import app.models.event_models as event_models
 
-import app.schemas.bucket_schemas as bucket_schemas
 import app.schemas.event_schemas as event_schemas
+import app.schemas.log_schemas as log_schemas
 
 from sqlalchemy.orm import Session
-from app.helpers import get_db, event_freq_adder
+from app.helpers import event_freq_adder
 from abc import abstractmethod, ABC
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 class EventStrategy(ABC):
@@ -29,9 +30,10 @@ class EventStrategy(ABC):
 
 
 class AddStrategy(EventStrategy):
-
+    '''
+    Adds the amount given in the event to a bucket
+    '''
     def execute(db: Session, event: event_schemas.EventReadWR, bucket: bucket_models.Bucket) -> list[bucket_models.Bucket]:
-        print("========== EXECUTING ADD ==========")
 
         add_amount = event.properties.get("amount")
         setattr(bucket, "amount", bucket.amount + add_amount)
@@ -39,9 +41,10 @@ class AddStrategy(EventStrategy):
 
 
 class SubStrategy(EventStrategy):
-
+    '''
+    Subtracts the amount given in the event to a bucket
+    '''
     def execute(db: Session, event: event_schemas.EventReadWR, bucket: bucket_models.Bucket) -> list[bucket_models.Bucket]:
-        print("========== EXECUTING SUB ==========")
 
         sub_amount = event.properties.get("amount")
         setattr(bucket, "amount", bucket.amount - sub_amount)
@@ -49,8 +52,10 @@ class SubStrategy(EventStrategy):
 
 
 class MovStrategy(EventStrategy):
+    '''
+    Moves the amount given in the event from one bucket to another bucket
+    '''
     def execute(db: Session, event: event_schemas.EventReadWR, bucket: bucket_models.Bucket) -> list[bucket_models.Bucket]:
-        print("========== EXECUTING MOV ==========")
 
         from_bucket = bucket
         to_bucket = bucket_cruds.get_bucket_by_id(
@@ -63,8 +68,11 @@ class MovStrategy(EventStrategy):
 
 
 class MultStrategy(EventStrategy):
+    '''
+    Increases the current bucket amount by the given percentage 
+    '''
+
     def execute(db: Session, event: event_schemas.EventReadWR, bucket: bucket_models.Bucket) -> list[bucket_models.Bucket]:
-        print("========== EXECUTING MULT ==========")
 
         from_bucket = bucket
         perc_increase = event.properties.get("percentage")
@@ -76,8 +84,11 @@ class MultStrategy(EventStrategy):
 
 
 class CMVStrategy(EventStrategy):
+    '''
+    Clears And Move all the amount from one bucket to another bucket
+    '''
+
     def execute(db: Session, event: event_schemas.EventReadWR, bucket: bucket_models.Bucket) -> list[bucket_models.Bucket]:
-        print("========== EXECUTING CMV ==========")
 
         from_bucket = bucket
         to_bucket = bucket_cruds.get_bucket_by_id(
@@ -116,6 +127,21 @@ class EventContext:
             self._session, db_event, db_event.bucket)
 
         for bucket in affected_db_buckets:
+
+            log_item = log_schemas.LogCreate.model_validate({
+                "name": db_event.name,
+                "description": db_event.description,
+                "log_type": "EVENT",
+                "event_id": db_event.id,
+                "event_type": db_event.event_type,
+                "event_properties": db_event.properties,
+                "bucket_id": bucket.id,
+                "bucket_name": bucket.name,
+                "created_at": db_event.trigger_datetime,
+                "updated_at": db_event.trigger_datetime
+            })
+            log_cruds.create_log(db=self._session, log=log_item)
+
             setattr(bucket, "updated_at", datetime.now())
             self._session.add(bucket)
             self._session.commit()
@@ -128,8 +154,6 @@ class EventContext:
         self._session.add(db_event)
         self._session.commit()
         self._session.refresh(db_event)
-
-        # Log the execution
 
         # Return the event as EventReadNR with new trigger date
         return event_schemas.EventReadNR.model_validate(db_event)
@@ -159,8 +183,10 @@ class EventOperation:
             db=db, skip=0, limit=1, all=True))
         event_queue = all_events_data.data
 
-        # ========== TEST ==========
-        event_queue = event_queue
+        # Filter out events to prematurely set event queue to 0
+        event_queue = [
+            event for event in event_queue if event.trigger_datetime < curr_datetime]
+
         # Set up the strategy context
         event_context = EventContext(None, db)
 
@@ -171,7 +197,7 @@ class EventOperation:
             event_queue = sorted(
                 event_queue, key=EventOperation.event_sort_key)
 
-            # Pop the most recent / prioritised
+            # Pop the least recent
             event = event_queue.pop()
 
             if event.event_type == "ADD":

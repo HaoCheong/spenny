@@ -19,12 +19,12 @@ class LogBase(BaseModel):
 class LogCreate(LogBase):
     ''' Log Base Schema '''
 
-    id: int
     created_at: datetime
     updated_at: datetime
 
 
 class LogRead(LogBase):
+    id: int
     created_at: datetime
     updated_at: datetime
 
