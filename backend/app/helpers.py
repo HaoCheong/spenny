@@ -16,7 +16,7 @@ def get_db():
 def event_freq_adder(date_to_change: datetime, event_freq: str) -> datetime:
     freq_qty = int(event_freq[0])
     freq_type = event_freq[1]
-    print("PRE DATETIME", date_to_change, freq_qty, freq_type)
+
     new_datetime = None
     if freq_type == "h":
         new_datetime = date_to_change + relativedelta(hours=freq_qty)
@@ -32,5 +32,4 @@ def event_freq_adder(date_to_change: datetime, event_freq: str) -> datetime:
         raise ValueError(
             f"Frequency Type of '{freq_type}' does not exist.")
 
-    print("POST DATETIME", new_datetime)
     return new_datetime
