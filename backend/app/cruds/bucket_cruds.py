@@ -23,13 +23,13 @@ def create_bucket(db: Session, bucket: schemas.BucketCreate):
     return db_bucket
 
 
-def get_all_buckets(db: Session, skip: int = 0, limit: int = 100):
+def get_all_buckets(db: Session, skip: int = 0, limit: int = 100, all: bool = False):
     ''' Get every instance of pet bucket, using offset pagination '''
 
     query = db.query(model.Bucket)
 
     total = query.count()
-    data = query.offset(skip).limit(limit).all()
+    data = query.all() if all else query.offset(skip).limit(limit).all()
 
     return {
         "total": total,
