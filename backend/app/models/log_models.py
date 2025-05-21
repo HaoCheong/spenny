@@ -23,3 +23,6 @@ class Log(Base):
 
     created_at: Mapped[datetime] = mapped_column(DateTime)
     updated_at: Mapped[datetime] = mapped_column(DateTime)
+
+    class Config:
+        orm_mode = True

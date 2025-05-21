@@ -22,3 +22,6 @@ class Event(Base):
         Integer, ForeignKey("buckets.id"), nullable=True)
     bucket: Mapped["Bucket"] = relationship(
         "Bucket", back_populates="events", uselist=False)
+
+    class Config:
+        orm_mode = True
