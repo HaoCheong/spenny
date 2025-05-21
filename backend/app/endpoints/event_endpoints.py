@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 import app.schemas.event_schemas as schemas
 import app.cruds.event_cruds as cruds
-
+import app.operations.event_operations as event_op
 router = APIRouter()
 
 
@@ -17,12 +17,14 @@ def create_event(event: schemas.EventCreate, db: Session = Depends(get_db)):
 
 @router.get("/api/v1/events", response_model=schemas.EventAllRead, tags=["Events"])
 def get_all_events(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    event_op.EventOperation.update_all_events(db=db)
     db_events = cruds.get_all_events(db, skip, limit)
     return db_events
 
 
 @router.get("/api/v1/event/{event_id}", response_model=schemas.EventReadWR, tags=["Events"])
 def get_event_by_id(event_id: int, db: Session = Depends(get_db)):
+    event_op.EventOperation.update_all_events(db=db)
     db_event = cruds.get_event_by_id(db, id=event_id)
     if not db_event:
         raise HTTPException(status_code=400, detail="Event does not exist")
@@ -32,6 +34,7 @@ def get_event_by_id(event_id: int, db: Session = Depends(get_db)):
 
 @router.patch("/api/v1/event/{event_id}", response_model=schemas.EventReadNR, tags=["Events"])
 def update_event_by_id(event_id: int, new_event: schemas.EventUpdate, db: Session = Depends(get_db)):
+    event_op.EventOperation.update_all_events(db=db)
     db_event = cruds.get_event_by_id(db, id=event_id)
     if not db_event:
         raise HTTPException(status_code=400, detail="Event does not exist")
@@ -41,6 +44,7 @@ def update_event_by_id(event_id: int, new_event: schemas.EventUpdate, db: Sessio
 
 @router.delete("/api/v1/event/{event_id}", tags=["Events"])
 def delete_event_by_id(event_id: int, db: Session = Depends(get_db)):
+    event_op.EventOperation.update_all_events(db=db)
     db_event = cruds.get_event_by_id(db, id=event_id)
     if not db_event:
         raise HTTPException(status_code=400, detail="Event does not exist")
