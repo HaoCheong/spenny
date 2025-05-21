@@ -46,6 +46,14 @@ def get_event_by_id(db: Session, id: str):
     return db_event
 
 
+def get_next_event(db: Session):
+    ''' Get specific instance of event based that is next ran '''
+
+    db_event = db.query(model.Event).order_by(
+        model.Event.trigger_datetime.desc()).limit(1).first()
+    return db_event
+
+
 def update_event_by_id(db: Session, id: int, new_event: schemas.EventUpdate):
     ''' Update specific fields of specified instance of event on provided event ID '''
     db_event = db.query(model.Event).filter(model.Event.id == id).first()
