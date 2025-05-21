@@ -1,5 +1,6 @@
 from sqlalchemy import Integer, String, DateTime, JSON
 from sqlalchemy.orm import relationship, mapped_column, Mapped
+from sqlalchemy.inspection import inspect
 from app.database.database import Base
 from datetime import datetime
 
@@ -19,3 +20,6 @@ class Bucket(Base):
 
     events: Mapped[list['Event']] = relationship(
         "Event", back_populates="bucket")
+
+    class Config:
+        orm_mode = True
