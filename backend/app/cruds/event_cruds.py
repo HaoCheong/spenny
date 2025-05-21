@@ -47,10 +47,10 @@ def get_event_by_id(db: Session, id: str):
 
 
 def get_next_event(db: Session):
-    ''' Get specific instance of event based that is next ran '''
+    ''' Get specific instance of event based that is next to run '''
 
     db_event = db.query(model.Event).order_by(
-        model.Event.trigger_datetime.desc()).limit(1).first()
+        model.Event.trigger_datetime).limit(1).first()
     return db_event
 
 
