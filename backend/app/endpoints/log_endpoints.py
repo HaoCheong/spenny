@@ -52,7 +52,6 @@ def get_log_by_id(log_id: int, db: Session = Depends(get_db)):
 
 @router.delete("/api/v1/log/{log_id}", tags=["Logs"])
 def delete_log_by_id(log_id: int, db: Session = Depends(get_db)):
-    event_op.EventOperation.update_all_events(db=db)
     db_log = cruds.get_log_by_id(db, id=log_id)
     if not db_log:
         raise HTTPException(status_code=400, detail="Log does not exist")
