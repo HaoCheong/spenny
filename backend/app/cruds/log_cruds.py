@@ -28,12 +28,12 @@ def create_log(db: Session, log: schemas.LogCreate):
     return db_log
 
 
-def get_all_logs(db: Session, skip: int = 0, limit: int = 100):
+def get_all_logs(db: Session, skip: int = 0, limit: int = 100, all: bool = False):
     ''' Get every instance of pet log, using offset pagination '''
     query = db.query(model.Log)
 
     total = query.count()
-    data = query.offset(skip).limit(limit).all()
+    data = query.all() if all else query.offset(skip).limit(limit).all()
 
     return {
         "total": total,
