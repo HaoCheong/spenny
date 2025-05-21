@@ -178,7 +178,11 @@ class EventOperation:
     def update_all_events(db, curr_datetime=datetime.now()):
         ''' Execute all the events and update them '''
 
-        # PFIX (Add the get_next_event crud to further simplify the process)
+        # Checks if the next event to run further than requested time
+        # If next event is beyond the curr date, it would mean every other event is beyond
+        next_event = event_cruds.get_next_event(db=db)
+        if next_event.trigger_datetime > curr_datetime:
+            return
 
         # Get all events in the database
         all_events_data = event_schemas.EventAllRead.model_validate(event_cruds.get_all_events(

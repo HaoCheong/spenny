@@ -15,6 +15,7 @@ router = APIRouter()
 
 @router.post("/api/v1/assignToBucket/{event_id}/{bucket_id}", tags=["Bucket Event Assignment"])
 def assign_event_to_bucket(event_id: int, bucket_id: int, db: Session = Depends(get_db)):
+
     db_bucket = bucket_cruds.get_bucket_by_id(db, id=bucket_id)
     db_event = event_cruds.get_event_by_id(db, id=event_id)
 
