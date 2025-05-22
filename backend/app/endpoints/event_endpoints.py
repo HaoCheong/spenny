@@ -32,6 +32,16 @@ def get_event_by_id(event_id: int, db: Session = Depends(get_db)):
     return db_event
 
 
+@router.post("/api/v1/event/trigger/{event_id}", response_model=schemas.EventReadWR, tags=["Events"])
+def trigger_event(event_id: int, options: schemas.EventPushOptions, db: Session = Depends(get_db)):
+    event_op.EventOperation.update_all_events(db=db)
+    db_event = cruds.get_event_by_id(db, id=event_id)
+    if not db_event:
+        raise HTTPException(status_code=400, detail="Event does not exist")
+
+    return event_op.EventOperation.update_single_event(db, db_event=db_event, options=options)
+
+
 @router.patch("/api/v1/event/{event_id}", response_model=schemas.EventReadNR, tags=["Events"])
 def update_event_by_id(event_id: int, new_event: schemas.EventUpdate, db: Session = Depends(get_db)):
     event_op.EventOperation.update_all_events(db=db)
