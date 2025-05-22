@@ -99,6 +99,11 @@ class EventUpdate(EventBase):
     updated_at: datetime
 
 
+class EventPushOptions(BaseModel):
+    # True means money will be affected, False means money will not be affected
+    change_amount: bool
+
+
 class EventAllRead(BaseModel):
     total: int
     data: list[EventReadNR]
