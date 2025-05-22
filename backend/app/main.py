@@ -57,8 +57,7 @@ def root():
 
 @app.get("/call")
 def call(db: Session = Depends(get_db)):
-    EventOperation.update_all_events(db=db)
-    return {"connection": True}
+    return {"Call": True}
 
 
 app.include_router(assignment_endpoints.router)
