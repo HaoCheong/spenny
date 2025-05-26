@@ -3,8 +3,9 @@ from sqlalchemy.orm import Session
 import app.models.bucket_models as model
 import app.schemas.bucket_schemas as schemas
 
+from datetime import datetime 
 
-def create_bucket(db: Session, bucket: schemas.BucketCreate):
+def create_bucket(db: Session, bucket: schemas.BucketCreate, curr_date: datetime = datetime.now()):
     ''' Creating an new pet bucket '''
 
     db_bucket = model.Bucket(
@@ -12,9 +13,9 @@ def create_bucket(db: Session, bucket: schemas.BucketCreate):
         description=bucket.description,
         amount=bucket.amount,
         bucket_type=bucket.bucket_type,
-        properties=bucket.properties.model_dump(),
-        created_at=bucket.created_at,
-        updated_at=bucket.updated_at
+        properties=bucket.properties.model_dump() if bucket.properties else None,
+        created_at=curr_date,
+        updated_at=curr_date
     )
 
     db.add(db_bucket)
@@ -53,6 +54,8 @@ def update_bucket_by_id(db: Session, id: int, new_bucket: schemas.BucketUpdate):
     # Loops through dictionary and update db_bucket
     for key, value in update_bucket.items():
         setattr(db_bucket, key, value)
+
+    setattr(db_bucket, "updated_at", datetime.now())
 
     db.add(db_bucket)
     db.commit()
