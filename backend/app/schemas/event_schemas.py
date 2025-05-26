@@ -70,8 +70,6 @@ class EventBase(BaseModel):
 
 class EventCreate(EventBase):
     ''' Event Create Schema '''
-    created_at: datetime
-    updated_at: datetime
     pass
 
 
@@ -96,7 +94,6 @@ class EventUpdate(EventBase):
     frequency: Optional[str] = None
     event_type: Optional[str] = None
     properties: Optional[dict] = None
-    updated_at: datetime
 
 
 class EventPushOptions(BaseModel):
