@@ -93,7 +93,7 @@ def bucket_data():
     ]
 
 @pytest.fixture
-def events_data():
+def event_data():
     ''' Return test event data '''
     return [
         {
