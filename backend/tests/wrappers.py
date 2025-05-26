@@ -43,25 +43,31 @@ def delete_bucket_by_id(bucket_id):
 
 # ====================== EVENT WRAPPERS ======================
 
+
+
+
+
+
+
 @unpack
-def create_event():
-    pass
+def create_event(event_data):
+    return client.post("/api/v1/event", json=event_data)
 
 @unpack
 def get_all_events():
-    pass
+    return client.get("/api/v1/events")
 
 @unpack
-def get_event_by_id():
-    pass
+def get_event_by_id(event_id):
+    return client.get(f"/api/v1/event/{event_id}")
 
 @unpack
-def update_event_by_id():
-    pass
+def update_event_by_id(event_id, event_data):
+    return client.patch(f"/api/v1/event/{event_id}", json=event_data)
 
 @unpack
-def delete_event_by_id():
-    pass
+def delete_event_by_id(event_id):
+    return client.delete(f"/api/v1/event/{event_id}")
 
 
 # ====================== LOG WRAPPERS ======================

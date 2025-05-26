@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
-
+from datetime import datetime
 import app.models.event_models as model
 import app.schemas.event_schemas as schemas
 
 
-def create_event(db: Session, event: schemas.EventCreate):
+def create_event(db: Session, event: schemas.EventCreate, curr_datetime: datetime = datetime.now()):
     ''' Creating an new pet event '''
 
     # event = schemas.EventUnion.model_validate(event)
@@ -16,8 +16,8 @@ def create_event(db: Session, event: schemas.EventCreate):
         frequency=event.frequency,
         event_type=event.event_type,
         properties=event.properties.model_dump(),
-        created_at=event.created_at,
-        updated_at=event.updated_at
+        created_at=curr_datetime,
+        updated_at=curr_datetime
     )
 
     db.add(db_event)
@@ -54,7 +54,7 @@ def get_next_event(db: Session):
     return db_event
 
 
-def update_event_by_id(db: Session, id: int, new_event: schemas.EventUpdate):
+def update_event_by_id(db: Session, id: int, new_event: schemas.EventUpdate, update_time: datetime = datetime.now()):
     ''' Update specific fields of specified instance of event on provided event ID '''
     db_event = db.query(model.Event).filter(model.Event.id == id).first()
 
@@ -64,6 +64,8 @@ def update_event_by_id(db: Session, id: int, new_event: schemas.EventUpdate):
     # Loops through dictionary and update db_event
     for key, value in update_event.items():
         setattr(db_event, key, value)
+
+    setattr(db_event, "updated_at", update_time)
 
     db.add(db_event)
     db.commit()
