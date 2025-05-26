@@ -186,7 +186,7 @@ class EventOperation:
         # Checks if the next event to run further than requested time
         # If next event is beyond the curr date, it would mean every other event is beyond
         next_event = event_cruds.get_next_event(db=db)
-        if next_event.trigger_datetime > curr_datetime:
+        if next_event and next_event.trigger_datetime > curr_datetime:
             return
 
         # Get all events in the database
