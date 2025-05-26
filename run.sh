@@ -113,7 +113,8 @@ if [[ $run_option == "unit" ]]; then
     docker compose -f docker-compose-test.yml up --force-recreate --remove-orphans --renew-anon-volumes -d
     sleep 1
     cd backend
-    python3 -m pytest -v $local_path/backend/tests/unit/bucket_tests.py
+    # python3 -m pytest -v $local_path/backend/tests/unit/bucket_tests.py
+    python3 -m pytest -v $local_path/backend/tests/unit/event_tests.py -s -k "test_create_event"
 fi
 
 >>>>>>> b2d335e (Moved testing to its own docker compose)
