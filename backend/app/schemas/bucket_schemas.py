@@ -21,6 +21,8 @@ class BucketBase(BaseModel):
     description: str
     amount: int
     bucket_type: Literal["STORE", "INVSB", "GOALS"] | None
+    properties: dict | None 
+
     @model_validator(mode='after')
     def validate_properties(self):
         if self.bucket_type == "STORE":
@@ -43,8 +45,7 @@ class BucketBase(BaseModel):
 
 class BucketCreate(BucketBase):
     ''' Bucket Create Schema '''
-    created_at: datetime
-    updated_at: datetime
+    pass
 
 
 class BucketReadNR(BucketBase):
@@ -65,9 +66,8 @@ class BucketUpdate(BucketBase):
     name: Optional[str] = None
     description: Optional[str] = None
     amount: Optional[int] = None
-    bucket_type: Optional[bool] = None
+    bucket_type: Optional[str] = None
     properties: Optional[dict] = None
-    updated_at: datetime
 
 
 class BucketAllRead(BaseModel):
