@@ -6,7 +6,7 @@ import app.schemas.log_schemas as schemas
 from datetime import datetime
 
 
-def create_log(db: Session, log: schemas.LogCreate):
+def create_log(db: Session, log: schemas.LogCreate, curr_datetime: datetime = datetime.now()):
     ''' Creating an new pet log '''
 
     db_log = model.Log(
@@ -18,8 +18,8 @@ def create_log(db: Session, log: schemas.LogCreate):
         event_properties=log.event_properties,
         bucket_id=log.bucket_id,
         bucket_name=log.bucket_name,
-        created_at=log.created_at,
-        updated_at=log.updated_at
+        created_at=curr_datetime,
+        updated_at=curr_datetime
     )
 
     db.add(db_log)

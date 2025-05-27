@@ -18,9 +18,7 @@ class LogBase(BaseModel):
 
 class LogCreate(LogBase):
     ''' Log Base Schema '''
-
-    created_at: datetime
-    updated_at: datetime
+    pass
 
 
 class LogRead(LogBase):
