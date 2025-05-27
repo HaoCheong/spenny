@@ -5,27 +5,37 @@ from fastapi import Depends, HTTPException, APIRouter
 from sqlalchemy.orm import Session
 
 import app.schemas.event_schemas as schemas
-import app.cruds.event_cruds as cruds
+import app.cruds.event_cruds as event_cruds
+import app.cruds.bucket_cruds as bucket_cruds
+
 import app.operations.event_operations as event_op
 router = APIRouter()
 
 
 @router.post("/api/v1/event", response_model=schemas.EventReadNR, tags=["Events"])
 def create_event(event: schemas.EventCreate, db: Session = Depends(get_db)):
-    return cruds.create_event(db=db, event=event)
+
+    db_bucket = bucket_cruds.get_bucket_by_id(db=db, id=event.bucket_id)
+    if not db_bucket:
+        raise HTTPException(
+            status_code=400, detail="Bucket to be assigned does not exist")
+
+    res = event_cruds.create_event(db=db, event=event)
+    print("RES", res)
+    return res
 
 
 @router.get("/api/v1/events", response_model=schemas.EventAllRead, tags=["Events"])
 def get_all_events(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     event_op.EventOperation.update_all_events(db=db)
-    db_events = cruds.get_all_events(db, skip, limit)
+    db_events = event_cruds.get_all_events(db, skip, limit)
     return db_events
 
 
 @router.get("/api/v1/event/{event_id}", response_model=schemas.EventReadWR, tags=["Events"])
 def get_event_by_id(event_id: int, db: Session = Depends(get_db)):
     event_op.EventOperation.update_all_events(db=db)
-    db_event = cruds.get_event_by_id(db, id=event_id)
+    db_event = event_cruds.get_event_by_id(db, id=event_id)
     if not db_event:
         raise HTTPException(status_code=400, detail="Event does not exist")
 
@@ -35,7 +45,7 @@ def get_event_by_id(event_id: int, db: Session = Depends(get_db)):
 @router.post("/api/v1/event/trigger/{event_id}", response_model=schemas.EventReadWR, tags=["Events"])
 def trigger_event(event_id: int, options: schemas.EventPushOptions, db: Session = Depends(get_db)):
     event_op.EventOperation.update_all_events(db=db)
-    db_event = cruds.get_event_by_id(db, id=event_id)
+    db_event = event_cruds.get_event_by_id(db, id=event_id)
     if not db_event:
         raise HTTPException(status_code=400, detail="Event does not exist")
 
@@ -45,18 +55,18 @@ def trigger_event(event_id: int, options: schemas.EventPushOptions, db: Session 
 @router.patch("/api/v1/event/{event_id}", response_model=schemas.EventReadNR, tags=["Events"])
 def update_event_by_id(event_id: int, new_event: schemas.EventUpdate, db: Session = Depends(get_db)):
     event_op.EventOperation.update_all_events(db=db)
-    db_event = cruds.get_event_by_id(db, id=event_id)
+    db_event = event_cruds.get_event_by_id(db, id=event_id)
     if not db_event:
         raise HTTPException(status_code=400, detail="Event does not exist")
 
-    return cruds.update_event_by_id(db, id=event_id, new_event=new_event)
+    return event_cruds.update_event_by_id(db, id=event_id, new_event=new_event)
 
 
 @router.delete("/api/v1/event/{event_id}", tags=["Events"])
 def delete_event_by_id(event_id: int, db: Session = Depends(get_db)):
     event_op.EventOperation.update_all_events(db=db)
-    db_event = cruds.get_event_by_id(db, id=event_id)
+    db_event = event_cruds.get_event_by_id(db, id=event_id)
     if not db_event:
         raise HTTPException(status_code=400, detail="Event does not exist")
 
-    return cruds.delete_event_by_id(db, id=event_id)
+    return event_cruds.delete_event_by_id(db, id=event_id)

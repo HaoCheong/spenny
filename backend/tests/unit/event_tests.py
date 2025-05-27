@@ -1,22 +1,28 @@
 from tests.fixtures.client import SUCCESS, ERROR, reset_db
-from tests.fixtures.data import event_data
+from tests.fixtures.data import event_data, bucket_data
 from tests import wrappers
 
 
-def test_create_event(reset_db, event_data):
+def test_create_event(reset_db, event_data, bucket_data):
     ''' Testing the success case of creating an event '''
-    print("EVENT_DATA[0]", event_data[0])
+    buckets = [wrappers.create_bucket(bucket_data[i])
+               for i in range(0, len(bucket_data))]
+
     res = wrappers.create_event(event_data[0])
+
     assert res['status'] == SUCCESS
 
 
-def test_get_all_event(reset_db, event_data):
+def test_get_all_event(reset_db, event_data, bucket_data):
     ''' Testing the success case of getting all events '''
+
+    buckets = [wrappers.create_bucket(bucket_data[i])
+               for i in range(0, len(bucket_data))]
 
     # Passes all event test data into database
     events = [wrappers.create_event(event_data[i])
               for i in range(0, len(event_data))]
-    
+
     # Checks all responses succeeds
     for event in events:
         assert event["status"] == SUCCESS
@@ -26,8 +32,12 @@ def test_get_all_event(reset_db, event_data):
     assert len(events) == len(all_events)
 
 
-def test_get_event_by_id(reset_db, event_data):
+def test_get_event_by_id(reset_db, event_data, bucket_data):
     ''' Testing the success case of getting specified event '''
+
+    buckets = [wrappers.create_bucket(bucket_data[i])
+               for i in range(0, len(bucket_data))]
+
     event = wrappers.create_event(event_data[0])['data']
     ret_event = wrappers.get_event_by_id(event['id'])['data']
 
@@ -39,15 +49,23 @@ def test_get_event_by_id(reset_db, event_data):
     assert True
 
 
-def test_invalid_get_event_by_id(reset_db, event_data):
+def test_invalid_get_event_by_id(reset_db, event_data, bucket_data):
     ''' Testing the failing case of getting specified event '''
+
+    buckets = [wrappers.create_bucket(bucket_data[i])
+               for i in range(0, len(bucket_data))]
+
     event = wrappers.create_event(event_data[0])['data']
     ret_event = wrappers.get_event_by_id(event['id'] + 200)
     assert ret_event['status'] == ERROR, f'Invalid ID did not return error status on get by ID'
 
 
-def test_delete_event_by_id(reset_db, event_data):
+def test_delete_event_by_id(reset_db, event_data, bucket_data):
     ''' Testing the success case of deleting event '''
+
+    buckets = [wrappers.create_bucket(bucket_data[i])
+               for i in range(0, len(bucket_data))]
+
     event = wrappers.create_event(event_data[0])['data']
 
     # Check pre-delete status
@@ -63,8 +81,10 @@ def test_delete_event_by_id(reset_db, event_data):
     assert post_check_res['status'] == ERROR, f'Deleted item\'s ID still present in database'
 
 
-def test_invalid_delete_event_by_id(reset_db, event_data):
+def test_invalid_delete_event_by_id(reset_db, event_data, bucket_data):
     ''' Testing the fail case of deleting event '''
+    buckets = [wrappers.create_bucket(bucket_data[i])
+               for i in range(0, len(bucket_data))]
 
     event = wrappers.create_event(event_data[0])['data']
 
@@ -81,8 +101,11 @@ def test_invalid_delete_event_by_id(reset_db, event_data):
     assert post_check_res['status'] == SUCCESS
 
 
-def test_update_event_by_id(reset_db, event_data):
+def test_update_event_by_id(reset_db, event_data, bucket_data):
     ''' Testing the success case of updating event '''
+
+    buckets = [wrappers.create_bucket(bucket_data[i])
+               for i in range(0, len(bucket_data))]
 
     # Checks that created event and new event are different
     event = wrappers.create_event(event_data[0])['data']
@@ -105,8 +128,12 @@ def test_update_event_by_id(reset_db, event_data):
     assert update_event['data']['frequency'] == new_event['frequency']
     assert update_event['data']['event_type'] == new_event['event_type']
 
-def test_invalid_update_event_by_id(reset_db, event_data):
+
+def test_invalid_update_event_by_id(reset_db, event_data, bucket_data):
     ''' Testing the fail case of updating event '''
+
+    buckets = [wrappers.create_bucket(bucket_data[i])
+               for i in range(0, len(bucket_data))]
 
     # Checks update response status is invalid, from invalid ID provided
     event = wrappers.create_event(event_data[0])['data']

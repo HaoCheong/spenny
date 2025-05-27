@@ -70,7 +70,7 @@ class EventBase(BaseModel):
 
 class EventCreate(EventBase):
     ''' Event Create Schema '''
-    pass
+    bucket_id: int
 
 
 class EventReadNR(EventBase):
