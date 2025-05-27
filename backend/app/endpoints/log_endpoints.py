@@ -11,7 +11,7 @@ import app.operations.event_operations as event_op
 router = APIRouter()
 
 
-@router.post("/api/v1/log", response_model=schemas.LogCreate, tags=["Logs"])
+@router.post("/api/v1/log", response_model=schemas.LogRead, tags=["Logs"])
 def create_log(log: schemas.LogCreate, db: Session = Depends(get_db)):
     event_op.EventOperation.update_all_events(db=db)
     return cruds.create_log(db=db, log=log)
