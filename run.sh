@@ -5,7 +5,11 @@ run_option=$1
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 local_path="/home/hcheong/projects/spenny"
+=======
+local_path="/home/hcheong/Desktop/Other/spenny"
+>>>>>>> 23f32d9 (Fixed the event schemas and response and create to ensure it works as intended)
 
 if [[ $run_option == "demo" ]]; then
     set -a && source demo.env && set +a
@@ -113,8 +117,8 @@ if [[ $run_option == "unit" ]]; then
     docker compose -f docker-compose-test.yml up --force-recreate --remove-orphans --renew-anon-volumes -d
     sleep 1
     cd backend
-    # python3 -m pytest -v $local_path/backend/tests/unit/bucket_tests.py
-    python3 -m pytest -v $local_path/backend/tests/unit/event_tests.py -s -k "test_create_event"
+    python3 -m pytest --disable-warnings $local_path/backend/tests/unit/bucket_tests.py
+    python3 -m pytest --disable-warnings $local_path/backend/tests/unit/event_tests.py
 fi
 
 >>>>>>> b2d335e (Moved testing to its own docker compose)

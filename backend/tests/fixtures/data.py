@@ -1,6 +1,7 @@
 
 import pytest
 
+
 @pytest.fixture
 def bucket_data():
     ''' Return test bucket data '''
@@ -88,9 +89,10 @@ def bucket_data():
             "amount": -450,
             "bucket_type": "STORE",
             "properties": None,
-    
+
         }
     ]
+
 
 @pytest.fixture
 def event_data():
@@ -99,24 +101,12 @@ def event_data():
         {
             "name": "Savings Transfer",
             "description": "Monthly Transfer for to savings account",
-            "trigger_datetime": "2025-06-02T11:28:02.028000",
+            "trigger_datetime": "2025-06-19T11:28:02.028000",
             "frequency": "1m",
             "event_type": "MOVE",
             "properties": {
                 "to_bucket_id": 5,
                 "amount": 1690
-            },
-            "bucket_id": 1,
-        },
-        {
-            "name": "Lifestyle Transfer",
-            "description": "Monthly Transfer for lifestyle",
-            "trigger_datetime": "2025-06-02T11:28:02.028000",
-            "frequency": "1m",
-            "event_type": "MOVE",
-            "properties": {
-                "to_bucket_id": 4,
-                "amount": 1260
             },
             "bucket_id": 1,
         },
@@ -130,6 +120,18 @@ def event_data():
                 "amount": 1000
             },
             "bucket_id": 2,
+        },
+        {
+            "name": "Lifestyle Transfer",
+            "description": "Monthly Transfer for lifestyle",
+            "trigger_datetime": "2025-06-12T11:28:02.028000",
+            "frequency": "1m",
+            "event_type": "MOVE",
+            "properties": {
+                "to_bucket_id": 4,
+                "amount": 1260
+            },
+            "bucket_id": 1,
         },
         {
             "name": "Weekly Spending Transfer",
@@ -157,7 +159,7 @@ def event_data():
         {
             "name": "Necessity Transfer",
             "description": "Monthly Transfer for necessity",
-            "trigger_datetime": "2025-06-02T11:28:02.028000",
+            "trigger_datetime": "2025-06-03T11:28:02.028000",
             "frequency": "1m",
             "event_type": "MOVE",
             "properties": {
@@ -169,7 +171,7 @@ def event_data():
         {
             "name": "Household Transfer",
             "description": "Monthly Transfer of household stuff",
-            "trigger_datetime": "2025-06-02T11:28:02.028000",
+            "trigger_datetime": "2025-06-07T11:28:02.028000",
             "frequency": "1m",
             "event_type": "MOVE",
             "properties": {
@@ -262,6 +264,7 @@ def event_data():
             "bucket_id": 2,
         }
     ]
+
 
 @pytest.fixture
 def log_data():
