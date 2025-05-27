@@ -41,6 +41,9 @@ services:
       start_period: 10s
       timeout: 5s
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 92e98b1 (Added profiles for startup and added new test env)
     profiles:
     - test
     - demo
@@ -81,6 +84,7 @@ services:
     volumes:
       - ${BACKEND_APP_PATH}/app:/app
 <<<<<<< HEAD
+<<<<<<< HEAD
     profiles:
     - demo
     - live
@@ -104,3 +108,8 @@ services:
     - live
 =======
 >>>>>>> 856337b (Moving to docker compose)
+=======
+    profiles:
+    - demo
+    - live
+>>>>>>> 92e98b1 (Added profiles for startup and added new test env)

@@ -36,11 +36,15 @@ if [[ $run_option == "demo" ]]; then
     set -a && source demo.env && set +a
     # docker compose build --no-cache
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 2e77600 (Fixed up docker file and begin writing bucket execution)
     docker compose --env-file $local_path/demo.env up --force-recreate --remove-orphans --renew-anon-volumes -d
 =======
     docker compose --env-file $local_path/demo.env -f docker-compose.yml up --force-recreate --remove-orphans --renew-anon-volumes -d
 >>>>>>> b2d335e (Moved testing to its own docker compose)
+=======
+    docker compose --env-file $local_path/demo.env -f docker-compose.yml --profile demo up --force-recreate --remove-orphans --renew-anon-volumes -d
+>>>>>>> 92e98b1 (Added profiles for startup and added new test env)
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
     echo "BACKEND URL -> $BACKEND_CONTAINER_URL"
 >>>>>>> 69fca77 (Added run script)
@@ -54,6 +58,7 @@ if [[ $run_option == "live" ]]; then
 <<<<<<< HEAD
     set -a && source live.env && set +a
     docker compose build --no-cache
+<<<<<<< HEAD
 <<<<<<< HEAD
     docker compose --env-file $local_path/live.env -f docker-compose.yml --profile live up --force-recreate --remove-orphans --renew-anon-volumes -d
 =======
@@ -75,6 +80,9 @@ if [[ $run_option == "live" ]]; then
 =======
     docker compose --env-file $local_path/live.env -f docker-compose.yml up --force-recreate --remove-orphans --renew-anon-volumes -d
 >>>>>>> b2d335e (Moved testing to its own docker compose)
+=======
+    docker compose --env-file $local_path/live.env -f docker-compose.yml --profile live up --force-recreate --remove-orphans --renew-anon-volumes -d
+>>>>>>> 92e98b1 (Added profiles for startup and added new test env)
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
     echo "BACKEND URL -> $BACKEND_CONTAINER_URL"
     echo "DB Access -> PGPASSWORD=${SPENNY_DB_PASS} PAGER='less -S' psql -h ${SPENNY_DB_HOST} -p ${SPENNY_DB_PORT} -d ${SPENNY_DB_NAME} -U ${SPENNY_DB_USER}"
@@ -114,7 +122,7 @@ echo "USAGE: ./run.sh [demo|live|unit|stop]"
 if [[ $run_option == "unit" ]]; then
     set -a && source demo.env && set +a
     # docker compose build --no-cache
-    docker compose -f docker-compose-test.yml up --force-recreate --remove-orphans --renew-anon-volumes -d
+    docker compose --env-file $local_path/test.env -f docker-compose.yml --profile test up --force-recreate --remove-orphans --renew-anon-volumes -d
     sleep 2
     cd backend
     python3 -m pytest --disable-warnings $local_path/backend/tests/unit/bucket_tests.py
