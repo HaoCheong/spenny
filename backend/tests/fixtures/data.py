@@ -282,27 +282,29 @@ def log_data():
             "bucket_name": "Household",
         },
         {
-            "name": "Auto Rental Payment",
-            "description": "Fortnightly rental payment",
+            "name": "PT Transfer",
+            "description": "Weekly Transfer for Personal Trainer",
             "log_type": "EVENT",
-            "event_id": 13,
-            "event_type": "SUB",
+            "event_id": 12,
+            "event_type": "MOVE",
             "event_properties": {
-                "amount": 1000
+                "to_bucket_id": 12,
+                "amount": 100
             },
-            "bucket_id": 2,
-            "bucket_name": "Household",
+            "bucket_id": 4,
+            "bucket_name": "Lifestyle",
         },
         {
-            "name": "Auto Rental Payment",
-            "description": "Fortnightly rental payment",
+            "name": "Weekly Spending Transfer",
+            "description": "Weekly Transfer for Groceries and what not",
             "log_type": "EVENT",
-            "event_id": 13,
-            "event_type": "SUB",
+            "event_id": 10,
+            "event_type": "MOVE",
             "event_properties": {
-                "amount": 1000
+                "to_bucket_id": 11,
+                "amount": 200
             },
-            "bucket_id": 2,
-            "bucket_name": "Household",
+            "bucket_id": 4,
+            "bucket_name": "Lifestyle"
         }
     ]
