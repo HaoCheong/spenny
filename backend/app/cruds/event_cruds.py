@@ -16,6 +16,7 @@ def create_event(db: Session, event: schemas.EventCreate, curr_datetime: datetim
         frequency=event.frequency,
         event_type=event.event_type,
         properties=event.properties.model_dump(),
+        bucket_id=event.bucket_id,
         created_at=curr_datetime,
         updated_at=curr_datetime
     )
@@ -23,6 +24,7 @@ def create_event(db: Session, event: schemas.EventCreate, curr_datetime: datetim
     db.add(db_event)
     db.commit()
     db.refresh(db_event)
+
     return db_event
 
 

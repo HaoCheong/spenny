@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 run_option=$1
-local_path="/home/hcheong/projects/spenny"
+local_path="/home/hcheong/Desktop/Other/spenny"
 
 if [[ $run_option == "demo" ]]; then
     set -a && source demo.env && set +a
@@ -31,8 +31,8 @@ if [[ $run_option == "unit" ]]; then
     docker compose -f docker-compose-test.yml up --force-recreate --remove-orphans --renew-anon-volumes -d
     sleep 1
     cd backend
-    # python3 -m pytest -v $local_path/backend/tests/unit/bucket_tests.py
-    python3 -m pytest -v $local_path/backend/tests/unit/event_tests.py -s -k "test_create_event"
+    python3 -m pytest --disable-warnings $local_path/backend/tests/unit/bucket_tests.py
+    python3 -m pytest --disable-warnings $local_path/backend/tests/unit/event_tests.py
 fi
 
 if [[ $run_option == "stop" ]]; then

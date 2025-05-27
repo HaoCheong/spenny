@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 import app.models.bucket_models as model
 import app.schemas.bucket_schemas as schemas
 
-from datetime import datetime 
+from datetime import datetime
+
 
 def create_bucket(db: Session, bucket: schemas.BucketCreate, curr_date: datetime = datetime.now()):
     ''' Creating an new pet bucket '''
@@ -38,7 +39,7 @@ def get_all_buckets(db: Session, skip: int = 0, limit: int = 100, all: bool = Fa
     }
 
 
-def get_bucket_by_id(db: Session, id: str):
+def get_bucket_by_id(db: Session, id: int):
     ''' Get specific instance of bucket based on provided bucket ID '''
     db_bucket = db.query(model.Bucket).filter(model.Bucket.id == id).first()
     return db_bucket
