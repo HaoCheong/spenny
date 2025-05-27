@@ -29,10 +29,11 @@ if [[ $run_option == "unit" ]]; then
     set -a && source demo.env && set +a
     # docker compose build --no-cache
     docker compose -f docker-compose-test.yml up --force-recreate --remove-orphans --renew-anon-volumes -d
-    sleep 1
+    sleep 2
     cd backend
     python3 -m pytest --disable-warnings $local_path/backend/tests/unit/bucket_tests.py
     python3 -m pytest --disable-warnings $local_path/backend/tests/unit/event_tests.py
+    python3 -m pytest --disable-warnings $local_path/backend/tests/unit/log_tests.py
 fi
 
 if [[ $run_option == "stop" ]]; then

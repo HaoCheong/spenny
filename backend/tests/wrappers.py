@@ -2,7 +2,6 @@ from tests.fixtures.client import client, SUCCESS
 import json
 
 
-
 def unpack(function):
     ''' Wrapper to unpack the json values into parsable dictionary. Easier for testing '''
     def get_data(*args):
@@ -25,17 +24,21 @@ def unpack(function):
 def create_bucket(bucket_data):
     return client.post("/api/v1/bucket", json=bucket_data)
 
+
 @unpack
 def get_all_buckets():
     return client.get("/api/v1/buckets")
+
 
 @unpack
 def get_bucket_by_id(bucket_id):
     return client.get(f"/api/v1/bucket/{bucket_id}")
 
+
 @unpack
 def update_bucket_by_id(bucket_id, bucket_data):
     return client.patch(f"/api/v1/bucket/{bucket_id}", json=bucket_data)
+
 
 @unpack
 def delete_bucket_by_id(bucket_id):
@@ -44,26 +47,25 @@ def delete_bucket_by_id(bucket_id):
 # ====================== EVENT WRAPPERS ======================
 
 
-
-
-
-
-
 @unpack
 def create_event(event_data):
     return client.post("/api/v1/event", json=event_data)
+
 
 @unpack
 def get_all_events():
     return client.get("/api/v1/events")
 
+
 @unpack
 def get_event_by_id(event_id):
     return client.get(f"/api/v1/event/{event_id}")
 
+
 @unpack
 def update_event_by_id(event_id, event_data):
     return client.patch(f"/api/v1/event/{event_id}", json=event_data)
+
 
 @unpack
 def delete_event_by_id(event_id):
@@ -73,25 +75,30 @@ def delete_event_by_id(event_id):
 # ====================== LOG WRAPPERS ======================
 
 @unpack
-def create_log():
-    pass
+def create_log(log_data):
+    return client.post("/api/v1/log", json=log_data)
+
 
 @unpack
 def get_all_logs():
-    pass
+    return client.get("/api/v1/logs")
+
 
 @unpack
-def get_all_logs_by_bucket_id():
-    pass
+def get_all_logs_by_bucket_id(bucket_id):
+    return client.get(f"/api/v1/logs/{bucket_id}")
+
 
 @unpack
 def get_all_logs_by_time_range():
-    pass
+    return client.post("/api/v1/logs/time_range")
+
 
 @unpack
-def get_log_by_id():
-    pass
+def get_log_by_id(log_id):
+    return client.get(f"/api/v1/log/{log_id}")
+
 
 @unpack
-def delete_log_by_id():
-    pass
+def delete_log_by_id(log_id):
+    return client.delete(f"/api/v1/log/{log_id}")
