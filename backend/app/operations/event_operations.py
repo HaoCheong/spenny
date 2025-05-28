@@ -23,6 +23,14 @@ class EventStrategy(ABC):
 
     @abstractmethod
     def execute(self, db: Session, event: event_models.Event, bucket: bucket_models.Bucket) -> list[bucket_models.Bucket]:
+        '''Logic of Execution
+
+        Typically most event will take in the event in question as well as the bucket the event belongs to
+        Any additional retrieval event or buckets should be isolated as part of the execution
+        Returns is all the affected buckets as a list to be updated subsequently.
+
+        '''
+
         pass
 
 
