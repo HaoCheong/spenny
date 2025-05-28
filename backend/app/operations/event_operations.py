@@ -69,7 +69,7 @@ class MovStrategy(EventStrategy):
 
 class MultStrategy(EventStrategy):
     '''
-    Increases the current bucket amount by the given percentage 
+    Increases the current bucket amount by the given percentage
     '''
 
     def execute(db: Session, event: event_schemas.EventReadWR, bucket: bucket_models.Bucket) -> list[bucket_models.Bucket]:
@@ -190,8 +190,11 @@ class EventOperation:
             return
 
         # Get all events in the database
-        all_events_data = event_schemas.EventAllRead.model_validate(event_cruds.get_all_events(
-            db=db, skip=0, limit=1, all=True))
+        db_all_event = event_cruds.get_all_events(
+            db=db, skip=0, limit=1, all=True)
+
+        all_events_data = event_schemas.EventAllRead.model_validate(
+            db_all_event)
         event_queue = all_events_data.data
 
         # Filter out events to prematurely set event queue to 0
