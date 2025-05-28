@@ -36,10 +36,10 @@ def get_all_events(db: Session, skip: int = 0, limit: int = 100, all: bool = Fal
     total = query.count()
     data = query.all() if all else query.offset(skip).limit(limit).all()
 
-    return {
+    return schemas.EventAllRead.model_validate({
         "total": total,
         "data": data
-    }
+    })
 
 
 def get_event_by_id(db: Session, id: str):
