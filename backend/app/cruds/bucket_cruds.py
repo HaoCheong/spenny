@@ -33,10 +33,10 @@ def get_all_buckets(db: Session, skip: int = 0, limit: int = 100, all: bool = Fa
     total = query.count()
     data = query.all() if all else query.offset(skip).limit(limit).all()
 
-    return {
+    return schemas.BucketAllRead.model_validate({
         "total": total,
         "data": data
-    }
+    })
 
 
 def get_bucket_by_id(db: Session, id: int):
