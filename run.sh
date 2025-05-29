@@ -34,6 +34,7 @@ local_path="/home/hcheong/projects/spenny"
 
 if [[ $run_option == "demo" ]]; then
     set -a && source demo.env && set +a
+<<<<<<< HEAD
     # docker compose build --no-cache
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -43,6 +44,9 @@ if [[ $run_option == "demo" ]]; then
     docker compose --env-file $local_path/demo.env -f docker-compose.yml up --force-recreate --remove-orphans --renew-anon-volumes -d
 >>>>>>> b2d335e (Moved testing to its own docker compose)
 =======
+=======
+    docker compose build --no-cache
+>>>>>>> 4433b67 (Investigating logging all read pydantic error)
     docker compose --env-file $local_path/demo.env -f docker-compose.yml --profile demo up --force-recreate --remove-orphans --renew-anon-volumes -d
 >>>>>>> 92e98b1 (Added profiles for startup and added new test env)
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
@@ -121,7 +125,7 @@ echo "USAGE: ./run.sh [demo|live|unit|stop]"
 =======
 if [[ $run_option == "unit" ]]; then
     set -a && source demo.env && set +a
-    # docker compose build --no-cache
+    docker compose build --no-cache
     docker compose --env-file $local_path/test.env -f docker-compose.yml --profile test up --force-recreate --remove-orphans --renew-anon-volumes -d
     sleep 2
     cd backend
@@ -141,5 +145,9 @@ if [[ $run_option == "stop" ]]; then
     exit 0
 fi
 
+<<<<<<< HEAD
 echo "USAGE: ./run.sh [demo|live|stop]"
 >>>>>>> 69fca77 (Added run script)
+=======
+echo "USAGE: ./run.sh [demo|live|unit|stop]"
+>>>>>>> 4433b67 (Investigating logging all read pydantic error)
