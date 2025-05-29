@@ -5,7 +5,7 @@ local_path="/home/hcheong/Desktop/Other/spenny"
 
 if [[ $run_option == "demo" ]]; then
     set -a && source demo.env && set +a
-    # docker compose build --no-cache
+    docker compose build --no-cache
     docker compose --env-file $local_path/demo.env -f docker-compose.yml --profile demo up --force-recreate --remove-orphans --renew-anon-volumes -d
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
     echo "BACKEND URL -> $BACKEND_CONTAINER_URL"
@@ -27,7 +27,7 @@ fi
 
 if [[ $run_option == "unit" ]]; then
     set -a && source demo.env && set +a
-    # docker compose build --no-cache
+    docker compose build --no-cache
     docker compose --env-file $local_path/test.env -f docker-compose.yml --profile test up --force-recreate --remove-orphans --renew-anon-volumes -d
     sleep 2
     cd backend
@@ -46,4 +46,4 @@ if [[ $run_option == "stop" ]]; then
     exit 0
 fi
 
-echo "USAGE: ./run.sh [demo|live|stop]"
+echo "USAGE: ./run.sh [demo|live|unit|stop]"
