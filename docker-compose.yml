@@ -5,7 +5,7 @@ services:
     image: ${SPENNY_DB_IMAGE_NAME}
     hostname: ${SPENNY_DB_HOST}
     volumes:
-      - /home/hcheong/Desktop/Other/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
+      - /home/hcheong/projects/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
     ports:
       - ${SPENNY_DB_PORT}:5432
     environment:

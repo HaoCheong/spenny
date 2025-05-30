@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 run_option=$1
-local_path="/home/hcheong/Desktop/Other/spenny"
+local_path="/home/hcheong/projects/spenny"
 
 if [[ $run_option == "demo" ]]; then
     set -a && source demo.env && set +a
@@ -31,9 +31,9 @@ if [[ $run_option == "unit" ]]; then
     docker compose --env-file $local_path/test.env -f docker-compose.yml --profile test up --force-recreate --remove-orphans --renew-anon-volumes -d
     sleep 2
     cd backend
-    python3 -m pytest --disable-warnings $local_path/backend/tests/unit/bucket_tests.py
-    python3 -m pytest --disable-warnings $local_path/backend/tests/unit/event_tests.py
-    python3 -m pytest --disable-warnings $local_path/backend/tests/unit/log_tests.py
+    python3 -m pytest $local_path/backend/tests/unit/bucket_tests.py
+    python3 -m pytest $local_path/backend/tests/unit/event_tests.py
+    python3 -m pytest $local_path/backend/tests/unit/log_tests.py
 fi
 
 if [[ $run_option == "stop" ]]; then
