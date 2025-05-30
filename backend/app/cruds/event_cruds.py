@@ -39,7 +39,7 @@ def get_all_events(db: Session, skip: int = 0, limit: int = 100, all: bool = Fal
     return schemas.EventAllRead.model_validate({
         "total": total,
         "data": data
-    })
+    }, from_attributes=True)
 
 
 def get_event_by_id(db: Session, id: str):
