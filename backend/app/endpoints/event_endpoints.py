@@ -21,7 +21,7 @@ def create_event(event: schemas.EventCreate, db: Session = Depends(get_db)):
             status_code=400, detail="Bucket to be assigned does not exist")
 
     res = event_cruds.create_event(db=db, event=event)
-    print("RES", res)
+
     return res
 
 

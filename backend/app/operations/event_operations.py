@@ -151,7 +151,7 @@ class EventContext:
                     "bucket_name": bucket.name,
                     "created_at": db_event.trigger_datetime,
                     "updated_at": db_event.trigger_datetime
-                })
+                }, from_attributes=True)
 
                 log_cruds.create_log(db=self._session, log=log_item)
 
@@ -202,7 +202,7 @@ class EventOperation:
             db=db, skip=0, limit=1, all=True)
 
         all_events_data = event_schemas.EventAllRead.model_validate(
-            db_all_event)
+            db_all_event, from_attributes=True)
         event_queue = all_events_data.data
 
         # Filter out events to prematurely set event queue to 0
@@ -247,7 +247,7 @@ class EventOperation:
 
         # Get build the context
         event_context = EventContext(None, db)
-        event = event_schemas.EventReadNR.model_validate(db_event)
+        event = event_schemas.EventReadNR.model_validate(db_event, from_attributes=True)
 
         # Get the right operations
         if event.event_type == "ADD":

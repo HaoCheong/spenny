@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Literal
+from typing import Literal, List
 
 
 class LogBase(BaseModel):
@@ -34,4 +34,4 @@ class LogTimeRange(BaseModel):
 
 class LogAllRead(BaseModel):
     total: int
-    data: list[LogRead]
+    data: List[LogRead]
