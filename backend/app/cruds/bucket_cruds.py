@@ -36,7 +36,7 @@ def get_all_buckets(db: Session, skip: int = 0, limit: int = 100, all: bool = Fa
     return schemas.BucketAllRead.model_validate({
         "total": total,
         "data": data
-    })
+    }, from_attributes=True)
 
 
 def get_bucket_by_id(db: Session, id: int):
@@ -50,7 +50,7 @@ def update_bucket_by_id(db: Session, id: int, new_bucket: schemas.BucketUpdate):
     db_bucket = db.query(model.Bucket).filter(model.Bucket.id == id).first()
 
     # Converts new_bucket from model object to dictionary
-    update_bucket = new_bucket.dict(exclude_unset=True)
+    update_bucket = new_bucket.model_dump(exclude_unset=True)
 
     # Loops through dictionary and update db_bucket
     for key, value in update_bucket.items():
