@@ -7,6 +7,7 @@ services:
     image: ${SPENNY_DB_IMAGE_NAME}
     hostname: ${SPENNY_DB_HOST}
     volumes:
+<<<<<<< HEAD
       - /home/hcheong/Desktop/Other/SIDE_PROJECTS/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
 =======
     env_file:
@@ -26,6 +27,9 @@ services:
 =======
       - /home/hcheong/Desktop/Other/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
 >>>>>>> 2e77600 (Fixed up docker file and begin writing bucket execution)
+=======
+      - /home/hcheong/projects/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
+>>>>>>> a5b6c15 (Updated env to the local path + docker compose pathing)
     ports:
       - ${SPENNY_DB_PORT}:5432
     environment:
