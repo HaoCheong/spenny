@@ -31,10 +31,8 @@ def test_get_all_log(reset_db, log_data):
 def test_get_log_by_id(reset_db, log_data):
     ''' Testing the success case of getting specified log '''
     log = wrappers.create_log(log_data[0])['data']
-    print("LOG", log)
     ret_log = wrappers.get_log_by_id(log['id'])['data']
 
-    print("RET LOG", ret_log)
     # For every key value in log, ret log shares the same value
     for key, value in log.items():
         if ret_log[key] != value:
