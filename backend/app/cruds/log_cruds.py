@@ -6,6 +6,7 @@ import app.schemas.log_schemas as schemas
 from datetime import datetime
 
 
+
 def create_log(db: Session, log: schemas.LogCreate, curr_datetime: datetime = datetime.now()):
     ''' Creating an new pet log '''
 
@@ -34,13 +35,11 @@ def get_all_logs(db: Session, skip: int = 0, limit: int = 100, all: bool = False
 
     total = query.count()
     data = query.all() if all else query.offset(skip).limit(limit).all()
-    print("total", total)
-    print("data", data)
 
     return schemas.LogAllRead.model_validate({
         "total": total,
         "data": data
-    })
+    }, from_attributes=True)
 
 
 def get_log_by_id(db: Session, id: int):
@@ -59,7 +58,7 @@ def get_all_logs_by_bucket_id(db: Session, bucket_id: int, skip: int = 0, limit:
     return schemas.LogAllRead.model_validate({
         "total": total,
         "data": data
-    })
+    }, from_attributes=True)
 
 
 def get_all_logs_by_time_range(db: Session, start_date: datetime, end_date: datetime, int, skip: int = 0, limit: int = 100):
@@ -74,7 +73,7 @@ def get_all_logs_by_time_range(db: Session, start_date: datetime, end_date: date
     return schemas.LogAllRead.model_validate({
         "total": total,
         "data": data
-    })
+    }, from_attributes=True)
 
 
 def delete_log_by_id(db: Session, id: int):
