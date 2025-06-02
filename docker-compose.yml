@@ -48,3 +48,21 @@ services:
     profiles:
     - demo
     - live
+
+  frontend:
+    container_name: ${FRONTEND_CONTAINER_NAME}
+    image: ${FRONTEND_IMAGE_NAME}
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - ${FRONTEND_PORT}:5173
+    environment:
+      - PROJECT_NAME=${PROJECT_NAME}
+      - BACKEND_CONTAINER_URL=${BACKEND_CONTAINER_URL}
+      - TZ=${FRONTEND_TIMEZONE}
+    volumes:
+      - ${FRONTEND_APP_PATH}:/app
+    profiles:
+    - demo
+    - live
