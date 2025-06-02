@@ -109,6 +109,7 @@ services:
       - ${FRONTEND_APP_PATH}:/app
     profiles:
     - demo
+<<<<<<< HEAD
     - live
 =======
 >>>>>>> 856337b (Moving to docker compose)
@@ -117,3 +118,6 @@ services:
     - demo
     - live
 >>>>>>> 92e98b1 (Added profiles for startup and added new test env)
+=======
+    - live
+>>>>>>> de9f843 (Added tailwind and dockerised the frontend)
