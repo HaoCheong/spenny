@@ -22,6 +22,7 @@ if [[ $run_option == "demo" ]]; then
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
     echo "BACKEND URL -> $BACKEND_CONTAINER_URL"
     echo "FRONTEND URL -> $FRONTEND_CONTAINER_URL"
+<<<<<<< HEAD
 =======
 local_path="/home/hcheong/Desktop/Other/spenny"
 =======
@@ -56,6 +57,8 @@ if [[ $run_option == "demo" ]]; then
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
     echo "BACKEND URL -> $BACKEND_CONTAINER_URL"
 >>>>>>> 69fca77 (Added run script)
+=======
+>>>>>>> de9f843 (Added tailwind and dockerised the frontend)
     echo "DB Access -> PGPASSWORD=${SPENNY_DB_PASS} PAGER='less -S' psql -h ${SPENNY_DB_HOST} -p ${SPENNY_DB_PORT} -d ${SPENNY_DB_NAME} -U ${SPENNY_DB_USER}"
     echo "================================== END =================================="
     exit 0
