@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@mui/x-data-grid": "^8.4.0",
+    "@tailwindcss/vite": "^4.1.8",
     "axios": "^1.9.0",
     "formik": "^2.4.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router": "^7.6.1",
+    "tailwindcss": "^4.1.8",
     "yup": "^1.6.1"
   },
   "devDependencies": {
