@@ -11,7 +11,7 @@ const Button = ({
 	return (
 		<>
 			<button
-				className={`flex flex-col p-3 rounded-lg text-xl transition duration-300 ease-in-out ${classColor} ${classStyle}`}
+				className={`flex flex-col p-3 h-full justify-center items-center rounded-lg text-md transition duration-350 ease-in-out ${classColor} ${classStyle}`}
 				onClick={onClick}
 			>
 				{label}
