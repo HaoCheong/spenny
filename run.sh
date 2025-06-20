@@ -7,6 +7,7 @@ run_option=$1
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 local_path="/home/hcheong/projects/spenny"
 =======
 local_path="/home/hcheong/Desktop/Other/spenny"
@@ -14,6 +15,9 @@ local_path="/home/hcheong/Desktop/Other/spenny"
 =======
 local_path="/home/hcheong/projects/spenny"
 >>>>>>> a5b6c15 (Updated env to the local path + docker compose pathing)
+=======
+local_path="/home/hcheong/Desktop/Other/spenny"
+>>>>>>> 83804f9 (Add a timeframe get endpoint for events)
 
 if [[ $run_option == "demo" ]]; then
     set -a && source demo.env && set +a

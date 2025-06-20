@@ -8,6 +8,7 @@ services:
     hostname: ${SPENNY_DB_HOST}
     volumes:
 <<<<<<< HEAD
+<<<<<<< HEAD
       - /home/hcheong/Desktop/Other/SIDE_PROJECTS/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
 =======
     env_file:
@@ -30,6 +31,9 @@ services:
 =======
       - /home/hcheong/projects/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
 >>>>>>> a5b6c15 (Updated env to the local path + docker compose pathing)
+=======
+      - /home/hcheong/Desktop/Other/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
+>>>>>>> 83804f9 (Add a timeframe get endpoint for events)
     ports:
       - ${SPENNY_DB_PORT}:5432
     environment:

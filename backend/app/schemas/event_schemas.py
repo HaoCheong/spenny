@@ -101,6 +101,11 @@ class EventPushOptions(BaseModel):
     change_amount: bool
 
 
+class EventTimeframe(BaseModel):
+    first_date: datetime | None
+    last_date: datetime
+
+
 class EventAllRead(BaseModel):
     total: int
     data: list[EventReadNR]
