@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 
 run_option=$1
-local_path="/home/hcheong/projects/spenny"
+local_path="/home/hcheong/Desktop/Other/spenny"
 
 if [[ $run_option == "demo" ]]; then
     set -a && source demo.env && set +a
-    docker compose build --no-cache
+    docker compose --progress=plain build --no-cache 
     docker compose --env-file $local_path/demo.env -f docker-compose.yml --profile demo up --force-recreate --remove-orphans --renew-anon-volumes -d
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
     echo "BACKEND URL -> $BACKEND_CONTAINER_URL"

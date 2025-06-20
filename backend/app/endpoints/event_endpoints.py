@@ -52,6 +52,18 @@ def trigger_event(event_id: int, options: schemas.EventPushOptions, db: Session 
     return event_op.EventOperation.update_single_event(db, db_event=db_event, options=options)
 
 
+@router.post("/api/v1/event/timeframe", response_model=schemas.EventAllRead, tags=["Events"])
+def get_all_event_by_timeframe(timeframe: schemas.EventTimeframe, db: Session = Depends(get_db), skip: int = 0, limit: int = 100):
+    event_op.EventOperation.update_all_events(db=db)
+
+    if timeframe.first_date > timeframe.last_date:
+        raise HTTPException(
+            status_code=400, detail="First date cannot come after the Last date")
+
+    return event_cruds.get_all_event_by_timeframe(
+        db=db, first_date=timeframe.first_date, last_date=timeframe.last_date, skip=skip, limit=limit)
+
+
 @router.patch("/api/v1/event/{event_id}", response_model=schemas.EventReadNR, tags=["Events"])
 def update_event_by_id(event_id: int, new_event: schemas.EventUpdate, db: Session = Depends(get_db)):
     event_op.EventOperation.update_all_events(db=db)
