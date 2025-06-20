@@ -21,7 +21,7 @@ const SidebarSelector = ({ label, path }) => {
 				</button>
 			) : (
 				<button
-					class="flex bg-black text-white flex-col w-full p-3 rounded-sm text-xl transition duration-300 ease-in-out hover:bg-white hover:text-black "
+					class="flex bg-black text-white flex-col w-full p-3 rounded-sm text-xl transition duration-350 ease-in-out hover:bg-white hover:text-black "
 					onClick={() => {
 						handleNavigation(path);
 					}}
