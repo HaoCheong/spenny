@@ -17,6 +17,8 @@ from app.helpers import event_freq_adder
 from abc import abstractmethod, ABC
 from datetime import datetime
 
+from sortedcontainers import SortedKeyList
+
 
 class EventStrategy(ABC):
     ''' Event Strategy Base Class '''
@@ -197,17 +199,26 @@ class EventOperation:
         if next_event and next_event.trigger_datetime > curr_datetime:
             return
 
-        # Get all events in the database
-        db_all_event = event_cruds.get_all_events(
-            db=db, skip=0, limit=1, all=True)
+        db_all_event_in_range = event_cruds.get_all_event_by_timeframe(
+            db=db, last_date=datetime.now(), skip=0, limit=1, all=True)
 
-        all_events_data = event_schemas.EventAllRead.model_validate(
-            db_all_event, from_attributes=True)
-        event_queue = all_events_data.data
+        all_events_in_range_data = event_schemas.EventAllRead.model_validate(
+            db_all_event_in_range, from_attributes=True)
+        events = all_events_in_range_data.data
 
-        # Filter out events to prematurely set event queue to 0
-        event_queue = [
-            event for event in event_queue if event.trigger_datetime < curr_datetime]
+        event_priority = {
+            "ADD": 1,
+            "SUB": 1,
+            "MOVE": 1,
+            "MULT": 0,
+            "CMV": 1
+        }
+
+        event_queue = SortedKeyList(key=lambda e: (
+            e.trigger_datetime, event_priority[e.event_type]))
+
+        for event in events:
+            event_queue.add(event)
 
         # Set up the strategy context
         event_context = EventContext(None, db)
@@ -215,12 +226,8 @@ class EventOperation:
         # Execute until the queue is empty
         while len(event_queue) != 0:
 
-            # Sort the queue via trigger date, from furthest to recent
-            event_queue = sorted(
-                event_queue, key=EventOperation.event_sort_key)
-
             # Pop the least recent
-            event = event_queue.pop()
+            event = event_queue.pop(0)
 
             if event.event_type == "ADD":
                 event_context.event_strat = AddStrategy
@@ -241,13 +248,14 @@ class EventOperation:
 
             # If the next event is valid and prior to the curr_datetime
             if next_event and next_event.trigger_datetime < curr_datetime:
-                event_queue.append(next_event)
+                event_queue.add(next_event)
 
     def update_single_event(db: Session, db_event: event_models.Event, options: event_schemas.EventPushOptions) -> event_schemas.EventReadNR:
 
         # Get build the context
         event_context = EventContext(None, db)
-        event = event_schemas.EventReadNR.model_validate(db_event, from_attributes=True)
+        event = event_schemas.EventReadNR.model_validate(
+            db_event, from_attributes=True)
 
         # Get the right operations
         if event.event_type == "ADD":
