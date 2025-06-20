@@ -56,6 +56,25 @@ def get_next_event(db: Session):
     return db_event
 
 
+def get_all_event_by_timeframe(db: Session, first_date: datetime = None, last_date: datetime = datetime.now(), skip: int = 0, limit: int = 0, all: bool = False) -> schemas.EventAllRead:
+
+    query = None
+    if first_date is None:
+        query = db.query(model.Event).filter(
+            model.Event.trigger_datetime < last_date)
+    else:
+        query = db.query(model.Event).filter(
+            model.Event.trigger_datetime < last_date, model.Event.trigger_datetime > first_date)
+
+    total = query.count()
+    db_events = query.all() if all is True else query.offset(skip).limit(limit).all()
+
+    return schemas.EventAllRead.model_validate({
+        "total": total,
+        "data": db_events
+    }, from_attributes=True)
+
+
 def update_event_by_id(db: Session, id: int, new_event: schemas.EventUpdate, update_time: datetime = datetime.now()):
     ''' Update specific fields of specified instance of event on provided event ID '''
     db_event = db.query(model.Event).filter(model.Event.id == id).first()
