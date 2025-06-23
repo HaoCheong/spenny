@@ -10,12 +10,15 @@ const Logs = () => {
 	return (
 		<>
 			<Page>
-				<div id="log-content" class="flex flex-col gap-6 h-full w-full">
+				<div
+					id="log-content"
+					className="flex flex-col gap-6 h-full w-full"
+				>
 					<Section
 						classSize="h-1/8"
 						classStyle="flex flex-row items-center w-full gap-5"
 					>
-						<h1 class="w-7/8 text-5xl items-center">Logs</h1>
+						<h1 className="w-7/8 text-5xl items-center">Logs</h1>
 						<Divider vertical={true} />
 						<Button classStyle="w-1/8 text-xl" label="Export" />
 					</Section>
@@ -39,29 +42,29 @@ const Logs = () => {
 						classSize="h-6/8 w-full"
 						classStyle="text-xl overflow-y-scroll"
 					>
-						<div class="w-full h-full flex flex-col gap-3 overflow-y-scroll">
-							<div class="flex flex-row gap-3 w-full h-1/12">
-								<p class="flex items-center text-2xl font-bold w-1/16 h-[60px] ">
+						<div className="w-full h-full flex flex-col gap-3 overflow-y-scroll">
+							<div className="flex flex-row gap-3 w-full h-1/12">
+								<p className="flex items-center text-2xl font-bold w-1/16 h-[60px] ">
 									ID
 								</p>
 								<Divider vertical />
-								<p class="flex items-center text-2xl font-bold w-2/16 h-[60px] ">
+								<p className="flex items-center text-2xl font-bold w-2/16 h-[60px] ">
 									Type
 								</p>
 								<Divider vertical />
-								<p class="flex items-center text-2xl font-bold w-2/16 h-[60px] ">
+								<p className="flex items-center text-2xl font-bold w-2/16 h-[60px] ">
 									Name
 								</p>
 								<Divider vertical />
-								<p class="flex items-center text-2xl font-bold w-7/16 h-[60px] ">
+								<p className="flex items-center text-2xl font-bold w-7/16 h-[60px] ">
 									Description
 								</p>
 								<Divider vertical />
-								<p class="flex items-center text-2xl font-bold w-2/16 h-[60px] ">
+								<p className="flex items-center text-2xl font-bold w-2/16 h-[60px] ">
 									Created
 								</p>
 								<Divider vertical />
-								<p class="flex items-center text-2xl font-bold w-2/16 h-[60px] ">
+								<p className="flex items-center text-2xl font-bold w-2/16 h-[60px] ">
 									View
 								</p>
 							</div>
