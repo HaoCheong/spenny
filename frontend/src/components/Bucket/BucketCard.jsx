@@ -85,8 +85,6 @@ const BucketCard = ({ bucket_id }) => {
 				className="flex flex-row gap-3 w-full h-7/16"
 			>
 				<div className="w-1/2 flex flex-col gap-4">
-					<Placeholder label="Amount" classStyle="w-full h-2/3" />
-					<Divider />
 					<h1>Upcoming Events</h1>
 					{nextEvent === null ? (
 						<SkeletonCard
@@ -96,6 +94,9 @@ const BucketCard = ({ bucket_id }) => {
 					) : (
 						<BucketEventCard event={nextEvent} />
 					)}
+					<Divider />
+					<h1>Amount</h1>
+					<Placeholder label="Amount" classStyle="w-full h-2/3" />
 				</div>
 
 				<Divider vertical />
