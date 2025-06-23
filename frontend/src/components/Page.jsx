@@ -2,10 +2,13 @@ import Sidebar from "./Sidebar";
 
 const Page = ({ children }) => {
 	return (
-		<div class="flex flex-roww-screen h-screen">
+		<div className="flex flex-row w-screen h-screen">
 			<Sidebar />
-			<div id="page-container" class="bg-black w-4/5 h-full p-5">
-				<div id="page-content" class="h-full w-1500px">
+			<div
+				id="page-container"
+				className="bg-spenny-background w-4/5 h-full p-5"
+			>
+				<div id="page-content" className="h-full w-1500px">
 					{children}
 				</div>
 			</div>
