@@ -2,7 +2,7 @@ import Button from "../Button";
 import Divider from "../Divider";
 
 const BucketEventCard = ({ event }) => {
-	console.log("EVENT", event);
+	// console.log("EVENT", event);
 	const datetime_convert = (date) => {
 		const dateObj = new Date(date);
 		return dateObj.toLocaleDateString("en-GB");
