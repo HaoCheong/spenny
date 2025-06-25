@@ -7,13 +7,20 @@ import Placeholder from "../components/Placeholder";
 import BucketCard from "../components/Bucket/BucketCard";
 import axiosRequest from "../components/axiosRequest";
 import { BACKEND_URL } from "../configs/config";
+import AddBucketDialog from "../components/AddBucketDialog";
 
 const Dashboard = () => {
 	const [buckets, setBuckets] = React.useState([]);
 
+	const [isAddBucketOpen, setIsAddBucketOpen] = React.useState(false);
+
 	const fetchBucket = async () => {
 		const data = await axiosRequest("GET", `${BACKEND_URL}/api/v1/buckets`);
 		setBuckets(data.data);
+	};
+
+	const handleAddBucketOpen = () => {
+		setIsAddBucketOpen(true);
 	};
 
 	React.useEffect(() => {
@@ -27,6 +34,10 @@ const Dashboard = () => {
 					id="dashboard-content"
 					className="flex flex-col gap-6 h-full w-full"
 				>
+					<AddBucketDialog
+						isOpen={isAddBucketOpen}
+						setIsOpen={setIsAddBucketOpen}
+					/>
 					<Section
 						id="dasboard-card-header"
 						classSize="h-1/8"
@@ -39,7 +50,11 @@ const Dashboard = () => {
 							classStyle="w-2/8 h-full text-xl"
 						/>
 						<Divider vertical />
-						<Button classStyle="w-1/8 text-xl" label="Add Bucket" />
+						<Button
+							classStyle="w-1/8 text-xl"
+							label="Add Bucket"
+							onClick={handleAddBucketOpen}
+						/>
 						<Button classStyle="w-1/8 text-xl" label="Manual" />
 					</Section>
 					<Section
