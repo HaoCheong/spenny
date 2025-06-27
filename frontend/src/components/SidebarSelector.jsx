@@ -12,7 +12,7 @@ const SidebarSelector = ({ label, path }) => {
 		<>
 			{currPath.pathname === path ? (
 				<button
-					className="flex bg-white text-black flex-col w-full p-3 rounded-sm text-xl"
+					className="flex bg-spenny-accent-primary text-black flex-col w-full p-3 rounded-sm text-xl"
 					onClick={() => {
 						handleNavigation(path);
 					}}
@@ -21,7 +21,7 @@ const SidebarSelector = ({ label, path }) => {
 				</button>
 			) : (
 				<button
-					className="flex bg-spenny-background text-spenny-text flex-col w-full p-3 rounded-sm text-xl transition duration-350 ease-in-out hover:bg-white hover:text-black "
+					className="flex bg-spenny-background text-spenny-text flex-col w-full p-3 rounded-sm text-xl transition duration-350 ease-in-out hover:bg-spenny-accent-primary hover:text-black "
 					onClick={() => {
 						handleNavigation(path);
 					}}
