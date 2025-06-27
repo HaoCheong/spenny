@@ -52,10 +52,15 @@ const Dashboard = () => {
 						<Divider vertical />
 						<Button
 							classStyle="w-1/8 text-xl"
+							classColor="border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
 							label="Add Bucket"
 							onClick={handleAddBucketOpen}
 						/>
-						<Button classStyle="w-1/8 text-xl" label="Manual" />
+						<Button
+							classStyle="w-1/8 text-xl"
+							classColor="border-solid border-2 border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
+							label="Manual"
+						/>
 					</Section>
 					<Section
 						id="dasboard-card-display"
