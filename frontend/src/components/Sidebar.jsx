@@ -25,7 +25,7 @@ const Sidebar = () => {
 				<Divider />
 				<div id="sidebar-footer" className="h-2/8">
 					<h2 className="flex justify-center items-center text-spenny-text">
-						@github
+						@hcheong
 					</h2>
 				</div>
 			</div>
