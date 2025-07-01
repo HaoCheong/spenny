@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../Button";
 import Divider from "../Divider";
-import Placeholder from "../Placeholder";
+import Placeholder from "../Structural/Placeholder";
 import axiosRequest from "../axiosRequest";
 import { BACKEND_URL } from "../../configs/config";
 import BucketLogCard from "./BucketLogCard";
@@ -84,7 +84,7 @@ const BucketCard = ({ bucket_id }) => {
 				id="bucket-data-display"
 				className="flex flex-row gap-3 w-full h-7/16"
 			>
-				<div className="w-1/2 flex flex-col gap-4">
+				<div className="w-1/2 flex flex-col gap-3">
 					<h1>Amount</h1>
 					<div
 						id="bucket-data-amount"
