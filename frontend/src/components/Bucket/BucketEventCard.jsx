@@ -1,4 +1,3 @@
-import Button from "../Button";
 import Divider from "../Divider";
 
 const BucketEventCard = ({ event }) => {
