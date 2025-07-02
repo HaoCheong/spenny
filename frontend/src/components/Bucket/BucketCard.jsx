@@ -1,12 +1,12 @@
 import React from "react";
+import { BACKEND_URL } from "../../configs/config";
 import Button from "../Button";
 import Divider from "../Divider";
+import SkeletonCard from "../SkeletonCard";
 import Placeholder from "../Structural/Placeholder";
 import axiosRequest from "../axiosRequest";
-import { BACKEND_URL } from "../../configs/config";
-import BucketLogCard from "./BucketLogCard";
-import SkeletonCard from "../SkeletonCard";
 import BucketEventCard from "./BucketEventCard";
+import BucketLogCard from "./BucketLogCard";
 
 const BucketCard = ({ bucket_id }) => {
 	const [bucket, setBucket] = React.useState({});
@@ -114,7 +114,7 @@ const BucketCard = ({ bucket_id }) => {
 					<h1>Logs</h1>
 					{recentLogs.length !== 0 ? (
 						recentLogs.map((log, key) => {
-							return <BucketLogCard log={log} />;
+							return <BucketLogCard key={key} log={log} />;
 						})
 					) : (
 						<SkeletonCard label="No logs found" />

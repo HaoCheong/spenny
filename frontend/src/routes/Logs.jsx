@@ -1,9 +1,8 @@
-import React from "react";
-import Page from "../components/Page";
-import Section from "../components/Section";
 import Button from "../components/Button";
 import Divider from "../components/Divider";
-import Placeholder from "../components/Placeholder";
+import Page from "../components/Structural/Page";
+import Placeholder from "../components/Structural/Placeholder";
+import Section from "../components/Structural/Section";
 import TableRow from "../components/TableRow";
 
 const Logs = () => {
