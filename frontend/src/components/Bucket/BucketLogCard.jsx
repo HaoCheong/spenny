@@ -20,7 +20,9 @@ const BucketLogCard = ({ log }) => {
 		<div
 			className={`w-full h-1/3 border-5 border-solid rounded-lg p-2 border-${colorType} flex flex-col justify-center`}
 		>
-			<h1 className="text-md h-1/2">{log.name}</h1>
+			<h1 className="text-md h-1/2 overflow-hidden text-ellipsis whitespace-nowrap">
+				{log.name}
+			</h1>
 			<Divider />
 			<div id="bucket-log-card-bottom" className="w-full h-1/2">
 				<h2 className="float-left">
