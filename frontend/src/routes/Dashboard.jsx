@@ -1,17 +1,16 @@
 import React from "react";
-import Page from "../components/Page";
-import Section from "../components/Section";
+import AddBucketDialog from "../components/AddBucketDialog";
+import BucketCard from "../components/Bucket/BucketCard";
 import Button from "../components/Button";
 import Divider from "../components/Divider";
-import Placeholder from "../components/Placeholder";
-import BucketCard from "../components/Bucket/BucketCard";
+import Page from "../components/Structural/Page";
+import Placeholder from "../components/Structural/Placeholder";
+import Section from "../components/Structural/Section";
 import axiosRequest from "../components/axiosRequest";
 import { BACKEND_URL } from "../configs/config";
-import AddBucketDialog from "../components/AddBucketDialog";
 
 const Dashboard = () => {
 	const [buckets, setBuckets] = React.useState([]);
-
 	const [isAddBucketOpen, setIsAddBucketOpen] = React.useState(false);
 
 	const fetchBucket = async () => {
@@ -43,7 +42,7 @@ const Dashboard = () => {
 						classSize="h-1/8"
 						classStyle="flex flex-row items-center w-full gap-5"
 					>
-						<h1 className="w-4/8 text-5xl">Dashboard</h1>
+						<h1 className="w-5/8 text-5xl">Dashboard</h1>
 						<Divider vertical />
 						<Placeholder
 							label="TOTAL"
@@ -55,11 +54,6 @@ const Dashboard = () => {
 							classColor="border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
 							label="Add Bucket"
 							onClick={handleAddBucketOpen}
-						/>
-						<Button
-							classStyle="w-1/8 text-xl"
-							classColor="border-solid border-2 border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
-							label="Manual"
 						/>
 					</Section>
 					<Section
