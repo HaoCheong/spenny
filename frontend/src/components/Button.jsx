@@ -5,12 +5,14 @@ const Button = ({
 		alert("Nothing");
 	},
 	label = "__UNLABEL__",
+	type = "",
 }) => {
 	return (
 		<>
 			<button
 				className={`flex flex-col p-3 h-full justify-center items-center rounded-lg text-md transition duration-300 ease-in-out ${classColor} ${classStyle}`}
 				onClick={onClick}
+				type={type}
 			>
 				{label}
 			</button>
