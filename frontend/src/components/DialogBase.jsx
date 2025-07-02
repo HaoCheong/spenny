@@ -1,11 +1,4 @@
-import {
-	Dialog,
-	DialogPanel,
-	DialogTitle,
-	Transition,
-	TransitionChild,
-} from "@headlessui/react";
-import Button from "./Button";
+import { Dialog, Transition, TransitionChild } from "@headlessui/react";
 import clsx from "clsx";
 import { Fragment } from "react";
 

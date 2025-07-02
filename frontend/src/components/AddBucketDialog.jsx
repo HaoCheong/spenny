@@ -1,25 +1,17 @@
 import {
-	Description,
-	Dialog,
 	DialogPanel,
 	DialogTitle,
-	Field,
 	Input,
-	Label,
 	Listbox,
 	ListboxButton,
 	ListboxOption,
 	ListboxOptions,
 	Textarea,
-	Transition,
-	TransitionChild,
 } from "@headlessui/react";
-import Button from "./Button";
 import clsx from "clsx";
-import { Fragment } from "react";
-import DialogBase from "./DialogBase";
-import Textfield from "./FieldLabel";
 import React from "react";
+import Button from "./Button";
+import DialogBase from "./DialogBase";
 import FieldLabel from "./FieldLabel";
 
 const AddBucketDialog = ({ isOpen, setIsOpen }) => {
@@ -53,7 +45,10 @@ const AddBucketDialog = ({ isOpen, setIsOpen }) => {
 				>
 					Add Bucket
 				</DialogTitle>
-				<div id="add-modal-input-content" class="flex flex-col gap-3">
+				<div
+					id="add-modal-input-content"
+					className="flex flex-col gap-3"
+				>
 					<FieldLabel label="Name">
 						<Input
 							className={clsx(
