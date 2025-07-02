@@ -78,11 +78,11 @@ const BucketCard = ({ bucket_id }) => {
 				</div>
 			</div>
 
-			<Placeholder label="Graph" classStyle="h-8/16" />
+			<Placeholder label="Graph" classStyle="h-7/16" />
 
 			<div
 				id="bucket-data-display"
-				className="flex flex-row gap-3 w-full h-7/16"
+				className="flex flex-row gap-3 w-full h-8/16"
 			>
 				<div className="w-1/2 flex flex-col gap-3">
 					<h1>Amount</h1>
@@ -112,13 +112,18 @@ const BucketCard = ({ bucket_id }) => {
 					className="w-1/2 h-full flex flex-col gap-3"
 				>
 					<h1>Logs</h1>
-					{recentLogs.length !== 0 ? (
-						recentLogs.map((log, key) => {
-							return <BucketLogCard key={key} log={log} />;
-						})
-					) : (
-						<SkeletonCard label="No logs found" />
-					)}
+					<div
+						id="bucket-event-container"
+						className="flex flex-col gap-3 h-full"
+					>
+						{recentLogs.length !== 0 ? (
+							recentLogs.map((log, key) => {
+								return <BucketLogCard key={key} log={log} />;
+							})
+						) : (
+							<SkeletonCard label="No logs found" />
+						)}
+					</div>
 				</div>
 			</div>
 		</div>
