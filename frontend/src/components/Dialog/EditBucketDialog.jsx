@@ -10,24 +10,60 @@ import {
 } from "@headlessui/react";
 import clsx from "clsx";
 import { useFormik } from "formik";
+import React from "react";
 import * as Yup from "yup";
-import Button from "./Button";
+import Button from "../Button";
+import Divider from "../Divider";
+import FieldLabel from "../FieldLabel";
+import ResponseAlert from "../ResponseAlert";
 import DialogBase from "./DialogBase";
-import Divider from "./Divider";
-import FieldLabel from "./FieldLabel";
 
-const AddBucketDialog = ({ isOpen, setIsOpen }) => {
+const EditBucketDialog = ({
+	isOpen,
+	setIsOpen,
+	buckets,
+	setBuckets,
+	bucket,
+}) => {
+	const [alertInfo, setAlertInfo] = React.useState({
+		isOpen: false,
+		type: "",
+		message: "",
+	});
+
 	const handleClose = () => {
 		setIsOpen(false);
 	};
 
-	const handleSubmit = (values) => {
-		console.log("New Bucket Values:", values);
+	const handleSubmit = async (values) => {
+		const edittedBucket = {
+			name: values.name,
+			description: values.description,
+			amount: values.amount,
+			bucket_type: values.bucket_type,
+			properties: values.properties,
+		};
+
+		try {
+			//TODO: Complete
+
+			setAlertInfo({
+				isOpen: true,
+				type: "success",
+				message: `${values.name} bucket edited successfully.`,
+			});
+		} catch (error) {
+			setAlertInfo({
+				isOpen: true,
+				type: "error",
+				message: `${error}`,
+			});
+		}
 	};
 
 	const bucketTypes = [
 		{ id: 0, name: "STORE", properties: {} },
-		{ id: 1, name: "INVISIBLE", properties: {} },
+		{ id: 1, name: "INVSB", properties: {} },
 		{ id: 2, name: "GOALS", properties: { target_amount: 0 } },
 	];
 
@@ -40,14 +76,14 @@ const AddBucketDialog = ({ isOpen, setIsOpen }) => {
 		formik.setFieldValue("properties", bucketType.properties);
 	};
 
-	const AddBucketValidateSchema = Yup.object().shape({
+	const EditBucketValidateSchema = Yup.object().shape({
 		name: Yup.string().required(),
 		description: Yup.string().required(),
 		amount: Yup.number().min(0).required(),
 	});
 
 	const formik = useFormik({
-		validateSchema: AddBucketValidateSchema,
+		validateSchema: EditBucketValidateSchema,
 		initialValues: {
 			name: "",
 			description: "",
@@ -59,6 +95,14 @@ const AddBucketDialog = ({ isOpen, setIsOpen }) => {
 			handleSubmit(values);
 		},
 	});
+
+	React.useEffect(() => {
+		formik.setFieldValue("name", bucket.name);
+		formik.setFieldValue("description", bucket.description);
+		formik.setFieldValue("amount", bucket.amount);
+		formik.setFieldValue("bucket_type", bucket.bucket_type);
+		formik.setFieldValue("properties", bucket.properties);
+	}, []);
 
 	return (
 		<DialogBase isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -76,12 +120,12 @@ const AddBucketDialog = ({ isOpen, setIsOpen }) => {
 					as="h3"
 					className="text-3xl font-bold text-white pb-3"
 				>
-					Add Bucket
+					Edit Bucket
 				</DialogTitle>
 
 				<form onSubmit={formik.handleSubmit}>
 					<div
-						id="add-modal-input-content"
+						id="edit-modal-input-content"
 						className="flex flex-col gap-3"
 					>
 						<FieldLabel label="Name">
@@ -163,7 +207,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen }) => {
 								</Listbox>
 							</div>
 						</FieldLabel>
-						{formik.values.bucket_type.name === "GOALS" ? (
+						{formik.values.bucket_type === "GOALS" ? (
 							<>
 								<Divider />
 								<FieldLabel
@@ -192,6 +236,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen }) => {
 						) : (
 							<></>
 						)}
+						<ResponseAlert alertInfo={alertInfo} />
 						<div
 							id="dialog-action-panel"
 							className="flex flex-row-reverse w-full pt-3 gap-3"
@@ -203,7 +248,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen }) => {
 							/>
 							<Button
 								classColor="border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
-								label="Add Bucket"
+								label="Edit Bucket"
 								type="submit"
 								onClick={() => {}}
 							/>
@@ -215,4 +260,4 @@ const AddBucketDialog = ({ isOpen, setIsOpen }) => {
 	);
 };
 
-export default AddBucketDialog;
+export default EditBucketDialog;
