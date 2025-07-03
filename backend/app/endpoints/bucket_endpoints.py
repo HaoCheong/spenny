@@ -1,19 +1,25 @@
 from typing import List
 
-from app.helpers import get_db
-from fastapi import Depends, HTTPException, APIRouter
-from sqlalchemy.orm import Session
-
-import app.schemas.bucket_schemas as schemas
 import app.cruds.bucket_cruds as cruds
 import app.operations.event_operations as event_op
+import app.schemas.bucket_schemas as schemas
+from app.helpers import get_db
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 
 
-@router.post("/api/v1/bucket", response_model=schemas.BucketReadNR, tags=["Buckets"])
+@router.post("/api/v1/bucket", response_model=schemas.BucketReadWR, tags=["Buckets"])
 def create_bucket(bucket: schemas.BucketCreate, db: Session = Depends(get_db)):
     event_op.EventOperation.update_all_events(db=db)
+
+    # Check if the bucket with the shared name already exist
+    db_bucket = cruds.get_bucket_by_name(db=db, name=bucket.name)
+    if db_bucket:
+        raise HTTPException(
+            status_code=400, detail=f"Bucket called {bucket.name} already exists.")
+
     return cruds.create_bucket(db=db, bucket=bucket)
 
 

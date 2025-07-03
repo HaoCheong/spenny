@@ -1,9 +1,8 @@
-from sqlalchemy.orm import Session
+from datetime import datetime
 
 import app.models.bucket_models as model
 import app.schemas.bucket_schemas as schemas
-
-from datetime import datetime
+from sqlalchemy.orm import Session
 
 
 def create_bucket(db: Session, bucket: schemas.BucketCreate, curr_date: datetime = datetime.now()):
@@ -42,6 +41,13 @@ def get_all_buckets(db: Session, skip: int = 0, limit: int = 100, all: bool = Fa
 def get_bucket_by_id(db: Session, id: int):
     ''' Get specific instance of bucket based on provided bucket ID '''
     db_bucket = db.query(model.Bucket).filter(model.Bucket.id == id).first()
+    return db_bucket
+
+
+def get_bucket_by_name(db: Session, name: str):
+    ''' Get specific instance of bucket based on provided bucket name (case insensitive) '''
+    db_bucket = db.query(model.Bucket).filter(
+        model.Bucket.name.ilike(name)).first()
     return db_bucket
 
 
