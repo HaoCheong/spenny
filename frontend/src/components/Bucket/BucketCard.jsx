@@ -9,7 +9,12 @@ import ActionMenu from "./ActionMenu";
 import BucketEventCard from "./BucketEventCard";
 import BucketLogCard from "./BucketLogCard";
 
-const BucketCard = ({ bucket_id, setFocusBucket, setIsViewBucketOpen }) => {
+const BucketCard = ({
+	bucket_id,
+	setFocusBucket,
+	setIsViewBucketOpen,
+	setIsEditBucketOpen,
+}) => {
 	const [bucket, setBucket] = React.useState({});
 	const [nextEvent, setNextEvent] = React.useState(null);
 	const [recentLogs, setRecentLogs] = React.useState([]);
@@ -49,6 +54,11 @@ const BucketCard = ({ bucket_id, setFocusBucket, setIsViewBucketOpen }) => {
 		setIsViewBucketOpen(true);
 	};
 
+	const handleEditBucket = () => {
+		setFocusBucket(bucket);
+		setIsEditBucketOpen(true);
+	};
+
 	React.useEffect(() => {
 		fetchBucket();
 		fetchRecentLogs();
@@ -82,7 +92,7 @@ const BucketCard = ({ bucket_id, setFocusBucket, setIsViewBucketOpen }) => {
 						classStyle="w-1/2 text-xl h-full"
 						label="Action"
 					/> */}
-					<ActionMenu />
+					<ActionMenu handleEditBucket={handleEditBucket} />
 				</div>
 			</div>
 
