@@ -97,12 +97,13 @@ const EditBucketDialog = ({
 	});
 
 	React.useEffect(() => {
+		console.log("edit bucket", bucket);
 		formik.setFieldValue("name", bucket.name);
 		formik.setFieldValue("description", bucket.description);
 		formik.setFieldValue("amount", bucket.amount);
 		formik.setFieldValue("bucket_type", bucket.bucket_type);
 		formik.setFieldValue("properties", bucket.properties);
-	}, []);
+	}, [bucket]);
 
 	return (
 		<DialogBase isOpen={isOpen} setIsOpen={setIsOpen}>
