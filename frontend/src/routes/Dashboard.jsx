@@ -1,10 +1,11 @@
 import React from "react";
-import AddBucketDialog from "../components/AddBucketDialog";
 import BucketCard from "../components/Bucket/BucketCard";
 import Button from "../components/Button";
+import AddBucketDialog from "../components/Dialog/AddBucketDialog";
+import ViewBucketDialog from "../components/Dialog/ViewBucketDialog";
+import DisplayTotal from "../components/DisplayTotal";
 import Divider from "../components/Divider";
 import Page from "../components/Structural/Page";
-import Placeholder from "../components/Structural/Placeholder";
 import Section from "../components/Structural/Section";
 import axiosRequest from "../components/axiosRequest";
 import { BACKEND_URL } from "../configs/config";
@@ -13,8 +14,11 @@ const Dashboard = () => {
 	const [buckets, setBuckets] = React.useState([]);
 	const [isAddBucketOpen, setIsAddBucketOpen] = React.useState(false);
 
+	const [isViewBucketOpen, setIsViewBucketOpen] = React.useState(false);
+
+	const [focusBucket, setFocusBucket] = React.useState({});
 	const fetchBucket = async () => {
-		const data = await axiosRequest("GET", `${BACKEND_URL}/api/v1/buckets`);
+		const data = await axiosRequest("GET", `${BACKEND_URL}/buckets`);
 		setBuckets(data.data);
 	};
 
@@ -36,6 +40,13 @@ const Dashboard = () => {
 					<AddBucketDialog
 						isOpen={isAddBucketOpen}
 						setIsOpen={setIsAddBucketOpen}
+						buckets={buckets}
+						setBuckets={setBuckets}
+					/>
+					<ViewBucketDialog
+						isOpen={isViewBucketOpen}
+						setIsOpen={setIsViewBucketOpen}
+						bucket={focusBucket}
 					/>
 					<Section
 						id="dasboard-card-header"
@@ -44,10 +55,7 @@ const Dashboard = () => {
 					>
 						<h1 className="w-5/8 text-5xl">Dashboard</h1>
 						<Divider vertical />
-						<Placeholder
-							label="TOTAL"
-							classStyle="w-2/8 h-full text-xl"
-						/>
+						<DisplayTotal buckets={buckets} />
 						<Divider vertical />
 						<Button
 							classStyle="w-1/8 text-xl"
@@ -66,6 +74,10 @@ const Dashboard = () => {
 									<BucketCard
 										key={key}
 										bucket_id={bucket.id}
+										setFocusBucket={setFocusBucket}
+										setIsViewBucketOpen={
+											setIsViewBucketOpen
+										}
 									/>
 								);
 							})}
