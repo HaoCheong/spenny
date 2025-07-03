@@ -2,6 +2,7 @@ import React from "react";
 import BucketCard from "../components/Bucket/BucketCard";
 import Button from "../components/Button";
 import AddBucketDialog from "../components/Dialog/AddBucketDialog";
+import EditBucketDialog from "../components/Dialog/EditBucketDialog";
 import ViewBucketDialog from "../components/Dialog/ViewBucketDialog";
 import DisplayTotal from "../components/DisplayTotal";
 import Divider from "../components/Divider";
@@ -15,6 +16,7 @@ const Dashboard = () => {
 	const [isAddBucketOpen, setIsAddBucketOpen] = React.useState(false);
 
 	const [isViewBucketOpen, setIsViewBucketOpen] = React.useState(false);
+	const [isEditBucketOpen, setIsEditBucketOpen] = React.useState(false);
 
 	const [focusBucket, setFocusBucket] = React.useState({});
 	const fetchBucket = async () => {
@@ -48,6 +50,13 @@ const Dashboard = () => {
 						setIsOpen={setIsViewBucketOpen}
 						bucket={focusBucket}
 					/>
+					<EditBucketDialog
+						isOpen={isEditBucketOpen}
+						setIsOpen={setIsEditBucketOpen}
+						buckets={buckets}
+						setBuckets={setBuckets}
+						bucket={focusBucket}
+					/>
 					<Section
 						id="dasboard-card-header"
 						classSize="h-1/8"
@@ -77,6 +86,9 @@ const Dashboard = () => {
 										setFocusBucket={setFocusBucket}
 										setIsViewBucketOpen={
 											setIsViewBucketOpen
+										}
+										setIsEditBucketOpen={
+											setIsEditBucketOpen
 										}
 									/>
 								);
