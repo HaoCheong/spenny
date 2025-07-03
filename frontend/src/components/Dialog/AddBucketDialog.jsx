@@ -54,7 +54,6 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 				message: `${values.name} bucket added successfully.`,
 			});
 		} catch (error) {
-			console.log("RES ERROR", error);
 			setAlertInfo({
 				isOpen: true,
 				type: "error",
