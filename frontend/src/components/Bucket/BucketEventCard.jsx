@@ -1,25 +1,33 @@
 import Divider from "../Divider";
 
 const BucketEventCard = ({ event }) => {
-	// console.log("EVENT", event);
 	const datetime_convert = (date) => {
 		const dateObj = new Date(date);
 		return dateObj.toLocaleDateString("en-GB");
 	};
-	let colorType;
+
+	//PFIX: Must be a better way to do conditional colours
+
+	let borderColorType;
+	let textColorType;
+
 	if (event.event_type === "MOVE") {
-		colorType = "spenny-accent-warning";
+		borderColorType = "border-spenny-accent-warning";
+		textColorType = "text-spenny-accent-warning";
 	} else if (event.event_type === "ADD") {
-		colorType = "spenny-accent-base";
+		borderColorType = "border-spenny-accent-base";
+		textColorType = "text-spenny-accent-base";
 	} else if (event.event_type === "SUB") {
-		colorType = "spenny-accent-error";
+		borderColorType = "border-spenny-accent-error";
+		textColorType = "text-spenny-accent-error";
 	} else {
-		colorType = "white";
+		borderColorType = "border-white";
+		textColorType = "text-white";
 	}
 
 	return (
 		<div
-			className={`w-full h-1/3 border-5 border-solid rounded-lg p-2 border-${colorType} flex flex-col justify-center`}
+			className={`w-full h-1/3 border-5 border-solid rounded-lg p-2 ${borderColorType} flex flex-col justify-center`}
 		>
 			<h1 className="text-md h-1/2 overflow-hidden text-ellipsis whitespace-nowrap">
 				{event.name}
@@ -29,7 +37,7 @@ const BucketEventCard = ({ event }) => {
 				<h2 className="float-left">
 					{datetime_convert(event.trigger_datetime)}
 				</h2>
-				<p className={`float-right text-${colorType}`}>
+				<p className={`float-right font-bold ${textColorType}`}>
 					{event.properties.amount}
 				</p>
 			</div>
