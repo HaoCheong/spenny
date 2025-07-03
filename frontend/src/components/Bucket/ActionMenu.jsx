@@ -19,9 +19,7 @@ const ActionMenu = ({ handleEditBucket }) => {
 				</MenuItem>
 				<MenuItem>
 					<button
-						onClick={() => {
-							handleEditBucket;
-						}}
+						onClick={handleEditBucket}
 						className="flex w-full items-center gap-2 rounded-lg p-1.5 transition duration-300 ease-in-out bg-spenny-accent-warning/80 data-focus:bg-spenny-background data-focus:border-1 data-focus:border-solid data-focus:border-spenny-accent-warning/80 data-focus:text-spenny-accent-warning/80"
 					>
 						Edit
