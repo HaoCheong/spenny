@@ -5,10 +5,11 @@ import Divider from "../Divider";
 import SkeletonCard from "../SkeletonCard";
 import Placeholder from "../Structural/Placeholder";
 import axiosRequest from "../axiosRequest";
+import ActionMenu from "./ActionMenu";
 import BucketEventCard from "./BucketEventCard";
 import BucketLogCard from "./BucketLogCard";
 
-const BucketCard = ({ bucket_id }) => {
+const BucketCard = ({ bucket_id, setFocusBucket, setIsViewBucketOpen }) => {
 	const [bucket, setBucket] = React.useState({});
 	const [nextEvent, setNextEvent] = React.useState(null);
 	const [recentLogs, setRecentLogs] = React.useState([]);
@@ -27,7 +28,7 @@ const BucketCard = ({ bucket_id }) => {
 	const fetchBucket = async () => {
 		const data = await axiosRequest(
 			"GET",
-			`${BACKEND_URL}/api/v1/bucket/${bucket_id}`
+			`${BACKEND_URL}/bucket/${bucket_id}`
 		);
 		setBucket(data);
 		if (data.events.length !== 0) {
@@ -38,9 +39,14 @@ const BucketCard = ({ bucket_id }) => {
 	const fetchRecentLogs = async () => {
 		const data = await axiosRequest(
 			"GET",
-			`${BACKEND_URL}/api/v1/logs/${bucket_id}?skip=0&limit=3`
+			`${BACKEND_URL}/logs/${bucket_id}?skip=0&limit=3`
 		);
 		setRecentLogs(data.data);
+	};
+
+	const handleViewBucket = () => {
+		setFocusBucket(bucket);
+		setIsViewBucketOpen(true);
 	};
 
 	React.useEffect(() => {
@@ -69,12 +75,14 @@ const BucketCard = ({ bucket_id }) => {
 						classColor="border-solid border-2 border-spenny-accent-primary bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
 						classStyle="w-1/2 text-xl h-full"
 						label="View"
+						onClick={handleViewBucket}
 					/>
-					<Button
+					{/* <Button
 						classColor="border-solid border-2 border-spenny-accent-warning bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
 						classStyle="w-1/2 text-xl h-full"
 						label="Action"
-					/>
+					/> */}
+					<ActionMenu />
 				</div>
 			</div>
 
