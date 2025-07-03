@@ -27,16 +27,20 @@ const axiosRequest = async (method = "GET", url, options = {}) => {
 		if (axios.isAxiosError(error)) {
 			// If the response is an error, its an API Error
 			if (error.response) {
-				const new_error = new Error(
+				console.error(
 					`API Error - Status: ${error.response.status} - Message: ${
-						error.response.data?.message || "Unknown Error"
+						error.response.data?.detail || "Unknown Error"
 					}`
+				);
+				const new_error = new Error(
+					error.response.data?.detail || "Unknown Error"
 				);
 				new_error.code = error.response.status;
 				throw new_error;
 
 				// If the response is an error, its an Network Error
 			} else if (error.request) {
+				console.error(`Network Error - No response from the server`);
 				const new_error = new Error(
 					`Network Error - No response from the server`
 				);
@@ -45,15 +49,29 @@ const axiosRequest = async (method = "GET", url, options = {}) => {
 
 				// Else it is an unknown error
 			} else {
+				console.error(
+					`Unexpected Error: ${
+						error.response.data?.detail || "Unknown Error"
+					}`
+				);
 				const new_error = new Error(
-					`Unexpected Error: ${error.message}`
+					`Unexpected Error: ${
+						error.response.data?.detail || "Unknown Error"
+					}`
 				);
 				new_error.code = 500;
 				throw new_error;
 			}
 		} else {
+			console.error(
+				`Unexpected Error: ${
+					error.response.data?.detail || "Unknown Error"
+				}`
+			);
 			const new_error = new Error(
-				`Unexpected Error: ${error.message || error}`
+				`Unexpected Error: ${
+					error.response.data?.detail || "Unknown Error"
+				}`
 			);
 			new_error.code = 500;
 			throw new_error;
