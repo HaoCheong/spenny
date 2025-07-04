@@ -28,8 +28,8 @@ const BucketLogCard = ({ log }) => {
 				<h2 className="float-left">
 					{datetime_convert(log.created_at)}
 				</h2>
-				<p className={`float-right text-${colorType}`}>
-					{log.event_properties.amount}
+				<p className={`float-right font-bold text-${colorType}`}>
+					${log.event_properties.amount}
 				</p>
 			</div>
 		</div>
