@@ -45,9 +45,7 @@ const EditBucketDialog = ({
 		};
 
 		try {
-			//TODO: Complete
-
-			setAlertInfo({
+			const data = setAlertInfo({
 				isOpen: true,
 				type: "success",
 				message: `${values.name} bucket edited successfully.`,
@@ -77,9 +75,9 @@ const EditBucketDialog = ({
 	};
 
 	const EditBucketValidateSchema = Yup.object().shape({
-		name: Yup.string().required(),
-		description: Yup.string().required(),
-		amount: Yup.number().min(0).required(),
+		name: Yup.string().required("Bucket name is required"),
+		description: Yup.string().required("A short description is required"),
+		amount: Yup.number().required("Starting amount is required"),
 	});
 
 	const formik = useFormik({
@@ -129,7 +127,11 @@ const EditBucketDialog = ({
 						id="edit-modal-input-content"
 						className="flex flex-col gap-3"
 					>
-						<FieldLabel label="Name">
+						<FieldLabel
+							label="Name"
+							error={formik.errors.name !== ""}
+							errorMsg={formik.errors.name}
+						>
 							<Input
 								id="name"
 								name="name"
@@ -141,7 +143,11 @@ const EditBucketDialog = ({
 								value={formik.values.name}
 							/>
 						</FieldLabel>
-						<FieldLabel label="Starting Amount">
+						<FieldLabel
+							label="Starting Amount"
+							error={formik.errors.amount !== ""}
+							errorMsg={formik.errors.amount}
+						>
 							<Input
 								id="amount"
 								name="amount"
@@ -156,6 +162,8 @@ const EditBucketDialog = ({
 						<FieldLabel
 							label="Description"
 							desc="What is the purpose of this bucket"
+							error={formik.errors.description !== ""}
+							errorMsg={formik.errors.description}
 						>
 							<Textarea
 								id="description"
