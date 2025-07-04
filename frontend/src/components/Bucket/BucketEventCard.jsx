@@ -38,7 +38,7 @@ const BucketEventCard = ({ event }) => {
 					{datetime_convert(event.trigger_datetime)}
 				</h2>
 				<p className={`float-right font-bold ${textColorType}`}>
-					{event.properties.amount}
+					${event.properties.amount}
 				</p>
 			</div>
 		</div>
