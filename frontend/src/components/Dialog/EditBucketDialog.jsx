@@ -17,6 +17,8 @@ import Divider from "../Divider";
 import FieldLabel from "../FieldLabel";
 import ResponseAlert from "../ResponseAlert";
 import DialogBase from "./DialogBase";
+import axiosRequest from "../axiosRequest";
+import { BACKEND_URL } from "../../configs/config";
 
 const EditBucketDialog = ({
 	isOpen,
@@ -45,7 +47,19 @@ const EditBucketDialog = ({
 		};
 
 		try {
-			const data = setAlertInfo({
+			const data = await axiosRequest(
+				"PATCH",
+				`${BACKEND_URL}/bucket/${bucket.id}`,
+				{
+					data: edittedBucket,
+				}
+			);
+
+			const updatedBuckets = buckets.filter((b) => b.id !== bucket.id);
+			const newBuckets = [data, ...updatedBuckets];
+			setBuckets(newBuckets);
+
+			setAlertInfo({
 				isOpen: true,
 				type: "success",
 				message: `${values.name} bucket edited successfully.`,
