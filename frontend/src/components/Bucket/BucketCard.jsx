@@ -79,14 +79,14 @@ const BucketCard = ({
 			<div id="bucket-header" className="h-1/16 flex flex-row gap-3">
 				<header
 					id="bucket-title"
-					className="text-2xl font-semibold text-spenny-text w-2/3"
+					className="text-2xl font-semibold text-spenny-text w-3/4"
 				>
 					{bucket.name}
 				</header>
 				<Divider vertical />
 				<div
 					id="bucket-action"
-					className="w-1/3 h-full flex flex-row gap-3"
+					className="w-1/4 h-full flex flex-row gap-3"
 				>
 					<ActionMenu
 						handleEditBucket={handleEditBucket}
