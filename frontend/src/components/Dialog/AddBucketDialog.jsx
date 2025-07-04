@@ -78,9 +78,9 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 	};
 
 	const AddBucketValidateSchema = Yup.object().shape({
-		name: Yup.string().required(),
-		description: Yup.string().required(),
-		amount: Yup.number().min(0).required(),
+		name: Yup.string().required("Bucket name is required"),
+		description: Yup.string().required("A short description is required"),
+		amount: Yup.number().required("Starting amount is required"),
 	});
 
 	const formik = useFormik({
@@ -121,8 +121,13 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 						id="add-modal-input-content"
 						className="flex flex-col gap-3"
 					>
-						<FieldLabel label="Name">
+						<FieldLabel
+							label="Name"
+							error={formik.errors.name !== ""}
+							errorMsg={formik.errors.name}
+						>
 							<Input
+								required
 								id="name"
 								name="name"
 								className={clsx(
@@ -133,7 +138,12 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 								value={formik.values.name}
 							/>
 						</FieldLabel>
-						<FieldLabel label="Starting Amount">
+						<FieldLabel
+							required
+							label="Starting Amount"
+							error={formik.errors.amount !== ""}
+							errorMsg={formik.errors.amount}
+						>
 							<Input
 								id="amount"
 								name="amount"
@@ -146,8 +156,11 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 							/>
 						</FieldLabel>
 						<FieldLabel
+							required
 							label="Description"
 							desc="What is the purpose of this bucket"
+							error={formik.errors.description !== ""}
+							errorMsg={formik.errors.description}
 						>
 							<Textarea
 								id="description"
@@ -161,7 +174,11 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 								value={formik.values.description}
 							/>
 						</FieldLabel>
-						<FieldLabel label="Bucket Type">
+						<FieldLabel
+							label="Bucket Type"
+							error={formik.errors.bucket_type !== ""}
+							errorMsg={formik.errors.bucket_type}
+						>
 							<div className="mt-3 w-full h-full">
 								<Listbox
 									value={formik.values.bucket_type}
