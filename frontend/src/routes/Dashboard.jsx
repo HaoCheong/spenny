@@ -22,7 +22,7 @@ const Dashboard = () => {
 
 	const [focusBucket, setFocusBucket] = React.useState({});
 
-	const fetchBucket = async () => {
+	const fetchBuckets = async () => {
 		const data = await axiosRequest("GET", `${BACKEND_URL}/buckets`);
 		setBuckets(data.data);
 	};
@@ -32,11 +32,7 @@ const Dashboard = () => {
 	};
 
 	React.useEffect(() => {
-		console.log("SHOULD UPDATE AFTER DELETE", buckets);
-	}, [buckets]);
-
-	React.useEffect(() => {
-		fetchBucket();
+		fetchBuckets();
 	}, []);
 
 	return (
