@@ -40,6 +40,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 			properties: values.properties,
 		};
 
+		console.log("NEW_BUCKET", newBucket);
 		try {
 			const data = await axiosRequest("POST", `${BACKEND_URL}/bucket`, {
 				data: newBucket,
@@ -227,18 +228,20 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 									<Input
 										id="target_amount"
 										name="target_amount"
+										type="number"
 										className={clsx(
 											"mt-2 block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
 											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
 										)}
-										onChange={(value) => {
+										onChange={(e) => {
 											formik.setFieldValue("properties", {
-												target_amount: value,
+												target: parseInt(
+													e.target.value
+												),
 											});
 										}}
 										value={
-											formik.values.properties
-												.target_amount ?? 0
+											formik.values.properties.target ?? 0
 										}
 									/>
 								</FieldLabel>
