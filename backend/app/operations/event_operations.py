@@ -257,7 +257,7 @@ class EventOperation:
 
                 # Execute the event given the context
                 next_event = event_context.execute_event(event, None)
-                
+
                 # If the next event is valid and prior to the curr_datetime
                 if next_event and next_event.trigger_datetime < curr_datetime:
                     
@@ -265,25 +265,27 @@ class EventOperation:
 
     def update_single_event(db: Session, db_event: event_models.Event, options: event_schemas.EventPushOptions) -> event_schemas.EventReadNR:
 
-        # Get build the context
-        event_context = EventContext(None, db)
-        event = event_schemas.EventReadNR.model_validate(
-            db_event, from_attributes=True)
+        with event_update_lock:
 
-        # Get the right operations
-        if event.event_type == "ADD":
-            event_context.event_strat = AddStrategy
-        elif event.event_type == "SUB":
-            event_context.event_strat = SubStrategy
-        elif event.event_type == "MOVE":
-            event_context.event_strat = MovStrategy
-        elif event.event_type == "MULT":
-            event_context.event_strat = MultStrategy
-        elif event.event_type == "CMV":
-            event_context.event_strat = CMVStrategy
-        else:
-            raise ValueError(
-                f"Event Type {event.event_type} is not recognised")
+            # Get build the context
+            event_context = EventContext(None, db)
+            event = event_schemas.EventReadNR.model_validate(
+                db_event, from_attributes=True)
 
-        new_event = event_context.execute_event(event=event, options=options)
-        return new_event
+            # Get the right operations
+            if event.event_type == "ADD":
+                event_context.event_strat = AddStrategy
+            elif event.event_type == "SUB":
+                event_context.event_strat = SubStrategy
+            elif event.event_type == "MOVE":
+                event_context.event_strat = MovStrategy
+            elif event.event_type == "MULT":
+                event_context.event_strat = MultStrategy
+            elif event.event_type == "CMV":
+                event_context.event_strat = CMVStrategy
+            else:
+                raise ValueError(
+                    f"Event Type {event.event_type} is not recognised")
+
+            new_event = event_context.execute_event(event=event, options=options)
+            return new_event
