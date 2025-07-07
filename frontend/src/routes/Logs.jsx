@@ -20,8 +20,8 @@ const Logs = () => {
 		pageSize: 25,
 	});
 
-	let maxLogs = 0;
-	// const [maxLogs, setMaxLogs] = React.useState(0);
+	// let maxLogs = 0;
+	const [maxLogs, setMaxLogs] = React.useState(0);
 
 	const [logs, setLogs] = React.useState([]);
 	const [buckets, setBuckets] = React.useState([]);
@@ -48,7 +48,7 @@ const Logs = () => {
 			);
 			console.log("BRUHSKI", data);
 			setLogs(data.data);
-			maxLogs = data.total;
+			setMaxLogs(data.total);
 		}
 	};
 
@@ -62,14 +62,17 @@ const Logs = () => {
 
 		const newLogs = [...logs, ...data.data];
 		setLogs(newLogs);
-		maxLogs = data.total;
+		setMaxLogs(data.total);
 	};
 
 	const handleScroll = (e) => {
 		const bottom =
 			e.target.scrollHeight - e.target.scrollTop ===
 			e.target.clientHeight;
-		if (bottom) {
+		if (
+			bottom &&
+			paginationModel.page * paginationModel.pageSize <= maxLogs
+		) {
 			const newPM = {
 				page: paginationModel.page + 1,
 				pageSize: paginationModel.pageSize,
@@ -89,6 +92,15 @@ const Logs = () => {
 			fetchBucketLogs();
 		}
 	}, [searchBucket]);
+
+	React.useEffect(() => {
+		console.log("PG MODEL", paginationModel);
+		console.log("maxLogs", maxLogs);
+		console.log(
+			"paginationModel.page * paginationModel.pageSize",
+			paginationModel.page * paginationModel.pageSize
+		);
+	}, [paginationModel]);
 
 	return (
 		<>
@@ -218,7 +230,7 @@ const Logs = () => {
 								})}
 								{paginationModel.page *
 									paginationModel.pageSize <=
-									maxLogs || maxLogs !== 0 ? (
+									maxLogs && maxLogs !== 0 ? (
 									<div
 										role="status"
 										className="flex justify-center item-center"
