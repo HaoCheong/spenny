@@ -155,7 +155,7 @@ class EventContext:
                     "updated_at": db_event.trigger_datetime
                 }, from_attributes=True)
 
-                log_cruds.create_log(db=self._session, log=log_item)
+                log_cruds.create_log(db=self._session, log=log_item, curr_datetime=db_event.trigger_datetime)
 
                 setattr(bucket, "updated_at", datetime.now())
                 self._session.add(bucket)
