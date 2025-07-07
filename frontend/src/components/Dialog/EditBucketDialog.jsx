@@ -76,7 +76,7 @@ const EditBucketDialog = ({
 	const bucketTypes = [
 		{ id: 0, name: "STORE", properties: {} },
 		{ id: 1, name: "INVSB", properties: {} },
-		{ id: 2, name: "GOALS", properties: { target_amount: 0 } },
+		{ id: 2, name: "GOALS", properties: { target: 0 } },
 	];
 
 	const handleBucketTypeChange = (value) => {
@@ -109,7 +109,6 @@ const EditBucketDialog = ({
 	});
 
 	React.useEffect(() => {
-		console.log("edit bucket", bucket);
 		formik.setFieldValue("name", bucket.name);
 		formik.setFieldValue("description", bucket.description);
 		formik.setFieldValue("amount", bucket.amount);
@@ -240,18 +239,20 @@ const EditBucketDialog = ({
 									<Input
 										id="target_amount"
 										name="target_amount"
+										type="number"
 										className={clsx(
 											"mt-2 block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
 											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
 										)}
-										onChange={(value) => {
+										onChange={(e) => {
 											formik.setFieldValue("properties", {
-												target_amount: value,
+												target: parseInt(
+													e.target.value
+												),
 											});
 										}}
 										value={
-											formik.values.properties
-												.target_amount ?? 0
+											formik.values.properties.target ?? 0
 										}
 									/>
 								</FieldLabel>
