@@ -171,7 +171,7 @@ COPY public.buckets (id, name, description, amount, created_at, updated_at, buck
 3	Necessity	Necessary Spending	0	2025-05-08 11:11:55.448	2025-05-08 11:11:55.448	STORE	\N
 4	Lifestyle	Lifestyle personal uses	0	2025-05-08 11:11:55.448	2025-05-08 11:11:55.448	STORE	\N
 5	Savings	Savings that are accumulated	0	2025-05-08 11:12:50.965	2025-05-08 11:12:50.965	STORE	\N
-6	Debt	Debts I owe people	0	2025-05-08 11:13:23.688	2025-05-08 11:13:23.688	STORE	\N
+6	Debt	Debts I owe people	-500	2025-05-08 11:13:23.688	2025-05-08 11:13:23.688	INVSB	\N
 7	Rent	Rent cost and portioning	0	2025-05-08 11:13:23.688	2025-05-08 11:13:23.688	STORE	\N
 8	Bills	Utility Bills and Spending	0	2025-05-08 11:14:20.036	2025-05-08 11:14:20.036	STORE	\N
 9	Health Insurance	Medical Health Insurance	0	2025-05-08 11:14:36.08	2025-05-08 11:14:36.08	STORE	\N
