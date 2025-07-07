@@ -34,7 +34,7 @@ def get_all_logs(db: Session, skip: int = 0, limit: int = 100, all: bool = False
     query = db.query(model.Log)
 
     total = query.count()
-    data = query.all() if all else query.offset(skip).limit(limit).all()
+    data = query.all() if all else query.order_by(model.Log.created_at.desc()).offset(skip).limit(limit).all()
 
     return schemas.LogAllRead.model_validate({
         "total": total,
