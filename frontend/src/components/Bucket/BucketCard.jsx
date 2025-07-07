@@ -8,6 +8,7 @@ import axiosRequest from "../axiosRequest";
 import ActionMenu from "./ActionMenu";
 import BucketEventCard from "./BucketEventCard";
 import BucketLogCard from "./BucketLogCard";
+import BucketAmountDisplay from "./BucketAmountDisplay";
 
 const BucketCard = ({
 	bucket_id,
@@ -61,7 +62,6 @@ const BucketCard = ({
 	};
 
 	const handleDeleteBucket = () => {
-		console.log("HERE");
 		setFocusBucket(bucket);
 		setIsDeleteBucketOpen(true);
 	};
@@ -103,14 +103,7 @@ const BucketCard = ({
 			>
 				<div className="w-1/2 flex flex-col gap-3">
 					<h1>Amount</h1>
-					<div
-						id="bucket-data-amount"
-						className="w-full h-1/3 flex justify-center items-center border-solid border-5 border-spenny-accent-primary rounded-xl"
-					>
-						<h1 className="text-4xl te-spenny-accent-primary">
-							${bucket.amount}
-						</h1>
-					</div>
+					<BucketAmountDisplay bucket={bucket} />
 					<Divider />
 					<h1>Upcoming Events</h1>
 					{nextEvent === null ? (
