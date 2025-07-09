@@ -8,12 +8,14 @@ import axiosRequest from "../axiosRequest";
 import ActionMenu from "./ActionMenu";
 import BucketEventCard from "./BucketEventCard";
 import BucketLogCard from "./BucketLogCard";
+import BucketAmountDisplay from "./BucketAmountDisplay";
 
 const BucketCard = ({
 	bucket_id,
 	setFocusBucket,
 	setIsViewBucketOpen,
 	setIsEditBucketOpen,
+	setIsDeleteBucketOpen,
 }) => {
 	const [bucket, setBucket] = React.useState({});
 	const [nextEvent, setNextEvent] = React.useState(null);
@@ -59,6 +61,11 @@ const BucketCard = ({
 		setIsEditBucketOpen(true);
 	};
 
+	const handleDeleteBucket = () => {
+		setFocusBucket(bucket);
+		setIsDeleteBucketOpen(true);
+	};
+
 	React.useEffect(() => {
 		fetchBucket();
 		fetchRecentLogs();
@@ -72,27 +79,19 @@ const BucketCard = ({
 			<div id="bucket-header" className="h-1/16 flex flex-row gap-3">
 				<header
 					id="bucket-title"
-					className="text-2xl font-semibold text-spenny-text w-4/8"
+					className="text-2xl font-semibold text-spenny-text w-3/4"
 				>
 					{bucket.name}
 				</header>
 				<Divider vertical />
 				<div
 					id="bucket-action"
-					className="w-4/8 h-full flex flex-row gap-3"
+					className="w-1/4 h-full flex flex-row gap-3"
 				>
-					<Button
-						classColor="border-solid border-2 border-spenny-accent-primary bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
-						classStyle="w-1/2 text-xl h-full"
-						label="View"
-						onClick={handleViewBucket}
+					<ActionMenu
+						handleEditBucket={handleEditBucket}
+						handleDeleteBucket={handleDeleteBucket}
 					/>
-					{/* <Button
-						classColor="border-solid border-2 border-spenny-accent-warning bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
-						classStyle="w-1/2 text-xl h-full"
-						label="Action"
-					/> */}
-					<ActionMenu handleEditBucket={handleEditBucket} />
 				</div>
 			</div>
 
@@ -104,14 +103,7 @@ const BucketCard = ({
 			>
 				<div className="w-1/2 flex flex-col gap-3">
 					<h1>Amount</h1>
-					<div
-						id="bucket-data-amount"
-						className="w-full h-2/3 flex justify-center items-center border-solid border-5 border-spenny-accent-primary rounded-xl"
-					>
-						<h1 className="text-4xl te-spenny-accent-primary">
-							{bucket.amount}
-						</h1>
-					</div>
+					<BucketAmountDisplay bucket={bucket} />
 					<Divider />
 					<h1>Upcoming Events</h1>
 					{nextEvent === null ? (
@@ -122,6 +114,23 @@ const BucketCard = ({
 					) : (
 						<BucketEventCard event={nextEvent} />
 					)}
+					<Divider />
+					<div
+						id="bucket-data-action"
+						className="flex flex-row gap-3 h-1/3"
+					>
+						<Button
+							classColor="border-solid border-2 border-spenny-accent-primary bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
+							classStyle="w-1/2 text-xl h-full"
+							label="View"
+							onClick={handleViewBucket}
+						/>
+						<Button
+							classColor="border-solid border-2 border-spenny-accent-warning bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
+							classStyle="w-1/2 text-xl h-full"
+							label="Entry"
+						/>
+					</div>
 				</div>
 
 				<Divider vertical />

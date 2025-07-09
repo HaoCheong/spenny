@@ -40,6 +40,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 			properties: values.properties,
 		};
 
+		console.log("NEW_BUCKET", newBucket);
 		try {
 			const data = await axiosRequest("POST", `${BACKEND_URL}/bucket`, {
 				data: newBucket,
@@ -78,9 +79,9 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 	};
 
 	const AddBucketValidateSchema = Yup.object().shape({
-		name: Yup.string().required(),
-		description: Yup.string().required(),
-		amount: Yup.number().min(0).required(),
+		name: Yup.string().required("Bucket name is required"),
+		description: Yup.string().required("A short description is required"),
+		amount: Yup.number().required("Starting amount is required"),
 	});
 
 	const formik = useFormik({
@@ -121,8 +122,13 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 						id="add-modal-input-content"
 						className="flex flex-col gap-3"
 					>
-						<FieldLabel label="Name">
+						<FieldLabel
+							label="Name"
+							error={formik.errors.name !== ""}
+							errorMsg={formik.errors.name}
+						>
 							<Input
+								required
 								id="name"
 								name="name"
 								className={clsx(
@@ -133,7 +139,12 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 								value={formik.values.name}
 							/>
 						</FieldLabel>
-						<FieldLabel label="Starting Amount">
+						<FieldLabel
+							required
+							label="Starting Amount"
+							error={formik.errors.amount !== ""}
+							errorMsg={formik.errors.amount}
+						>
 							<Input
 								id="amount"
 								name="amount"
@@ -146,8 +157,11 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 							/>
 						</FieldLabel>
 						<FieldLabel
+							required
 							label="Description"
 							desc="What is the purpose of this bucket"
+							error={formik.errors.description !== ""}
+							errorMsg={formik.errors.description}
 						>
 							<Textarea
 								id="description"
@@ -161,7 +175,11 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 								value={formik.values.description}
 							/>
 						</FieldLabel>
-						<FieldLabel label="Bucket Type">
+						<FieldLabel
+							label="Bucket Type"
+							error={formik.errors.bucket_type !== ""}
+							errorMsg={formik.errors.bucket_type}
+						>
 							<div className="mt-3 w-full h-full">
 								<Listbox
 									value={formik.values.bucket_type}
@@ -210,18 +228,20 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 									<Input
 										id="target_amount"
 										name="target_amount"
+										type="number"
 										className={clsx(
 											"mt-2 block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
 											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
 										)}
-										onChange={(value) => {
+										onChange={(e) => {
 											formik.setFieldValue("properties", {
-												target_amount: value,
+												target: parseInt(
+													e.target.value
+												),
 											});
 										}}
 										value={
-											formik.values.properties
-												.target_amount ?? 0
+											formik.values.properties.target ?? 0
 										}
 									/>
 								</FieldLabel>
