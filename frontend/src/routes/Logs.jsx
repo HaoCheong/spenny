@@ -1,12 +1,3 @@
-import React from "react";
-import Button from "../components/Button";
-import Divider from "../components/Divider";
-import Page from "../components/Structural/Page";
-import Placeholder from "../components/Structural/Placeholder";
-import Section from "../components/Structural/Section";
-import LogRow from "../components/LogRow";
-import axiosRequest from "../components/axiosRequest";
-import { BACKEND_URL } from "../configs/config";
 import {
 	Listbox,
 	ListboxButton,
@@ -14,6 +5,15 @@ import {
 	ListboxOptions,
 } from "@headlessui/react";
 import clsx from "clsx";
+import React from "react";
+import Divider from "../components/Divider";
+import Button from "../components/Input/Button";
+import LogRow from "../components/LogRow";
+import Page from "../components/Structural/Page";
+import Placeholder from "../components/Structural/Placeholder";
+import Section from "../components/Structural/Section";
+import axiosRequest from "../components/axiosRequest";
+import { BACKEND_URL } from "../configs/config";
 const Logs = () => {
 	const [paginationModel, setPaginationModel] = React.useState({
 		page: 0,
@@ -39,14 +39,11 @@ const Logs = () => {
 	};
 
 	const fetchBucketLogs = async () => {
-		console.log("FETCH BUCKET LOGS");
 		if (searchBucket.id !== 0) {
-			console.log("HERE?", searchBucket);
 			const data = await axiosRequest(
 				"GET",
 				`${BACKEND_URL}/logs/${searchBucket.id}`
 			);
-			console.log("BRUHSKI", data);
 			setLogs(data.data);
 			setMaxLogs(data.total);
 		}
@@ -92,15 +89,6 @@ const Logs = () => {
 			fetchBucketLogs();
 		}
 	}, [searchBucket]);
-
-	React.useEffect(() => {
-		console.log("PG MODEL", paginationModel);
-		console.log("maxLogs", maxLogs);
-		console.log(
-			"paginationModel.page * paginationModel.pageSize",
-			paginationModel.page * paginationModel.pageSize
-		);
-	}, [paginationModel]);
 
 	return (
 		<>
