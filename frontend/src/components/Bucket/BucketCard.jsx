@@ -1,7 +1,7 @@
 import React from "react";
 import { BACKEND_URL } from "../../configs/config";
-import Button from "../Button";
 import Divider from "../Divider";
+import Button from "../Input/Button";
 import SkeletonCard from "../SkeletonCard";
 import Placeholder from "../Structural/Placeholder";
 import axiosRequest from "../axiosRequest";

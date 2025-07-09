@@ -1,24 +1,12 @@
-import {
-	DialogPanel,
-	DialogTitle,
-	Input,
-	Listbox,
-	ListboxButton,
-	ListboxOption,
-	ListboxOptions,
-	Textarea,
-} from "@headlessui/react";
+import { DialogPanel, DialogTitle, Input } from "@headlessui/react";
 import clsx from "clsx";
-import { useFormik } from "formik";
 import React from "react";
-import * as Yup from "yup";
-import { BACKEND_URL } from "../../configs/config";
-import axiosRequest from "../axiosRequest";
-import Button from "../Button";
-import Divider from "../Divider";
-import FieldLabel from "../FieldLabel";
-import ResponseAlert from "../ResponseAlert";
-import DialogBase from "./DialogBase";
+import { BACKEND_URL } from "../../../configs/config";
+import axiosRequest from "../../axiosRequest";
+import FieldLabel from "../../FieldLabel";
+import Button from "../../Input/Button";
+import ResponseAlert from "../../ResponseAlert";
+import DialogBase from "../DialogBase";
 
 const DeleteBucketDialog = ({
 	isOpen,
