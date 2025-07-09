@@ -12,7 +12,7 @@ const Sidebar = () => {
 						Spenny
 					</h1>
 					<h2 className="flex justify-center items-center text-spenny-text text-lg">
-						Version: 1.1
+						Version: 2.0
 					</h2>
 				</div>
 				<Divider />

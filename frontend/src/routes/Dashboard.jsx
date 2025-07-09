@@ -10,6 +10,7 @@ import Page from "../components/Structural/Page";
 import Section from "../components/Structural/Section";
 import axiosRequest from "../components/axiosRequest";
 import { BACKEND_URL } from "../configs/config";
+import DeleteBucketDialog from "../components/Dialog/DeleteBucketDialog";
 
 const Dashboard = () => {
 	const [buckets, setBuckets] = React.useState([]);
@@ -17,9 +18,11 @@ const Dashboard = () => {
 
 	const [isViewBucketOpen, setIsViewBucketOpen] = React.useState(false);
 	const [isEditBucketOpen, setIsEditBucketOpen] = React.useState(false);
+	const [isDeleteBucketOpen, setIsDeleteBucketOpen] = React.useState(false);
 
 	const [focusBucket, setFocusBucket] = React.useState({});
-	const fetchBucket = async () => {
+
+	const fetchBuckets = async () => {
 		const data = await axiosRequest("GET", `${BACKEND_URL}/buckets`);
 		setBuckets(data.data);
 	};
@@ -29,7 +32,7 @@ const Dashboard = () => {
 	};
 
 	React.useEffect(() => {
-		fetchBucket();
+		fetchBuckets();
 	}, []);
 
 	return (
@@ -53,6 +56,13 @@ const Dashboard = () => {
 					<EditBucketDialog
 						isOpen={isEditBucketOpen}
 						setIsOpen={setIsEditBucketOpen}
+						buckets={buckets}
+						setBuckets={setBuckets}
+						bucket={focusBucket}
+					/>
+					<DeleteBucketDialog
+						isOpen={isDeleteBucketOpen}
+						setIsOpen={setIsDeleteBucketOpen}
 						buckets={buckets}
 						setBuckets={setBuckets}
 						bucket={focusBucket}
@@ -89,6 +99,9 @@ const Dashboard = () => {
 										}
 										setIsEditBucketOpen={
 											setIsEditBucketOpen
+										}
+										setIsDeleteBucketOpen={
+											setIsDeleteBucketOpen
 										}
 									/>
 								);

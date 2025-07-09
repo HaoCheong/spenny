@@ -17,6 +17,8 @@ import Divider from "../Divider";
 import FieldLabel from "../FieldLabel";
 import ResponseAlert from "../ResponseAlert";
 import DialogBase from "./DialogBase";
+import axiosRequest from "../axiosRequest";
+import { BACKEND_URL } from "../../configs/config";
 
 const EditBucketDialog = ({
 	isOpen,
@@ -45,7 +47,17 @@ const EditBucketDialog = ({
 		};
 
 		try {
-			//TODO: Complete
+			const data = await axiosRequest(
+				"PATCH",
+				`${BACKEND_URL}/bucket/${bucket.id}`,
+				{
+					data: edittedBucket,
+				}
+			);
+
+			const updatedBuckets = buckets.filter((b) => b.id !== bucket.id);
+			const newBuckets = [data, ...updatedBuckets];
+			setBuckets(newBuckets);
 
 			setAlertInfo({
 				isOpen: true,
@@ -64,7 +76,7 @@ const EditBucketDialog = ({
 	const bucketTypes = [
 		{ id: 0, name: "STORE", properties: {} },
 		{ id: 1, name: "INVSB", properties: {} },
-		{ id: 2, name: "GOALS", properties: { target_amount: 0 } },
+		{ id: 2, name: "GOALS", properties: { target: 0 } },
 	];
 
 	const handleBucketTypeChange = (value) => {
@@ -77,9 +89,9 @@ const EditBucketDialog = ({
 	};
 
 	const EditBucketValidateSchema = Yup.object().shape({
-		name: Yup.string().required(),
-		description: Yup.string().required(),
-		amount: Yup.number().min(0).required(),
+		name: Yup.string().required("Bucket name is required"),
+		description: Yup.string().required("A short description is required"),
+		amount: Yup.number().required("Starting amount is required"),
 	});
 
 	const formik = useFormik({
@@ -97,7 +109,6 @@ const EditBucketDialog = ({
 	});
 
 	React.useEffect(() => {
-		console.log("edit bucket", bucket);
 		formik.setFieldValue("name", bucket.name);
 		formik.setFieldValue("description", bucket.description);
 		formik.setFieldValue("amount", bucket.amount);
@@ -129,7 +140,11 @@ const EditBucketDialog = ({
 						id="edit-modal-input-content"
 						className="flex flex-col gap-3"
 					>
-						<FieldLabel label="Name">
+						<FieldLabel
+							label="Name"
+							error={formik.errors.name !== ""}
+							errorMsg={formik.errors.name}
+						>
 							<Input
 								id="name"
 								name="name"
@@ -141,7 +156,11 @@ const EditBucketDialog = ({
 								value={formik.values.name}
 							/>
 						</FieldLabel>
-						<FieldLabel label="Starting Amount">
+						<FieldLabel
+							label="Starting Amount"
+							error={formik.errors.amount !== ""}
+							errorMsg={formik.errors.amount}
+						>
 							<Input
 								id="amount"
 								name="amount"
@@ -156,6 +175,8 @@ const EditBucketDialog = ({
 						<FieldLabel
 							label="Description"
 							desc="What is the purpose of this bucket"
+							error={formik.errors.description !== ""}
+							errorMsg={formik.errors.description}
 						>
 							<Textarea
 								id="description"
@@ -218,18 +239,20 @@ const EditBucketDialog = ({
 									<Input
 										id="target_amount"
 										name="target_amount"
+										type="number"
 										className={clsx(
 											"mt-2 block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
 											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
 										)}
-										onChange={(value) => {
+										onChange={(e) => {
 											formik.setFieldValue("properties", {
-												target_amount: value,
+												target: parseInt(
+													e.target.value
+												),
 											});
 										}}
 										value={
-											formik.values.properties
-												.target_amount ?? 0
+											formik.values.properties.target ?? 0
 										}
 									/>
 								</FieldLabel>

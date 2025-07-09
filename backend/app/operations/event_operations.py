@@ -17,6 +17,12 @@ from app.helpers import event_freq_adder
 from abc import abstractmethod, ABC
 from datetime import datetime
 
+from time import sleep
+
+import threading
+
+event_update_lock = threading.Lock()
+
 from sortedcontainers import SortedKeyList
 
 
@@ -131,7 +137,7 @@ class EventContext:
 
         # Grab the full context of the event
         db_event = event_cruds.get_event_by_id(db=self._session, id=event.id)
-
+        # print("DB_EVENT", db_event.name)
         # if option is none, trigger. If option is not none and
         if not options or (options and options.change_amount):
 
@@ -155,11 +161,13 @@ class EventContext:
                     "updated_at": db_event.trigger_datetime
                 }, from_attributes=True)
 
-                log_cruds.create_log(db=self._session, log=log_item)
+                log_cruds.create_log(db=self._session, log=log_item, curr_datetime=db_event.trigger_datetime)
 
                 setattr(bucket, "updated_at", datetime.now())
                 self._session.add(bucket)
                 self._session.commit()
+            
+        print("HERE")
 
         # Update the event trigger date
         setattr(db_event, "trigger_datetime", event_freq_adder(
@@ -171,7 +179,7 @@ class EventContext:
         self._session.refresh(db_event)
 
         # Return the event as EventReadNR with new trigger date
-        return db_event
+        return event_schemas.EventReadNR.model_validate(db_event, from_attributes=True)
 
 
 class EventOperation:
@@ -192,43 +200,79 @@ class EventOperation:
     @staticmethod
     def update_all_events(db, curr_datetime=datetime.now()):
         ''' Execute all the events and update them '''
+        with event_update_lock:
 
-        # Checks if the next event to run further than requested time
-        # If next event is beyond the curr date, it would mean every other event is beyond
-        next_event = event_cruds.get_next_event(db=db)
-        if next_event and next_event.trigger_datetime > curr_datetime:
-            return
+            # Checks if the next event to run further than requested time
+            # If next event is beyond the curr date, it would mean every other event is beyond
+            next_event = event_cruds.get_next_event(db=db)
+            if next_event and next_event.trigger_datetime > curr_datetime:
+                return
 
-        db_all_event_in_range = event_cruds.get_all_event_by_timeframe(
-            db=db, last_date=datetime.now(), skip=0, limit=1, all=True)
 
-        all_events_in_range_data = event_schemas.EventAllRead.model_validate(
-            db_all_event_in_range, from_attributes=True)
-        events = all_events_in_range_data.data
+            # BUGHUNT: This part is fine
+            db_all_event_in_range = event_cruds.get_all_event_by_timeframe(
+                db=db, last_date=datetime.now(), skip=0, limit=1, all=True)
 
-        event_priority = {
-            "ADD": 1,
-            "SUB": 1,
-            "MOVE": 1,
-            "MULT": 0,
-            "CMV": 1
-        }
+            all_events_in_range_data = event_schemas.EventAllRead.model_validate(
+                db_all_event_in_range, from_attributes=True)
+            events = all_events_in_range_data.data
 
-        event_queue = SortedKeyList(key=lambda e: (
-            e.trigger_datetime, event_priority[e.event_type]))
+            event_priority = {
+                "ADD": 1,
+                "SUB": 1,
+                "MOVE": 1,
+                "MULT": 0,
+                "CMV": 1
+            }
 
-        for event in events:
-            event_queue.add(event)
+            event_queue = SortedKeyList(key=lambda e: (
+                e.trigger_datetime, event_priority[e.event_type]))
 
-        # Set up the strategy context
-        event_context = EventContext(None, db)
+            for event in events:
+                event_queue.add(event)
 
-        # Execute until the queue is empty
-        while len(event_queue) != 0:
+            # Set up the strategy context
+            event_context = EventContext(None, db)
 
-            # Pop the least recent
-            event = event_queue.pop(0)
+            # Execute until the queue is empty
+            while len(event_queue) != 0:
+                
+                # BUGHUNT: EVENT QUEUE STATE CONSISTENT ON REPEAT
+                # Pop the least recent
+                event = event_queue.pop(0)
 
+                if event.event_type == "ADD":
+                    event_context.event_strat = AddStrategy
+                elif event.event_type == "SUB":
+                    event_context.event_strat = SubStrategy
+                elif event.event_type == "MOVE":
+                    event_context.event_strat = MovStrategy
+                elif event.event_type == "MULT":
+                    event_context.event_strat = MultStrategy
+                elif event.event_type == "CMV":
+                    event_context.event_strat = CMVStrategy
+                else:
+                    raise ValueError(
+                        f"Event Type {event.event_type} is not recognised")
+
+                # Execute the event given the context
+                next_event = event_context.execute_event(event, None)
+
+                # If the next event is valid and prior to the curr_datetime
+                if next_event and next_event.trigger_datetime < curr_datetime:
+                    
+                    event_queue.add(next_event)
+
+    def update_single_event(db: Session, db_event: event_models.Event, options: event_schemas.EventPushOptions) -> event_schemas.EventReadNR:
+
+        with event_update_lock:
+
+            # Get build the context
+            event_context = EventContext(None, db)
+            event = event_schemas.EventReadNR.model_validate(
+                db_event, from_attributes=True)
+
+            # Get the right operations
             if event.event_type == "ADD":
                 event_context.event_strat = AddStrategy
             elif event.event_type == "SUB":
@@ -243,34 +287,5 @@ class EventOperation:
                 raise ValueError(
                     f"Event Type {event.event_type} is not recognised")
 
-            # Execute the event given the context
-            next_event = event_context.execute_event(event, None)
-
-            # If the next event is valid and prior to the curr_datetime
-            if next_event and next_event.trigger_datetime < curr_datetime:
-                event_queue.add(next_event)
-
-    def update_single_event(db: Session, db_event: event_models.Event, options: event_schemas.EventPushOptions) -> event_schemas.EventReadNR:
-
-        # Get build the context
-        event_context = EventContext(None, db)
-        event = event_schemas.EventReadNR.model_validate(
-            db_event, from_attributes=True)
-
-        # Get the right operations
-        if event.event_type == "ADD":
-            event_context.event_strat = AddStrategy
-        elif event.event_type == "SUB":
-            event_context.event_strat = SubStrategy
-        elif event.event_type == "MOVE":
-            event_context.event_strat = MovStrategy
-        elif event.event_type == "MULT":
-            event_context.event_strat = MultStrategy
-        elif event.event_type == "CMV":
-            event_context.event_strat = CMVStrategy
-        else:
-            raise ValueError(
-                f"Event Type {event.event_type} is not recognised")
-
-        new_event = event_context.execute_event(event=event, options=options)
-        return new_event
+            new_event = event_context.execute_event(event=event, options=options)
+            return new_event
