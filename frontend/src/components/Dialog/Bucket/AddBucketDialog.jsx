@@ -12,13 +12,13 @@ import clsx from "clsx";
 import { useFormik } from "formik";
 import React from "react";
 import * as Yup from "yup";
-import { BACKEND_URL } from "../../configs/config.js";
-import axiosRequest from "../axiosRequest";
-import Button from "../Button";
-import Divider from "../Divider";
-import FieldLabel from "../FieldLabel";
-import ResponseAlert from "../ResponseAlert";
-import DialogBase from "./DialogBase";
+import { BACKEND_URL } from "../../../configs/config.js";
+import axiosRequest from "../../axiosRequest.jsx";
+import Divider from "../../Divider.jsx";
+import FieldLabel from "../../FieldLabel.jsx";
+import Button from "../../Input/Button.jsx";
+import ResponseAlert from "../../ResponseAlert.jsx";
+import DialogBase from "../DialogBase.jsx";
 const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 	const [alertInfo, setAlertInfo] = React.useState({
 		isOpen: false,

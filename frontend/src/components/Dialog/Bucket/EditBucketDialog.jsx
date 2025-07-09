@@ -12,13 +12,13 @@ import clsx from "clsx";
 import { useFormik } from "formik";
 import React from "react";
 import * as Yup from "yup";
-import Button from "../Button";
-import Divider from "../Divider";
-import FieldLabel from "../FieldLabel";
-import ResponseAlert from "../ResponseAlert";
-import DialogBase from "./DialogBase";
-import axiosRequest from "../axiosRequest";
-import { BACKEND_URL } from "../../configs/config";
+import { BACKEND_URL } from "../../../configs/config";
+import axiosRequest from "../../axiosRequest";
+import Divider from "../../Divider";
+import FieldLabel from "../../FieldLabel";
+import Button from "../../Input/Button";
+import ResponseAlert from "../../ResponseAlert";
+import DialogBase from "../DialogBase";
 
 const EditBucketDialog = ({
 	isOpen,
