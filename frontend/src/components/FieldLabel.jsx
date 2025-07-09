@@ -9,7 +9,9 @@ const FieldLabel = ({
 }) => {
 	return (
 		<Field>
-			<Label className="text-md font-medium text-white">{label}</Label>
+			<Label className="size-full text-md font-medium text-white">
+				{label}
+			</Label>
 			{desc && (
 				<Description className="text-sm/6 text-white/50">
 					{desc}
