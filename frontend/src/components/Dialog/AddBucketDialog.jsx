@@ -12,14 +12,13 @@ import clsx from "clsx";
 import { useFormik } from "formik";
 import React from "react";
 import * as Yup from "yup";
-import { BACKEND_URL } from "../../configs/config";
+import { BACKEND_URL } from "../../configs/config.js";
 import axiosRequest from "../axiosRequest";
 import Button from "../Button";
 import Divider from "../Divider";
 import FieldLabel from "../FieldLabel";
 import ResponseAlert from "../ResponseAlert";
 import DialogBase from "./DialogBase";
-
 const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 	const [alertInfo, setAlertInfo] = React.useState({
 		isOpen: false,
@@ -36,11 +35,10 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 			name: values.name,
 			description: values.description,
 			amount: values.amount,
-			bucket_type: values.bucket_type,
+			bucket_type: values.bucket_type.value,
 			properties: values.properties,
 		};
 
-		console.log("NEW_BUCKET", newBucket);
 		try {
 			const data = await axiosRequest("POST", `${BACKEND_URL}/bucket`, {
 				data: newBucket,
@@ -64,9 +62,14 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 	};
 
 	const bucketTypes = [
-		{ id: 0, name: "STORE", properties: {} },
-		{ id: 1, name: "INVSB", properties: {} },
-		{ id: 2, name: "GOALS", properties: { target: 0 } },
+		{ id: 0, value: "STORE", name: "Store", properties: {} },
+		{ id: 1, value: "INVSB", name: "Invisible", properties: {} },
+		{
+			id: 2,
+			value: "GOALS",
+			name: "Saving Goals",
+			properties: { target: 0 },
+		},
 	];
 
 	const handleBucketTypeChange = (value) => {
@@ -74,7 +77,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 			(bucketType) => bucketType.id === value
 		);
 
-		formik.setFieldValue("bucket_type", bucketType.name);
+		formik.setFieldValue("bucket_type", bucketType);
 		formik.setFieldValue("properties", bucketType.properties);
 	};
 
@@ -90,7 +93,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 			name: "",
 			description: "",
 			amount: 0,
-			bucket_type: bucketTypes[0].name,
+			bucket_type: bucketTypes[0],
 			properties: bucketTypes[0].properties,
 		},
 		onSubmit: (values) => {
@@ -182,7 +185,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 						>
 							<div className="mt-3 w-full h-full">
 								<Listbox
-									value={formik.values.bucket_type}
+									value={formik.values.bucket_type.id}
 									onChange={(value) =>
 										handleBucketTypeChange(value)
 									}
@@ -193,7 +196,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
 										)}
 									>
-										{formik.values.bucket_type}
+										{formik.values.bucket_type.name}
 									</ListboxButton>
 									<ListboxOptions
 										anchor="bottom end"
@@ -218,7 +221,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 								</Listbox>
 							</div>
 						</FieldLabel>
-						{formik.values.bucket_type === "GOALS" ? (
+						{formik.values.bucket_type.value === "GOALS" ? (
 							<>
 								<Divider />
 								<FieldLabel
@@ -249,23 +252,23 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 						) : (
 							<></>
 						)}
-						<ResponseAlert alertInfo={alertInfo} />
-						<div
-							id="dialog-action-panel"
-							className="flex flex-row-reverse w-full pt-3 gap-3"
-						>
-							<Button
-								classColor="border-solid border-2 border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
-								label="Close Form"
-								onClick={handleClose}
-							/>
-							<Button
-								classColor="border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
-								label="Add Bucket"
-								type="submit"
-								onClick={() => {}}
-							/>
-						</div>
+					</div>
+					<ResponseAlert alertInfo={alertInfo} />
+					<div
+						id="dialog-action-panel"
+						className="flex flex-row-reverse w-full pt-3 gap-3"
+					>
+						<Button
+							classColor="border-solid border-2 border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
+							label="Close Form"
+							onClick={handleClose}
+						/>
+						<Button
+							classColor="border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
+							label="Add Bucket"
+							type="submit"
+							onClick={() => {}}
+						/>
 					</div>
 				</form>
 			</DialogPanel>
