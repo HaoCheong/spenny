@@ -1,21 +1,23 @@
 import React from "react";
 import BucketCard from "../components/Bucket/BucketCard";
-import Button from "../components/Button";
-import AddBucketDialog from "../components/Dialog/AddBucketDialog";
-import EditBucketDialog from "../components/Dialog/EditBucketDialog";
-import ViewBucketDialog from "../components/Dialog/ViewBucketDialog";
+import AddBucketDialog from "../components/Dialog/Bucket/AddBucketDialog";
+import DeleteBucketDialog from "../components/Dialog/Bucket/DeleteBucketDialog";
+import EditBucketDialog from "../components/Dialog/Bucket/EditBucketDialog";
+import ViewBucketDialog from "../components/Dialog/Bucket/ViewBucketDialog";
+import AddEventDialog from "../components/Dialog/Event/AddEventDialog";
 import DisplayTotal from "../components/DisplayTotal";
 import Divider from "../components/Divider";
+import Button from "../components/Input/Button";
 import Page from "../components/Structural/Page";
 import Section from "../components/Structural/Section";
 import axiosRequest from "../components/axiosRequest";
 import { BACKEND_URL } from "../configs/config";
-import DeleteBucketDialog from "../components/Dialog/DeleteBucketDialog";
 
 const Dashboard = () => {
 	const [buckets, setBuckets] = React.useState([]);
 	const [isAddBucketOpen, setIsAddBucketOpen] = React.useState(false);
 
+	const [isAddEventOpen, setIsAddEventOpen] = React.useState(false);
 	const [isViewBucketOpen, setIsViewBucketOpen] = React.useState(false);
 	const [isEditBucketOpen, setIsEditBucketOpen] = React.useState(false);
 	const [isDeleteBucketOpen, setIsDeleteBucketOpen] = React.useState(false);
@@ -67,6 +69,12 @@ const Dashboard = () => {
 						setBuckets={setBuckets}
 						bucket={focusBucket}
 					/>
+					<AddEventDialog
+						isOpen={isAddEventOpen}
+						setIsOpen={setIsAddEventOpen}
+						bucket={focusBucket}
+						buckets={buckets}
+					/>
 					<Section
 						id="dasboard-card-header"
 						classSize="h-1/8"
@@ -94,6 +102,7 @@ const Dashboard = () => {
 										key={key}
 										bucket_id={bucket.id}
 										setFocusBucket={setFocusBucket}
+										setIsAddEventOpen={setIsAddEventOpen}
 										setIsViewBucketOpen={
 											setIsViewBucketOpen
 										}
