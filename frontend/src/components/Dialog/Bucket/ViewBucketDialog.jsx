@@ -1,9 +1,9 @@
 import { DialogPanel, DialogTitle } from "@headlessui/react";
 import clsx from "clsx";
-import Button from "../Button";
-import Divider from "../Divider";
-import Placeholder from "../Structural/Placeholder";
-import DialogBase from "./DialogBase";
+import Divider from "../../Divider";
+import Button from "../../Input/Button";
+import Placeholder from "../../Structural/Placeholder";
+import DialogBase from "../DialogBase";
 
 const ViewBucketDialog = ({ isOpen, setIsOpen, bucket }) => {
 	const handleClose = () => {
