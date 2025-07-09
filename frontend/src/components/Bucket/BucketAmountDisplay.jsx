@@ -38,7 +38,6 @@ const GoalsBucketDisplay = ({ bucket }) => {
 };
 
 const BucketAmountDisplay = ({ bucket }) => {
-	console.log("BUCKET", bucket);
 	return (
 		<>
 			{bucket.bucket_type === "STORE" ? (
