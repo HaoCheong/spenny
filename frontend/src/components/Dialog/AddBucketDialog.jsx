@@ -65,7 +65,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 	const bucketTypes = [
 		{ id: 0, name: "STORE", properties: {} },
 		{ id: 1, name: "INVSB", properties: {} },
-		{ id: 2, name: "GOALS", properties: { target_amount: 0 } },
+		{ id: 2, name: "GOALS", properties: { target: 0 } },
 	];
 
 	const handleBucketTypeChange = (value) => {
