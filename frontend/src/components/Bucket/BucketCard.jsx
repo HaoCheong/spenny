@@ -6,13 +6,14 @@ import SkeletonCard from "../SkeletonCard";
 import Placeholder from "../Structural/Placeholder";
 import axiosRequest from "../axiosRequest";
 import ActionMenu from "./ActionMenu";
+import BucketAmountDisplay from "./BucketAmountDisplay";
 import BucketEventCard from "./BucketEventCard";
 import BucketLogCard from "./BucketLogCard";
-import BucketAmountDisplay from "./BucketAmountDisplay";
 
 const BucketCard = ({
 	bucket_id,
 	setFocusBucket,
+	setIsAddEventOpen,
 	setIsViewBucketOpen,
 	setIsEditBucketOpen,
 	setIsDeleteBucketOpen,
@@ -49,6 +50,11 @@ const BucketCard = ({
 			`${BACKEND_URL}/logs/${bucket_id}?skip=0&limit=3`
 		);
 		setRecentLogs(data.data);
+	};
+
+	const handleAddEvent = () => {
+		setFocusBucket(bucket);
+		setIsAddEventOpen(true);
 	};
 
 	const handleViewBucket = () => {
@@ -89,6 +95,7 @@ const BucketCard = ({
 					className="w-1/4 h-full flex flex-row gap-3"
 				>
 					<ActionMenu
+						handleAddEvent={handleAddEvent}
 						handleEditBucket={handleEditBucket}
 						handleDeleteBucket={handleDeleteBucket}
 					/>
