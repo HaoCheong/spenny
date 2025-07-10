@@ -1,13 +1,4 @@
-import {
-	DialogPanel,
-	DialogTitle,
-	Input,
-	Listbox,
-	ListboxButton,
-	ListboxOption,
-	ListboxOptions,
-	Textarea,
-} from "@headlessui/react";
+import { DialogPanel, DialogTitle, Input, Textarea } from "@headlessui/react";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import React from "react";
@@ -17,6 +8,7 @@ import axiosRequest from "../../axiosRequest";
 import Divider from "../../Divider";
 import FieldLabel from "../../FieldLabel";
 import Button from "../../Input/Button";
+import ListItems from "../../Input/ListItems";
 import ResponseAlert from "../../ResponseAlert";
 import DialogBase from "../DialogBase";
 
@@ -192,41 +184,14 @@ const EditBucketDialog = ({
 						</FieldLabel>
 						<FieldLabel label="Bucket Type">
 							<div className="mt-3 w-full h-full">
-								<Listbox
-									value={formik.values.bucket_type}
+								<ListItems
+									startItem={formik.values.bucket_type}
+									collection={bucketTypes}
 									onChange={(value) =>
 										handleBucketTypeChange(value)
 									}
-								>
-									<ListboxButton
-										className={clsx(
-											"relative block w-full rounded-lg bg-white/5 py-1.5 pr-8 pl-3 text-left text-sm text-white",
-											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
-										)}
-									>
-										{formik.values.bucket_type}
-									</ListboxButton>
-									<ListboxOptions
-										anchor="bottom end"
-										transition
-										className={clsx(
-											"w-(--button-width) rounded-lg border border-white/5 bg-spenny-background p-1 [--anchor-gap:--spacing(1)] focus:outline-none",
-											"transition duration-100 ease-in-out data-closed:opacity-0"
-										)}
-									>
-										{bucketTypes.map((type) => (
-											<ListboxOption
-												key={type.id}
-												value={type.id}
-												className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10"
-											>
-												<div className="text-sm/6 text-white">
-													{type.name}
-												</div>
-											</ListboxOption>
-										))}
-									</ListboxOptions>
-								</Listbox>
+									formik={formik}
+								/>
 							</div>
 						</FieldLabel>
 						{formik.values.bucket_type === "GOALS" ? (
