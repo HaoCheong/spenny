@@ -27,7 +27,7 @@ def create_bucket(db: Session, bucket: schemas.BucketCreate, curr_date: datetime
 def get_all_buckets(db: Session, skip: int = 0, limit: int = 100, all: bool = False):
     ''' Get every instance of pet bucket, using offset pagination '''
 
-    query = db.query(model.Bucket)
+    query = db.query(model.Bucket).order_by(model.Bucket.id)
 
     total = query.count()
     data = query.all() if all else query.offset(skip).limit(limit).all()
