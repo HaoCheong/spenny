@@ -1,4 +1,5 @@
 import {
+	Input,
 	Listbox,
 	ListboxButton,
 	ListboxOption,
@@ -10,25 +11,27 @@ import Divider from "../components/Divider";
 import Button from "../components/Input/Button";
 import LogRow from "../components/LogRow";
 import Page from "../components/Structural/Page";
-import Placeholder from "../components/Structural/Placeholder";
 import Section from "../components/Structural/Section";
 import axiosRequest from "../components/axiosRequest";
 import { BACKEND_URL } from "../configs/config";
+
 const Logs = () => {
 	const [paginationModel, setPaginationModel] = React.useState({
 		page: 0,
 		pageSize: 25,
 	});
 
-	// let maxLogs = 0;
 	const [maxLogs, setMaxLogs] = React.useState(0);
-
 	const [logs, setLogs] = React.useState([]);
+	const [viewLogs, setViewLogs] = React.useState([]);
+
 	const [buckets, setBuckets] = React.useState([]);
 
 	const [searchBucket, setSearchBucket] = React.useState({ name: "", id: 0 });
+	const [searchDateRange, setSearchDateRange] = React.useState({});
+	const [searchText, setSearchText] = React.useState("");
 
-	const handleSelectBucket = (value) => {
+	const handleChangeSelectBucket = (value) => {
 		const bucket = buckets.find((bucket) => bucket.id === value);
 		setSearchBucket(bucket);
 	};
@@ -38,15 +41,10 @@ const Logs = () => {
 		setBuckets(data.data);
 	};
 
-	const fetchBucketLogs = async () => {
-		if (searchBucket.id !== 0) {
-			const data = await axiosRequest(
-				"GET",
-				`${BACKEND_URL}/logs/${searchBucket.id}`
-			);
-			setLogs(data.data);
-			setMaxLogs(data.total);
-		}
+	const handleClearSearch = () => {
+		setSearchBucket({ name: "", id: 0 });
+		setSearchDateRange({ fromDate: "", toDate: "" });
+		setSearchText("");
 	};
 
 	const fetchLogs = async (paginationModel) => {
@@ -59,6 +57,7 @@ const Logs = () => {
 
 		const newLogs = [...logs, ...data.data];
 		setLogs(newLogs);
+		setViewLogs(filterLogs(newLogs));
 		setMaxLogs(data.total);
 	};
 
@@ -67,8 +66,10 @@ const Logs = () => {
 			e.target.scrollHeight - e.target.scrollTop ===
 			e.target.clientHeight;
 		if (
-			bottom &&
-			paginationModel.page * paginationModel.pageSize <= maxLogs
+			(bottom &&
+				paginationModel.page * paginationModel.pageSize <= maxLogs) ||
+			(e.target.scrollTop === 0 &&
+				paginationModel.page * paginationModel.pageSize <= maxLogs)
 		) {
 			const newPM = {
 				page: paginationModel.page + 1,
@@ -79,16 +80,45 @@ const Logs = () => {
 		}
 	};
 
+	const filterLogs = (logs) => {
+		let allLogs = logs;
+
+		if (searchBucket.id !== 0) {
+			allLogs = logs.filter((log) => {
+				return log.bucket_id === searchBucket.id;
+			});
+		}
+
+		if (searchDateRange.fromDate !== "" && searchDateRange.toDate !== "") {
+			allLogs = allLogs.filter((log) => {
+				return (
+					new Date(log.created_at) >=
+						new Date(searchDateRange.fromDate) &&
+					new Date(log.created_at) <= new Date(searchDateRange.toDate)
+				);
+			});
+		}
+
+		allLogs = allLogs.filter((log) => {
+			return (
+				log.bucket_name
+					.toLowerCase()
+					.includes(searchText.toLowerCase()) ||
+				log.description.toLowerCase().includes(searchText.toLowerCase())
+			);
+		});
+
+		return allLogs;
+	};
+
 	React.useEffect(() => {
 		fetchBuckets();
 		fetchLogs(paginationModel);
 	}, []);
 
 	React.useEffect(() => {
-		if (searchBucket.id !== 0) {
-			fetchBucketLogs();
-		}
-	}, [searchBucket]);
+		setViewLogs(filterLogs(logs));
+	}, [searchBucket, searchDateRange, searchText]);
 
 	return (
 		<>
@@ -103,16 +133,48 @@ const Logs = () => {
 					>
 						<h1 className="w-7/8 text-5xl items-center">Logs</h1>
 						<Divider vertical={true} />
-						<Button classStyle="w-1/8 text-xl" label="Export" />
+						<Button
+							classStyle="rounded-xl w-1/8 text-xl"
+							label="Export"
+						/>
 					</Section>
 					<Section
 						classSize="h-1/8"
 						classStyle="flex flex-row items-center w-full gap-5"
 					>
-						<Placeholder
-							classStyle="w-3/10 h-full"
-							label="Date Range Picker"
-						/>
+						<div
+							id="log-date-range-picker"
+							className="w-3/10 flex flex-row gap-3 size-full"
+						>
+							<Input
+								type="date"
+								className={clsx(
+									"block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+								)}
+								onChange={(e) => {
+									setSearchDateRange({
+										fromDate: e.target.value,
+										toDate: searchDateRange.toDate,
+									});
+								}}
+								value={searchDateRange.fromDate ?? undefined}
+							/>
+							<Input
+								type="date"
+								className={clsx(
+									"block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+								)}
+								onChange={(e) => {
+									setSearchDateRange({
+										fromDate: searchDateRange.fromDate,
+										toDate: e.target.value,
+									});
+								}}
+								value={searchDateRange.toDate ?? undefined}
+							/>
+						</div>
 						<Divider vertical />
 						<div
 							id="log-bucket-picker"
@@ -120,7 +182,7 @@ const Logs = () => {
 						>
 							<Listbox
 								onChange={(value) => {
-									handleSelectBucket(value);
+									handleChangeSelectBucket(value);
 								}}
 							>
 								<ListboxButton
@@ -154,15 +216,28 @@ const Logs = () => {
 							</Listbox>
 						</div>
 						<Divider vertical />
-						<Placeholder
-							classStyle="w-3/10 h-full"
-							label="Search"
-						/>
+						<div
+							id="log-search"
+							className="flex flex-col w-3/10 h-full"
+						>
+							<Input
+								className={clsx(
+									"block size-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+								)}
+								onChange={(e) => {
+									setSearchText(e.target.value);
+								}}
+								value={searchText}
+							/>
+						</div>
+
 						<Divider vertical />
 						<Button
-							classStyle="border-solid border-5 border-spenny-accent-error bg-spenny-accent-error text-white hover:bg-spenny-background hover:text-spenny-accent-error"
+							classStyle="rounded-xl border-solid border-5 border-spenny-accent-error bg-spenny-accent-error text-white hover:bg-spenny-background hover:text-spenny-accent-error"
 							classColor="w-1/10 text-xl h-full"
 							label="Clear"
+							onClick={handleClearSearch}
 						/>
 					</Section>
 					<Section
@@ -211,9 +286,9 @@ const Logs = () => {
 							<div
 								id="log-items"
 								className="w-full h-full overflow-y-scroll flex flex-col gap-2"
-								onScroll={handleScroll}
+								onWheel={handleScroll}
 							>
-								{logs.map((log, key) => {
+								{viewLogs.map((log, key) => {
 									return <LogRow key={key} log={log} />;
 								})}
 								{paginationModel.page *

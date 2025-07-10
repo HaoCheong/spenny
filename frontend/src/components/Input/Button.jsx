@@ -10,7 +10,7 @@ const Button = ({
 	return (
 		<>
 			<button
-				className={`cursor-pointer flex flex-col p-3 h-full justify-center items-center rounded-lg text-md transition duration-300 ease-in-out ${classColor} ${classStyle}`}
+				className={`cursor-pointer flex flex-col p-3 h-full justify-center items-center text-md transition duration-300 ease-in-out ${classColor} ${classStyle}`}
 				onClick={onClick}
 				type={type}
 			>

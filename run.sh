@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 run_option=$1
-local_path="/home/hcheong/Desktop/Other/spenny"
+local_path="/home/hcheong/Desktop/Other/SIDE_PROJECTS/spenny"
 
 if [[ $run_option == "demo" ]]; then
     set -a && source demo.env && set +a
