@@ -3,139 +3,19 @@ import clsx from "clsx";
 import { useFormik } from "formik";
 import React from "react";
 import * as Yup from "yup";
+import { BACKEND_URL } from "../../../configs/config";
+import axiosRequest from "../../axiosRequest";
 import Divider from "../../Divider";
 import FieldLabel from "../../FieldLabel";
 import Button from "../../Input/Button";
 import ListItems from "../../Input/ListItems";
 import ResponseAlert from "../../ResponseAlert";
 import DialogBase from "../DialogBase";
-
-const EventAddInputs = ({ formik }) => {
-	return (
-		<FieldLabel label="Amount to Add">
-			<Input
-				required
-				id="amount"
-				name="amount"
-				className={clsx(
-					"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-					"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
-				)}
-				onChange={(e) => {
-					formik.setFieldValue("properties", {
-						amount: parseInt(e.target.value),
-					});
-				}}
-				value={formik.values.properties.amount ?? 0}
-			/>
-		</FieldLabel>
-	);
-};
-
-const EventSubInputs = ({ formik }) => {
-	return (
-		<FieldLabel label="Amount to Deduct">
-			<Input
-				required
-				id="amount"
-				name="amount"
-				className={clsx(
-					"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-					"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
-				)}
-				onChange={(e) => {
-					formik.setFieldValue("properties", {
-						amount: parseInt(e.target.value),
-					});
-				}}
-				value={formik.values.properties.amount ?? 0}
-			/>
-		</FieldLabel>
-	);
-};
-
-const EventMoveInputs = ({ formik, buckets }) => {
-	return (
-		<>
-			<FieldLabel label="Amount to Transfer">
-				<Input
-					required
-					id="amount"
-					name="amount"
-					className={clsx(
-						"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-						"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
-					)}
-					onChange={(e) => {
-						formik.setFieldValue("properties", {
-							to_bucket: formik.values.properties.to_bucket,
-							amount: parseInt(e.target.value),
-						});
-					}}
-					value={formik.values.properties.amount ?? 0}
-				/>
-			</FieldLabel>
-			<FieldLabel
-				label="To Bucket"
-				desc="Which bucket are we transferring to"
-			>
-				<ListItems
-					startItem={buckets[0]}
-					collection={buckets}
-					onChange={(bucket) => {
-						formik.setFieldValue("properties", {
-							to_bucket: bucket,
-							amount: formik.values.properties.amount,
-						});
-					}}
-					formik={formik}
-				/>
-			</FieldLabel>
-		</>
-	);
-};
-
-const EventMultInputs = ({ formik }) => {
-	return (
-		<FieldLabel label="Amount to Multiply (%)">
-			<Input
-				required
-				id="amount"
-				name="amount"
-				className={clsx(
-					"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-					"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
-				)}
-				onChange={(e) => {
-					formik.setFieldValue("properties", {
-						percentage: parseInt(e.target.value),
-					});
-				}}
-				value={formik.values.properties.percentage ?? 0}
-			/>
-		</FieldLabel>
-	);
-};
-
-const EventCmvInputs = ({ formik, buckets }) => {
-	return (
-		<FieldLabel
-			label="To Bucket"
-			desc="Which bucket are we transferring to"
-		>
-			<ListItems
-				startItem={buckets[0]}
-				collection={buckets}
-				onChange={(bucket) => {
-					formik.setFieldValue("properties", {
-						to_bucket: bucket,
-					});
-				}}
-				formik={formik}
-			/>
-		</FieldLabel>
-	);
-};
+import EventAddInputs from "./Input/EventAddInputs";
+import EventCmvInputs from "./Input/EventCmvInputs";
+import EventMoveInputs from "./Input/EventMoveInputs";
+import EventMultInputs from "./Input/EventMultInputs";
+import EventSubInputs from "./Input/EventSubInputs";
 
 const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 	const eventTypes = [
@@ -195,9 +75,35 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 	};
 
 	const handleSubmit = async (values) => {
-		console.log("NEW EVENT", values);
-	};
+		const newEvent = {
+			name: values.name,
+			description: values.description,
+			trigger_datetime: new Date(values.trigger_datetime),
+			frequency: `${values.frequency_qty}${values.frequency_type.value}`,
+			event_type: values.event_type.value,
+			properties: values.properties,
+			bucket_id: bucket.id,
+		};
+		console.log("NEWer EVENT", newEvent);
 
+		try {
+			const data = await axiosRequest("POST", `${BACKEND_URL}/event`, {
+				data: newEvent,
+			});
+
+			setAlertInfo({
+				isOpen: true,
+				type: "success",
+				message: `${newEvent.name} event added to ${bucket.name} successfully.`,
+			});
+		} catch (error) {
+			setAlertInfo({
+				isOpen: true,
+				type: "error",
+				message: `${error}`,
+			});
+		}
+	};
 	const AddEventValidationSchema = Yup.object().shape({
 		name: Yup.string().required("Event name is required"),
 		description: Yup.string().required("Event description is required"),
@@ -214,7 +120,6 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 			frequency_type: frequencyTypes[0],
 			event_type: eventTypes[0],
 			properties: {},
-			bucket_id: bucket.id,
 		},
 		onSubmit: (values) => {
 			handleSubmit(values);
@@ -254,8 +159,8 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 					>
 						<FieldLabel label="Bucket to Add">
 							<Input
-								id="bucket_id"
-								name="bucket_id"
+								id="bucket"
+								name="bucket"
 								className={clsx(
 									"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
 									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
