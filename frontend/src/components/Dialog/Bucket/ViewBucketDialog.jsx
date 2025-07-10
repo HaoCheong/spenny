@@ -4,6 +4,7 @@ import Divider from "../../Divider";
 import Button from "../../Input/Button";
 import Placeholder from "../../Structural/Placeholder";
 import DialogBase from "../DialogBase";
+import ViewBucketEventRow from "../ViewBucketEventRow";
 
 const ViewBucketDialog = ({ isOpen, setIsOpen, bucket }) => {
 	const handleClose = () => {
@@ -45,21 +46,35 @@ const ViewBucketDialog = ({ isOpen, setIsOpen, bucket }) => {
 								id="view-modal-base-info"
 								className="flex flex-row gap-3 w-full h-2/17"
 							>
-								<Placeholder
-									label="Amount"
-									classStyle="w-1/2 h-full"
-								/>
+								<div
+									id="view-amount"
+									className="w-1/2 h-full flex items-center justify-center"
+								>
+									<p className="text-5xl text-spenny-text font-semibold p-3">
+										{bucket.amount}
+									</p>
+								</div>
 								<Divider vertical />
-								<Placeholder
-									label="Description"
-									classStyle="w-1/2 h-full"
-								/>
+								<div
+									id="view-description"
+									className="w-1/2 h-full flex items-center border-solid border-5 border-spenny-accent-primary rounded-xl p-3"
+								>
+									<p className="text-xl text-spenny-text font-semibold">
+										{bucket.description}
+									</p>
+								</div>
 							</div>
 							<Divider />
-							<Placeholder
-								label="Flow Events"
-								classStyle="w-full h-5/17"
-							/>
+							<div
+								id="view-flow-event-container"
+								className={clsx(
+									"h-5/17 w-full p-3 border-solid border-5 border-spenny-accent-primary overflow-y-scroll flex flex-col gap-3 rounded-xl"
+								)}
+							>
+								{bucket.events?.map(() => {
+									return <ViewBucketEventRow />;
+								})}
+							</div>
 							<Divider />
 							<Placeholder
 								label="Logs"
@@ -71,7 +86,7 @@ const ViewBucketDialog = ({ isOpen, setIsOpen, bucket }) => {
 							className="flex flex-row-reverse h-1/18 w-full"
 						>
 							<Button
-								classColor="border-solid border-2 border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
+								classColor="rounded-xl border-solid border-2 border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
 								label="Close"
 								onClick={handleClose}
 							/>

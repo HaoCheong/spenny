@@ -133,12 +133,12 @@ const DeleteBucketDialog = ({
 						className="flex flex-row-reverse w-full pt-3 gap-3"
 					>
 						<Button
-							classColor="border-solid border-2 border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
+							classColor="border-solid border-2 border-solid rounded-xl bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
 							label="Close Form"
 							onClick={handleClose}
 						/>
 						<Button
-							classColor="text-white border-solid border-2 border-solid border-spenny-accent-error bg-spenny-accent-error text-black hover:bg-spenny-background hover:text-spenny-accent-error"
+							classColor="text-white rounded-xl border-solid border-2 border-solid border-spenny-accent-error bg-spenny-accent-error text-black hover:bg-spenny-background hover:text-spenny-accent-error"
 							label="Delete Bucket"
 							onClick={handleDelete}
 						/>
