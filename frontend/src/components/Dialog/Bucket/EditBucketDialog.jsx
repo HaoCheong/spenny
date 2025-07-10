@@ -185,7 +185,7 @@ const EditBucketDialog = ({
 						<FieldLabel label="Bucket Type">
 							<div className="mt-3 w-full h-full">
 								<ListItems
-									startItem={formik.values.bucket_type}
+									startItem={bucketTypes[0]}
 									collection={bucketTypes}
 									onChange={(value) =>
 										handleBucketTypeChange(value)
@@ -231,12 +231,12 @@ const EditBucketDialog = ({
 							className="flex flex-row-reverse w-full pt-3 gap-3"
 						>
 							<Button
-								classColor="border-solid border-2 border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
+								classColor="border-solid border-2 rounded-xl border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
 								label="Close Form"
 								onClick={handleClose}
 							/>
 							<Button
-								classColor="border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
+								classColor="border-solid border-2 rounded-xl border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
 								label="Edit Bucket"
 								type="submit"
 								onClick={() => {}}
