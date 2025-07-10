@@ -1,13 +1,4 @@
-import {
-	DialogPanel,
-	DialogTitle,
-	Input,
-	Listbox,
-	ListboxButton,
-	ListboxOption,
-	ListboxOptions,
-	Textarea,
-} from "@headlessui/react";
+import { DialogPanel, DialogTitle, Input, Textarea } from "@headlessui/react";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import React from "react";
@@ -15,8 +6,136 @@ import * as Yup from "yup";
 import Divider from "../../Divider";
 import FieldLabel from "../../FieldLabel";
 import Button from "../../Input/Button";
+import ListItems from "../../Input/ListItems";
 import ResponseAlert from "../../ResponseAlert";
 import DialogBase from "../DialogBase";
+
+const EventAddInputs = ({ formik }) => {
+	return (
+		<FieldLabel label="Amount to Add">
+			<Input
+				required
+				id="amount"
+				name="amount"
+				className={clsx(
+					"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
+					"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+				)}
+				onChange={(e) => {
+					formik.setFieldValue("properties", {
+						amount: parseInt(e.target.value),
+					});
+				}}
+				value={formik.values.properties.amount ?? 0}
+			/>
+		</FieldLabel>
+	);
+};
+
+const EventSubInputs = ({ formik }) => {
+	return (
+		<FieldLabel label="Amount to Deduct">
+			<Input
+				required
+				id="amount"
+				name="amount"
+				className={clsx(
+					"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
+					"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+				)}
+				onChange={(e) => {
+					formik.setFieldValue("properties", {
+						amount: parseInt(e.target.value),
+					});
+				}}
+				value={formik.values.properties.amount ?? 0}
+			/>
+		</FieldLabel>
+	);
+};
+
+const EventMoveInputs = ({ formik, buckets }) => {
+	return (
+		<>
+			<FieldLabel label="Amount to Transfer">
+				<Input
+					required
+					id="amount"
+					name="amount"
+					className={clsx(
+						"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
+						"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+					)}
+					onChange={(e) => {
+						formik.setFieldValue("properties", {
+							to_bucket: formik.values.properties.to_bucket,
+							amount: parseInt(e.target.value),
+						});
+					}}
+					value={formik.values.properties.amount ?? 0}
+				/>
+			</FieldLabel>
+			<FieldLabel
+				label="To Bucket"
+				desc="Which bucket are we transferring to"
+			>
+				<ListItems
+					startItem={buckets[0]}
+					collection={buckets}
+					onChange={(bucket) => {
+						formik.setFieldValue("properties", {
+							to_bucket: bucket,
+							amount: formik.values.properties.amount,
+						});
+					}}
+					formik={formik}
+				/>
+			</FieldLabel>
+		</>
+	);
+};
+
+const EventMultInputs = ({ formik }) => {
+	return (
+		<FieldLabel label="Amount to Multiply (%)">
+			<Input
+				required
+				id="amount"
+				name="amount"
+				className={clsx(
+					"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
+					"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+				)}
+				onChange={(e) => {
+					formik.setFieldValue("properties", {
+						percentage: parseInt(e.target.value),
+					});
+				}}
+				value={formik.values.properties.percentage ?? 0}
+			/>
+		</FieldLabel>
+	);
+};
+
+const EventCmvInputs = ({ formik, buckets }) => {
+	return (
+		<FieldLabel
+			label="To Bucket"
+			desc="Which bucket are we transferring to"
+		>
+			<ListItems
+				startItem={buckets[0]}
+				collection={buckets}
+				onChange={(bucket) => {
+					formik.setFieldValue("properties", {
+						to_bucket: bucket,
+					});
+				}}
+				formik={formik}
+			/>
+		</FieldLabel>
+	);
+};
 
 const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 	const eventTypes = [
@@ -63,7 +182,6 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 			(frequencyType) => frequencyType.id === value
 		);
 
-		console.log("FREQ TYPE", frequencyType);
 		formik.setFieldValue("frequency_type", frequencyType);
 	};
 
@@ -72,7 +190,6 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 			(eventType) => eventType.id === value
 		);
 
-		console.log("EVENT TYPE", eventType);
 		formik.setFieldValue("event_type", eventType);
 		formik.setFieldValue("properties", eventType.properties);
 	};
@@ -103,6 +220,14 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 			handleSubmit(values);
 		},
 	});
+
+	const EventInputsMap = {
+		ADD: <EventAddInputs formik={formik} />,
+		SUB: <EventSubInputs formik={formik} />,
+		MOVE: <EventMoveInputs formik={formik} buckets={buckets} />,
+		MULT: <EventMultInputs formik={formik} />,
+		CMV: <EventCmvInputs formik={formik} buckets={buckets} />,
+	};
 
 	return (
 		<DialogBase isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -178,238 +303,17 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 							error={formik.errors.event_type !== ""}
 							errorMsg={formik.errors.event_type}
 						>
-							<Listbox
-								value={formik.values.event_type.id}
-								onChange={(value) =>
-									handleEventTypeChange(value)
-								}
-							>
-								<ListboxButton
-									className={clsx(
-										"w-full rounded-lg bg-white/5 p-1.5 text-left text-sm text-white",
-										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
-									)}
-								>
-									{formik.values.event_type.name}
-								</ListboxButton>
-								<ListboxOptions
-									anchor="bottom end"
-									transition
-									className={clsx(
-										"w-(--button-width) rounded-lg border border-white/5 bg-spenny-background p-1 [--anchor-gap:--spacing(1)] focus:outline-none",
-										"transition duration-100 ease-in-out data-closed:opacity-0"
-									)}
-								>
-									{eventTypes.map((evt_type) => (
-										<ListboxOption
-											key={evt_type.id}
-											value={evt_type.id}
-											className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10"
-										>
-											<div className="text-sm/6 text-white">
-												{evt_type.name}
-											</div>
-										</ListboxOption>
-									))}
-								</ListboxOptions>
-							</Listbox>
+							<ListItems
+								startItem={formik.values.event_type}
+								collection={eventTypes}
+								onChange={(value) => {
+									handleEventTypeChange(value);
+								}}
+								formik={formik}
+							/>
 						</FieldLabel>
-						{formik.values.event_type.value === "ADD" ? (
-							<FieldLabel label="Amount to Add">
-								<Input
-									required
-									id="amount"
-									name="amount"
-									className={clsx(
-										"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
-									)}
-									onChange={(e) => {
-										formik.setFieldValue("properties", {
-											amount: parseInt(e.target.value),
-										});
-									}}
-									value={formik.values.properties.amount ?? 0}
-								/>
-							</FieldLabel>
-						) : (
-							<></>
-						)}
-						{formik.values.event_type.value === "SUB" ? (
-							<FieldLabel label="Amount to Deduct">
-								<Input
-									required
-									id="amount"
-									name="amount"
-									className={clsx(
-										"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
-									)}
-									onChange={(e) => {
-										formik.setFieldValue("properties", {
-											amount: parseInt(e.target.value),
-										});
-									}}
-									value={formik.values.properties.amount ?? 0}
-								/>
-							</FieldLabel>
-						) : (
-							<></>
-						)}
-						{formik.values.event_type.value === "MOVE" ? (
-							<>
-								<FieldLabel label="Amount to Transfer">
-									<Input
-										required
-										id="amount"
-										name="amount"
-										className={clsx(
-											"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
-										)}
-										onChange={(e) => {
-											formik.setFieldValue("properties", {
-												to_bucket:
-													formik.values.properties
-														.to_bucket,
-												amount: parseInt(
-													e.target.value
-												),
-											});
-										}}
-										value={
-											formik.values.properties.amount ?? 0
-										}
-									/>
-								</FieldLabel>
-								<FieldLabel
-									label="To Bucket"
-									desc="Which bucket are we transferring to"
-								>
-									<Listbox
-										value={
-											formik.values.properties.to_bucket
-												.id
-										}
-										onChange={(bucket) => {
-											formik.setFieldValue("properties", {
-												to_bucket: bucket,
-												amount: formik.values.properties
-													.amount,
-											});
-										}}
-									>
-										<ListboxButton
-											className={clsx(
-												"w-full rounded-lg bg-white/5 p-1.5 text-left text-sm text-white",
-												"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
-											)}
-										>
-											{
-												formik.values.properties
-													.to_bucket.name
-											}
-										</ListboxButton>
-										<ListboxOptions
-											anchor="bottom end"
-											transition
-											className={clsx(
-												"w-(--button-width) rounded-lg border border-white/5 bg-spenny-background p-1 [--anchor-gap:--spacing(1)] focus:outline-none",
-												"transition duration-100 ease-in-out data-closed:opacity-0"
-											)}
-										>
-											{buckets.map((bucket) => (
-												<ListboxOption
-													key={bucket.id}
-													value={bucket}
-													className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10"
-												>
-													<div className="text-sm/6 text-white">
-														{bucket.name}
-													</div>
-												</ListboxOption>
-											))}
-										</ListboxOptions>
-									</Listbox>
-								</FieldLabel>
-							</>
-						) : (
-							<></>
-						)}
-						{formik.values.event_type.value === "MULT" ? (
-							<FieldLabel label="Amount to Multiply (%)">
-								<Input
-									required
-									id="amount"
-									name="amount"
-									className={clsx(
-										"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
-									)}
-									onChange={(e) => {
-										formik.setFieldValue("properties", {
-											percentage: parseInt(
-												e.target.value
-											),
-										});
-									}}
-									value={
-										formik.values.properties.percentage ?? 0
-									}
-								/>
-							</FieldLabel>
-						) : (
-							<></>
-						)}
-						{formik.values.event_type.value === "CMV" ? (
-							<FieldLabel
-								label="To Bucket"
-								desc="Which bucket are we transferring to"
-							>
-								<Listbox
-									value={
-										formik.values.properties.to_bucket.id
-									}
-									onChange={(bucket) => {
-										formik.setFieldValue("properties", {
-											to_bucket: bucket,
-										});
-									}}
-								>
-									<ListboxButton
-										className={clsx(
-											"w-full rounded-lg bg-white/5 p-1.5 text-left text-sm text-white",
-											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
-										)}
-									>
-										{
-											formik.values.properties.to_bucket
-												.name
-										}
-									</ListboxButton>
-									<ListboxOptions
-										anchor="bottom end"
-										transition
-										className={clsx(
-											"w-(--button-width) rounded-lg border border-white/5 bg-spenny-background p-1 [--anchor-gap:--spacing(1)] focus:outline-none",
-											"transition duration-100 ease-in-out data-closed:opacity-0"
-										)}
-									>
-										{buckets.map((bucket) => (
-											<ListboxOption
-												key={bucket.id}
-												value={bucket}
-												className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10"
-											>
-												<div className="text-sm/6 text-white">
-													{bucket.name}
-												</div>
-											</ListboxOption>
-										))}
-									</ListboxOptions>
-								</Listbox>
-							</FieldLabel>
-						) : (
+
+						{EventInputsMap[formik.values.event_type.value] || (
 							<></>
 						)}
 						<Divider />
@@ -434,41 +338,14 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 									value={formik.values.frequency_qty}
 								/>
 								<div className="size-full">
-									<Listbox
-										value={formik.values.frequency_type.id}
+									<ListItems
+										startItem={formik.values.frequency_type}
+										collection={frequencyTypes}
 										onChange={(value) =>
 											handleFrequencyTypeChange(value)
 										}
-									>
-										<ListboxButton
-											className={clsx(
-												"size-full rounded-lg bg-white/5 p-1.5 text-left text-sm text-white",
-												"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
-											)}
-										>
-											{formik.values.frequency_type.name}
-										</ListboxButton>
-										<ListboxOptions
-											anchor="bottom end"
-											transition
-											className={clsx(
-												"w-(--button-width) rounded-lg border border-white/5 bg-spenny-background p-1 [--anchor-gap:--spacing(1)] focus:outline-none",
-												"transition duration-100 ease-in-out data-closed:opacity-0"
-											)}
-										>
-											{frequencyTypes.map((freq_type) => (
-												<ListboxOption
-													key={freq_type.id}
-													value={freq_type.id}
-													className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10"
-												>
-													<div className="text-sm/6 text-white">
-														{freq_type.name}
-													</div>
-												</ListboxOption>
-											))}
-										</ListboxOptions>
-									</Listbox>
+										formik={formik}
+									/>
 								</div>
 							</div>
 						</FieldLabel>
