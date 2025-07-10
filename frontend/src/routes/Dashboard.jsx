@@ -86,7 +86,7 @@ const Dashboard = () => {
 						<Divider vertical />
 						<Button
 							classStyle="w-1/8 text-xl"
-							classColor="border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
+							classColor="rounded-xl border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
 							label="Add Bucket"
 							onClick={handleAddBucketOpen}
 						/>

@@ -8,6 +8,7 @@ run_option=$1
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 local_path="/home/hcheong/projects/spenny"
 =======
 local_path="/home/hcheong/Desktop/Other/spenny"
@@ -18,6 +19,9 @@ local_path="/home/hcheong/projects/spenny"
 =======
 local_path="/home/hcheong/Desktop/Other/spenny"
 >>>>>>> 83804f9 (Add a timeframe get endpoint for events)
+=======
+local_path="/home/hcheong/Desktop/Other/SIDE_PROJECTS/spenny"
+>>>>>>> 6ce8c49 (Updated all buttons to have its own rounding, started the EventRow for view)
 
 if [[ $run_option == "demo" ]]; then
     set -a && source demo.env && set +a
