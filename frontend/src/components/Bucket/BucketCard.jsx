@@ -128,13 +128,13 @@ const BucketCard = ({
 					>
 						<Button
 							classColor="border-solid border-2 border-spenny-accent-primary bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
-							classStyle="w-1/2 text-xl h-full"
+							classStyle="w-1/2 text-xl h-full rounded-xl"
 							label="View"
 							onClick={handleViewBucket}
 						/>
 						<Button
 							classColor="border-solid border-2 border-spenny-accent-warning bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
-							classStyle="w-1/2 text-xl h-full"
+							classStyle="w-1/2 text-xl h-full rounded-xl"
 							label="Entry"
 						/>
 					</div>

@@ -84,7 +84,6 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 			properties: values.properties,
 			bucket_id: bucket.id,
 		};
-		console.log("NEWer EVENT", newEvent);
 
 		try {
 			const data = await axiosRequest("POST", `${BACKEND_URL}/event`, {
@@ -108,10 +107,9 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 		name: Yup.string().required("Event name is required"),
 		description: Yup.string().required("Event description is required"),
 		frequency_qty: Yup.string().required("Frequency is required"),
-		event_type: Yup.string().required("Event name is required"),
 	});
 	const formik = useFormik({
-		// validationSchema: AddEventValidationSchema,
+		validationSchema: AddEventValidationSchema,
 		initialValues: {
 			name: "",
 			description: "",
@@ -170,7 +168,11 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 							/>
 						</FieldLabel>
 						<Divider />
-						<FieldLabel label="Event Name">
+						<FieldLabel
+							label="Event Name"
+							error={formik.errors.name !== ""}
+							errorMsg={formik.errors.name}
+						>
 							<Input
 								id="name"
 								name="name"
@@ -278,12 +280,12 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 						className="flex flex-row-reverse h-1/10 w-full pt-3 gap-3"
 					>
 						<Button
-							classColor="border-solid border-2 border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
+							classColor="rounded-xl border-solid border-2 border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
 							label="Close Form"
 							onClick={handleClose}
 						/>
 						<Button
-							classColor="border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
+							classColor="rounded-xl border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
 							label="Add Event"
 							type="submit"
 							onClick={() => {}}
