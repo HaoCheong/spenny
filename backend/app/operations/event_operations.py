@@ -264,7 +264,7 @@ class EventOperation:
                     event_queue.add(next_event)
 
     def update_single_event(db: Session, db_event: event_models.Event, options: event_schemas.EventPushOptions) -> event_schemas.EventReadNR:
-
+        ''' Manual update of a single event '''
         with event_update_lock:
 
             # Get build the context
@@ -289,3 +289,20 @@ class EventOperation:
 
             new_event = event_context.execute_event(event=event, options=options)
             return new_event
+
+    def update_single_entry(db: Session, event_entry: event_models.Event, curr_datetime: datetime = datetime.now()) -> event_schemas.EventReadNR:
+        ''' Insert a brand new entry. (Running a custom one off event) '''
+        with event_update_lock:
+            
+            # Creat a model instance of an event
+            db_event = event_models.Event(
+                name=event_entry.name,
+                description=event_entry.description,
+                trigger_datetime=event_entry.trigger_datetime,
+                frequency=event_entry.frequency,
+                event_type=event_entry.event_type,
+                properties=event_entry.properties.model_dump(),
+                bucket_id=event_entry.bucket_id,
+                created_at=curr_datetime,
+                updated_at=curr_datetime
+            )

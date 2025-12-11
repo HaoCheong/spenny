@@ -1,43 +1,21 @@
 services:
 
   db:
-<<<<<<< HEAD
-<<<<<<< HEAD
     container_name: ${SPENNY_DB_CONTAINER_NAME}
     image: ${SPENNY_DB_IMAGE_NAME}
     hostname: ${SPENNY_DB_HOST}
     volumes:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
       - /home/hcheong/Desktop/Other/SIDE_PROJECTS/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
-=======
-    env_file:
-      - demo.env
-=======
->>>>>>> 2e77600 (Fixed up docker file and begin writing bucket execution)
+      - /home/hcheong/Desktop/Other/SIDE_PROJECTS/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
     container_name: ${SPENNY_DB_CONTAINER_NAME}
     image: ${SPENNY_DB_IMAGE_NAME}
     hostname: ${SPENNY_DB_HOST}
-<<<<<<< HEAD
->>>>>>> 856337b (Moving to docker compose)
-=======
     volumes:
-<<<<<<< HEAD
       - ${SPENNY_DB_SQL_DUMP_FILE_PATH}:/docker-entrypoint-initdb.d/init.sql 
->>>>>>> 385cba1 (Updated docker compose to use test SQL)
-=======
       - /home/hcheong/Desktop/Other/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
->>>>>>> 2e77600 (Fixed up docker file and begin writing bucket execution)
-=======
       - /home/hcheong/projects/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
->>>>>>> a5b6c15 (Updated env to the local path + docker compose pathing)
-=======
       - /home/hcheong/Desktop/Other/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
->>>>>>> 83804f9 (Add a timeframe get endpoint for events)
-=======
       - /home/hcheong/Desktop/Other/SIDE_PROJECTS/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
->>>>>>> 6ce8c49 (Updated all buttons to have its own rounding, started the EventRow for view)
     ports:
       - ${SPENNY_DB_PORT}:5432
     environment:
@@ -52,10 +30,6 @@ services:
       retries: 5
       start_period: 10s
       timeout: 5s
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 92e98b1 (Added profiles for startup and added new test env)
     profiles:
     - test
     - demo
@@ -66,21 +40,10 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-
-=======
-
-  backend:
-    container_name: ${BACKEND_CONTAINER_NAME}
-    image: ${BACKEND_IMAGE_NAME}
-<<<<<<< HEAD
     build: ${BACKEND_APP_PATH}
->>>>>>> 856337b (Moving to docker compose)
-=======
     build:
       context: ./backend
       dockerfile: Dockerfile
-
->>>>>>> 2e77600 (Fixed up docker file and begin writing bucket execution)
     ports:
       - ${BACKEND_PORT}:8000
     depends_on:
@@ -95,8 +58,6 @@ services:
       - TZ=${SPENNY_DB_TIMEZONE}
     volumes:
       - ${BACKEND_APP_PATH}/app:/app
-<<<<<<< HEAD
-<<<<<<< HEAD
     profiles:
     - demo
     - live
@@ -117,15 +78,4 @@ services:
       - ${FRONTEND_APP_PATH}:/app
     profiles:
     - demo
-<<<<<<< HEAD
     - live
-=======
->>>>>>> 856337b (Moving to docker compose)
-=======
-    profiles:
-    - demo
-    - live
->>>>>>> 92e98b1 (Added profiles for startup and added new test env)
-=======
-    - live
->>>>>>> de9f843 (Added tailwind and dockerised the frontend)
