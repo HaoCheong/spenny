@@ -10,6 +10,17 @@ if [[ $run_option == "demo" ]]; then
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
     echo "BACKEND URL -> $BACKEND_CONTAINER_URL"
     echo "FRONTEND URL -> $FRONTEND_CONTAINER_URL"
+
+if [[ $run_option == "demo" ]]; then
+    set -a && source demo.env && set +a
+
+    docker compose --env-file $local_path/demo.env -f docker-compose.yml up --force-recreate --remove-orphans --renew-anon-volumes -d
+    docker compose build --no-cache
+
+    docker compose --env-file $local_path/demo.env -f docker-compose.yml --profile demo up --force-recreate --remove-orphans --renew-anon-volumes -d
+
+    echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
+    echo "BACKEND URL -> $BACKEND_CONTAINER_URL"
     echo "DB Access -> PGPASSWORD=${SPENNY_DB_PASS} PAGER='less -S' psql -h ${SPENNY_DB_HOST} -p ${SPENNY_DB_PORT} -d ${SPENNY_DB_NAME} -U ${SPENNY_DB_USER}"
     echo "================================== END =================================="
     exit 0
@@ -19,6 +30,11 @@ if [[ $run_option == "live" ]]; then
     set -a && source live.env && set +a
     docker compose build --no-cache
     docker compose --env-file $local_path/live.env -f docker-compose.yml --profile live up --force-recreate --remove-orphans --renew-anon-volumes -d
+    set -a && source live.env && set +a
+    docker compose build --no-cache
+    docker compose --env-file $local_path/live.env -f docker-compose.yml --profile live up --force-recreate --remove-orphans --renew-anon-volumes -d
+    docker compose --env-file `$local_path/live.env` up --force-recreate --remove-orphans -d
+
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
     echo "BACKEND URL -> $BACKEND_CONTAINER_URL"
     echo "DB Access -> PGPASSWORD=${SPENNY_DB_PASS} PAGER='less -S' psql -h ${SPENNY_DB_HOST} -p ${SPENNY_DB_PORT} -d ${SPENNY_DB_NAME} -U ${SPENNY_DB_USER}"
@@ -51,3 +67,4 @@ if [[ $run_option == "stop" ]]; then
 fi
 
 echo "USAGE: ./run.sh [demo|live|unit|stop]"
+
