@@ -28,7 +28,10 @@ const Logs = () => {
 	const [buckets, setBuckets] = React.useState([]);
 
 	const [searchBucket, setSearchBucket] = React.useState({ name: "", id: 0 });
-	const [searchDateRange, setSearchDateRange] = React.useState({});
+	const [searchDateRange, setSearchDateRange] = React.useState({
+		fromDate: "",
+		toDate: "",
+	});
 	const [searchText, setSearchText] = React.useState("");
 
 	const handleChangeSelectBucket = (value) => {
@@ -63,14 +66,15 @@ const Logs = () => {
 
 	const handleScroll = (e) => {
 		const bottom =
-			e.target.scrollHeight - e.target.scrollTop ===
-			e.target.clientHeight;
-		if (
-			(bottom &&
-				paginationModel.page * paginationModel.pageSize <= maxLogs) ||
-			(e.target.scrollTop === 0 &&
-				paginationModel.page * paginationModel.pageSize <= maxLogs)
-		) {
+			Math.ceil(e.target.scrollTop + e.target.clientHeight) >=
+			e.target.scrollHeight;
+
+		const notExceedMaxLog =
+			paginationModel.page * paginationModel.pageSize <= maxLogs;
+
+		const notScrollable = e.target.scrollTop === 0;
+
+		if (bottom && notExceedMaxLog) {
 			const newPM = {
 				page: paginationModel.page + 1,
 				pageSize: paginationModel.pageSize,
@@ -78,16 +82,56 @@ const Logs = () => {
 			setPaginationModel(newPM);
 			fetchLogs(newPM);
 		}
+
+		// console.log(
+		// 	"PM Vals",
+		// 	paginationModel.page * paginationModel.pageSize,
+		// 	maxLogs
+		// );
+
+		// console.log(
+		// 	"BOTTOM",
+		// 	bottom,
+		// 	e.target.scrollHeight + e.target.scrollTop,
+		// 	e.target.clientHeight
+		// );
+		// console.log("NOTEXCEEDMAXLOG", notExceedMaxLog);
+		// console.log("============");
+		// if (bottom && notExceedMaxLog) {
+		// 	const newPM = {
+		// 		page: paginationModel.page + 1,
+		// 		pageSize: paginationModel.pageSize,
+		// 	};
+		// 	setPaginationModel(newPM);
+		// 	fetchLogs(newPM);
+		// }
+		// if (
+		// 	(!notScrollable && bottom && notExceedMaxLog) ||
+		// 	(notScrollable && notExceedMaxLog)
+		// ) {
+		// 	const newPM = {
+		// 		page: paginationModel.page + 1,
+		// 		pageSize: paginationModel.pageSize,
+		// 	};
+		// 	setPaginationModel(newPM);
+		// 	fetchLogs(newPM);
+		// }
 	};
 
 	const filterLogs = (logs) => {
 		let allLogs = logs;
+
+		console.log("FILTER 0", allLogs);
 
 		if (searchBucket.id !== 0) {
 			allLogs = logs.filter((log) => {
 				return log.bucket_id === searchBucket.id;
 			});
 		}
+
+		console.log("FILTER 1", allLogs);
+
+		console.log("SEARCHDATERANGE", searchDateRange);
 
 		if (searchDateRange.fromDate !== "" && searchDateRange.toDate !== "") {
 			allLogs = allLogs.filter((log) => {
@@ -99,6 +143,8 @@ const Logs = () => {
 			});
 		}
 
+		console.log("FILTER 2", allLogs);
+
 		allLogs = allLogs.filter((log) => {
 			return (
 				log.bucket_name
@@ -108,6 +154,7 @@ const Logs = () => {
 			);
 		});
 
+		console.log("FILTER 3", allLogs);
 		return allLogs;
 	};
 
@@ -241,7 +288,7 @@ const Logs = () => {
 						/>
 					</Section>
 					<Section
-						classSize="h-6/8 w-full"
+						classSize="h-full w-full"
 						classStyle="text-xl overflow-y-scroll"
 					>
 						<div className="w-full h-full flex flex-col gap-3">
@@ -285,7 +332,7 @@ const Logs = () => {
 							<Divider />
 							<div
 								id="log-items"
-								className="w-full h-full overflow-y-scroll flex flex-col gap-2"
+								className="w-full h-full overflow-y-auto flex flex-col gap-2"
 								onWheel={handleScroll}
 							>
 								{viewLogs.map((log, key) => {
