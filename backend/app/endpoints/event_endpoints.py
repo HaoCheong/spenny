@@ -51,6 +51,16 @@ def trigger_event(event_id: int, options: schemas.EventPushOptions, db: Session 
 
     return event_op.EventOperation.update_single_event(db, db_event=db_event, options=options)
 
+@router.post("/api/v1/event/entry", tags=["Events"])
+def event_entry(entry: schemas.EventCreate, db: Session = Depends(get_db)):
+
+    return {"status": "Code incomplete, in Progress"}
+
+    db_bucket = bucket_cruds.get_bucket_by_id(db=db, id=entry.bucket_id)
+    if not db_bucket:
+        raise HTTPException(status_code=400, detail="Bucket does not exist")
+
+    return event_op.EventOperation.update_single_entry(db, entry=entry)
 
 @router.post("/api/v1/event/timeframe", response_model=schemas.EventAllRead, tags=["Events"])
 def get_all_event_by_timeframe(timeframe: schemas.EventTimeframe, db: Session = Depends(get_db), skip: int = 0, limit: int = 100):
