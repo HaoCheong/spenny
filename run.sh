@@ -10,14 +10,13 @@ if [[ $run_option == "demo" ]]; then
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
     echo "BACKEND URL -> $BACKEND_CONTAINER_URL"
     echo "FRONTEND URL -> $FRONTEND_CONTAINER_URL"
+fi
 
 if [[ $run_option == "demo" ]]; then
     set -a && source demo.env && set +a
 
     docker compose --env-file $local_path/demo.env -f docker-compose.yml up --force-recreate --remove-orphans --renew-anon-volumes -d
     docker compose build --no-cache
-
-    docker compose --env-file $local_path/demo.env -f docker-compose.yml --profile demo up --force-recreate --remove-orphans --renew-anon-volumes -d
 
     echo "==================== ACCESS POINTS (${PROJECT_NAME}) ===================="
     echo "BACKEND URL -> $BACKEND_CONTAINER_URL"
@@ -27,9 +26,7 @@ if [[ $run_option == "demo" ]]; then
 fi
 
 if [[ $run_option == "live" ]]; then
-    set -a && source live.env && set +a
-    docker compose build --no-cache
-    docker compose --env-file $local_path/live.env -f docker-compose.yml --profile live up --force-recreate --remove-orphans --renew-anon-volumes -d
+
     set -a && source live.env && set +a
     docker compose build --no-cache
     docker compose --env-file $local_path/live.env -f docker-compose.yml --profile live up --force-recreate --remove-orphans --renew-anon-volumes -d

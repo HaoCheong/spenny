@@ -5,17 +5,8 @@ services:
     image: ${SPENNY_DB_IMAGE_NAME}
     hostname: ${SPENNY_DB_HOST}
     volumes:
-      - /home/hcheong/Desktop/Other/SIDE_PROJECTS/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
-      - /home/hcheong/Desktop/Other/SIDE_PROJECTS/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
-    container_name: ${SPENNY_DB_CONTAINER_NAME}
-    image: ${SPENNY_DB_IMAGE_NAME}
-    hostname: ${SPENNY_DB_HOST}
-    volumes:
       - ${SPENNY_DB_SQL_DUMP_FILE_PATH}:/docker-entrypoint-initdb.d/init.sql 
-      - /home/hcheong/Desktop/Other/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
-      - /home/hcheong/projects/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
-      - /home/hcheong/Desktop/Other/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
-      - /home/hcheong/Desktop/Other/SIDE_PROJECTS/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql 
+      - /home/hcheong/projects/spenny/utils/test_spenny_db.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - ${SPENNY_DB_PORT}:5432
     environment:
@@ -37,10 +28,6 @@ services:
   backend:
     container_name: ${BACKEND_CONTAINER_NAME}
     image: ${BACKEND_IMAGE_NAME}
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    build: ${BACKEND_APP_PATH}
     build:
       context: ./backend
       dockerfile: Dockerfile
