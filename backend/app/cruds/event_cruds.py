@@ -42,7 +42,7 @@ def get_all_events(db: Session, skip: int = 0, limit: int = 100, all: bool = Fal
     }, from_attributes=True)
 
 
-def get_event_by_id(db: Session, id: str):
+def get_event_by_id(db: Session, id: int):
     ''' Get specific instance of event based on provided event ID '''
     db_event = db.query(model.Event).filter(model.Event.id == id).first()
     return db_event

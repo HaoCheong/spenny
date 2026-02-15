@@ -120,7 +120,7 @@ class CMVStrategy(EventStrategy):
 
 class EventContext:
 
-    def __init__(self, event_strat: EventStrategy | None, db: Session):
+    def __init__(self, event_strat: EventStrategy, db: Session):
         self._event_strat = event_strat
         self._session = db
 
@@ -132,14 +132,14 @@ class EventContext:
     def event_strat(self, new_strat: EventStrategy):
         self._event_strat = new_strat
 
-    def execute_event(self, event: event_schemas.EventReadNR, options=event_schemas.EventPushOptions | None) -> event_schemas.EventReadNR | None:
+    def execute_event(self, event: event_schemas.EventReadNR, options: event_schemas.EventPushOptions | None) -> event_schemas.EventReadNR | None:
         ''' Execute a single event '''
 
         # Grab the full context of the event
         db_event = event_cruds.get_event_by_id(db=self._session, id=event.id)
-        # print("DB_EVENT", db_event.name)
+
         # if option is none, trigger. If option is not none and
-        if not options or (options and options.change_amount):
+        if db_event and db_event.bucket and not options or (options and options.change_amount):
 
             # Execute the bucket, returns list of bucket model objects, use the DB session to update and refresh
             affected_db_buckets = self._event_strat.execute(
@@ -166,8 +166,6 @@ class EventContext:
                 setattr(bucket, "updated_at", datetime.now())
                 self._session.add(bucket)
                 self._session.commit()
-            
-        print("HERE")
 
         # Update the event trigger date
         setattr(db_event, "trigger_datetime", event_freq_adder(
@@ -263,6 +261,7 @@ class EventOperation:
                     
                     event_queue.add(next_event)
 
+    @staticmethod
     def update_single_event(db: Session, db_event: event_models.Event, options: event_schemas.EventPushOptions) -> event_schemas.EventReadNR:
         ''' Manual update of a single event '''
         with event_update_lock:
@@ -290,12 +289,16 @@ class EventOperation:
             new_event = event_context.execute_event(event=event, options=options)
             return new_event
 
-    def update_single_entry(db: Session, event_entry: event_models.Event, curr_datetime: datetime = datetime.now()) -> event_schemas.EventReadNR:
+    @staticmethod
+    def update_single_entry(db: Session, event_entry: event_schemas.EventCreate, curr_datetime: datetime = datetime.now()) -> event_schemas.EventReadNR:
         ''' Insert a brand new entry. (Running a custom one off event) '''
+
+        print("HERE")
         with event_update_lock:
             
             # Creat a model instance of an event
             db_event = event_models.Event(
+                id=0,
                 name=event_entry.name,
                 description=event_entry.description,
                 trigger_datetime=event_entry.trigger_datetime,
@@ -306,3 +309,11 @@ class EventOperation:
                 created_at=curr_datetime,
                 updated_at=curr_datetime
             )
+
+            event_context = EventContext(None, db)
+
+            event = event_schemas.EventReadNR.model_validate(
+                db_event, from_attributes=True)
+
+            new_event = event_context.execute_event(event=event, options=None)
+            return new_event
