@@ -2,11 +2,12 @@ from datetime import datetime
 from typing import Annotated, Union, Literal
 from pydantic import BaseModel, Field
 
-class MoneyOperation(BaseModel):
-    ''' Event that triggers related to money '''
-    type: Literal["money"]
+from datetime import datetime
+from typing import Annotated, Union, Literal
+from pydantic import BaseModel, Field
+from app.schemas.money_operations_schemas import AddOperation, SubOperation, MultOperation, MoveOperation, CMVOperation
 
 Operation = Annotated[
-    MoneyOperation,
+    Union[MoveOperation, AddOperation, SubOperation, MultOperation, CMVOperation],
     Field(discriminator="type")
 ]

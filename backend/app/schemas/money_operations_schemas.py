@@ -1,32 +1,37 @@
-from app.schemas.operation_schemas import MoneyOperation
-from typing import Literal
-from pydantic import BaseModel
+from typing import Annotated, Literal, Union
+from pydantic import BaseModel, Field
 from datetime import datetime
 
-class AddEvent(MoneyOperation):
-    ''' Event to Add Money to a bucket '''
-    event_type: Literal["ADD"]
+class MoneyOperation(BaseModel):
+    ''' Event that triggers related to money '''
+    pass
+
+class AddOperation(MoneyOperation):
+    ''' Operation to Add Money to a bucket '''
+    type: Literal["ADD"]
     amount: int
 
-class SubEvent(MoneyOperation):
-    ''' Event to Subtract Money to a bucket '''
-    event_type: Literal["SUB"]
+class SubOperation(MoneyOperation):
+    ''' Operation to Subtract Money to a bucket '''
+    type: Literal["SUB"]
     amount: int
 
-class MultEvent(MoneyOperation):
-    ''' Event to Multiply Money of a bucket '''
-    event_type: Literal["MULT"]
+class MultOperation(MoneyOperation):
+    ''' Operation to Multiply Money of a bucket '''
+    type: Literal["MULT"]
     percentage: float
 
-class TranferMoneyEvent(MoneyOperation):
-    ''' Event related to transferring money from 1 bucket to another '''
+# =============
+
+class TranferMoneyOperation(MoneyOperation):
+    ''' Operation related to transferring money from 1 bucket to another '''
     to_bucket_id: int
 
-class MoveEvent(TranferMoneyEvent):
-    ''' Event to Move Money '''
-    event_type: Literal["MOVE"]
+class MoveOperation(TranferMoneyOperation):
+    ''' Operation to Move Money '''
+    type: Literal["MOVE"]
     amount: int
 
-class CMVEvent(TranferMoneyEvent):
-    ''' Event to move money completely '''
-    event_type: Literal["CMV"]
+class CMVOperation(TranferMoneyOperation):
+    ''' Operation to move money completely '''
+    type: Literal["CMV"]
