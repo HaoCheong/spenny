@@ -12,7 +12,7 @@ class Bucket(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String)
     description: Mapped[str] = mapped_column(String)
-    amount: Mapped[int] = mapped_column(Integer)
+    amount: Mapped[float] = mapped_column(Integer)
     bucket_type: Mapped[str] = mapped_column(String)
     properties: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(DateTime)
