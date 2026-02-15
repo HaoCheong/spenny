@@ -19,9 +19,6 @@ def create_event(db: Session, event: schemas.EventCreate, curr_datetime: datetim
         updated_at=curr_datetime
     )
 
-    print("CREATE_EVENT HERE 1", event.trigger.model_dump())
-    print("CREATE_EVENT HERE 2", event.operation.model_dump())
-
     db.add(db_event)
     db.commit()
     db.refresh(db_event)
