@@ -9,9 +9,17 @@ from sqlalchemy.orm import Session
 
 '''
 {
-  "name": "Starting Bucket",
-  "description": "Starting Bucket",
+  "name": "Bucket A",
+  "description": "Bucket A for Andrew",
   "amount": 5000,
+  "bucket_type": "STORE",
+  "properties": {}
+}
+
+{
+  "name": "Bucket B",
+  "description": "Bucket b for Bandrew",
+  "amount": 3000,
   "bucket_type": "STORE",
   "properties": {}
 }
