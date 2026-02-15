@@ -7,8 +7,17 @@ from app.helpers import get_db
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-router = APIRouter()
+'''
+{
+  "name": "Starting Bucket",
+  "description": "Starting Bucket",
+  "amount": 5000,
+  "bucket_type": "STORE",
+  "properties": {}
+}
+'''
 
+router = APIRouter()
 
 @router.post("/api/v1/bucket", response_model=schemas.BucketReadWR, tags=["Buckets"])
 def create_bucket(bucket: schemas.BucketCreate, db: Session = Depends(get_db)):
