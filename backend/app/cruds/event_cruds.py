@@ -12,12 +12,15 @@ def create_event(db: Session, event: schemas.EventCreate, curr_datetime: datetim
     db_event = model.Event(
         name=event.name,
         description=event.description,
-        trigger=event.trigger,
-        operation=event.operation,
+        trigger=event.trigger.model_dump(mode="json"),
+        operation=event.operation.model_dump(mode="json"),
         bucket_id=event.bucket_id,
         created_at=curr_datetime,
         updated_at=curr_datetime
     )
+
+    print("CREATE_EVENT HERE 1", event.trigger.model_dump())
+    print("CREATE_EVENT HERE 2", event.operation.model_dump())
 
     db.add(db_event)
     db.commit()
