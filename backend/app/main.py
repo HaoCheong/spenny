@@ -19,7 +19,7 @@ import app.endpoints.bucket_endpoints as bucket_endpoints
 import app.endpoints.event_endpoints as event_endpoints
 import app.endpoints.assignment_endpoints as assignment_endpoints
 import app.endpoints.log_endpoints as log_endpoints
-from app.operations.event_operations import EventOperation
+# from app.operations.event_operations import EventOperation
 from sqlalchemy.orm import Session
 from fastapi import Depends
 from app.helpers import get_db
