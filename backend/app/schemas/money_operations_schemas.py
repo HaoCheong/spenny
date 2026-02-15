@@ -1,12 +1,16 @@
+from abc import ABC, abstractmethod
 from typing import Annotated, Literal, Union
 from pydantic import BaseModel, Field
 from datetime import datetime
 
 from app.models.bucket_models import Bucket
 
-class MoneyOperation(BaseModel):
+class MoneyOperation(BaseModel, ABC):
     ''' Event that triggers related to money '''
-    pass
+    
+    @abstractmethod
+    def apply(self, bucket):
+        pass
 
 class AddOperation(MoneyOperation):
     ''' Operation to Add Money to a bucket '''
@@ -37,6 +41,12 @@ class MultOperation(MoneyOperation):
 class TranferMoneyOperation(MoneyOperation):
     ''' Operation related to transferring money from 1 bucket to another '''
     to_bucket_id: int
+
+    # STOPPED_HERE: Abstract method not working for transfermoneyoperation from bveing inheritted from operation
+
+    @abstractmethod
+    def apply(self, to_bucket: Bucket, from_bucket: Bucket):
+        pass
 
 class MoveOperation(TranferMoneyOperation):
     ''' Operation to Move Money '''
