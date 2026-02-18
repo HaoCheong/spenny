@@ -9,8 +9,8 @@ import app.cruds.log_cruds as log_cruds
 import app.models.bucket_models as bucket_models
 import app.models.event_models as event_models
 
-import app.schemas.event_schemas as event_schemas
-import app.schemas.log_schemas as log_schemas
+import app.operations.event_schemas as event_schemas
+import app.operations.log_schemas as log_schemas
 
 from sqlalchemy.orm import Session
 from app.helpers import event_freq_adder
