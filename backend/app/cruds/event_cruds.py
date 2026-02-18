@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from datetime import datetime
 import app.models.event_models as model
-import app.schemas.event_schemas as schemas
+import app.operations.event_schemas as schemas
 
 
 def create_event(db: Session, event: schemas.EventCreate, curr_datetime: datetime = datetime.now()):

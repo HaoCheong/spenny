@@ -4,7 +4,7 @@ from app.helpers import get_db
 from fastapi import Depends, HTTPException, APIRouter
 from sqlalchemy.orm import Session
 
-import app.schemas.event_schemas as schemas
+import app.operations.event_schemas as schemas
 import app.cruds.event_cruds as event_cruds
 import app.cruds.bucket_cruds as bucket_cruds
 

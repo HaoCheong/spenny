@@ -2,7 +2,7 @@ from typing import List
 
 import app.cruds.bucket_cruds as cruds
 # import app.operations.event_operations as event_op
-import app.schemas.bucket_schemas as schemas
+import app.operations.bucket_schemas as schemas
 from app.helpers import get_db
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
