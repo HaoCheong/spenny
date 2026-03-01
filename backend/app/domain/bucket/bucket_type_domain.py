@@ -12,16 +12,11 @@ class GoalBucket(BaseModel):
     type: Literal["goal"]
     target: int
 
-class DebtBucket(BaseModel):
-    type: Literal["debt"]
-    remaining: int
-
 BucketType = Annotated[
     Union[
         StoreBucket,
         InvisibleBucket,
-        GoalBucket,
-        DebtBucket
+        GoalBucket
     ],
     Field(discriminator="type")
 ]
