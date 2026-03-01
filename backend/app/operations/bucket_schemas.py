@@ -39,7 +39,7 @@ class BucketBase(BaseModel):
 
         return self
 
-   # Allow for Object Relational Mapping (Treating relation like nested objects)
+    # Allow for Object Relational Mapping (Treating relation like nested objects)
     model_config = ConfigDict(from_attributes=True)
 
 
