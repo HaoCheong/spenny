@@ -2,7 +2,7 @@ from typing import List, Optional, TYPE_CHECKING, Literal
 from pydantic import BaseModel, ConfigDict, model_validator
 from datetime import datetime
 
-from backend.app.operations.BucketOperations.bucketType_schemas import BucketType
+from app.operations.BucketOperations.bucketType_schemas import BucketType
 
 if TYPE_CHECKING:
     from app.operations.event_schemas import EventReadNR
@@ -27,7 +27,6 @@ class BucketCreate(BucketBase):
 class BucketReadNR(BucketBase):
     ''' Bucket Read w/o relation Schema '''
     id: int
-    properties: Optional[dict] = None
     created_at: datetime
     updated_at: datetime
 
@@ -42,8 +41,6 @@ class BucketUpdate(BucketBase):
     name: Optional[str] = None
     description: Optional[str] = None
     amount: Optional[int] = None
-    bucket_type: Optional[str] = None
-    properties: Optional[dict] = None
 
 
 class BucketAllRead(BaseModel):

@@ -12,8 +12,7 @@ def create_bucket(db: Session, bucket: schemas.BucketCreate, curr_date: datetime
         name=bucket.name,
         description=bucket.description,
         amount=bucket.amount,
-        bucket_type=bucket.bucket_type,
-        properties=bucket.properties.model_dump() if bucket.properties else None,
+        variant=bucket.variant.model_dump(mode="json"),
         created_at=curr_date,
         updated_at=curr_date
     )

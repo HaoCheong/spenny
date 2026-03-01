@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
   "description": "Bucket A for Andrew",
   "amount": 5000,
   "variant": {
-    type: "store"
+    "type": "store"
   }
 }
 
@@ -22,7 +22,7 @@ from sqlalchemy.orm import Session
   "description": "Bucket b for Bandrew",
   "amount": 3000,
   "variant": {
-    type: "store"
+    "type": "store"
   }
 }
 '''

@@ -1,5 +1,5 @@
 
-from typing import Annotated, Literal
+from typing import Annotated, Literal, Union
 from pydantic import BaseModel, Field
 
 class StoreBucket(BaseModel):
@@ -17,9 +17,11 @@ class DebtBucket(BaseModel):
     remaining: int
 
 BucketType = Annotated[
-    StoreBucket,
-    InvisibleBucket,
-    GoalBucket,
-    DebtBucket,
+    Union[
+        StoreBucket,
+        InvisibleBucket,
+        GoalBucket,
+        DebtBucket
+    ],
     Field(discriminator="type")
 ]
