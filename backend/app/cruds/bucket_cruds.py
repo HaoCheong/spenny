@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import app.models.bucket_models as model
-import app.operations.bucket_schemas as schemas
+import app.domain.bucket.bucket_domain as schemas
 from sqlalchemy.orm import Session
 
 
