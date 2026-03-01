@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import and_, desc
 
 import app.models.log_models as model
-import app.operations.log_schemas as schemas
+import app.domain.log.log_schemas as schemas
 from datetime import datetime
 
 
