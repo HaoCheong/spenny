@@ -2,17 +2,10 @@ from typing import List, Optional, TYPE_CHECKING, Literal
 from pydantic import BaseModel, ConfigDict, model_validator
 from datetime import datetime
 
+from app.operations.bucketType_schemas import BucketType
+
 if TYPE_CHECKING:
     from app.operations.event_schemas import EventReadNR
-
-class StoreProps(BaseModel):
-    pass
-
-class InvisibleProps(BaseModel):
-    pass
-
-class GoalProps(BaseModel):
-    target: int
 
 class BucketBase(BaseModel):
     ''' Buckets Base Schema '''
@@ -20,24 +13,7 @@ class BucketBase(BaseModel):
     name: str
     description: str
     amount: int
-    bucket_type: Literal["STORE", "INVSB", "GOALS"] | None
-    properties: dict | None 
-
-    @model_validator(mode='after')
-    def validate_properties(self):
-        if self.bucket_type == "STORE":
-            self.properties = None
-        elif self.bucket_type == "INVSB":
-            self.properties = None
-        elif self.bucket_type == "GOALS":
-            self.properties = GoalProps(**self.properties)
-        elif self.bucket_type is None:
-            self.properties == None
-        else:
-            raise ValueError(
-                f"Unknown properties for bucket type {self.bucket_type}")
-
-        return self
+    variant: BucketType
 
     # Allow for Object Relational Mapping (Treating relation like nested objects)
     model_config = ConfigDict(from_attributes=True)
