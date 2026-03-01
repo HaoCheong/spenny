@@ -20,5 +20,6 @@ BucketType = Annotated[
     StoreBucket,
     InvisibleBucket,
     GoalBucket,
+    DebtBucket,
     Field(discriminator="type")
 ]
