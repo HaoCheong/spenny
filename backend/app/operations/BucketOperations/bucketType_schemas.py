@@ -12,6 +12,10 @@ class GoalBucket(BaseModel):
     type: Literal["goal"]
     target: int
 
+class DebtBucket(BaseModel):
+    type: Literal["debt"]
+    remaining: int
+
 BucketType = Annotated[
     StoreBucket,
     InvisibleBucket,

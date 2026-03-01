@@ -2,7 +2,7 @@ from typing import List, Optional, TYPE_CHECKING, Literal
 from pydantic import BaseModel, ConfigDict, model_validator
 from datetime import datetime
 
-from app.operations.bucketType_schemas import BucketType
+from backend.app.operations.BucketOperations.bucketType_schemas import BucketType
 
 if TYPE_CHECKING:
     from app.operations.event_schemas import EventReadNR
