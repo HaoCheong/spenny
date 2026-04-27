@@ -1,6 +1,6 @@
 import { DialogPanel, DialogTitle, Input, Textarea } from "@headlessui/react";
 import clsx from "clsx";
-import { useFormik } from "formik";
+import { FormikConsumer, useFormik } from "formik";
 import React from "react";
 import * as Yup from "yup";
 import { BACKEND_URL } from "../../../configs/config";
@@ -59,65 +59,69 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 
 	const handleFrequencyTypeChange = (value) => {
 		const frequencyType = frequencyTypes.find(
-			(frequencyType) => frequencyType.id === value
+			(frequencyType) => frequencyType.id === value,
 		);
 
-		formik.setFieldValue("frequency_type", frequencyType);
+		formik.setFieldValue("trigger", {
+			type: "timed",
+			frequency: frequencyTypes.name,
+			next_trigger_date: formik.values.trigger.next_trigger_date,
+		});
 	};
 
 	const handleEventTypeChange = (value) => {
 		const eventType = eventTypes.find(
-			(eventType) => eventType.id === value
+			(eventType) => eventType.id === value,
 		);
 
-		formik.setFieldValue("event_type", eventType);
-		formik.setFieldValue("properties", eventType.properties);
+		formik.setFieldValue("operation", {
+			to_bucket_id: formik.values.operation.to_bucket_id,
+			type: eventType.value,
+			amount: formik.values.operation.amount,
+		});
 	};
 
 	const handleSubmit = async (values) => {
 		const newEvent = {
 			name: values.name,
 			description: values.description,
-			trigger_datetime: new Date(values.trigger_datetime),
-			frequency: `${values.frequency_qty}${values.frequency_type.value}`,
-			event_type: values.event_type.value,
-			properties: values.properties,
-			bucket_id: bucket.id,
+			bucket_id: values.bucket_id,
+			trigger: {
+				type: values.trigger.type,
+				frequency: values.trigger.frequency,
+				next_trigger_date: new Date(values.trigger.next_trigger_date),
+			},
+			operation: {
+				to_bucket_id: values.operation.to_bucket_id,
+				type: values.operation.type,
+				amount: values.operation.amount,
+			},
 		};
 
-		try {
-			const data = await axiosRequest("POST", `${BACKEND_URL}/event`, {
-				data: newEvent,
-			});
-
-			setAlertInfo({
-				isOpen: true,
-				type: "success",
-				message: `${newEvent.name} event added to ${bucket.name} successfully.`,
-			});
-		} catch (error) {
-			setAlertInfo({
-				isOpen: true,
-				type: "error",
-				message: `${error}`,
-			});
-		}
+		console.log("NEW EVENT", newEvent);
 	};
+
 	const AddEventValidationSchema = Yup.object().shape({
 		name: Yup.string().required("Event name is required"),
 		description: Yup.string().required("Event description is required"),
-		frequency_qty: Yup.string().required("Frequency is required"),
 	});
+
 	const formik = useFormik({
 		validationSchema: AddEventValidationSchema,
 		initialValues: {
 			name: "",
 			description: "",
-			trigger_datetime: "",
-			frequency_qty: 0,
-			frequency_type: frequencyTypes[0],
-			event_type: eventTypes[0],
-			properties: {},
+			bucket_id: 0,
+			trigger: {
+				type: "timed",
+				frequency: "1m",
+				next_trigger_date: new Date(),
+			},
+			operation: {
+				to_bucket_id: 1,
+				type: eventTypes[0].name,
+				amount: 0,
+			},
 		},
 		onSubmit: (values) => {
 			handleSubmit(values);
@@ -141,7 +145,7 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 					"border-solid border-5 border-spenny-accent-primary",
 					"transition duration-200",
 					"data-closed:scale-90 data-closed:opacity-0",
-					"data-leave:duration-200 data-leave:ease-in-out"
+					"data-leave:duration-200 data-leave:ease-in-out",
 				)}
 			>
 				<form onSubmit={formik.handleSubmit}>
@@ -161,7 +165,7 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 								name="bucket"
 								className={clsx(
 									"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
 								disabled
 								value={bucket.name}
@@ -178,7 +182,7 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 								name="name"
 								className={clsx(
 									"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
 								onChange={formik.handleChange}
 								value={formik.values.name}
@@ -196,7 +200,7 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 								name="description"
 								className={clsx(
 									"mt-2 block w-full resize-none rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25",
 								)}
 								rows={3}
 								onChange={formik.handleChange}
@@ -207,11 +211,9 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 							required
 							label="Event Type"
 							desc="What is the type of event that this is?"
-							error={formik.errors.event_type !== ""}
-							errorMsg={formik.errors.event_type}
 						>
 							<ListItems
-								startItem={formik.values.event_type}
+								startItem={eventTypes[0]}
 								collection={eventTypes}
 								onChange={(value) => {
 									handleEventTypeChange(value);
@@ -219,10 +221,8 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 								formik={formik}
 							/>
 						</FieldLabel>
-
-						{EventInputsMap[formik.values.event_type.value] || (
-							<></>
-						)}
+						{EventInputsMap[formik.values.trigger.type] || <></>}
+						TEST
 						<Divider />
 						<FieldLabel
 							required
@@ -239,14 +239,14 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 									type="number"
 									className={clsx(
 										"w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 									)}
 									onChange={formik.handleChange}
-									value={formik.values.frequency_qty}
+									value={formik.values.trigger.frequency}
 								/>
 								<div className="size-full">
 									<ListItems
-										startItem={formik.values.frequency_type}
+										startItem={frequencyTypes[0]}
 										collection={frequencyTypes}
 										onChange={(value) =>
 											handleFrequencyTypeChange(value)
@@ -266,10 +266,10 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 								name="trigger_datetime"
 								className={clsx(
 									"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
 								onChange={formik.handleChange}
-								value={formik.values.trigger_datetime}
+								value={formik.values.trigger.next_trigger_date}
 								type="date"
 							/>
 						</FieldLabel>
