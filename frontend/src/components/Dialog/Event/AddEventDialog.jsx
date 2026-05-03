@@ -89,6 +89,16 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 		formik.setFieldValue("operation", eventType);
 	};
 
+	const handleDateChange = (value) => {
+		console.log("DATE CHANGE", value);
+		formik.setFieldValue("trigger", {
+			type: formik.values.trigger.type,
+			frequencyValue: formik.values.trigger.frequencyValue,
+			frequencyItem: formik.values.trigger.frequencyItem,
+			next_trigger_date: value,
+		});
+	};
+
 	const handleSubmit = async (values) => {
 		// const newEvent = {
 		// 	name: values.name,
@@ -275,7 +285,9 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 									"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
 									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
-								onChange={formik.handleChange}
+								onChange={(e) =>
+									handleDateChange(e.target.value)
+								}
 								value={formik.values.trigger.next_trigger_date}
 								type="date"
 							/>
