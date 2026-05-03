@@ -100,6 +100,7 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 	};
 
 	const handleSubmit = async (values) => {
+		console.log("NEW VALUES", formik.values);
 		// const newEvent = {
 		// 	name: values.name,
 		// 	description: values.description,
