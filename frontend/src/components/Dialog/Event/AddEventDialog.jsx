@@ -72,6 +72,15 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 		});
 	};
 
+	const handleFrequencyValueChange = (value) => {
+		formik.setFieldValue("trigger", {
+			type: formik.values.trigger.type,
+			frequencyValue: parseInt(value),
+			frequencyItem: formik.values.trigger.frequencyItem,
+			next_trigger_date: formik.values.trigger.next_trigger_date,
+		});
+	};
+
 	const handleEventTypeChange = (value) => {
 		const eventType = eventTypes.find(
 			(eventType) => eventType.id === value,
@@ -234,7 +243,11 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 										"w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
 										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 									)}
-									onChange={formik.handleChange}
+									onChange={(e) =>
+										handleFrequencyValueChange(
+											e.target.value,
+										)
+									}
 									value={formik.values.trigger.frequencyValue}
 								/>
 								<div className="size-full">
