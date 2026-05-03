@@ -19,25 +19,27 @@ import EventSubInputs from "./Input/EventSubInputs";
 
 const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 	const eventTypes = [
-		{ id: 0, value: "ADD", name: "Add", properties: { amount: 0 } },
-		{ id: 1, value: "SUB", name: "Deduct", properties: { amount: 0 } },
+		{ id: 0, value: "ADD", name: "Add", amount: 0 },
+		{ id: 1, value: "SUB", name: "Deduct", amount: 0 },
 		{
 			id: 2,
 			value: "MOVE",
 			name: "Transfer",
-			properties: { to_bucket: buckets[0], amount: 0 },
+			to_bucket: buckets[0],
+			amount: 0,
 		},
 		{
 			id: 3,
 			value: "MULT",
 			name: "Multiply",
-			properties: { to_bucket: buckets[0], percentage: 0 },
+			to_bucket: buckets[0],
+			percentage: 0,
 		},
 		{
 			id: 4,
 			value: "CMV",
 			name: "Clear and Move",
-			properties: { to_bucket: buckets[0] },
+			to_bucket: buckets[0],
 		},
 	];
 
@@ -64,7 +66,8 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 
 		formik.setFieldValue("trigger", {
 			type: "timed",
-			frequency: frequencyTypes.name,
+			frequencyValue: formik.values.trigger.frequencyValue,
+			frequencyItem: frequencyType,
 			next_trigger_date: formik.values.trigger.next_trigger_date,
 		});
 	};
@@ -74,31 +77,26 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 			(eventType) => eventType.id === value,
 		);
 
-		formik.setFieldValue("operation", {
-			to_bucket_id: formik.values.operation.to_bucket_id,
-			type: eventType.value,
-			amount: formik.values.operation.amount,
-		});
+		formik.setFieldValue("operation", eventType);
 	};
 
 	const handleSubmit = async (values) => {
-		const newEvent = {
-			name: values.name,
-			description: values.description,
-			bucket_id: values.bucket_id,
-			trigger: {
-				type: values.trigger.type,
-				frequency: values.trigger.frequency,
-				next_trigger_date: new Date(values.trigger.next_trigger_date),
-			},
-			operation: {
-				to_bucket_id: values.operation.to_bucket_id,
-				type: values.operation.type,
-				amount: values.operation.amount,
-			},
-		};
-
-		console.log("NEW EVENT", newEvent);
+		// const newEvent = {
+		// 	name: values.name,
+		// 	description: values.description,
+		// 	bucket_id: values.bucket_id,
+		// 	trigger: {
+		// 		type: values.trigger.type,
+		// 		frequency: values.trigger.frequency,
+		// 		next_trigger_date: new Date(values.trigger.next_trigger_date),
+		// 	},
+		// 	operation: {
+		// 		to_bucket_id: values.operation.to_bucket_id,
+		// 		type: values.operation.type,
+		// 		amount: values.operation.amount,
+		// 	},
+		// };
+		// console.log("NEW EVENT", newEvent);
 	};
 
 	const AddEventValidationSchema = Yup.object().shape({
@@ -112,15 +110,12 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 			name: "",
 			description: "",
 			bucket_id: 0,
+			operation: eventTypes[0],
 			trigger: {
 				type: "timed",
-				frequency: "1m",
+				frequencyValue: 0,
+				frequencyItem: frequencyTypes[0],
 				next_trigger_date: new Date(),
-			},
-			operation: {
-				to_bucket_id: 1,
-				type: eventTypes[0].name,
-				amount: 0,
 			},
 		},
 		onSubmit: (values) => {
@@ -213,16 +208,14 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 							desc="What is the type of event that this is?"
 						>
 							<ListItems
-								startItem={eventTypes[0]}
 								collection={eventTypes}
 								onChange={(value) => {
 									handleEventTypeChange(value);
 								}}
-								formik={formik}
+								formikItem={formik.values.operation}
 							/>
 						</FieldLabel>
-						{EventInputsMap[formik.values.trigger.type] || <></>}
-						TEST
+						{EventInputsMap[formik.values.operation.value] || <></>}
 						<Divider />
 						<FieldLabel
 							required
@@ -242,16 +235,17 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 									)}
 									onChange={formik.handleChange}
-									value={formik.values.trigger.frequency}
+									value={formik.values.trigger.frequencyValue}
 								/>
 								<div className="size-full">
 									<ListItems
-										startItem={frequencyTypes[0]}
 										collection={frequencyTypes}
 										onChange={(value) =>
 											handleFrequencyTypeChange(value)
 										}
-										formik={formik}
+										formikItem={
+											formik.values.trigger.frequencyItem
+										}
 									/>
 								</div>
 							</div>

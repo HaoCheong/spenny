@@ -15,8 +15,9 @@ const EventAddInputs = ({ formik }) => {
 				)}
 				onChange={(e) => {
 					formik.setFieldValue("operation", {
-						to_bucket_id: formik.values.operation.to_bucket_id,
-						type: formik.values.operation.type,
+						id: formik.values.operation.id,
+						value: formik.values.operation.value,
+						name: formik.values.operation.name,
 						amount: parseInt(e.target.value),
 					});
 				}}
