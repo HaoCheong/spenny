@@ -11,13 +11,13 @@ const BucketEventCard = ({ event }) => {
 	let borderColorType;
 	let textColorType;
 
-	if (event.event_type === "MOVE") {
+	if (event.operation.type === "MOVE") {
 		borderColorType = "border-spenny-accent-warning";
 		textColorType = "text-spenny-accent-warning";
-	} else if (event.event_type === "ADD") {
+	} else if (event.operation.type === "ADD") {
 		borderColorType = "border-spenny-accent-base";
 		textColorType = "text-spenny-accent-base";
-	} else if (event.event_type === "SUB") {
+	} else if (event.operation.type === "SUB") {
 		borderColorType = "border-spenny-accent-error";
 		textColorType = "text-spenny-accent-error";
 	} else {
@@ -35,10 +35,10 @@ const BucketEventCard = ({ event }) => {
 			<Divider />
 			<div id="bucket-event-card-bottom" className="w-full h-1/2">
 				<h2 className="float-left">
-					{datetime_convert(event.trigger_datetime)}
+					{datetime_convert(event.trigger.next_trigger_date)}
 				</h2>
 				<p className={`float-right font-bold ${textColorType}`}>
-					${event.properties.amount}
+					${event.operation.amount}
 				</p>
 			</div>
 		</div>

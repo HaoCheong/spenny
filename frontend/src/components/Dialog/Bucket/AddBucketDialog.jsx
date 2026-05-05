@@ -27,8 +27,9 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 			name: values.name,
 			description: values.description,
 			amount: values.amount,
-			bucket_type: values.bucket_type.value,
-			properties: values.properties,
+			variant: {
+				type: values.variant.type,
+			},
 		};
 
 		try {
@@ -53,24 +54,26 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 		}
 	};
 
-	const bucketTypes = [
-		{ id: 0, value: "STORE", name: "Store", properties: {} },
-		{ id: 1, value: "INVSB", name: "Invisible", properties: {} },
+	const variants = [
+		{ id: 0, value: "store", name: "Store" },
+		{ id: 1, value: "invisible", name: "Invisible" },
 		{
 			id: 2,
-			value: "GOALS",
-			name: "Saving Goals",
+			value: "goals",
+			name: "Goals",
 			properties: { target: 0 },
 		},
 	];
 
-	const handleBucketTypeChange = (value) => {
-		const bucketType = bucketTypes.find(
-			(bucketType) => bucketType.id === value
-		);
+	const handleVariantChange = (value) => {
+		console.log("VARIANT VALUE:", value);
+		const variant = variants.find((variant) => variant.id === value);
 
-		formik.setFieldValue("bucket_type", bucketType);
-		formik.setFieldValue("properties", bucketType.properties);
+		formik.setFieldValue("variant", {
+			id: variant.id,
+			name: variant.name,
+			type: variant.value,
+		});
 	};
 
 	const AddBucketValidateSchema = Yup.object().shape({
@@ -85,9 +88,13 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 			name: "",
 			description: "",
 			amount: 0,
-			bucket_type: bucketTypes[0],
-			properties: bucketTypes[0].properties,
+			variant: {
+				id: variants[0].id,
+				name: variants[0].name,
+				type: variants[0].value,
+			},
 		},
+
 		onSubmit: (values) => {
 			handleSubmit(values);
 		},
@@ -102,7 +109,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 					"border-solid border-5 border-spenny-accent-primary",
 					"transition duration-200",
 					"data-closed:scale-90 data-closed:opacity-0",
-					"data-leave:duration-200 data-leave:ease-in-out"
+					"data-leave:duration-200 data-leave:ease-in-out",
 				)}
 			>
 				<DialogTitle
@@ -128,7 +135,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 								name="name"
 								className={clsx(
 									"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
 								onChange={formik.handleChange}
 								value={formik.values.name}
@@ -145,7 +152,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 								name="amount"
 								className={clsx(
 									"mt-2 block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
 								onChange={formik.handleChange}
 								value={formik.values.amount}
@@ -163,7 +170,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 								name="description"
 								className={clsx(
 									"mt-2 block w-full resize-none rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25",
 								)}
 								rows={3}
 								onChange={formik.handleChange}
@@ -171,22 +178,22 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 							/>
 						</FieldLabel>
 						<FieldLabel
-							label="Bucket Type"
-							error={formik.errors.bucket_type !== ""}
-							errorMsg={formik.errors.bucket_type}
+							label="Bucket Variant"
+							error={formik.errors.variant !== ""}
+							errorMsg={formik.errors.variant}
 						>
 							<div className="mt-3 w-full h-full">
 								<ListItems
-									startItem={formik.values.bucket_type}
-									collection={bucketTypes}
+									startItem={formik.values.variant}
+									collection={variants}
 									onChange={(value) =>
-										handleBucketTypeChange(value)
+										handleVariantChange(value)
 									}
 									formik={formik}
 								/>
 							</div>
 						</FieldLabel>
-						{formik.values.bucket_type.value === "GOALS" ? (
+						{formik.values.variant.value === "GOALS" ? (
 							<>
 								<Divider />
 								<FieldLabel
@@ -199,17 +206,17 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 										type="number"
 										className={clsx(
 											"mt-2 block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
-											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 										)}
 										onChange={(e) => {
 											formik.setFieldValue("properties", {
 												target: parseInt(
-													e.target.value
+													e.target.value,
 												),
 											});
 										}}
 										value={
-											formik.values.properties.target ?? 0
+											formik.values.variant.target ?? 0
 										}
 									/>
 								</FieldLabel>

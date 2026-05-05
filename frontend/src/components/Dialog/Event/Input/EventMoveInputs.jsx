@@ -4,6 +4,17 @@ import FieldLabel from "../../../FieldLabel";
 import ListItems from "../../../Input/ListItems";
 
 const EventMoveInputs = ({ formik, buckets }) => {
+	const handleBucketChange = (value) => {
+		const bucket = buckets.find((buckets) => buckets.id === value);
+
+		formik.setFieldValue("operation", {
+			id: formik.values.operation.id,
+			value: formik.values.operation.value,
+			name: formik.values.operation.name,
+			to_bucket: bucket,
+			amount: formik.values.operation.amount,
+		});
+	};
 	return (
 		<>
 			<FieldLabel label="Amount to Transfer">
@@ -13,15 +24,18 @@ const EventMoveInputs = ({ formik, buckets }) => {
 					name="amount"
 					className={clsx(
 						"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-						"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+						"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 					)}
 					onChange={(e) => {
-						formik.setFieldValue("properties", {
-							to_bucket: formik.values.properties.to_bucket,
+						formik.setFieldValue("operation", {
+							id: formik.values.operation.id,
+							value: formik.values.operation.value,
+							name: formik.values.operation.name,
+							to_bucket: formik.values.operation.to_bucket,
 							amount: parseInt(e.target.value),
 						});
 					}}
-					value={formik.values.properties.amount ?? 0}
+					value={formik.values.operation.amount ?? 0}
 				/>
 			</FieldLabel>
 			<FieldLabel
@@ -29,15 +43,11 @@ const EventMoveInputs = ({ formik, buckets }) => {
 				desc="Which bucket are we transferring to"
 			>
 				<ListItems
-					startItem={buckets[0]}
 					collection={buckets}
 					onChange={(bucket) => {
-						formik.setFieldValue("properties", {
-							to_bucket: bucket,
-							amount: formik.values.properties.amount,
-						});
+						handleBucketChange(bucket);
 					}}
-					formik={formik}
+					formikItem={formik.values.operation.to_bucket}
 				/>
 			</FieldLabel>
 		</>
