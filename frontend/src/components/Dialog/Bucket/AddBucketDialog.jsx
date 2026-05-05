@@ -66,7 +66,6 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 	];
 
 	const handleVariantChange = (value) => {
-		console.log("VARIANT VALUE:", value);
 		const variant = variants.find((variant) => variant.id === value);
 
 		formik.setFieldValue("variant", {
@@ -184,12 +183,11 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 						>
 							<div className="mt-3 w-full h-full">
 								<ListItems
-									startItem={formik.values.variant}
 									collection={variants}
 									onChange={(value) =>
 										handleVariantChange(value)
 									}
-									formik={formik}
+									formikItem={formik.values.variant}
 								/>
 							</div>
 						</FieldLabel>

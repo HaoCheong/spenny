@@ -151,7 +151,6 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 
 	const handleSubmit = async (values) => {
 		const newEvent = valuesToSchema(formik.values);
-		console.log("BUCKET?", bucket);
 
 		try {
 			const data = await axiosRequest("POST", `${BACKEND_URL}/event`, {
@@ -203,10 +202,6 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 		MULT: <EventMultInputs formik={formik} />,
 		CMV: <EventCmvInputs formik={formik} buckets={buckets} />,
 	};
-
-	React.useEffect(() => {
-		console.log("BUCKET", bucket);
-	}, []);
 
 	return (
 		<DialogBase isOpen={isOpen} setIsOpen={setIsOpen}>
