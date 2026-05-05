@@ -71,7 +71,7 @@ def update_bucket_by_id(bucket_id: int, new_bucket: schemas.BucketUpdate, db: Se
 
 @router.delete("/api/v1/bucket/{bucket_id}", tags=["Buckets"])
 def delete_bucket_by_id(bucket_id: int, db: Session = Depends(get_db)):
-    # event_op.EventOperation.update_all_events(db=db)
+
     db_bucket = cruds.get_bucket_by_id(db, id=bucket_id)
     if not db_bucket:
         raise HTTPException(status_code=400, detail="Bucket does not exist")
