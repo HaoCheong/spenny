@@ -14,9 +14,10 @@ class GoalBucket(BaseModel):
 
 BucketType = Annotated[
     Union[
+        GoalBucket,
         StoreBucket,
         InvisibleBucket,
-        GoalBucket
+        
     ],
     Field(discriminator="type")
 ]
