@@ -73,6 +73,12 @@ def delete_bucket_by_id(db: Session, id: int):
     ''' Delete specified instance of bucket on provided bucket ID '''
     db_bucket = db.query(model.Bucket).filter(model.Bucket.id == id).first()
 
+    if db_bucket is None:
+        return {"Success": True}
+    
+    for event in db_bucket.events:
+        db.delete(event)
+        
     db.delete(db_bucket)
     db.commit()
     return {"Success": True}
