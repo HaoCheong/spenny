@@ -90,7 +90,6 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 	};
 
 	const handleDateChange = (value) => {
-		console.log("DATE CHANGE", value);
 		formik.setFieldValue("trigger", {
 			type: formik.values.trigger.type,
 			frequencyValue: formik.values.trigger.frequencyValue,
@@ -99,24 +98,78 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 		});
 	};
 
+	// TODO: Can be converted into a class for each operation instead of ham fisting code with ifs
+	const operationSchema = (operation) => {
+		switch (operation.value) {
+			case "ADD":
+				return {
+					type: operation.value,
+					amount: operation.amount,
+				};
+			case "SUB":
+				return {
+					type: operation.value,
+					amount: operation.amount,
+				};
+				break;
+			case "MOVE":
+				return {
+					to_bucket_id: operation.to_bucket.id,
+					type: operation.value,
+					amount: operation.amount,
+				};
+				break;
+			case "MULT":
+				return {
+					type: operation.value,
+					percentage: operation.amount,
+				};
+				break;
+			case "CMV":
+				return {
+					type: operation.value,
+					to_bucket_id: operation.to_bucket.id,
+				};
+			default:
+				throw new Error(`Type ${operation.value} does not exist`);
+		}
+	};
+
+	const valuesToSchema = (values) => {
+		return {
+			name: values.name,
+			description: values.description,
+			bucket_id: bucket.id,
+			trigger: {
+				type: values.trigger.type,
+				frequency: `${values.trigger.frequencyValue}${values.trigger.frequencyItem.value}`,
+				next_trigger_date: new Date(values.trigger.next_trigger_date),
+			},
+			operation: operationSchema(values.operation),
+		};
+	};
+
 	const handleSubmit = async (values) => {
-		console.log("NEW VALUES", formik.values);
-		// const newEvent = {
-		// 	name: values.name,
-		// 	description: values.description,
-		// 	bucket_id: values.bucket_id,
-		// 	trigger: {
-		// 		type: values.trigger.type,
-		// 		frequency: values.trigger.frequency,
-		// 		next_trigger_date: new Date(values.trigger.next_trigger_date),
-		// 	},
-		// 	operation: {
-		// 		to_bucket_id: values.operation.to_bucket_id,
-		// 		type: values.operation.type,
-		// 		amount: values.operation.amount,
-		// 	},
-		// };
-		// console.log("NEW EVENT", newEvent);
+		const newEvent = valuesToSchema(formik.values);
+		console.log("BUCKET?", bucket);
+
+		try {
+			const data = await axiosRequest("POST", `${BACKEND_URL}/event`, {
+				data: newEvent,
+			});
+
+			setAlertInfo({
+				isOpen: true,
+				type: "success",
+				message: `${newEvent.name} event added successfully.`,
+			});
+		} catch (error) {
+			setAlertInfo({
+				isOpen: true,
+				type: "error",
+				message: `${error}`,
+			});
+		}
 	};
 
 	const AddEventValidationSchema = Yup.object().shape({
@@ -150,6 +203,10 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 		MULT: <EventMultInputs formik={formik} />,
 		CMV: <EventCmvInputs formik={formik} buckets={buckets} />,
 	};
+
+	React.useEffect(() => {
+		console.log("BUCKET", bucket);
+	}, []);
 
 	return (
 		<DialogBase isOpen={isOpen} setIsOpen={setIsOpen}>

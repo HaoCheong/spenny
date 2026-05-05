@@ -36,7 +36,7 @@ const BucketCard = ({
 	const fetchBucket = async () => {
 		const data = await axiosRequest(
 			"GET",
-			`${BACKEND_URL}/bucket/${bucket_id}`
+			`${BACKEND_URL}/bucket/${bucket_id}`,
 		);
 		setBucket(data);
 		if (data.events.length !== 0) {
@@ -47,7 +47,7 @@ const BucketCard = ({
 	const fetchRecentLogs = async () => {
 		const data = await axiosRequest(
 			"GET",
-			`${BACKEND_URL}/logs/${bucket_id}?skip=0&limit=3`
+			`${BACKEND_URL}/logs/${bucket_id}?skip=0&limit=3`,
 		);
 		setRecentLogs(data.data);
 	};
