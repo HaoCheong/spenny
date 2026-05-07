@@ -3,13 +3,13 @@ from typing import Annotated, Literal, Union
 from pydantic import BaseModel, Field
 
 class StoreBucket(BaseModel):
-    type: Literal["store"]
+    type: Literal["STORE"]
 
 class InvisibleBucket(BaseModel):
-    type: Literal["invisible"]
+    type: Literal["INVSB"]
 
 class GoalBucket(BaseModel):
-    type: Literal["goal"]
+    type: Literal["GOALS"]
     target: int
 
 BucketType = Annotated[
