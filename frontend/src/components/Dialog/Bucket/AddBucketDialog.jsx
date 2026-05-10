@@ -28,9 +28,11 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 			description: values.description,
 			amount: values.amount,
 			variant: {
-				type: values.variant.type,
+				type: values.variant.value,
 			},
 		};
+
+		console.log("newBucket", newBucket);
 
 		try {
 			const data = await axiosRequest("POST", `${BACKEND_URL}/bucket`, {
@@ -55,25 +57,19 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 	};
 
 	const variants = [
-		{ id: 0, value: "store", name: "Store" },
-		{ id: 1, value: "invisible", name: "Invisible" },
+		{ id: 0, value: "STORE", name: "Store" },
+		{ id: 1, value: "INVSB", name: "Invisible" },
 		{
 			id: 2,
-			value: "goals",
+			value: "GOALS",
 			name: "Goals",
-			properties: { target: 0 },
+			target: 0,
 		},
 	];
 
 	const handleVariantChange = (value) => {
-		console.log("VARIANT VALUE:", value);
 		const variant = variants.find((variant) => variant.id === value);
-
-		formik.setFieldValue("variant", {
-			id: variant.id,
-			name: variant.name,
-			type: variant.value,
-		});
+		formik.setFieldValue("variant", variant);
 	};
 
 	const AddBucketValidateSchema = Yup.object().shape({
@@ -88,11 +84,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 			name: "",
 			description: "",
 			amount: 0,
-			variant: {
-				id: variants[0].id,
-				name: variants[0].name,
-				type: variants[0].value,
-			},
+			variant: variants[0],
 		},
 
 		onSubmit: (values) => {
@@ -184,12 +176,11 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 						>
 							<div className="mt-3 w-full h-full">
 								<ListItems
-									startItem={formik.values.variant}
 									collection={variants}
 									onChange={(value) =>
 										handleVariantChange(value)
 									}
-									formik={formik}
+									formikItem={formik.values.variant}
 								/>
 							</div>
 						</FieldLabel>
@@ -209,7 +200,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 										)}
 										onChange={(e) => {
-											formik.setFieldValue("properties", {
+											formik.setFieldValue("target", {
 												target: parseInt(
 													e.target.value,
 												),
