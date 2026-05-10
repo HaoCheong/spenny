@@ -109,7 +109,6 @@ const DeleteBucketDialog = ({
 							id="delete-warning-notification"
 							className="text-md text-white font-bold"
 						>
-							{" "}
 							Bucket Name: {bucket.name}
 						</p>
 					</div>
