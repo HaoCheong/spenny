@@ -16,7 +16,7 @@ import EventCmvInputs from "./Input/EventCmvInputs";
 import EventMoveInputs from "./Input/EventMoveInputs";
 import EventMultInputs from "./Input/EventMultInputs";
 import EventSubInputs from "./Input/EventSubInputs";
-
+//PFIX: Could do a refactor, do we NEED to use formik?
 const ViewEventDialog = ({ isOpen, setIsOpen, buckets, bucket, event }) => {
 	const eventTypes = [
 		{ id: 0, value: "ADD", name: "Add", amount: 0 },
