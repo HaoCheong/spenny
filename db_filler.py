@@ -6,24 +6,24 @@ BACKEND_URL = "http://192.168.30.238:8682"
 
 BUCKETS = [
     {
-        "name": "Bucket A",
-        "description": "Bucket A for Andrew",
+        "name": "Bucket A for Storing",
+        "description": "Bucket A for Andrew for storing",
         "amount": 5000,
         "variant": {
             "type": "STORE"
         }
     },
     {
-        "name": "Bucket B",
-        "description": "Bucket b for Bandrew",
+        "name": "Bucket B is invisible",
+        "description": "Bucket b for Bandrew but invisble",
         "amount": 2000,
         "variant": {
             "type": "INVSB"
         }
     },
     {
-        "name": "Bucket C",
-        "description": "Bucket c for Candrew",
+        "name": "Bucket C is Goals",
+        "description": "Bucket c for Candrew for Goals",
         "amount": 1000,
         "variant": {
             "type": "GOALS",
@@ -72,4 +72,4 @@ if __name__ == "__main__":
         post_bucket(bucket)
 
     for event in EVENTS:
-        post_bucket(event)
+        post_event(event)
