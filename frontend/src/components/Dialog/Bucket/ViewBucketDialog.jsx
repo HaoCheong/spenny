@@ -5,8 +5,16 @@ import Button from "../../Input/Button";
 import Placeholder from "../../Structural/Placeholder";
 import DialogBase from "../DialogBase";
 import ViewBucketEventRow from "../ViewBucketEventRow";
+import React from "react";
+import ViewEventDialog from "../Event/ViewEventDialog";
 
-const ViewBucketDialog = ({ isOpen, setIsOpen, bucket }) => {
+const ViewBucketDialog = ({ isOpen, setIsOpen, buckets, bucket }) => {
+	const [isViewEventOpen, setIsViewEventOpen] = React.useState(false);
+	const [isEditEventOpen, setIsEditEventOpen] = React.useState(false);
+	const [isDeleteEventOpen, setIsDeleteEventOpen] = React.useState(false);
+
+	const [focusedEvent, setFocusedEvent] = React.useState({});
+
 	const handleClose = () => {
 		setIsOpen(false);
 	};
@@ -14,6 +22,13 @@ const ViewBucketDialog = ({ isOpen, setIsOpen, bucket }) => {
 	return (
 		<>
 			<DialogBase isOpen={isOpen} setIsOpen={setIsOpen}>
+				<ViewEventDialog
+					isOpen={isViewEventOpen}
+					setIsOpen={setIsViewEventOpen}
+					buckets={buckets}
+					bucket={bucket}
+					event={focusedEvent}
+				/>
 				<DialogPanel
 					transition
 					className={clsx(
@@ -21,7 +36,7 @@ const ViewBucketDialog = ({ isOpen, setIsOpen, bucket }) => {
 						"border-solid border-5 border-spenny-accent-primary",
 						"transition duration-200",
 						"data-closed:scale-90 data-closed:opacity-0",
-						"data-leave:duration-200 data-leave:ease-in-out"
+						"data-leave:duration-200 data-leave:ease-in-out",
 					)}
 				>
 					<DialogTitle
@@ -68,11 +83,17 @@ const ViewBucketDialog = ({ isOpen, setIsOpen, bucket }) => {
 							<div
 								id="view-flow-event-container"
 								className={clsx(
-									"h-5/17 w-full p-3 border-solid border-5 border-spenny-accent-primary overflow-y-scroll flex flex-col gap-3 rounded-xl"
+									"h-5/17 w-full p-3 border-solid border-5 border-spenny-accent-primary overflow-y-scroll flex flex-col gap-3 rounded-xl",
 								)}
 							>
-								{bucket.events?.map(() => {
-									return <ViewBucketEventRow />;
+								{bucket.events?.map((event) => {
+									return (
+										<ViewBucketEventRow
+											setIsViewOpen={setIsViewEventOpen}
+											setEvent={setFocusedEvent}
+											event={event}
+										/>
+									);
 								})}
 							</div>
 							<Divider />
