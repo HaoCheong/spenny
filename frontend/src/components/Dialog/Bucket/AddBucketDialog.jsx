@@ -63,7 +63,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 			id: 2,
 			value: "GOALS",
 			name: "Goals",
-			properties: { target: 0 },
+			target: 0,
 		},
 	];
 
@@ -200,7 +200,7 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 										)}
 										onChange={(e) => {
-											formik.setFieldValue("properties", {
+											formik.setFieldValue("target", {
 												target: parseInt(
 													e.target.value,
 												),

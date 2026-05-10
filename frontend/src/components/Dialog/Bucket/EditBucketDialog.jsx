@@ -282,31 +282,44 @@ const EditBucketDialog = ({
 			description: values.description,
 			amount: values.amount,
 			variant: {
-				type: values.variant.type,
+				type: values.variant.value,
 			},
 		};
 
+		//PFIX: Will Require refactor the same with
+		console.log("values.variant", values.variant);
+		if (values.variant.value === "GOALS") {
+			edittedBucket.variant = {
+				type: values.variant.value,
+				target: values.variant.target,
+			};
+		}
+
 		console.log("Editted BUcket", edittedBucket);
-		// try {
-		// 	const data = await axiosRequest("POST", `${BACKEND_URL}/bucket`, {
-		// 		data: newBucket,
-		// 	});
+		try {
+			const data = await axiosRequest(
+				"PATCH",
+				`${BACKEND_URL}/bucket/${bucket.id}`,
+				{
+					data: edittedBucket,
+				},
+			);
 
-		// 	const newBuckets = [...buckets, data];
-		// 	setBuckets(newBuckets);
+			const newBuckets = [...buckets, data];
+			setBuckets(newBuckets);
 
-		// 	setAlertInfo({
-		// 		isOpen: true,
-		// 		type: "success",
-		// 		message: `${values.name} bucket added successfully.`,
-		// 	});
-		// } catch (error) {
-		// 	setAlertInfo({
-		// 		isOpen: true,
-		// 		type: "error",
-		// 		message: `${error}`,
-		// 	});
-		// }
+			setAlertInfo({
+				isOpen: true,
+				type: "success",
+				message: `${values.name} bucket editted successfully.`,
+			});
+		} catch (error) {
+			setAlertInfo({
+				isOpen: true,
+				type: "error",
+				message: `${error}`,
+			});
+		}
 	};
 
 	const variants = [
@@ -316,7 +329,7 @@ const EditBucketDialog = ({
 			id: 2,
 			value: "GOALS",
 			name: "Goals",
-			properties: { target: 0 },
+			target: 0,
 		},
 	];
 
@@ -347,14 +360,31 @@ const EditBucketDialog = ({
 	});
 
 	React.useEffect(() => {
-		// const variant = variants.find(
-		// 	(variant) => variant.value === bucket.variant?.type,
-		// );
-		// console.log("EDIT BUCKET USEEFFECT", bucket);
+		const variant = variants.find(
+			(variant) => variant.value === bucket.variant?.type,
+		);
 		formik.setFieldValue("name", bucket.name);
 		formik.setFieldValue("description", bucket.description);
 		formik.setFieldValue("amount", bucket.amount);
-		// formik.setFieldValue("variant", variant);
+
+		// PFIX: Feels like there is a cleaner way for checking for variant type of GOALS, feels hamfisted
+		if (variant) {
+			formik.setFieldValue("variant", variant);
+			if (bucket.variant.type === "GOALS") {
+				console.log("IT IS GOALS", variant, bucket, {
+					id: formik.values.variant.id,
+					name: formik.values.variant.name,
+					value: formik.values.variant.value,
+					target: bucket.variant.target,
+				});
+				formik.setFieldValue("variant", {
+					id: variant.id,
+					name: variant.name,
+					value: variant.value,
+					target: bucket.variant.target,
+				});
+			}
+		}
 	}, [bucket]);
 
 	return (
@@ -449,6 +479,7 @@ const EditBucketDialog = ({
 								/>
 							</div>
 						</FieldLabel>
+						{/* PFIX: Should fix this to use a similar structure to events which is render by type */}
 						{formik.values.variant.value === "GOALS" ? (
 							<>
 								<Divider />
@@ -465,7 +496,13 @@ const EditBucketDialog = ({
 											"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 										)}
 										onChange={(e) => {
-											formik.setFieldValue("properties", {
+											//PFIX: Related to the handling above
+											formik.setFieldValue("variant", {
+												id: formik.values.variant.id,
+												name: formik.values.variant
+													.name,
+												value: formik.values.variant
+													.value,
 												target: parseInt(
 													e.target.value,
 												),
@@ -493,7 +530,7 @@ const EditBucketDialog = ({
 						/>
 						<Button
 							classColor="border-solid border-2 border-solid rounded-xl bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
-							label="Add Bucket"
+							label="Edit Bucket"
 							type="submit"
 							onClick={() => {}}
 						/>
