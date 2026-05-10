@@ -53,6 +53,7 @@ const Dashboard = () => {
 					<ViewBucketDialog
 						isOpen={isViewBucketOpen}
 						setIsOpen={setIsViewBucketOpen}
+						buckets={buckets}
 						bucket={focusBucket}
 					/>
 					<EditBucketDialog
