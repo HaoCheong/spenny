@@ -82,6 +82,7 @@ def update_event_by_id(db: Session, id: int, new_event: schemas.EventUpdate, upd
 
     # Loops through dictionary and update db_event
     for key, value in update_event.items():
+        print(f"KEY: {key}, VALUE:{value}, valueType:{type(value)}")
         setattr(db_event, key, value)
 
     setattr(db_event, "updated_at", update_time)
