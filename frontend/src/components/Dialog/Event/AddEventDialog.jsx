@@ -234,7 +234,7 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 									"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
 									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
-								disabled
+								disableda
 								value={bucket.name}
 							/>
 						</FieldLabel>

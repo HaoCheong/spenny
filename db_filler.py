@@ -45,7 +45,7 @@ EVENTS = [
         "operation": {
             "to_bucket_id": 2,
             "type": "MOVE",
-            "amount": 100
+            "amount": 123
         }
     }
 ] 
