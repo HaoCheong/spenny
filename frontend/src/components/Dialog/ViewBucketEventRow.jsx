@@ -11,7 +11,7 @@ const ViewBucketEventRow = ({
 		<div
 			id="view-bucket-event-row"
 			className={clsx(
-				"flex flex-row size-full border-3 border-solid border-spenny-accent-primary rounded-xl",
+				"flex flex-row w-1/1 h-2/5 border-3 border-solid border-spenny-accent-primary rounded-xl",
 			)}
 		>
 			<div
@@ -42,12 +42,15 @@ const ViewBucketEventRow = ({
 						setIsEditOpen(true);
 					}}
 				/>
+
+				{/* PFIX: Have the removal of events be reactive (Man Solid would have been great for this alas) */}
 				<Button
 					label="Delete"
 					classColor="bg-spenny-accent-error border-solid border-2 border-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
 					classStyle={"w-1/3 h-full rounded-r-lg"}
 					onClick={() => {
 						setEvent(event);
+						setIsDeleteOpen(true);
 					}}
 				/>
 			</div>
