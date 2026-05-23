@@ -95,7 +95,13 @@ const ViewEventDialog = ({ isOpen, setIsOpen, buckets, bucket, event }) => {
 	const EventInputsMap = {
 		ADD: <EventAddInputs formik={formik} />,
 		SUB: <EventSubInputs formik={formik} />,
-		MOVE: <EventMoveInputs formik={formik} buckets={buckets} />,
+		MOVE: (
+			<EventMoveInputs
+				disabled={true}
+				formik={formik}
+				buckets={buckets}
+			/>
+		),
 		MULT: <EventMultInputs formik={formik} />,
 		CMV: <EventCmvInputs formik={formik} buckets={buckets} />,
 	};
@@ -192,7 +198,7 @@ const ViewEventDialog = ({ isOpen, setIsOpen, buckets, bucket, event }) => {
 							<ListItems
 								collection={eventTypes}
 								formikItem={formik.values.operation}
-								disabled
+								disabled={true}
 							/>
 						</FieldLabel>
 						{EventInputsMap[formik.values.operation?.value] || (
@@ -220,7 +226,7 @@ const ViewEventDialog = ({ isOpen, setIsOpen, buckets, bucket, event }) => {
 								/>
 								<div className="size-full">
 									<ListItems
-										disabled
+										disabled={true}
 										collection={frequencyTypes}
 										formikItem={
 											formik.values.trigger.frequencyItem

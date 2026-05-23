@@ -11,7 +11,7 @@ const ListItems = ({ collection, onChange, formikItem, disabled = false }) => {
 	return (
 		<Listbox value={formikItem.id} onChange={onChange}>
 			<ListboxButton
-				disabled
+				disabled={disabled}
 				className={clsx(
 					"w-full rounded-lg bg-white/5 p-1.5 text-left text-sm text-white",
 					"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25",
@@ -29,7 +29,7 @@ const ListItems = ({ collection, onChange, formikItem, disabled = false }) => {
 			>
 				{collection.map((item) => (
 					<ListboxOption
-						disabled
+						disabled={disabled}
 						key={item.id}
 						value={item.id}
 						className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10"

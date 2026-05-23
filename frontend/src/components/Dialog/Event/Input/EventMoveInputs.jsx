@@ -3,7 +3,7 @@ import clsx from "clsx";
 import FieldLabel from "../../../FieldLabel";
 import ListItems from "../../../Input/ListItems";
 
-const EventMoveInputs = ({ formik, buckets }) => {
+const EventMoveInputs = ({ disabled = false, formik, buckets }) => {
 	const handleBucketChange = (value) => {
 		const bucket = buckets.find((buckets) => buckets.id === value);
 
@@ -43,6 +43,7 @@ const EventMoveInputs = ({ formik, buckets }) => {
 				desc="Which bucket are we transferring to"
 			>
 				<ListItems
+					disabled={disabled}
 					collection={buckets}
 					onChange={(bucket) => {
 						handleBucketChange(bucket);
