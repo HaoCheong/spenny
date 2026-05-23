@@ -21,7 +21,7 @@ const EventAddInputs = ({ formik }) => {
 						amount: parseInt(e.target.value),
 					});
 				}}
-				value={formik.values.operation.amount ?? 0}
+				value={formik.values.operation?.amount ?? 0}
 			/>
 		</FieldLabel>
 	);

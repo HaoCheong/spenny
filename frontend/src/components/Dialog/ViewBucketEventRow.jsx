@@ -1,6 +1,12 @@
 import clsx from "clsx";
 import Button from "../Input/Button";
-const ViewBucketEventRow = ({ setIsViewOpen, setEvent, event }) => {
+const ViewBucketEventRow = ({
+	setIsViewOpen,
+	setIsEditOpen,
+	setIsDeleteOpen,
+	setEvent,
+	event,
+}) => {
 	return (
 		<div
 			id="view-bucket-event-row"
@@ -33,6 +39,7 @@ const ViewBucketEventRow = ({ setIsViewOpen, setEvent, event }) => {
 					classStyle={"w-1/3 h-full"}
 					onClick={() => {
 						setEvent(event);
+						setIsEditOpen(true);
 					}}
 				/>
 				<Button
