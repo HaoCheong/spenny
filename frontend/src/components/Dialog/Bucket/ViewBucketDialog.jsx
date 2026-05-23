@@ -8,6 +8,7 @@ import ViewBucketEventRow from "../ViewBucketEventRow";
 import React from "react";
 import ViewEventDialog from "../Event/ViewEventDialog";
 import EditEventDialog from "../Event/EditEventDialog";
+import DeleteEventDialog from "../Event/DeleteEventDialog";
 
 const ViewBucketDialog = ({ isOpen, setIsOpen, buckets, bucket }) => {
 	const [isViewEventOpen, setIsViewEventOpen] = React.useState(false);
@@ -34,6 +35,12 @@ const ViewBucketDialog = ({ isOpen, setIsOpen, buckets, bucket }) => {
 					isOpen={isEditEventOpen}
 					setIsOpen={setIsEditEventOpen}
 					buckets={buckets}
+					bucket={bucket}
+					event={focusedEvent}
+				/>
+				<DeleteEventDialog
+					isOpen={isDeleteEventOpen}
+					setIsOpen={setIsDeleteEventOpen}
 					bucket={bucket}
 					event={focusedEvent}
 				/>
