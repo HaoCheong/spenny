@@ -154,14 +154,18 @@ const EditEventDialog = ({ isOpen, setIsOpen, bucket, buckets, event }) => {
 		const newEvent = valuesToSchema(formik.values);
 
 		try {
-			const data = await axiosRequest("POST", `${BACKEND_URL}/event`, {
-				data: newEvent,
-			});
+			const data = await axiosRequest(
+				"PATCH",
+				`${BACKEND_URL}/event/${bucket.id}`,
+				{
+					data: newEvent,
+				},
+			);
 
 			setAlertInfo({
 				isOpen: true,
 				type: "success",
-				message: `${newEvent.name} event added successfully.`,
+				message: `${newEvent.name} event editted successfully.`,
 			});
 		} catch (error) {
 			setAlertInfo({
@@ -404,7 +408,7 @@ const EditEventDialog = ({ isOpen, setIsOpen, bucket, buckets, event }) => {
 						/>
 						<Button
 							classColor="rounded-xl border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
-							label="Add Event"
+							label="Edit Event"
 							type="submit"
 							onClick={() => {}}
 						/>
