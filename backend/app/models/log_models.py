@@ -3,6 +3,8 @@ from sqlalchemy.orm import relationship, mapped_column, Mapped
 from app.database.database import Base
 from datetime import datetime
 
+from app.utils.DatetimeJSON import DatetimeJSON
+
 
 class Log(Base):
 
@@ -10,19 +12,18 @@ class Log(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
 
-    name: Mapped[str] = mapped_column(String)
-    description: Mapped[str] = mapped_column(String)
-    log_type: Mapped[str] = mapped_column(String)
-
-    event_id: Mapped[int] = mapped_column(Integer)
-    event_type: Mapped[str] = mapped_column(String)
-    event_properties: Mapped[dict] = mapped_column(JSON)
-
     bucket_id: Mapped[int] = mapped_column(Integer)
     bucket_name: Mapped[str] = mapped_column(String)
+    bucket_description: Mapped[str] = mapped_column(String)
+
+    event_id: Mapped[int] = mapped_column(Integer)
+    event_name: Mapped[str] = mapped_column(String)
+    event_description: Mapped[str] = mapped_column(String)
+    
+    event_properties: Mapped[dict] = mapped_column(DatetimeJSON)
 
     created_at: Mapped[datetime] = mapped_column(DateTime)
     updated_at: Mapped[datetime] = mapped_column(DateTime)
-
+    
     class Config:
         orm_mode = True

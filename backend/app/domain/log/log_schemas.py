@@ -6,15 +6,13 @@ from typing import Literal, List
 class LogBase(BaseModel):
     ''' Log Base Schema '''
 
-    name: str
-    description: str
-    log_type: Literal['EDIT', 'EVENT']
-    event_id: int
-    event_type: str
-    event_properties: dict
     bucket_id: int
     bucket_name: str
-
+    bucket_description: str
+    event_id: int
+    event_name: str
+    event_description: str
+    event_properties: dict
 
 class LogCreate(LogBase):
     ''' Log Base Schema '''
