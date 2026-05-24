@@ -11,14 +11,13 @@ def create_log(db: Session, log: schemas.LogCreate, curr_datetime: datetime = da
     ''' Creating an new pet log '''
 
     db_log = model.Log(
-        name=log.name,
-        description=log.description,
-        log_type=log.log_type,
-        event_id=log.event_id,
-        event_type=log.event_type,
-        event_properties=log.event_properties,
         bucket_id=log.bucket_id,
         bucket_name=log.bucket_name,
+        bucket_description=log.bucket_description,
+        event_id=log.event_id,
+        event_name=log.event_name,
+        event_description=log.event_description,
+        event_properties=log.event_properties,
         created_at=curr_datetime,
         updated_at=curr_datetime
     )
@@ -50,21 +49,6 @@ def get_log_by_id(db: Session, id: int):
 def get_all_logs_by_bucket_id(db: Session, bucket_id: int, skip: int = 0, limit: int = 100):
     ''' Get specific instance of log based on provided log ID '''
     query = db.query(model.Log).filter(model.Log.bucket_id == bucket_id)
-
-    total = query.count()
-    data = query.order_by(model.Log.created_at.desc()
-                          ).offset(skip).limit(limit).all()
-
-    return schemas.LogAllRead.model_validate({
-        "total": total,
-        "data": data
-    }, from_attributes=True)
-
-
-def get_all_logs_by_time_range(db: Session, start_date: datetime, end_date: datetime, int, skip: int = 0, limit: int = 100):
-    ''' Get specific instance of log based on provided log ID '''
-    query = db.query(model.Log).filter(
-        and_(model.Log.created_at <= end_date, model.Log.created_at >= start_date))
 
     total = query.count()
     data = query.order_by(model.Log.created_at.desc()
