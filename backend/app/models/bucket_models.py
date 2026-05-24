@@ -4,6 +4,8 @@ from sqlalchemy.inspection import inspect
 from app.database.database import Base
 from datetime import datetime
 
+from app.utils.DatetimeJSON import DatetimeJSON
+
 
 class Bucket(Base):
 
@@ -13,7 +15,7 @@ class Bucket(Base):
     name: Mapped[str] = mapped_column(String)
     description: Mapped[str] = mapped_column(String)
     amount: Mapped[float] = mapped_column(Integer)
-    variant: Mapped[dict] = mapped_column(JSON)
+    variant: Mapped[dict] = mapped_column(DatetimeJSON)
     created_at: Mapped[datetime] = mapped_column(DateTime)
     updated_at: Mapped[datetime] = mapped_column(DateTime)
 
