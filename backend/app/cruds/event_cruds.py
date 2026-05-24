@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import  cast, DateTime, text
 from datetime import datetime
 import app.models.event_models as model
 import app.domain.event.event_domain as schemas
@@ -46,23 +47,27 @@ def get_event_by_id(db: Session, id: int):
     return db_event
 
 
-def get_next_event(db: Session):
-    ''' Get specific instance of event based that is next to run '''
+# def get_next_event(db: Session):
+#     ''' Get specific instance of event based that is next to run '''
 
-    db_event = db.query(model.Event).order_by(
-        model.Event.trigger_datetime).limit(1).first()
-    return db_event
+#     db_event = db.query(model.Event).order_by(
+#         model.Event.trigger_datetime).limit(1).first()
+#     return db_event
 
 
-def get_all_event_by_timeframe(db: Session, first_date: datetime = None, last_date: datetime = datetime.now(), skip: int = 0, limit: int = 0, all: bool = False) -> schemas.EventAllRead:
+def get_events_by_date_range(db: Session, skip: int = 0, limit: int = 1000, start_datetime: datetime | None = None, end_datetime: datetime = datetime.now(), all: bool = False) -> schemas.EventAllRead:
 
+    # PFIX: Not sure claude, looks kinda fucking weird
     query = None
-    if first_date is None:
-        query = db.query(model.Event).filter(
-            model.Event.trigger_datetime < last_date)
-    else:
-        query = db.query(model.Event).filter(
-            model.Event.trigger_datetime < last_date, model.Event.trigger_datetime > first_date)
+    if start_datetime is None:                                                                                                                   
+        query = db.query(model.Event).filter(                                                                                                    
+            text("(trigger::json->>'next_trigger_date')::timestamp < :end_dt").bindparams(end_dt=end_datetime)                                   
+        )                                                                                                                                        
+    else:                                                                                                                                        
+        query = db.query(model.Event).filter(                                                                                                    
+            text("(trigger::json->>'next_trigger_date')::timestamp < :end_dt").bindparams(end_dt=end_datetime),                                  
+            text("(trigger::json->>'next_trigger_date')::timestamp > :start_dt").bindparams(start_dt=start_datetime)                             
+        )
 
     total = query.count()
     db_events = query.all() if all is True else query.offset(skip).limit(limit).all()
