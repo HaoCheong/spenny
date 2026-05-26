@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy.types import TypeDecorator, Text
 
 class DatetimeJSON(TypeDecorator):
@@ -28,7 +28,10 @@ class DatetimeJSON(TypeDecorator):
         for key, value in d.items():
             if isinstance(value, str):
                 try:
-                    d[key] = datetime.fromisoformat(value)
+                    dt = datetime.fromisoformat(value)
+                    if dt.tzinfo is None:
+                        dt = dt.replace(tzinfo=timezone.utc)
+                    d[key] = dt
                 except ValueError:
                     pass
         return d
