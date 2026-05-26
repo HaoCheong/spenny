@@ -23,47 +23,46 @@ def run_update(db: Session, update_datetime: datetime = datetime.now(timezone.ut
         update_datetime = update_datetime.replace(tzinfo=timezone.utc)
 
     # Grabs all the events up until the current datetime
-    res = event_cruds.get_all_events(db=db, all=True)
-    to_process = res.data
+    # res = event_cruds.get_all_events(db=db, all=True)
+    res = event_cruds.get_events_by_date_range(db=db, end_datetime=update_datetime)
+    to_process = res["data"]
     
     # Repeat until events list to process is empty
     while to_process:
-
+        
         to_process.sort(key=lambda e: e.trigger.next_trigger_date, reverse=True)
-        event = to_process.pop(0)
+        db_event = to_process.pop(0)
 
         # Iterates through an event, takes the event type and runs their relevant apply
         # PFIX: What the fuck does this do?
-        op = _operation_adapter.validate_python(event.operation)
+        op = _operation_adapter.validate_python(db_event.operation)
 
         if isinstance(op, TranferMoneyOperation):
-            from_bucket = bucket_cruds.get_bucket_by_id(db, event.bucket_id)
+            from_bucket = bucket_cruds.get_bucket_by_id(db, db_event.bucket_id)
             to_bucket = bucket_cruds.get_bucket_by_id(db, op.to_bucket_id)
             op.apply(to_bucket, from_bucket)
             db.add(from_bucket)
             db.add(to_bucket)
         else:
-            bucket = bucket_cruds.get_bucket_by_id(db, event.bucket_id)
+            bucket = bucket_cruds.get_bucket_by_id(db, db_event.bucket_id)
             op.apply(bucket)
             db.add(bucket)
 
         # Updates the bucket + event trigger date
-        trigger = dict(event.trigger)
-        trigger["next_trigger_date"] = event_freq_adder(trigger["next_trigger_date"], trigger["frequency"])
-        db_event = event_cruds.get_event_by_id(db, event.id)
-        assert(db_event is not None) #PFIX: What the fuck is this? 
-        db_event.trigger = trigger
+
+        new_trigger_date = event_freq_adder(db_event.trigger.next_trigger_date, db_event.trigger.frequency)
+        db_event.trigger = db_event.trigger.model_copy(update={"next_trigger_date": new_trigger_date}) # PFIX: Really no better way
         db_event.updated_at = datetime.now(timezone.utc)
         db.add(db_event)
         db.commit()
         db.refresh(db_event)
 
-        print(f"next_trigger_date: {db_event.trigger['next_trigger_date']} | tzinfo: {db_event.trigger['next_trigger_date'].tzinfo}")
-        print(f"update_datetime: {update_datetime} | tzinfo: {update_datetime.tzinfo}")
+        # print(f"next_trigger_date: {db_event.trigger['next_trigger_date']} | tzinfo: {db_event.trigger['next_trigger_date'].tzinfo}")
+        # print(f"update_datetime: {update_datetime} | tzinfo: {update_datetime.tzinfo}")
 
         # If trigger date is still before update_datetime, append the list
-        if db_event.trigger["next_trigger_date"] < update_datetime:
-            to_process.append(EventReadNR(**db_event))   
+        if db_event.trigger.next_trigger_date < update_datetime:
+            to_process.append(db_event)   
 
     
     return {"success": True}
