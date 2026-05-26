@@ -1,19 +1,28 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy.types import TypeDecorator, Text
 
 class DatetimeJSON(TypeDecorator):
     impl = Text
     cache_ok = True
 
-    def process_bind_param(self, value, dialect):
-        if value is not None:
-            return json.dumps(value, default=self._serialize)
-        return value
+    def __init__(self, model=None):
+        super().__init__()
+        self._model = model
 
     def process_result_value(self, value, dialect):
         if value is not None:
-            return json.loads(value, object_hook=self._deserialize)
+            d = json.loads(value, object_hook=self._deserialize)
+            if self._model is not None:
+                return self._model.model_validate(d)
+            return d
+        return value
+
+    def process_bind_param(self, value, dialect):
+        if value is not None:
+            if hasattr(value, "model_dump"):
+                value = value.model_dump()
+            return json.dumps(value, default=self._serialize)
         return value
 
     @staticmethod
@@ -24,11 +33,14 @@ class DatetimeJSON(TypeDecorator):
 
     @staticmethod
     def _deserialize(d):
-        # Optionally parse ISO strings back to datetime on read
+        # PFIX: Is this the best way to introduce timezone utc into the code base?
         for key, value in d.items():
             if isinstance(value, str):
                 try:
-                    d[key] = datetime.fromisoformat(value)
+                    dt = datetime.fromisoformat(value)
+                    if dt.tzinfo is None:
+                        dt = dt.replace(tzinfo=timezone.utc)
+                    d[key] = dt
                 except ValueError:
                     pass
         return d

@@ -39,13 +39,55 @@ EVENTS = [
         "bucket_id": 1,
         "trigger": {
             "type": "timed",
-            "frequency": "1m",
-            "next_trigger_date": "2026-03-15T10:24:42.687Z"
+            "frequency": "3m",
+            "next_trigger_date": "2025-03-15T10:24:42.687Z"
         },
         "operation": {
             "to_bucket_id": 2,
             "type": "MOVE",
             "amount": 123
+        }
+    },
+    {
+        "name": "Add Money to A",
+        "description": "Adding Money to A",
+        "bucket_id": 1,
+        "trigger": {
+            "type": "timed",
+            "frequency": "1m",
+            "next_trigger_date": "2025-04-20T10:24:42.687Z"
+        },
+        "operation": {
+            "type": "ADD",
+            "amount": 555
+        }
+    },
+    {
+        "name": "Subtract Money from B",
+        "description": "Subtracting Money from B",
+        "bucket_id": 2,
+        "trigger": {
+            "type": "timed",
+            "frequency": "2m",
+            "next_trigger_date": "2025-05-25T10:24:42.687Z"
+        },
+        "operation": {
+            "type": "SUB",
+            "amount": 111
+        }
+    },
+    {
+        "name": "Add Money to C",
+        "description": "Adding Money from C",
+        "bucket_id": 2,
+        "trigger": {
+            "type": "timed",
+            "frequency": "10m",
+            "next_trigger_date": "2025-01-10T10:24:42.687Z"
+        },
+        "operation": {
+            "type": "ADD",
+            "amount": 222
         }
     }
 ] 

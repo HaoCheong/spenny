@@ -14,8 +14,8 @@ def get_db():
 
 
 def event_freq_adder(date_to_change: datetime, event_freq: str) -> datetime:
-    freq_qty = int(event_freq[0])
-    freq_type = event_freq[1]
+    freq_qty = int(event_freq[:-1])
+    freq_type = event_freq[-1]
 
     new_datetime = None
     if freq_type == "h":

@@ -3,6 +3,45 @@ SHELL := /bin/bash
 
 LOCAL_PATH := /home/hcheong/projects/spenny/env
 
+demo_db:
+		@set -a
+	@source env/demo.env
+	@set +a
+
+	@docker compose --progress=plain build --no-cache
+	@docker compose --env-file env/demo.env \
+		-f docker-compose.yml \
+		--profile demo \
+		up --force-recreate --remove-orphans --renew-anon-volumes -d db
+
+demo_be:
+	@set -a
+	@source env/demo.env
+	@set +a
+
+	@docker compose --progress=plain build --no-cache
+	@docker compose --env-file env/demo.env \
+		-f docker-compose.yml \
+		--profile demo \
+		up --force-recreate --remove-orphans --renew-anon-volumes -d backend
+
+	@echo "==================== ACCESS POINTS ($$PROJECT_NAME) ===================="
+	@echo "BACKEND URL -> $$BACKEND_CONTAINER_URL"
+
+demo_fe:
+	@set -a
+	@source env/demo.env
+	@set +a
+
+	@docker compose --progress=plain build --no-cache
+	@docker compose --env-file env/demo.env \
+		-f docker-compose.yml \
+		--profile demo \
+		up --force-recreate --remove-orphans --renew-anon-volumes -d frontend
+
+	@echo "==================== ACCESS POINTS ($$PROJECT_NAME) ===================="
+	@echo "FRONTEND URL -> $$FRONTEND_CONTAINER_URL"
+
 demo:
 	@set -a
 	@source env/demo.env

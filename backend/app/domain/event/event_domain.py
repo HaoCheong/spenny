@@ -46,6 +46,12 @@ class EventUpdate(EventBase):
     ''' Event update schema '''
     name: Optional[str] = None
     description: Optional[str] = None
+    trigger: Optional[Trigger] = None
+    operation: Optional[Operation] = None
+
+class EventTimeRange(BaseModel):
+    start_datetime: Optional[datetime] = None
+    end_datetime: datetime
 
 
 EventReadWR.model_rebuild()
