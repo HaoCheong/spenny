@@ -43,8 +43,11 @@ def create_event(event: schemas.EventCreate, db: Session = Depends(get_db)):
 
 @router.get("/api/v1/events", response_model=schemas.EventAllRead, tags=["Events"])
 def get_all_events(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    db_events = event_cruds.get_all_events(db, skip, limit)
-    return db_events
+    res = event_cruds.get_all_events(db, skip, limit)
+    return schemas.EventAllRead.model_validate({
+        "total": res["total"],
+        "data": res["data"]
+    }, from_attributes=True)
 
 
 @router.get("/api/v1/event/{event_id}", response_model=schemas.EventReadWR, tags=["Events"])
@@ -58,10 +61,13 @@ def get_event_by_id(event_id: int, db: Session = Depends(get_db)):
 @router.post("/api/v1/events/date_range", response_model=schemas.EventAllRead, tags=["Events"])
 def get_event_by_date_range(time_range: schemas.EventTimeRange, db: Session = Depends(get_db)):
 
-    db_events = event_cruds.get_events_by_date_range(db,
+    res = event_cruds.get_events_by_date_range(db,
                                                      start_datetime=time_range.start_datetime,
                                                      end_datetime=time_range.end_datetime)
-    return db_events
+    return schemas.EventAllRead.model_validate({
+        "total": res["total"],
+        "data": res["data"]
+    }, from_attributes=True)
 
 @router.patch("/api/v1/event/{event_id}", response_model=schemas.EventReadNR, tags=["Events"])
 def update_event_by_id(event_id: int, new_event: schemas.EventUpdate, db: Session = Depends(get_db)):

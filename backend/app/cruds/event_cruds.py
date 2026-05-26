@@ -27,7 +27,7 @@ def create_event(db: Session, event: schemas.EventCreate, curr_datetime: datetim
     return db_event
 
 
-def get_all_events(db: Session, skip: int = 0, limit: int = 100, all: bool = False) -> schemas.EventAllRead:
+def get_all_events(db: Session, skip: int = 0, limit: int = 100, all: bool = False):
     ''' Get every instance of pet event, using offset pagination '''
 
     query = db.query(model.Event).order_by(model.Event.id)
@@ -35,10 +35,9 @@ def get_all_events(db: Session, skip: int = 0, limit: int = 100, all: bool = Fal
     total = query.count()
     data = query.all() if all else query.offset(skip).limit(limit).all()
 
-    return schemas.EventAllRead.model_validate({
-        "total": total,
-        "data": data
-    }, from_attributes=True)
+    return {"total": total, "data": data} 
+
+    
 
 
 def get_event_by_id(db: Session, id: int):
@@ -55,7 +54,7 @@ def get_event_by_id(db: Session, id: int):
 #     return db_event
 
 
-def get_events_by_date_range(db: Session, skip: int = 0, limit: int = 1000, start_datetime: datetime | None = None, end_datetime: datetime = datetime.now(), all: bool = False) -> schemas.EventAllRead:
+def get_events_by_date_range(db: Session, skip: int = 0, limit: int = 1000, start_datetime: datetime | None = None, end_datetime: datetime = datetime.now(), all: bool = False):
 
     # PFIX: Not sure claude, looks kinda fucking weird
     query = None
@@ -72,10 +71,10 @@ def get_events_by_date_range(db: Session, skip: int = 0, limit: int = 1000, star
     total = query.count()
     db_events = query.all() if all is True else query.offset(skip).limit(limit).all()
 
-    return schemas.EventAllRead.model_validate({
+    return {
         "total": total,
         "data": db_events
-    }, from_attributes=True)
+    }
 
 
 def update_event_by_id(db: Session, id: int, new_event: schemas.EventUpdate, update_time: datetime = datetime.now()):
