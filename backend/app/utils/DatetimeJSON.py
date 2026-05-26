@@ -24,7 +24,7 @@ class DatetimeJSON(TypeDecorator):
 
     @staticmethod
     def _deserialize(d):
-        # Optionally parse ISO strings back to datetime on read
+        # PFIX: Is this the best way to introduce timezone utc into the code base?
         for key, value in d.items():
             if isinstance(value, str):
                 try:
