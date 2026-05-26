@@ -24,20 +24,16 @@ def run_update(db: Session, update_datetime: datetime = datetime.now(timezone.ut
 
     # Grabs all the events up until the current datetime
     res = event_cruds.get_all_events(db=db, all=True)
-    all_events = res.data
-    to_process = all_events
-    # to_process = sorted(all_events, key=lambda e: e.trigger.next_trigger_date, reverse=True)        
-
-    # Resort the trigger datetime list
-    print("TO_PROCESS", to_process)
+    to_process = res.data
+    
     # Repeat until events list to process is empty
     while to_process:
 
         to_process.sort(key=lambda e: e.trigger.next_trigger_date, reverse=True)
-
         event = to_process.pop(0)
 
         # Iterates through an event, takes the event type and runs their relevant apply
+        # PFIX: What the fuck does this do?
         op = _operation_adapter.validate_python(event.operation)
 
         if isinstance(op, TranferMoneyOperation):
@@ -53,7 +49,6 @@ def run_update(db: Session, update_datetime: datetime = datetime.now(timezone.ut
 
         # Updates the bucket + event trigger date
         trigger = dict(event.trigger)
-        print("TRIGGER", trigger)
         trigger["next_trigger_date"] = event_freq_adder(trigger["next_trigger_date"], trigger["frequency"])
         db_event = event_cruds.get_event_by_id(db, event.id)
         assert(db_event is not None) #PFIX: What the fuck is this? 
