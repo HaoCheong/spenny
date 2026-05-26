@@ -28,9 +28,9 @@ def run_update(db: Session, update_datetime: datetime = datetime.now(timezone.ut
     to_process = all_events
     # to_process = sorted(all_events, key=lambda e: e.trigger.next_trigger_date, reverse=True)        
 
-    # # Resort the trigger datetime list
+    # Resort the trigger datetime list
     print("TO_PROCESS", to_process)
-    # # Repeat until events list to process is empty
+    # Repeat until events list to process is empty
     while to_process:
 
         to_process.sort(key=lambda e: e.trigger.next_trigger_date, reverse=True)
@@ -72,7 +72,3 @@ def run_update(db: Session, update_datetime: datetime = datetime.now(timezone.ut
 
     
     return {"success": True}
-# ========== HELPERS ===========
-
-def sort_by_datetime():
-    pass
