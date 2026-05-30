@@ -14,9 +14,8 @@ import app.domain.event.event_domain as event_schemas
 
 _operation_adapter = TypeAdapter(Operation)
 
-# PFIX: See point in Admin Endpoint, Event Create should not be the final schema
 # PFIX: Maybe a return for FE reactivity sake? Later
-def run_manual_entry(db: Session, entry: event_schemas.EventCreate):
+def run_manual_entry(db: Session, entry: event_schemas.ManualActionBase):
 
     op = entry.operation
 
