@@ -8,6 +8,8 @@ from app.domain.event.trigger_domain import Trigger
 if TYPE_CHECKING:
     from app.domain.bucket.bucket_domain import BucketReadNR
 
+# PFIX: An event is only an event due to its trigger, we can refactor out the Event to instead of a parent 
+
 class EventBase(BaseModel):
     ''' Events Base Schema '''
 

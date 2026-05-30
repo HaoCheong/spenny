@@ -10,12 +10,30 @@ from app.domain.event.money.transfer_money_operations_domain import TranferMoney
 from app.domain.event.trigger_domain import TimedTrigger
 import app.cruds.event_cruds as event_cruds
 from app.models.event_models import Event
-from app.domain.event.event_domain import EventReadNR
-
+import app.domain.event.event_domain as event_schemas
 
 _operation_adapter = TypeAdapter(Operation)
 
+# PFIX: See point in Admin Endpoint, Event Create should not be the final schema
+# PFIX: Maybe a return for FE reactivity sake? Later
+def run_manual_entry(db: Session, entry: event_schemas.EventCreate):
 
+    op = entry.operation
+
+    # PFIX: Perhaps a delegation pattern/layer applied to this step would be better on a maintainability perspective
+    # PFIX: Duplicated code and thus can be adjusted
+    if isinstance(op, TranferMoneyOperation):
+        from_bucket = bucket_cruds.get_bucket_by_id(db, entry.bucket_id)
+        to_bucket = bucket_cruds.get_bucket_by_id(db, op.to_bucket_id)
+        op.apply(to_bucket, from_bucket)
+        db.add(from_bucket)
+        db.add(to_bucket)
+    else:
+        bucket = bucket_cruds.get_bucket_by_id(db, entry.bucket_id)
+        op.apply(bucket)
+        db.add(bucket)
+
+    db.commit()
 
 def run_update(db: Session, update_datetime: datetime = datetime.now(timezone.utc)):
 
