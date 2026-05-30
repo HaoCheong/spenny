@@ -43,6 +43,7 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 		},
 	];
 
+	//PFIX: This is duplicated code, should be reorganised
 	const frequencyTypes = [
 		{ id: 0, value: "d", name: "Day(s)" },
 		{ id: 1, value: "w", name: "Week(s)" },

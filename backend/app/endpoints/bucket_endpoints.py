@@ -7,26 +7,6 @@ from app.helpers import get_db
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-'''
-{
-  "name": "Bucket A",
-  "description": "Bucket A for Andrew",
-  "amount": 5000,
-  "variant": {
-    "type": "store"
-  }
-}
-
-{
-  "name": "Bucket B",
-  "description": "Bucket b for Bandrew",
-  "amount": 3000,
-  "variant": {
-    "type": "store"
-  }
-}
-'''
-
 router = APIRouter()
 
 @router.post("/api/v1/bucket", response_model=schemas.BucketReadWR, tags=["Buckets"])

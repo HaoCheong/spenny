@@ -43,13 +43,6 @@ const ManualEntryDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 		},
 	];
 
-	const frequencyTypes = [
-		{ id: 0, value: "d", name: "Day(s)" },
-		{ id: 1, value: "w", name: "Week(s)" },
-		{ id: 2, value: "m", name: "Month(s)" },
-		{ id: 3, value: "y", name: "Year(s)" },
-	];
-
 	const [alertInfo, setAlertInfo] = React.useState({
 		isOpen: false,
 		type: "",
@@ -59,43 +52,12 @@ const ManualEntryDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 		setIsOpen(false);
 	};
 
-	const handleFrequencyTypeChange = (value) => {
-		const frequencyType = frequencyTypes.find(
-			(frequencyType) => frequencyType.id === value,
-		);
-
-		formik.setFieldValue("trigger", {
-			type: "timed",
-			frequencyValue: formik.values.trigger.frequencyValue,
-			frequencyItem: frequencyType,
-			next_trigger_date: formik.values.trigger.next_trigger_date,
-		});
-	};
-
-	const handleFrequencyValueChange = (value) => {
-		formik.setFieldValue("trigger", {
-			type: formik.values.trigger.type,
-			frequencyValue: parseInt(value),
-			frequencyItem: formik.values.trigger.frequencyItem,
-			next_trigger_date: formik.values.trigger.next_trigger_date,
-		});
-	};
-
 	const handleEventTypeChange = (value) => {
 		const eventType = eventTypes.find(
 			(eventType) => eventType.id === value,
 		);
 
 		formik.setFieldValue("operation", eventType);
-	};
-
-	const handleDateChange = (value) => {
-		formik.setFieldValue("trigger", {
-			type: formik.values.trigger.type,
-			frequencyValue: formik.values.trigger.frequencyValue,
-			frequencyItem: formik.values.trigger.frequencyItem,
-			next_trigger_date: value,
-		});
 	};
 
 	// TODO: Can be converted into a class for each operation instead of ham fisting code with ifs
@@ -142,25 +104,25 @@ const ManualEntryDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 			bucket_id: bucket.id,
 			trigger: {
 				type: values.trigger.type,
-				frequency: `${values.trigger.frequencyValue}${values.trigger.frequencyItem.value}`,
-				next_trigger_date: new Date(values.trigger.next_trigger_date),
 			},
 			operation: operationSchema(values.operation),
 		};
 	};
 
 	const handleSubmit = async (values) => {
-		const newEvent = valuesToSchema(formik.values);
+		const newEntry = valuesToSchema(formik.values);
+
+		console.log("NEW ENTRY", newEntry);
 
 		try {
-			const data = await axiosRequest("POST", `${BACKEND_URL}/event`, {
-				data: newEvent,
+			const data = await axiosRequest("POST", `${BACKEND_URL}/trigger`, {
+				data: newEntry,
 			});
 
 			setAlertInfo({
 				isOpen: true,
 				type: "success",
-				message: `${newEvent.name} event added successfully.`,
+				message: `${newEntry.name} entry processed successfully.`,
 			});
 		} catch (error) {
 			setAlertInfo({
@@ -171,23 +133,20 @@ const ManualEntryDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 		}
 	};
 
-	const AddEventValidationSchema = Yup.object().shape({
+	const ManualEntryValidationSchema = Yup.object().shape({
 		name: Yup.string().required("Event name is required"),
 		description: Yup.string().required("Event description is required"),
 	});
 
 	const formik = useFormik({
-		validationSchema: AddEventValidationSchema,
+		validationSchema: ManualEntryValidationSchema,
 		initialValues: {
 			name: "",
 			description: "",
 			bucket_id: 0,
 			operation: eventTypes[0],
 			trigger: {
-				type: "timed",
-				frequencyValue: 0,
-				frequencyItem: frequencyTypes[0],
-				next_trigger_date: new Date(),
+				type: "manual",
 			},
 		},
 		onSubmit: (values) => {

@@ -10,24 +10,6 @@ import app.cruds.bucket_cruds as bucket_cruds
 
 router = APIRouter()
 
-'''
-{
-  "name": "A to B",
-  "description": "Moving Money from A to B",
-  "bucket_id": 1,
-  "trigger": {
-    "type": "timed",
-    "frequency": "1m",
-    "next_trigger_date": "2026-03-15T10:24:42.687Z"
-  },
-  "operation": {
-    "to_bucket_id": 2,
-    "type": "MOVE",
-    "amount": 100
-  }
-}
-'''
-
 @router.post("/api/v1/event", response_model=schemas.EventReadNR, tags=["Events"])
 def create_event(event: schemas.EventCreate, db: Session = Depends(get_db)):
 
