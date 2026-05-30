@@ -12,7 +12,7 @@ class Event(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String)
     description: Mapped[str] = mapped_column(String)
-    trigger: Mapped[TimedTrigger] = mapped_column(DatetimeJSON(TimedTrigger)) # PFIX: Not sure about this? Better or cleaner way?
+    trigger: Mapped[TimedTrigger] = mapped_column(DatetimeJSON(TimedTrigger)) # PFIX: Not sure about this? Better or cleaner way? #PFIX: Only validates on timed trigger
     operation: Mapped[dict] = mapped_column(DatetimeJSON)
     created_at: Mapped[datetime] = mapped_column(DateTime)
     updated_at: Mapped[datetime] = mapped_column(DateTime)

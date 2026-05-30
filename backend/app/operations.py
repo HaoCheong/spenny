@@ -24,6 +24,8 @@ def run_update(db: Session, update_datetime: datetime = datetime.now(timezone.ut
 
     # Grabs all the events up until the current datetime
     # res = event_cruds.get_all_events(db=db, all=True)
+    # PFIX: Might need to index on trigger datetime but can you even?
+    
     res = event_cruds.get_events_by_date_range(db=db, end_datetime=update_datetime)
     to_process = res["data"]
     
@@ -37,6 +39,7 @@ def run_update(db: Session, update_datetime: datetime = datetime.now(timezone.ut
         # PFIX: What the fuck does this do?
         op = _operation_adapter.validate_python(db_event.operation)
 
+        # PFIX: Perhaps a delegation pattern/layer applied to this step would be better on a maintainability perspective
         if isinstance(op, TranferMoneyOperation):
             from_bucket = bucket_cruds.get_bucket_by_id(db, db_event.bucket_id)
             to_bucket = bucket_cruds.get_bucket_by_id(db, op.to_bucket_id)
@@ -56,9 +59,6 @@ def run_update(db: Session, update_datetime: datetime = datetime.now(timezone.ut
         db.add(db_event)
         db.commit()
         db.refresh(db_event)
-
-        # print(f"next_trigger_date: {db_event.trigger['next_trigger_date']} | tzinfo: {db_event.trigger['next_trigger_date'].tzinfo}")
-        # print(f"update_datetime: {update_datetime} | tzinfo: {update_datetime.tzinfo}")
 
         # If trigger date is still before update_datetime, append the list
         if db_event.trigger.next_trigger_date < update_datetime:
