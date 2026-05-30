@@ -57,6 +57,7 @@ def get_event_by_id(db: Session, id: int):
 def get_events_by_date_range(db: Session, skip: int = 0, limit: int = 1000, start_datetime: datetime | None = None, end_datetime: datetime = datetime.now(), all: bool = False):
 
     # PFIX: Not sure claude, looks kinda fucking weird
+    # PFIX: Problem, you are filtering by an internal trigger that supposes an existanhce of a next_trigger_date. But what if you have triggers that are NOT time based?
     query = None
     if start_datetime is None:                                                                                                                   
         query = db.query(model.Event).filter(                                                                                                    

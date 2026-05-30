@@ -253,7 +253,7 @@ const ViewEventDialog = ({ isOpen, setIsOpen, buckets, bucket, event }) => {
 					>
 						<Button
 							classColor="rounded-xl border-solid border-2 border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
-							label="Close Form"
+							label="Close"
 							onClick={handleClose}
 						/>
 					</div>

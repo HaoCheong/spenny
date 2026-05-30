@@ -3,21 +3,21 @@ import clsx from "clsx";
 import { FormikConsumer, useFormik } from "formik";
 import React from "react";
 import * as Yup from "yup";
-import { BACKEND_URL } from "../../../configs/config";
-import axiosRequest from "../../axiosRequest";
-import Divider from "../../Divider";
-import FieldLabel from "../../FieldLabel";
-import Button from "../../Input/Button";
-import ListItems from "../../Input/ListItems";
-import ResponseAlert from "../../ResponseAlert";
-import DialogBase from "../DialogBase";
-import EventAddInputs from "./Input/EventAddInputs";
-import EventCmvInputs from "./Input/EventCmvInputs";
-import EventMoveInputs from "./Input/EventMoveInputs";
-import EventMultInputs from "./Input/EventMultInputs";
-import EventSubInputs from "./Input/EventSubInputs";
+import { BACKEND_URL } from "../../configs/config";
+import axiosRequest from "../axiosRequest";
+import Divider from "../Divider";
+import FieldLabel from "../FieldLabel";
+import Button from "../Input/Button";
+import ListItems from "../Input/ListItems";
+import ResponseAlert from "../ResponseAlert";
+import EventAddInputs from "./Event/Input/EventAddInputs";
+import EventCmvInputs from "./Event/Input/EventCmvInputs";
+import EventMoveInputs from "./Event/Input/EventMoveInputs";
+import EventMultInputs from "./Event/Input/EventMultInputs";
+import EventSubInputs from "./Event/Input/EventSubInputs";
+import DialogBase from "./DialogBase";
 
-const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
+const ManualEntryDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 	const eventTypes = [
 		{ id: 0, value: "ADD", name: "Add", amount: 0 },
 		{ id: 1, value: "SUB", name: "Deduct", amount: 0 },
@@ -220,7 +220,7 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 						as="h3"
 						className="text-3xl font-bold text-white pb-3"
 					>
-						Add Event
+						Manual Entry
 					</DialogTitle>
 					<div
 						id="add-event-input-content"
@@ -288,63 +288,6 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 							/>
 						</FieldLabel>
 						{EventInputsMap[formik.values.operation.value] || <></>}
-						<Divider />
-						<FieldLabel
-							required
-							label="Frequency"
-							desc="How often do you want this event to occur?"
-						>
-							<div
-								id="event-frequency-input"
-								className="flex flex-row gap-3"
-							>
-								<Input
-									id="frequency_qty"
-									name="frequency_qty"
-									type="number"
-									className={clsx(
-										"w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
-									)}
-									onChange={(e) =>
-										handleFrequencyValueChange(
-											e.target.value,
-										)
-									}
-									value={formik.values.trigger.frequencyValue}
-								/>
-								<div className="size-full">
-									<ListItems
-										collection={frequencyTypes}
-										onChange={(value) =>
-											handleFrequencyTypeChange(value)
-										}
-										formikItem={
-											formik.values.trigger.frequencyItem
-										}
-									/>
-								</div>
-							</div>
-						</FieldLabel>
-						<FieldLabel
-							required
-							label="Next Date"
-							desc="When do you want this to next run?"
-						>
-							<Input
-								id="trigger_datetime"
-								name="trigger_datetime"
-								className={clsx(
-									"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
-								)}
-								onChange={(e) =>
-									handleDateChange(e.target.value)
-								}
-								value={formik.values.trigger.next_trigger_date}
-								type="date"
-							/>
-						</FieldLabel>
 					</div>
 					<ResponseAlert alertInfo={alertInfo} />
 					<div
@@ -358,7 +301,7 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 						/>
 						<Button
 							classColor="rounded-xl border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
-							label="Add Event"
+							label="Submit Entry"
 							type="submit"
 							onClick={() => {}}
 						/>
@@ -369,4 +312,4 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 	);
 };
 
-export default AddEventDialog;
+export default ManualEntryDialog;
