@@ -97,7 +97,7 @@ const DeleteEventDialog = ({ isOpen, setIsOpen, bucket, event }) => {
 					>
 						<Button
 							classColor="border-solid border-2 border-solid rounded-xl bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
-							label="Close Form"
+							label="Close"
 							onClick={handleClose}
 						/>
 						<Button

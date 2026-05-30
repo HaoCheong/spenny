@@ -29,7 +29,7 @@ const DeleteBucketDialog = ({
 		if (bucket.name !== bucketNameCheck) {
 			setError(true);
 			setErrorMsg(
-				"Bucket name does not match. Ensure casing and spacing is accurate"
+				"Bucket name does not match. Ensure casing and spacing is accurate",
 			);
 			return;
 		}
@@ -71,7 +71,7 @@ const DeleteBucketDialog = ({
 					"border-solid border-5 border-spenny-accent-primary",
 					"transition duration-200",
 					"data-closed:scale-90 data-closed:opacity-0",
-					"data-leave:duration-200 data-leave:ease-in-out"
+					"data-leave:duration-200 data-leave:ease-in-out",
 				)}
 			>
 				<DialogTitle
@@ -120,7 +120,7 @@ const DeleteBucketDialog = ({
 						<Input
 							className={clsx(
 								"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
-								"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+								"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 							)}
 							onChange={(e) => setBucketNameCheck(e.target.value)}
 							value={bucketNameCheck}
@@ -133,7 +133,7 @@ const DeleteBucketDialog = ({
 					>
 						<Button
 							classColor="border-solid border-2 border-solid rounded-xl bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
-							label="Close Form"
+							label="Close"
 							onClick={handleClose}
 						/>
 						<Button
