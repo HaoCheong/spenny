@@ -17,6 +17,7 @@ const BucketCard = ({
 	setIsViewBucketOpen,
 	setIsEditBucketOpen,
 	setIsDeleteBucketOpen,
+	setIsManualEntryOpen,
 }) => {
 	const [bucket, setBucket] = React.useState({});
 	const [nextEvent, setNextEvent] = React.useState(null);
@@ -70,6 +71,11 @@ const BucketCard = ({
 	const handleDeleteBucket = () => {
 		setFocusBucket(bucket);
 		setIsDeleteBucketOpen(true);
+	};
+
+	const handleManualEntry = () => {
+		setFocusBucket(bucket);
+		setIsManualEntryOpen(true);
 	};
 
 	React.useEffect(() => {
@@ -136,6 +142,7 @@ const BucketCard = ({
 							classColor="border-solid border-2 border-spenny-accent-warning bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-warning"
 							classStyle="w-1/2 text-xl h-full rounded-xl"
 							label="Entry"
+							onClick={handleManualEntry}
 						/>
 					</div>
 				</div>

@@ -12,6 +12,7 @@ import Page from "../components/Structural/Page";
 import Section from "../components/Structural/Section";
 import axiosRequest from "../components/axiosRequest";
 import { BACKEND_URL } from "../configs/config";
+import ManualEntryDialog from "../components/Dialog/ManualEntryDialog";
 
 const Dashboard = () => {
 	const [buckets, setBuckets] = React.useState([]);
@@ -21,6 +22,7 @@ const Dashboard = () => {
 	const [isViewBucketOpen, setIsViewBucketOpen] = React.useState(false);
 	const [isEditBucketOpen, setIsEditBucketOpen] = React.useState(false);
 	const [isDeleteBucketOpen, setIsDeleteBucketOpen] = React.useState(false);
+	const [isManualEntryOpen, setIsManualEntryOpen] = React.useState(false);
 
 	const [focusBucket, setFocusBucket] = React.useState({});
 
@@ -76,6 +78,12 @@ const Dashboard = () => {
 						bucket={focusBucket}
 						buckets={buckets}
 					/>
+					<ManualEntryDialog
+						isOpen={isManualEntryOpen}
+						setIsOpen={setIsManualEntryOpen}
+						bucket={focusBucket}
+						buckets={buckets}
+					/>
 					<Section
 						id="dasboard-card-header"
 						classSize="h-1/8"
@@ -112,6 +120,9 @@ const Dashboard = () => {
 										}
 										setIsDeleteBucketOpen={
 											setIsDeleteBucketOpen
+										}
+										setIsManualEntryOpen={
+											setIsManualEntryOpen
 										}
 									/>
 								);
