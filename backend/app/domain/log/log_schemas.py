@@ -9,10 +9,15 @@ class LogBase(BaseModel):
     bucket_id: int
     bucket_name: str
     bucket_description: str
-    event_id: int
-    event_name: str
-    event_description: str
-    event_properties: dict
+
+    event_id: int | None
+    action_name: str
+    action_description: str
+
+    action_properties: dict
+
+    created_at: datetime
+    updated_at: datetime
 
 class LogCreate(LogBase):
     ''' Log Base Schema '''
@@ -21,8 +26,6 @@ class LogCreate(LogBase):
 
 class LogRead(LogBase):
     id: int
-    created_at: datetime
-    updated_at: datetime
 
 
 class LogTimeRange(BaseModel):

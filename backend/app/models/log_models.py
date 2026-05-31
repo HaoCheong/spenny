@@ -16,11 +16,11 @@ class Log(Base):
     bucket_name: Mapped[str] = mapped_column(String)
     bucket_description: Mapped[str] = mapped_column(String)
 
-    event_id: Mapped[int] = mapped_column(Integer)
-    event_name: Mapped[str] = mapped_column(String)
-    event_description: Mapped[str] = mapped_column(String)
+    event_id: Mapped[int] = mapped_column(Integer, nullable=True)
+    action_name: Mapped[str] = mapped_column(String)
+    action_description: Mapped[str] = mapped_column(String)
     
-    event_properties: Mapped[dict] = mapped_column(DatetimeJSON)
+    action_properties: Mapped[dict] = mapped_column(DatetimeJSON)
 
     created_at: Mapped[datetime] = mapped_column(DateTime)
     updated_at: Mapped[datetime] = mapped_column(DateTime)

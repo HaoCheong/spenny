@@ -15,11 +15,11 @@ def create_log(db: Session, log: schemas.LogCreate, curr_datetime: datetime = da
         bucket_name=log.bucket_name,
         bucket_description=log.bucket_description,
         event_id=log.event_id,
-        event_name=log.event_name,
-        event_description=log.event_description,
-        event_properties=log.event_properties,
-        created_at=curr_datetime,
-        updated_at=curr_datetime
+        action_name=log.action_name,
+        action_description=log.action_description,
+        action_properties=log.action_properties,
+        created_at=log.created_at,
+        updated_at=log.updated_at
     )
 
     db.add(db_log)
@@ -60,6 +60,7 @@ def get_all_logs_by_bucket_id(db: Session, bucket_id: int, skip: int = 0, limit:
     }, from_attributes=True)
 
 
+# This should be hidden behind an admin endpoint
 def delete_log_by_id(db: Session, id: int):
     ''' Delete specified instance of log on provided log ID '''
     db_log = db.query(model.Log).filter(model.Log.id == id).first()
