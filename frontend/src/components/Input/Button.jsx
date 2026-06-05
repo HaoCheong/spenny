@@ -2,7 +2,7 @@ const Button = ({
 	classColor = "border-solid border-2 border-solid bg-white text-black hover:bg-spenny-background hover:text-spenny-text",
 	classStyle,
 	onClick = () => {
-		alert("Nothing");
+		alert("WORK IN PROGRESS");
 	},
 	label = "__UNLABEL__",
 	type = "",

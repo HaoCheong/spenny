@@ -182,8 +182,8 @@ const ManualEntryDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 						Manual Entry
 					</DialogTitle>
 					<div
-						id="add-event-input-content"
-						className="flex flex-col gap-3 h-[700px] overflow-y-scroll"
+						id="manual-entry-input-content"
+						className="flex flex-col gap-3 overflow-y-scroll"
 					>
 						<FieldLabel label="Bucket to Add">
 							<Input

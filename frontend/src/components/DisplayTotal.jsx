@@ -8,7 +8,7 @@ const DisplayTotal = ({ buckets }) => {
 
 		let total = 0;
 		buckets.forEach((bucket) => {
-			if (bucket.bucket_type !== "INVSB") {
+			if (bucket.variant.type !== "INVSB") {
 				total = total + bucket.amount;
 			}
 		});

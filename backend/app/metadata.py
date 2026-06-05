@@ -18,7 +18,7 @@ swagger_ui_parameters = {
     "syntaxHighlight": True
 }
 
-app_title = 'Spenny Backend v2.0 FastAPI'
+app_title = 'Spenny Backend v2.0.0 FastAPI'
 app_version = '2.0.0'
 app_desc = '''
 This is the Spenny FastAPI Backend 

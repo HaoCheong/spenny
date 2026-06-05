@@ -31,11 +31,17 @@ const Dashboard = () => {
 		setBuckets(data.data);
 	};
 
+	// PFIX: Feels like to onus of triggering a reload should be on the backend not the FE
+	const updateTrigger = async () => {
+		const res = await axiosRequest("POST", `${BACKEND_URL}/update`);
+	};
+
 	const handleAddBucketOpen = () => {
 		setIsAddBucketOpen(true);
 	};
 
 	React.useEffect(() => {
+		updateTrigger();
 		fetchBuckets();
 	}, []);
 

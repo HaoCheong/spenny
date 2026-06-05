@@ -39,6 +39,11 @@ const Logs = () => {
 		setSearchBucket(bucket);
 	};
 
+	// PFIX: Feels like to onus of triggering a reload should be on the backend not the FE
+	const updateTrigger = async () => {
+		const res = await axiosRequest("POST", `${BACKEND_URL}/update`);
+	};
+
 	const fetchBuckets = async () => {
 		const data = await axiosRequest("GET", `${BACKEND_URL}/buckets`);
 		setBuckets(data.data);
@@ -55,7 +60,7 @@ const Logs = () => {
 			"GET",
 			`${BACKEND_URL}/logs?skip=${
 				paginationModel.pageSize * paginationModel.page
-			}&limit=${paginationModel.pageSize}`
+			}&limit=${paginationModel.pageSize}`,
 		);
 
 		const newLogs = [...logs, ...data.data];
@@ -82,40 +87,6 @@ const Logs = () => {
 			setPaginationModel(newPM);
 			fetchLogs(newPM);
 		}
-
-		// console.log(
-		// 	"PM Vals",
-		// 	paginationModel.page * paginationModel.pageSize,
-		// 	maxLogs
-		// );
-
-		// console.log(
-		// 	"BOTTOM",
-		// 	bottom,
-		// 	e.target.scrollHeight + e.target.scrollTop,
-		// 	e.target.clientHeight
-		// );
-		// console.log("NOTEXCEEDMAXLOG", notExceedMaxLog);
-		// console.log("============");
-		// if (bottom && notExceedMaxLog) {
-		// 	const newPM = {
-		// 		page: paginationModel.page + 1,
-		// 		pageSize: paginationModel.pageSize,
-		// 	};
-		// 	setPaginationModel(newPM);
-		// 	fetchLogs(newPM);
-		// }
-		// if (
-		// 	(!notScrollable && bottom && notExceedMaxLog) ||
-		// 	(notScrollable && notExceedMaxLog)
-		// ) {
-		// 	const newPM = {
-		// 		page: paginationModel.page + 1,
-		// 		pageSize: paginationModel.pageSize,
-		// 	};
-		// 	setPaginationModel(newPM);
-		// 	fetchLogs(newPM);
-		// }
 	};
 
 	const filterLogs = (logs) => {
@@ -159,6 +130,7 @@ const Logs = () => {
 	};
 
 	React.useEffect(() => {
+		updateTrigger();
 		fetchBuckets();
 		fetchLogs(paginationModel);
 	}, []);
@@ -197,7 +169,7 @@ const Logs = () => {
 								type="date"
 								className={clsx(
 									"block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
 								onChange={(e) => {
 									setSearchDateRange({
@@ -211,7 +183,7 @@ const Logs = () => {
 								type="date"
 								className={clsx(
 									"block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
 								onChange={(e) => {
 									setSearchDateRange({
@@ -235,7 +207,7 @@ const Logs = () => {
 								<ListboxButton
 									className={clsx(
 										"flex items-center w-full h-full rounded-lg bg-white/5 p-5 text-left text-xl text-white",
-										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25",
 									)}
 								>
 									{searchBucket.name}
@@ -245,7 +217,7 @@ const Logs = () => {
 									transition
 									className={clsx(
 										"w-(--button-width) rounded-lg border border-white/5 bg-spenny-background p-1 [--anchor-gap:--spacing(1)] focus:outline-none",
-										"transition duration-100 ease-in-out data-closed:opacity-0"
+										"transition duration-100 ease-in-out data-closed:opacity-0",
 									)}
 								>
 									{buckets.map((bucket) => (
@@ -268,9 +240,11 @@ const Logs = () => {
 							className="flex flex-col w-3/10 h-full"
 						>
 							<Input
+								disabled
+								placeholder="WORK IN PROGRESS"
 								className={clsx(
 									"block size-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
 								onChange={(e) => {
 									setSearchText(e.target.value);
@@ -296,36 +270,33 @@ const Logs = () => {
 								id="log-header"
 								className="flex flex-row gap-3 w-full h-1/12"
 							>
-								<p className="flex items-center text-2xl font-bold w-2/27 h-[60px] ">
-									ID
-								</p>
 								<Divider vertical />
-								<p className="flex items-center text-2xl font-bold w-2/27 h-[60px] ">
+								<p className="flex items-center text-lg font-bold w-2/27 h-[60px] ">
 									Event
 								</p>
 								<Divider vertical />
-								<p className="flex items-center text-2xl font-bold w-2/27 h-[60px] ">
+								<p className="flex items-center text-lg font-bold w-2/27 h-[60px] ">
 									Bucket
 								</p>
 								<Divider vertical />
-								<p className="flex items-center text-2xl font-bold w-4/27 h-[60px] ">
+								<p className="flex items-center text-lg font-bold w-4/27 h-[60px] ">
 									Name
 								</p>
 								<Divider vertical />
-								<p className="flex items-center text-2xl font-bold w-11/27 h-[60px] ">
+								<p className="flex items-center text-lg font-bold w-11/27 h-[60px] ">
 									Description
 								</p>
 								<Divider vertical />
-								<p className="flex items-center text-2xl font-bold w-2/27 h-[60px] ">
+								<p className="flex items-center text-lg font-bold w-2/27 h-[60px] ">
 									Amount
 								</p>
 
 								<Divider vertical />
-								<p className="flex items-center text-2xl font-bold w-2/27 h-[60px] ">
+								<p className="flex items-center text-lg font-bold w-2/27 h-[60px] ">
 									Created
 								</p>
 								<Divider vertical />
-								<p className="flex items-center text-2xl font-bold w-2/27 h-[60px] ">
+								<p className="flex items-center text-lg font-bold w-2/27 h-[60px] ">
 									View
 								</p>
 							</div>
