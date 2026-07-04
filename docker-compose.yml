@@ -24,13 +24,14 @@ services:
     profiles:
     - test
     - demo
+    - staging
 
-  backend:
+  backend_dev:
     container_name: ${BACKEND_CONTAINER_NAME}
     image: ${BACKEND_IMAGE_NAME}
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/backend/Dockerfile.demo
     ports:
       - ${BACKEND_PORT}:8000
     depends_on:
@@ -47,22 +48,64 @@ services:
       - ${BACKEND_APP_PATH}/app:/app
     profiles:
     - demo
-    - live
 
-  frontend:
+  frontend_dev:
     container_name: ${FRONTEND_CONTAINER_NAME}
     image: ${FRONTEND_IMAGE_NAME}
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/backend/Dockerfile.demo
     ports:
       - ${FRONTEND_PORT}:5173
     environment:
-      - PROJECT_NAME=${PROJECT_NAME}
-      - BACKEND_CONTAINER_URL=${BACKEND_CONTAINER_URL}
+      - VITE_PROJECT_NAME=${PROJECT_NAME}
+      - VITE_BACKEND_URL=${BACKEND_URL}
+      - VITE_BACKEND_PATH=${BACKEND_PATH}
+      - VITE_PROJECT_VERSION=${PROJECT_VERSION}
       - TZ=${FRONTEND_TIMEZONE}
     volumes:
       - ${FRONTEND_APP_PATH}:/app
     profiles:
     - demo
-    - live
+
+  backend_staging:
+    container_name: ${BACKEND_CONTAINER_NAME}
+    image: ${BACKEND_IMAGE_NAME}
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile.staging
+    ports:
+      - ${BACKEND_PORT}:8000
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SPENNY_DB_USER=${SPENNY_DB_USER}
+      - SPENNY_DB_PASS=${SPENNY_DB_PASS}
+      - SPENNY_DB_NAME=${SPENNY_DB_NAME}
+      - SPENNY_DB_HOST=${SPENNY_DB_HOST}
+      - SPENNY_DB_PORT=${SPENNY_DB_PORT}
+      - TZ=${SPENNY_DB_TIMEZONE}
+    volumes:
+      - ${BACKEND_APP_PATH}/app:/app
+    profiles:
+    - staging
+
+  frontend_staging:
+    container_name: ${FRONTEND_CONTAINER_NAME}
+    image: ${FRONTEND_IMAGE_NAME}
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile.staging
+    ports:
+      - ${FRONTEND_PORT}:80
+    environment:
+      - VITE_PROJECT_NAME=${PROJECT_NAME}
+      - VITE_BACKEND_URL=${BACKEND_URL}
+      - VITE_BACKEND_PATH=${BACKEND_PATH}
+      - VITE_PROJECT_VERSION=${PROJECT_VERSION}
+      - TZ=${FRONTEND_TIMEZONE}
+    volumes:
+      - ${FRONTEND_APP_PATH}:/app
+    profiles:
+    - staging

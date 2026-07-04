@@ -1,3 +1,4 @@
+import { PROJECT_NAME, PROJECT_VERSION } from "../../configs/config";
 import Divider from "../Divider";
 import SidebarSelector from "./SidebarSelector";
 
@@ -8,11 +9,11 @@ const Sidebar = () => {
 				className={`flex flex-col w-1/5 h-full p-5 border-r-white border-solid border-r-4 bg-spenny-background gap-7`}
 			>
 				<div id="sidebar-header" className="flex flex-col h-1/8 gap-4">
-					<h1 className="flex justify-center items-center text-7xl text-spenny-text">
-						Spenny
+					<h1 className="flex justify-center items-center text-3xl text-spenny-text">
+						{PROJECT_NAME}
 					</h1>
 					<h2 className="flex justify-center items-center text-spenny-text text-lg">
-						Version: 2.0
+						Version: {PROJECT_VERSION}
 					</h2>
 				</div>
 				<Divider />

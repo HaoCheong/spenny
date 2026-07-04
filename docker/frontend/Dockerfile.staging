@@ -1,0 +1,41 @@
+# ========== BUILD ==========
+
+# Use a minimal Node.js image
+FROM node:18-alpine AS build
+
+# Set working directory
+WORKDIR /app
+
+COPY frontend/ .
+
+
+
+# Copy package.json and install serve globally
+COPY frontend/package.json frontend/package-lock.json ./
+
+
+# Install all the dependencies
+RUN npm ci
+
+
+COPY frontend/ .
+
+
+
+# Serve the app
+CMD ["npm", "run", "build"]
+
+# ========== RUN =========
+
+FROM nginx:alpine
+
+COPY --from=build /app/dist /usr/share/nginx/html
+
+COPY docker/frontend/nginx.staging.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
+
+CMD ["nginx", "-g", "daemon off;"]
