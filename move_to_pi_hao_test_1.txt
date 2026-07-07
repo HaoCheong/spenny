@@ -1,0 +1,456 @@
+> Running for owner: hao
+> Building the images locally
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.20kB done
+#1 DONE 0.0s
+
+#2 [frontend_live internal] load build definition from Dockerfile.live
+#2 transferring dockerfile: 578B done
+#2 DONE 0.0s
+
+#3 [backend_live internal] load build definition from Dockerfile.live
+#3 transferring dockerfile: 580B done
+#3 DONE 0.0s
+
+#4 [backend_live internal] load metadata for docker.io/library/python:3.12-slim
+#4 DONE 1.2s
+
+#5 [frontend_live internal] load metadata for docker.io/library/node:18-slim
+#5 DONE 1.2s
+
+#6 [frontend_live internal] load metadata for docker.io/library/nginx:alpine
+#6 DONE 1.2s
+
+#7 [backend_live internal] load .dockerignore
+#7 transferring context: 178B done
+#7 DONE 0.0s
+
+#8 [frontend_live internal] load build context
+#8 transferring context: 4.16kB done
+#8 DONE 0.0s
+
+#9 [backend_live 1/6] FROM docker.io/library/python:3.12-slim@sha256:423ed6ab25b1921a477529254bfeeabf5855151dc2c3141699a1bfc852199fbf
+#9 resolve docker.io/library/python:3.12-slim@sha256:423ed6ab25b1921a477529254bfeeabf5855151dc2c3141699a1bfc852199fbf 0.0s done
+#9 CACHED
+
+#10 [frontend_live stage-1 1/3] FROM docker.io/library/nginx:alpine@sha256:54f2a904c251d5a34adf545a72d32515a15e08418dae0266e23be2e18c66fefa
+#10 resolve docker.io/library/nginx:alpine@sha256:54f2a904c251d5a34adf545a72d32515a15e08418dae0266e23be2e18c66fefa 0.0s done
+#10 CACHED
+
+#11 [frontend_live build 1/6] FROM docker.io/library/node:18-slim@sha256:f9ab18e354e6855ae56ef2b290dd225c1e51a564f87584b9bd21dd651838830e
+#11 resolve docker.io/library/node:18-slim@sha256:f9ab18e354e6855ae56ef2b290dd225c1e51a564f87584b9bd21dd651838830e 0.0s done
+#11 DONE 0.0s
+
+#12 [frontend_live build 2/6] WORKDIR /app
+#12 CACHED
+
+#13 [frontend_live build 3/6] COPY frontend/package.json frontend/package-lock.json ./
+#13 DONE 0.0s
+
+#14 [backend_live internal] load build context
+#14 transferring context: 696.89kB 0.3s done
+#14 DONE 0.3s
+
+#15 [backend_live 2/6] COPY backend/ .
+#15 DONE 1.2s
+
+#16 [frontend_live build 4/6] RUN npm ci
+#16 ...
+
+#17 [backend_live 3/6] COPY backend/requirements.txt /app/requirements.txt
+#17 DONE 0.0s
+
+#18 [backend_live 4/6] RUN pip install --no-cache-dir -v -r /app/requirements.txt
+#18 ...
+
+#16 [frontend_live build 4/6] RUN npm ci
+#16 7.135 npm warn EBADENGINE Unsupported engine {
+#16 7.135 npm warn EBADENGINE   package: 'react-router@7.6.1',
+#16 7.135 npm warn EBADENGINE   required: { node: '>=20.0.0' },
+#16 7.135 npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+#16 7.135 npm warn EBADENGINE }
+#16 ...
+
+#18 [backend_live 4/6] RUN pip install --no-cache-dir -v -r /app/requirements.txt
+#18 10.11 Using pip 25.0.1 from /usr/local/lib/python3.12/site-packages/pip (python 3.12)
+#18 11.54 Collecting annotated-types==0.7.0 (from -r /app/requirements.txt (line 1))
+#18 11.54   Obtaining dependency information for annotated-types==0.7.0 from https://files.pythonhosted.org/packages/78/b6/6307fbef88d9b5ee7421e68d78a9f162e0da4900bc5f5793f6d3d0e34fb8/annotated_types-0.7.0-py3-none-any.whl.metadata
+#18 11.67   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+#18 11.80 Collecting anyio==4.9.0 (from -r /app/requirements.txt (line 2))
+#18 11.80   Obtaining dependency information for anyio==4.9.0 from https://files.pythonhosted.org/packages/a1/ee/48ca1a7c89ffec8b6a0c5d02b89c305671d5ffd8d3c94acf8b8c408575bb/anyio-4.9.0-py3-none-any.whl.metadata
+#18 11.82   Downloading anyio-4.9.0-py3-none-any.whl.metadata (4.7 kB)
+#18 11.97 Collecting certifi==2025.4.26 (from -r /app/requirements.txt (line 3))
+#18 11.97   Obtaining dependency information for certifi==2025.4.26 from https://files.pythonhosted.org/packages/4a/7e/3db2bd1b1f9e95f7cddca6d6e75e2f2bd9f51b1246e546d88addca0106bd/certifi-2025.4.26-py3-none-any.whl.metadata
+#18 11.98   Downloading certifi-2025.4.26-py3-none-any.whl.metadata (2.5 kB)
+#18 12.72 Collecting charset-normalizer==3.4.2 (from -r /app/requirements.txt (line 4))
+#18 12.72   Obtaining dependency information for charset-normalizer==3.4.2 from https://files.pythonhosted.org/packages/ee/8a/1a5e33b73e0d9287274f899d967907cd0bf9c343e651755d9307e0dbf2b3/charset_normalizer-3.4.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 12.80   Downloading charset_normalizer-3.4.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (35 kB)
+#18 13.01 Collecting click==8.1.8 (from -r /app/requirements.txt (line 5))
+#18 13.01   Obtaining dependency information for click==8.1.8 from https://files.pythonhosted.org/packages/7e/d4/7ebdbd03970677812aac39c869717059dbb71a4cfc033ca6e5221787892c/click-8.1.8-py3-none-any.whl.metadata
+#18 13.05   Downloading click-8.1.8-py3-none-any.whl.metadata (2.3 kB)
+#18 13.15 Collecting dnspython==2.7.0 (from -r /app/requirements.txt (line 6))
+#18 13.15   Obtaining dependency information for dnspython==2.7.0 from https://files.pythonhosted.org/packages/68/1b/e0a87d256e40e8c888847551b20a017a6b98139178505dc7ffb96f04e954/dnspython-2.7.0-py3-none-any.whl.metadata
+#18 13.18   Downloading dnspython-2.7.0-py3-none-any.whl.metadata (5.8 kB)
+#18 13.29 Collecting email_validator==2.2.0 (from -r /app/requirements.txt (line 7))
+#18 13.30   Obtaining dependency information for email_validator==2.2.0 from https://files.pythonhosted.org/packages/d7/ee/bf0adb559ad3c786f12bcbc9296b3f5675f529199bef03e2df281fa1fadb/email_validator-2.2.0-py3-none-any.whl.metadata
+#18 13.34   Downloading email_validator-2.2.0-py3-none-any.whl.metadata (25 kB)
+#18 13.43 Collecting exceptiongroup==1.2.2 (from -r /app/requirements.txt (line 8))
+#18 13.43   Obtaining dependency information for exceptiongroup==1.2.2 from https://files.pythonhosted.org/packages/02/cc/b7e31358aac6ed1ef2bb790a9746ac2c69bcb3c8588b41616914eb106eaf/exceptiongroup-1.2.2-py3-none-any.whl.metadata
+#18 13.48   Downloading exceptiongroup-1.2.2-py3-none-any.whl.metadata (6.6 kB)
+#18 13.97 Collecting fastapi==0.115.12 (from -r /app/requirements.txt (line 9))
+#18 13.97   Obtaining dependency information for fastapi==0.115.12 from https://files.pythonhosted.org/packages/50/b3/b51f09c2ba432a576fe63758bddc81f78f0c6309d9e5c10d194313bf021e/fastapi-0.115.12-py3-none-any.whl.metadata
+#18 13.98   Downloading fastapi-0.115.12-py3-none-any.whl.metadata (27 kB)
+#18 14.13 Collecting fastapi-cli==0.0.7 (from -r /app/requirements.txt (line 10))
+#18 14.13   Obtaining dependency information for fastapi-cli==0.0.7 from https://files.pythonhosted.org/packages/a1/e6/5daefc851b514ce2287d8f5d358ae4341089185f78f3217a69d0ce3a390c/fastapi_cli-0.0.7-py3-none-any.whl.metadata
+#18 14.14   Downloading fastapi_cli-0.0.7-py3-none-any.whl.metadata (6.2 kB)
+#18 15.21 Collecting greenlet==3.2.1 (from -r /app/requirements.txt (line 11))
+#18 15.21   Obtaining dependency information for greenlet==3.2.1 from https://files.pythonhosted.org/packages/59/e7/b5b738f5679247ddfcf2179c38945519668dced60c3164c20d55c1a7bb4a/greenlet-3.2.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 15.42   Downloading greenlet-3.2.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.1 kB)
+#18 15.51 Collecting h11==0.16.0 (from -r /app/requirements.txt (line 12))
+#18 15.51   Obtaining dependency information for h11==0.16.0 from https://files.pythonhosted.org/packages/04/4b/29cac41a4d98d144bf5f6d33995617b185d14b22401f75ca86f384e87ff1/h11-0.16.0-py3-none-any.whl.metadata
+#18 15.62   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#18 15.95 Collecting httpcore==1.0.9 (from -r /app/requirements.txt (line 13))
+#18 15.95   Obtaining dependency information for httpcore==1.0.9 from https://files.pythonhosted.org/packages/7e/f5/f66802a942d491edb555dd61e3a9961140fd64c90bce1eafd741609d334d/httpcore-1.0.9-py3-none-any.whl.metadata
+#18 15.96   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#18 16.19 Collecting httptools==0.6.4 (from -r /app/requirements.txt (line 14))
+#18 16.19   Obtaining dependency information for httptools==0.6.4 from https://files.pythonhosted.org/packages/9b/01/6fb20be3196ffdc8eeec4e653bc2a275eca7f36634c86302242c4fbb2760/httptools-0.6.4-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 16.40   Downloading httptools-0.6.4-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (3.6 kB)
+#18 16.52 Collecting httpx==0.28.1 (from -r /app/requirements.txt (line 15))
+#18 16.53   Obtaining dependency information for httpx==0.28.1 from https://files.pythonhosted.org/packages/2a/39/e50c7c3a983047577ee07d2a9e53faf5a69493943ec3f6a384bdc792deb2/httpx-0.28.1-py3-none-any.whl.metadata
+#18 16.55   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+#18 16.64 Collecting idna==3.10 (from -r /app/requirements.txt (line 16))
+#18 16.64   Obtaining dependency information for idna==3.10 from https://files.pythonhosted.org/packages/76/c6/c88e154df9c4e1a2a66ccf0005a88dfb2650c1dffb6f5ce603dfbd452ce3/idna-3.10-py3-none-any.whl.metadata
+#18 16.65   Downloading idna-3.10-py3-none-any.whl.metadata (10 kB)
+#18 16.69 Collecting iniconfig==2.1.0 (from -r /app/requirements.txt (line 17))
+#18 16.70   Obtaining dependency information for iniconfig==2.1.0 from https://files.pythonhosted.org/packages/2c/e1/e6716421ea10d38022b952c159d5161ca1193197fb744506875fbb87ea7b/iniconfig-2.1.0-py3-none-any.whl.metadata
+#18 16.71   Downloading iniconfig-2.1.0-py3-none-any.whl.metadata (2.7 kB)
+#18 16.94 Collecting isort==6.0.1 (from -r /app/requirements.txt (line 18))
+#18 16.94   Obtaining dependency information for isort==6.0.1 from https://files.pythonhosted.org/packages/c1/11/114d0a5f4dabbdcedc1125dee0888514c3c3b16d3e9facad87ed96fad97c/isort-6.0.1-py3-none-any.whl.metadata
+#18 16.95   Downloading isort-6.0.1-py3-none-any.whl.metadata (11 kB)
+#18 17.05 Collecting Jinja2==3.1.6 (from -r /app/requirements.txt (line 19))
+#18 17.05   Obtaining dependency information for Jinja2==3.1.6 from https://files.pythonhosted.org/packages/62/a1/3d680cbfd5f4b8f15abc1d571870c5fc3e594bb582bc3b64ea099db13e56/jinja2-3.1.6-py3-none-any.whl.metadata
+#18 17.06   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#18 17.15 Collecting markdown-it-py==3.0.0 (from -r /app/requirements.txt (line 20))
+#18 17.15   Obtaining dependency information for markdown-it-py==3.0.0 from https://files.pythonhosted.org/packages/42/d7/1ec15b46af6af88f19b8e5ffea08fa375d433c998b8a7639e76935c14f1f/markdown_it_py-3.0.0-py3-none-any.whl.metadata
+#18 17.19   Downloading markdown_it_py-3.0.0-py3-none-any.whl.metadata (6.9 kB)
+#18 17.62 Collecting MarkupSafe==3.0.2 (from -r /app/requirements.txt (line 21))
+#18 17.63   Obtaining dependency information for MarkupSafe==3.0.2 from https://files.pythonhosted.org/packages/e0/25/dd5c0f6ac1311e9b40f4af06c78efde0f3b5cbf02502f8ef9501294c425b/MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 17.64   Downloading MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.0 kB)
+#18 17.68 Collecting mdurl==0.1.2 (from -r /app/requirements.txt (line 22))
+#18 17.68   Obtaining dependency information for mdurl==0.1.2 from https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl.metadata
+#18 17.69   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+#18 19.04   Link requires a different Python (3.12.13 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/3a/be/650f9c091ef71cb01d735775d554e068752d3ff63d7943b26316dc401749/numpy-1.21.2.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+#18 19.05   Link requires a different Python (3.12.13 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/5f/d6/ad58ded26556eaeaa8c971e08b6466f17c4ac4d786cd3d800e26ce59cc01/numpy-1.21.3.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+#18 19.05   Link requires a different Python (3.12.13 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/fb/48/b0708ebd7718a8933f0d3937513ef8ef2f4f04529f1f66ca86d873043921/numpy-1.21.4.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+#18 19.06   Link requires a different Python (3.12.13 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/c2/a8/a924a09492bdfee8c2ec3094d0a13f2799800b4fdc9c890738aeeb12c72e/numpy-1.21.5.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+#18 19.06   Link requires a different Python (3.12.13 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/45/b7/de7b8e67f2232c26af57c205aaad29fe17754f793404f59c8a730c7a191a/numpy-1.21.6.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+#18 19.40 Collecting numpy==2.2.5 (from -r /app/requirements.txt (line 23))
+#18 19.40   Obtaining dependency information for numpy==2.2.5 from https://files.pythonhosted.org/packages/a0/93/0f7a75c1ff02d4b76df35079676b3b2719fcdfb39abdf44c8b33f43ef37d/numpy-2.2.5-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 19.61   Downloading numpy-2.2.5-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (63 kB)
+#18 19.83 Collecting packaging==25.0 (from -r /app/requirements.txt (line 24))
+#18 19.83   Obtaining dependency information for packaging==25.0 from https://files.pythonhosted.org/packages/20/12/38679034af332785aac8774540895e234f4d07f7545804097de4b666afd8/packaging-25.0-py3-none-any.whl.metadata
+#18 19.84   Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+#18 20.71 Collecting pandas==2.2.3 (from -r /app/requirements.txt (line 25))
+#18 20.71   Obtaining dependency information for pandas==2.2.3 from https://files.pythonhosted.org/packages/c6/2a/4bba3f03f7d07207481fed47f5b35f556c7441acddc368ec43d6643c5777/pandas-2.2.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl.metadata
+#18 20.73   Downloading pandas-2.2.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl.metadata (89 kB)
+#18 21.14 Collecting pluggy==1.6.0 (from -r /app/requirements.txt (line 26))
+#18 21.15   Obtaining dependency information for pluggy==1.6.0 from https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl.metadata
+#18 21.16   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+#18 21.61 Collecting psycopg2-binary==2.9.10 (from -r /app/requirements.txt (line 27))
+#18 21.61   Obtaining dependency information for psycopg2-binary==2.9.10 from https://files.pythonhosted.org/packages/30/b7/a68c2b4bff1cbb1728e3ec864b2d92327c77ad52edcd27922535a8366f68/psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 21.63   Downloading psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.9 kB)
+#18 22.55 Collecting pydantic==2.11.3 (from -r /app/requirements.txt (line 28))
+#18 22.55   Obtaining dependency information for pydantic==2.11.3 from https://files.pythonhosted.org/packages/b0/1d/407b29780a289868ed696d1616f4aad49d6388e5a77f567dcd2629dcd7b8/pydantic-2.11.3-py3-none-any.whl.metadata
+#18 22.56   Downloading pydantic-2.11.3-py3-none-any.whl.metadata (65 kB)
+#18 27.78 Collecting pydantic_core==2.33.1 (from -r /app/requirements.txt (line 29))
+#18 27.78   Obtaining dependency information for pydantic_core==2.33.1 from https://files.pythonhosted.org/packages/9d/2b/98a37b80b15aac9eb2c6cfc6dbd35e5058a352891c5cce3a8472d77665a6/pydantic_core-2.33.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 27.99   Downloading pydantic_core-2.33.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (6.8 kB)
+#18 28.11 Collecting Pygments==2.19.1 (from -r /app/requirements.txt (line 30))
+#18 28.11   Obtaining dependency information for Pygments==2.19.1 from https://files.pythonhosted.org/packages/8a/0b/9fcc47d19c48b59121088dd6da2488a49d5f72dacf8262e2790a1d2c7d15/pygments-2.19.1-py3-none-any.whl.metadata
+#18 28.12   Downloading pygments-2.19.1-py3-none-any.whl.metadata (2.5 kB)
+#18 28.38 Collecting pytest==8.3.5 (from -r /app/requirements.txt (line 31))
+#18 28.38   Obtaining dependency information for pytest==8.3.5 from https://files.pythonhosted.org/packages/30/3d/64ad57c803f1fa1e963a7946b6e0fea4a70df53c1a7fed304586539c2bac/pytest-8.3.5-py3-none-any.whl.metadata
+#18 28.40   Downloading pytest-8.3.5-py3-none-any.whl.metadata (7.6 kB)
+#18 28.48 Collecting python-dateutil==2.9.0.post0 (from -r /app/requirements.txt (line 32))
+#18 28.48   Obtaining dependency information for python-dateutil==2.9.0.post0 from https://files.pythonhosted.org/packages/ec/57/56b9bcc3c9c6a792fcbaf139543cee77261f3651ca9da0c93f5c1221264b/python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata
+#18 28.49   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+#18 28.59 Collecting python-dotenv==1.1.0 (from -r /app/requirements.txt (line 33))
+#18 28.59   Obtaining dependency information for python-dotenv==1.1.0 from https://files.pythonhosted.org/packages/1e/18/98a99ad95133c6a6e2005fe89faedf294a748bd5dc803008059409ac9b1e/python_dotenv-1.1.0-py3-none-any.whl.metadata
+#18 28.61   Downloading python_dotenv-1.1.0-py3-none-any.whl.metadata (24 kB)
+#18 28.69 Collecting python-multipart==0.0.20 (from -r /app/requirements.txt (line 34))
+#18 28.69   Obtaining dependency information for python-multipart==0.0.20 from https://files.pythonhosted.org/packages/45/58/38b5afbc1a800eeea951b9285d3912613f2603bdf897a4ab0f4bd7f405fc/python_multipart-0.0.20-py3-none-any.whl.metadata
+#18 28.71   Downloading python_multipart-0.0.20-py3-none-any.whl.metadata (1.8 kB)
+#18 28.98 Collecting pytz==2025.2 (from -r /app/requirements.txt (line 35))
+#18 28.98   Obtaining dependency information for pytz==2025.2 from https://files.pythonhosted.org/packages/81/c4/34e93fe5f5429d7570ec1fa436f1986fb1f00c3e0f43a589fe2bbcd22c3f/pytz-2025.2-py2.py3-none-any.whl.metadata
+#18 28.99   Downloading pytz-2025.2-py2.py3-none-any.whl.metadata (22 kB)
+#18 29.24 Collecting PyYAML==6.0.2 (from -r /app/requirements.txt (line 36))
+#18 29.24   Obtaining dependency information for PyYAML==6.0.2 from https://files.pythonhosted.org/packages/c3/93/9916574aa8c00aa06bbac729972eb1071d002b8e158bd0e83a3b9a20a1f7/PyYAML-6.0.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 29.25   Downloading PyYAML-6.0.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (2.1 kB)
+#18 29.44 Collecting requests==2.32.3 (from -r /app/requirements.txt (line 37))
+#18 29.44   Obtaining dependency information for requests==2.32.3 from https://files.pythonhosted.org/packages/f9/9b/335f9764261e915ed497fcdeb11df5dfd6f7bf257d4a6a2a686d80da4d54/requests-2.32.3-py3-none-any.whl.metadata
+#18 29.46   Downloading requests-2.32.3-py3-none-any.whl.metadata (4.6 kB)
+#18 29.77 Collecting rich==14.0.0 (from -r /app/requirements.txt (line 38))
+#18 29.77   Obtaining dependency information for rich==14.0.0 from https://files.pythonhosted.org/packages/0d/9b/63f4c7ebc259242c89b3acafdb37b41d1185c07ff0011164674e9076b491/rich-14.0.0-py3-none-any.whl.metadata
+#18 29.79   Downloading rich-14.0.0-py3-none-any.whl.metadata (18 kB)
+#18 29.91 Collecting rich-toolkit==0.14.3 (from -r /app/requirements.txt (line 39))
+#18 29.91   Obtaining dependency information for rich-toolkit==0.14.3 from https://files.pythonhosted.org/packages/b4/09/e0c7b06657ca1d4317d9e37ea5657a88a20dc3507b2ee6939ace0ff9036e/rich_toolkit-0.14.3-py3-none-any.whl.metadata
+#18 29.93   Downloading rich_toolkit-0.14.3-py3-none-any.whl.metadata (999 bytes)
+#18 29.99 Collecting shellingham==1.5.4 (from -r /app/requirements.txt (line 40))
+#18 29.99   Obtaining dependency information for shellingham==1.5.4 from https://files.pythonhosted.org/packages/e0/f9/0595336914c5619e5f28a1fb793285925a8cd4b432c9da0a987836c7f822/shellingham-1.5.4-py2.py3-none-any.whl.metadata
+#18 30.01   Downloading shellingham-1.5.4-py2.py3-none-any.whl.metadata (3.5 kB)
+#18 30.06 Collecting six==1.17.0 (from -r /app/requirements.txt (line 41))
+#18 30.07   Obtaining dependency information for six==1.17.0 from https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl.metadata
+#18 30.08   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+#18 30.11 Collecting sniffio==1.3.1 (from -r /app/requirements.txt (line 42))
+#18 30.11   Obtaining dependency information for sniffio==1.3.1 from https://files.pythonhosted.org/packages/e9/44/75a9c9421471a6c4805dbf2356f7c181a29c1879239abab1ea2cc8f38b40/sniffio-1.3.1-py3-none-any.whl.metadata
+#18 30.12   Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+#18 30.19 Collecting sortedcontainers==2.4.0 (from -r /app/requirements.txt (line 43))
+#18 30.20   Obtaining dependency information for sortedcontainers==2.4.0 from https://files.pythonhosted.org/packages/32/46/9cb0e58b2deb7f82b84065f37f3bffeb12413f947f9388e4cac22c4621ce/sortedcontainers-2.4.0-py2.py3-none-any.whl.metadata
+#18 30.21   Downloading sortedcontainers-2.4.0-py2.py3-none-any.whl.metadata (10 kB)
+#18 32.35 Collecting SQLAlchemy==2.0.40 (from -r /app/requirements.txt (line 44))
+#18 32.36   Obtaining dependency information for SQLAlchemy==2.0.40 from https://files.pythonhosted.org/packages/bf/fd/0e96c8e6767618ed1a06e4d7a167fe13734c2f8113c4cb704443e6783038/sqlalchemy-2.0.40-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 32.37   Downloading sqlalchemy-2.0.40-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (9.6 kB)
+#18 32.67 Collecting starlette==0.46.2 (from -r /app/requirements.txt (line 45))
+#18 32.67   Obtaining dependency information for starlette==0.46.2 from https://files.pythonhosted.org/packages/8b/0c/9d30a4ebeb6db2b25a841afbb80f6ef9a854fc3b41be131d249a977b4959/starlette-0.46.2-py3-none-any.whl.metadata
+#18 32.69   Downloading starlette-0.46.2-py3-none-any.whl.metadata (6.2 kB)
+#18 32.83 Collecting tomli==2.2.1 (from -r /app/requirements.txt (line 46))
+#18 32.84   Obtaining dependency information for tomli==2.2.1 from https://files.pythonhosted.org/packages/c8/d6/fc9267af9166f79ac528ff7e8c55c8181ded34eb4b0e93daa767b8841573/tomli-2.2.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 32.85   Downloading tomli-2.2.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (11 kB)
+#18 32.99 Collecting typer==0.15.2 (from -r /app/requirements.txt (line 47))
+#18 33.00   Obtaining dependency information for typer==0.15.2 from https://files.pythonhosted.org/packages/7f/fc/5b29fea8cee020515ca82cc68e3b8e1e34bb19a3535ad854cac9257b414c/typer-0.15.2-py3-none-any.whl.metadata
+#18 33.01   Downloading typer-0.15.2-py3-none-any.whl.metadata (15 kB)
+#18 33.05 Collecting typing-inspection==0.4.0 (from -r /app/requirements.txt (line 48))
+#18 33.06   Obtaining dependency information for typing-inspection==0.4.0 from https://files.pythonhosted.org/packages/31/08/aa4fdfb71f7de5176385bd9e90852eaf6b5d622735020ad600f2bab54385/typing_inspection-0.4.0-py3-none-any.whl.metadata
+#18 33.07   Downloading typing_inspection-0.4.0-py3-none-any.whl.metadata (2.6 kB)
+#18 33.16 Collecting typing_extensions==4.13.2 (from -r /app/requirements.txt (line 49))
+#18 33.16   Obtaining dependency information for typing_extensions==4.13.2 from https://files.pythonhosted.org/packages/8b/54/b1ae86c0973cc6f0210b53d508ca3641fb6d0c56823f288d108bc7ab3cc8/typing_extensions-4.13.2-py3-none-any.whl.metadata
+#18 33.17   Downloading typing_extensions-4.13.2-py3-none-any.whl.metadata (3.0 kB)
+#18 33.24 Collecting tzdata==2025.2 (from -r /app/requirements.txt (line 50))
+#18 33.24   Obtaining dependency information for tzdata==2025.2 from https://files.pythonhosted.org/packages/5c/23/c7abc0ca0a1526a0774eca151daeb8de62ec457e77262b66b359c3c7679e/tzdata-2025.2-py2.py3-none-any.whl.metadata
+#18 33.26   Downloading tzdata-2025.2-py2.py3-none-any.whl.metadata (1.4 kB)
+#18 33.41 Collecting urllib3==2.4.0 (from -r /app/requirements.txt (line 51))
+#18 33.41   Obtaining dependency information for urllib3==2.4.0 from https://files.pythonhosted.org/packages/6b/11/cc635220681e93a0183390e26485430ca2c7b5f9d33b15c74c2861cb8091/urllib3-2.4.0-py3-none-any.whl.metadata
+#18 33.43   Downloading urllib3-2.4.0-py3-none-any.whl.metadata (6.5 kB)
+#18 35.64 Collecting uv==0.7.8 (from -r /app/requirements.txt (line 52))
+#18 35.65   Obtaining dependency information for uv==0.7.8 from https://files.pythonhosted.org/packages/bb/70/666be8dbc6a49e1a096f4577d69c4e6f78b3d9228fa2844d1bece21f5cd0/uv-0.7.8-py3-none-manylinux_2_28_aarch64.whl.metadata
+#18 35.85   Downloading uv-0.7.8-py3-none-manylinux_2_28_aarch64.whl.metadata (11 kB)
+#18 36.07 Collecting uvicorn==0.34.2 (from -r /app/requirements.txt (line 53))
+#18 36.07   Obtaining dependency information for uvicorn==0.34.2 from https://files.pythonhosted.org/packages/b1/4b/4cef6ce21a2aaca9d852a6e84ef4f135d99fcd74fa75105e2fc0c8308acd/uvicorn-0.34.2-py3-none-any.whl.metadata
+#18 36.09   Downloading uvicorn-0.34.2-py3-none-any.whl.metadata (6.5 kB)
+#18 36.35 Collecting uvloop==0.21.0 (from -r /app/requirements.txt (line 54))
+#18 36.35   Obtaining dependency information for uvloop==0.21.0 from https://files.pythonhosted.org/packages/a6/ef/a02ec5da49909dbbfb1fd205a9a1ac4e88ea92dcae885e7c961847cd51e2/uvloop-0.21.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 36.56   Downloading uvloop-0.21.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.9 kB)
+#18 ...
+
+#16 [frontend_live build 4/6] RUN npm ci
+#16 38.79 
+#16 38.79 added 237 packages, and audited 238 packages in 37s
+#16 38.79 
+#16 38.79 47 packages are looking for funding
+#16 38.79   run `npm fund` for details
+#16 39.17 
+#16 39.17 19 vulnerabilities (2 low, 6 moderate, 10 high, 1 critical)
+#16 39.17 
+#16 39.17 To address all issues, run:
+#16 39.17   npm audit fix
+#16 39.17 
+#16 39.17 Run `npm audit` for details.
+#16 39.19 npm notice
+#16 39.19 npm notice New major version of npm available! 10.8.2 -> 11.18.0
+#16 39.19 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.18.0
+#16 39.19 npm notice To update run: npm install -g npm@11.18.0
+#16 39.19 npm notice
+#16 DONE 39.2s
+
+#19 [frontend_live build 5/6] COPY frontend/ .
+#19 DONE 0.1s
+
+#18 [backend_live 4/6] RUN pip install --no-cache-dir -v -r /app/requirements.txt
+#18 37.56 Collecting watchfiles==1.0.5 (from -r /app/requirements.txt (line 55))
+#18 37.56   Obtaining dependency information for watchfiles==1.0.5 from https://files.pythonhosted.org/packages/58/65/b72fb817518728e08de5840d5d38571466c1b4a3f724d190cec909ee6f3f/watchfiles-1.0.5-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 37.57   Downloading watchfiles-1.0.5-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.9 kB)
+#18 38.19 Collecting websockets==15.0.1 (from -r /app/requirements.txt (line 56))
+#18 38.19   Obtaining dependency information for websockets==15.0.1 from https://files.pythonhosted.org/packages/a6/02/0073b3952f5bce97eafbb35757f8d0d54812b6174ed8dd952aa08429bcc3/websockets-15.0.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata
+#18 38.20   Downloading websockets-15.0.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (6.8 kB)
+#18 41.22 Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+#18 41.23 Downloading anyio-4.9.0-py3-none-any.whl (100 kB)
+#18 41.25 Downloading certifi-2025.4.26-py3-none-any.whl (159 kB)
+#18 41.28 Downloading charset_normalizer-3.4.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (143 kB)
+#18 41.30 Downloading click-8.1.8-py3-none-any.whl (98 kB)
+#18 41.32 Downloading dnspython-2.7.0-py3-none-any.whl (313 kB)
+#18 41.37 Downloading email_validator-2.2.0-py3-none-any.whl (33 kB)
+#18 41.38 Downloading exceptiongroup-1.2.2-py3-none-any.whl (16 kB)
+#18 41.40 Downloading fastapi-0.115.12-py3-none-any.whl (95 kB)
+#18 41.41 Downloading fastapi_cli-0.0.7-py3-none-any.whl (10 kB)
+#18 41.63 Downloading greenlet-3.2.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (637 kB)
+#18 41.73    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 637.2/637.2 kB 7.1 MB/s eta 0:00:00
+#18 41.75 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#18 41.76 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#18 41.78 Downloading httptools-0.6.4-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (508 kB)
+#18 41.85 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+#18 41.87 Downloading idna-3.10-py3-none-any.whl (70 kB)
+#18 41.88 Downloading iniconfig-2.1.0-py3-none-any.whl (6.0 kB)
+#18 41.89 Downloading isort-6.0.1-py3-none-any.whl (94 kB)
+#18 41.91 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+#18 41.93 Downloading markdown_it_py-3.0.0-py3-none-any.whl (87 kB)
+#18 41.95 Downloading MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (24 kB)
+#18 41.96 Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+#18 42.20 Downloading numpy-2.2.5-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (14.1 MB)
+#18 46.55    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.1/14.1 MB 3.2 MB/s eta 0:00:00
+#18 46.56 Downloading packaging-25.0-py3-none-any.whl (66 kB)
+#18 46.58 Downloading pandas-2.2.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (15.2 MB)
+#18 ...
+
+#20 [frontend_live build 6/6] RUN npm run build
+#20 2.204 
+#20 2.204 > frontend@0.0.0 build
+#20 2.204 > vite build
+#20 2.204 
+#20 6.951 vite v6.3.5 building for production...
+#20 8.005 transforming...
+#20 ...
+
+#18 [backend_live 4/6] RUN pip install --no-cache-dir -v -r /app/requirements.txt
+#18 48.88    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.2/15.2 MB 6.6 MB/s eta 0:00:00
+#18 48.89 Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+#18 48.91 Downloading psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (2.9 MB)
+#18 49.32    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.9/2.9 MB 6.9 MB/s eta 0:00:00
+#18 49.33 Downloading pydantic-2.11.3-py3-none-any.whl (443 kB)
+#18 49.60 Downloading pydantic_core-2.33.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (1.9 MB)
+#18 50.04    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 4.1 MB/s eta 0:00:00
+#18 50.05 Downloading pygments-2.19.1-py3-none-any.whl (1.2 MB)
+#18 50.23    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 6.9 MB/s eta 0:00:00
+#18 50.24 Downloading pytest-8.3.5-py3-none-any.whl (343 kB)
+#18 50.29 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+#18 50.33 Downloading python_dotenv-1.1.0-py3-none-any.whl (20 kB)
+#18 50.34 Downloading python_multipart-0.0.20-py3-none-any.whl (24 kB)
+#18 50.36 Downloading pytz-2025.2-py2.py3-none-any.whl (509 kB)
+#18 50.43 Downloading PyYAML-6.0.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (739 kB)
+#18 50.54    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 739.2/739.2 kB 6.9 MB/s eta 0:00:00
+#18 50.56 Downloading requests-2.32.3-py3-none-any.whl (64 kB)
+#18 50.57 Downloading rich-14.0.0-py3-none-any.whl (243 kB)
+#18 50.61 Downloading rich_toolkit-0.14.3-py3-none-any.whl (24 kB)
+#18 50.62 Downloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB)
+#18 50.63 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+#18 50.65 Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+#18 50.66 Downloading sortedcontainers-2.4.0-py2.py3-none-any.whl (29 kB)
+#18 50.68 Downloading sqlalchemy-2.0.40-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (3.3 MB)
+#18 51.15    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 6.9 MB/s eta 0:00:00
+#18 51.16 Downloading starlette-0.46.2-py3-none-any.whl (72 kB)
+#18 51.18 Downloading tomli-2.2.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (233 kB)
+#18 51.22 Downloading typer-0.15.2-py3-none-any.whl (45 kB)
+#18 51.23 Downloading typing_inspection-0.4.0-py3-none-any.whl (14 kB)
+#18 51.24 Downloading typing_extensions-4.13.2-py3-none-any.whl (45 kB)
+#18 51.26 Downloading tzdata-2025.2-py2.py3-none-any.whl (347 kB)
+#18 51.31 Downloading urllib3-2.4.0-py3-none-any.whl (128 kB)
+#18 51.54 Downloading uv-0.7.8-py3-none-manylinux_2_28_aarch64.whl (16.3 MB)
+#18 55.64    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.3/16.3 MB 4.0 MB/s eta 0:00:00
+#18 55.65 Downloading uvicorn-0.34.2-py3-none-any.whl (62 kB)
+#18 55.67 Downloading uvloop-0.21.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (4.6 MB)
+#18 56.33    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.6/4.6 MB 6.9 MB/s eta 0:00:00
+#18 56.57 Downloading watchfiles-1.0.5-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (454 kB)
+#18 56.64 Downloading websockets-15.0.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (183 kB)
+#18 58.72 Installing collected packages: sortedcontainers, pytz, websockets, uvloop, uv, urllib3, tzdata, typing_extensions, tomli, sniffio, six, shellingham, PyYAML, python-multipart, python-dotenv, Pygments, psycopg2-binary, pluggy, packaging, numpy, mdurl, MarkupSafe, isort, iniconfig, idna, httptools, h11, greenlet, exceptiongroup, dnspython, click, charset-normalizer, certifi, annotated-types, uvicorn, typing-inspection, SQLAlchemy, requests, python-dateutil, pytest, pydantic_core, markdown-it-py, Jinja2, httpcore, email_validator, anyio, watchfiles, starlette, rich, pydantic, pandas, httpx, typer, rich-toolkit, fastapi, fastapi-cli
+#18 60.13   changing mode of /usr/local/bin/websockets to 755
+#18 62.72   changing mode of /usr/local/bin/dotenv to 755
+#18 67.79   changing mode of /usr/local/bin/pygmentize to 755
+#18 ...
+
+#20 [frontend_live build 6/6] RUN npm run build
+#20 31.47 ✓ 474 modules transformed.
+#20 34.76 rendering chunks...
+#20 34.85 computing gzip size...
+#20 34.93 dist/assets/spenny_logo-Cz4K0nfA.png    0.23 kB
+#20 34.93 dist/index.html                         0.48 kB │ gzip:   0.31 kB
+#20 34.93 dist/assets/index-YFHB1JWD.css         24.15 kB │ gzip:   4.92 kB
+#20 34.93 dist/assets/index-DtCL08BA.js         521.78 kB │ gzip: 161.61 kB
+#20 34.93 
+#20 34.93 (!) Some chunks are larger than 500 kB after minification. Consider:
+#20 34.93 - Using dynamic import() to code-split the application
+#20 34.93 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#20 34.93 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#20 34.93 ✓ built in 27.62s
+#20 DONE 35.1s
+
+#18 [backend_live 4/6] RUN pip install --no-cache-dir -v -r /app/requirements.txt
+#18 ...
+
+#21 [frontend_live stage-1 2/3] COPY --from=build /app/dist /usr/share/nginx/html
+#21 DONE 0.0s
+
+#22 [frontend_live stage-1 3/3] COPY docker/frontend/nginx.staging.conf /etc/nginx/conf.d/default.conf
+#22 DONE 0.0s
+
+#23 [frontend_live] exporting to docker image format
+#23 exporting layers 0.0s done
+#23 exporting manifest sha256:3977b3375820210cf8bb676729fd1535c13e4073b59747383392fb4694fe42c6 done
+#23 exporting config sha256:93b8d24dd91713aae568bd3061c0fed72a6bf76f6bcda8a125d95fc38d391806 done
+#23 sending tarball
+#23 sending tarball 0.1s done
+#23 DONE 0.1s
+
+#24 importing to docker
+#24 loading layer 6bebc94d7887 168.77kB / 168.77kB 0.0s done
+#24 loading layer 1458880b287c 299B / 299B 0.0s done
+#24 DONE 0.0s
+
+#25 [frontend_live] resolving provenance for metadata file
+#25 DONE 0.0s
+
+#18 [backend_live 4/6] RUN pip install --no-cache-dir -v -r /app/requirements.txt
+#18 81.88   changing mode of /usr/local/bin/f2py to 755
+#18 81.88   changing mode of /usr/local/bin/numpy-config to 755
+#18 82.54   changing mode of /usr/local/bin/isort to 755
+#18 82.54   changing mode of /usr/local/bin/isort-identify-imports to 755
+#18 85.87   changing mode of /usr/local/bin/normalizer to 755
+#18 86.29   changing mode of /usr/local/bin/uvicorn to 755
+#18 97.04   changing mode of /usr/local/bin/py.test to 755
+#18 97.04   changing mode of /usr/local/bin/pytest to 755
+#18 97.62   changing mode of /usr/local/bin/markdown-it to 755
+#18 98.81   changing mode of /usr/local/bin/email_validator to 755
+#18 99.53   changing mode of /usr/local/bin/watchfiles to 755
+#18 137.7   changing mode of /usr/local/bin/httpx to 755
+#18 138.0   changing mode of /usr/local/bin/typer to 755
+#18 138.6   changing mode of /usr/local/bin/fastapi to 755
+#18 138.7   changing mode of /usr/local/bin/fastapi to 755
+#18 138.8 Successfully installed Jinja2-3.1.6 MarkupSafe-3.0.2 PyYAML-6.0.2 Pygments-2.19.1 SQLAlchemy-2.0.40 annotated-types-0.7.0 anyio-4.9.0 certifi-2025.4.26 charset-normalizer-3.4.2 click-8.1.8 dnspython-2.7.0 email_validator-2.2.0 exceptiongroup-1.2.2 fastapi-0.115.12 fastapi-cli-0.0.7 greenlet-3.2.1 h11-0.16.0 httpcore-1.0.9 httptools-0.6.4 httpx-0.28.1 idna-3.10 iniconfig-2.1.0 isort-6.0.1 markdown-it-py-3.0.0 mdurl-0.1.2 numpy-2.2.5 packaging-25.0 pandas-2.2.3 pluggy-1.6.0 psycopg2-binary-2.9.10 pydantic-2.11.3 pydantic_core-2.33.1 pytest-8.3.5 python-dateutil-2.9.0.post0 python-dotenv-1.1.0 python-multipart-0.0.20 pytz-2025.2 requests-2.32.3 rich-14.0.0 rich-toolkit-0.14.3 shellingham-1.5.4 six-1.17.0 sniffio-1.3.1 sortedcontainers-2.4.0 starlette-0.46.2 tomli-2.2.1 typer-0.15.2 typing-inspection-0.4.0 typing_extensions-4.13.2 tzdata-2025.2 urllib3-2.4.0 uv-0.7.8 uvicorn-0.34.2 uvloop-0.21.0 watchfiles-1.0.5 websockets-15.0.1
+#18 138.8 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#18 139.2 
+#18 139.2 [notice] A new release of pip is available: 25.0.1 -> 26.1.2
+#18 139.2 [notice] To update, run: pip install --upgrade pip
+#18 DONE 139.7s
+
+#26 [backend_live 5/6] RUN useradd -m appuser
+#26 DONE 0.2s
+
+#27 [backend_live] exporting to docker image format
+#27 exporting layers
+#27 exporting layers 4.8s done
+#27 exporting manifest sha256:d650c01efd4e42db38c2db9f138122d114b859e43212dda90bcf006ba46b4abb done
+#27 exporting config sha256:26475a05dd736b724d473aab93d1f383ad84ee8dab34545547fff330967a223d done
+#27 sending tarball
+#27 ...
+
+#28 importing to docker
+#28 loading layer 93fbf07bf35e 718B / 718B
+#28 loading layer 381e6d5290f3 557.06kB / 89.97MB
+#28 loading layer 381e6d5290f3 83.56MB / 89.97MB 2.1s
+#28 loading layer bf2e1c9b34fe 3.31kB / 3.31kB
+#28 loading layer 93fbf07bf35e 718B / 718B 2.3s done
+#28 loading layer 381e6d5290f3 89.97MB / 89.97MB 2.3s done
+#28 loading layer bf2e1c9b34fe 3.31kB / 3.31kB 0.0s done
+#28 DONE 2.3s
+
+#27 [backend_live] exporting to docker image format
+#27 sending tarball 2.7s done
+#27 DONE 7.5s
+
+#29 [backend_live] resolving provenance for metadata file
+#29 DONE 0.0s
+> Loading the env file
+> Save and load image into PI - BACKEND
+Loaded image: spenny_live_backend_img:latest
+> Save and load image into PI - FRONTEND
+Loaded image: spenny_live_frontend_img:latest
+> Copy the docker compose
+> Copy the env_file
