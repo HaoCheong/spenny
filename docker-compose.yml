@@ -43,7 +43,7 @@ services:
       - SPENNY_DB_NAME=${SPENNY_DB_NAME}
       - SPENNY_DB_HOST=${SPENNY_DB_HOST}
       - SPENNY_DB_PORT=${SPENNY_DB_PORT}
-      - TZ=${SPENNY_DB_TIMEZONE}
+      - TZ=${BACKEND_TIMEZONE}
     volumes:
       - ${BACKEND_APP_PATH}/app:/app
     profiles:
@@ -68,12 +68,12 @@ services:
     profiles:
     - demo
 
-  backend_staging:
+  backend_live:
     container_name: ${BACKEND_CONTAINER_NAME}
     image: ${BACKEND_IMAGE_NAME}
     build:
       context: .
-      dockerfile: docker/backend/Dockerfile.staging
+      dockerfile: docker/backend/Dockerfile.live
     ports:
       - ${BACKEND_PORT}:8000
     depends_on:
@@ -85,18 +85,18 @@ services:
       - SPENNY_DB_NAME=${SPENNY_DB_NAME}
       - SPENNY_DB_HOST=${SPENNY_DB_HOST}
       - SPENNY_DB_PORT=${SPENNY_DB_PORT}
-      - TZ=${SPENNY_DB_TIMEZONE}
+      - TZ=${BACKEND_TIMEZONE}
     volumes:
       - ${BACKEND_APP_PATH}/app:/app
     profiles:
-    - staging
+    - live
 
-  frontend_staging:
+  frontend_live:
     container_name: ${FRONTEND_CONTAINER_NAME}
     image: ${FRONTEND_IMAGE_NAME}
     build:
       context: .
-      dockerfile: docker/frontend/Dockerfile.staging
+      dockerfile: docker/frontend/Dockerfile.live
     ports:
       - ${FRONTEND_PORT}:80
     environment:
@@ -108,4 +108,4 @@ services:
     volumes:
       - ${FRONTEND_APP_PATH}:/app
     profiles:
-    - staging
+    - live

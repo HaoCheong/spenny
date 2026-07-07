@@ -1,0 +1,42 @@
+SHELL := /bin/bash
+.ONESHELL:
+LOCAL_PATH := /home/hcheong/projects/spenny/env
+.PHONY: demo staging
+.SHELLFLAGS := -ec   # -e so a failed build aborts instead of ploughing on
+
+# Makefile (Controls Env) -> Docker Compose (Dockerfile and env parsing) -> Docker (Build and/or run)
+
+hao_prod:
+	@set -a && . env/hao_prod.env && set +a
+	docker compose --env-file env/hao_prod.env -f docker-compose.yml --profile live down --volumes --remove-orphans
+	docker compose --env-file env/hao_prod.env -f docker-compose.yml --profile live \
+		up --remove-orphans --renew-anon-volumes -d
+	echo "==================== PRODUCTION ACCESS POINTS ($$PROJECT_NAME) ===================="
+	echo "BACKEND URL -> $$BACKEND_URL"
+	echo "FRONTEND URL -> $$FRONTEND_CONTAINER_URL"
+	echo "DB Access -> PGPASSWORD=$$SPENNY_DB_PASS PAGER='less -S' psql -h $$SPENNY_DB_HOST -p $$SPENNY_DB_PORT -d $$SPENNY_DB_NAME -U $$SPENNY_DB_USER"
+	echo "================================== END =================================="
+
+yunshu_prod:
+	@set -a && . env/yunshu_prod.env && set +a
+	docker compose --env-file env/yunshu_prod.env -f docker-compose.yml --profile live down --volumes --remove-orphans
+	docker compose --env-file env/yunshu_prod.env -f docker-compose.yml --profile live \
+		up --remove-orphans --renew-anon-volumes -d
+	echo "==================== PRODUCTION ACCESS POINTS ($$PROJECT_NAME) ===================="
+	echo "BACKEND URL -> $$BACKEND_URL"
+	echo "FRONTEND URL -> $$FRONTEND_CONTAINER_URL"
+	echo "DB Access -> PGPASSWORD=$$SPENNY_DB_PASS PAGER='less -S' psql -h $$SPENNY_DB_HOST -p $$SPENNY_DB_PORT -d $$SPENNY_DB_NAME -U $$SPENNY_DB_USER"
+	echo "================================== END =================================="
+
+hao_stop:
+	docker compose --env-file env/hao_prod.env -f docker-compose.yml --profile live down --volumes --remove-orphans
+
+hao_clean:
+	docker compose --env-file env/hao_prod.env down --rmi local --volumes --remove-orphans
+
+yunshu_stop:
+	docker compose --env-file env/yunshu_prod.env -f docker-compose.yml --profile live down --volumes --remove-orphans
+
+yunshu_clean:
+	docker compose --env-file env/hao_prod.env down --rmi local --volumes --remove-orphans
+	

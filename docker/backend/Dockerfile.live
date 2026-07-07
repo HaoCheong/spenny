@@ -10,7 +10,10 @@ COPY backend/ .
 
 # Installing dependencies
 COPY backend/requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
+
+RUN pip install --no-cache-dir -v -r /app/requirements.txt
 
 # Create app user trigger
 RUN useradd -m appuser
