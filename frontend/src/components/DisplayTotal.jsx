@@ -1,4 +1,5 @@
 import React from "react";
+import { centsToDollars } from "../helpers/displayConverter";
 
 const DisplayTotal = ({ buckets }) => {
 	const calculateTotal = (buckets) => {
@@ -24,7 +25,7 @@ const DisplayTotal = ({ buckets }) => {
 			id="total-amount"
 			className="rounded-xl p-3 flex flex-col justify-center items-center border-5 border-solid border-spenny-accent-primary text-white font-semibold text-xl w-2/8"
 		>
-			Total: ${total}
+			Total: ${centsToDollars(total)}
 		</div>
 	);
 };

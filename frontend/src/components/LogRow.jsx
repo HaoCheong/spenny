@@ -1,3 +1,4 @@
+import { centsToDollars } from "../helpers/displayConverter";
 import Divider from "./Divider";
 import Button from "./Input/Button";
 
@@ -45,7 +46,7 @@ const LogRow = ({ log }) => {
 			<p
 				className={`flex justify-center items-center text-xl w-2/27 h-[60px] p-2 ${textColorType} rounded-xl`}
 			>
-				${log.event_properties?.amount ?? "N/A"}
+				${log.action_properties.operation?.amount ?? "N/A"}
 			</p>
 
 			<Divider vertical />

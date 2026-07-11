@@ -1,3 +1,4 @@
+import { centsToDollars } from "../../helpers/displayConverter";
 import Divider from "../Divider";
 
 const BucketEventCard = ({ event }) => {
@@ -38,7 +39,7 @@ const BucketEventCard = ({ event }) => {
 					{datetime_convert(event.trigger.next_trigger_date)}
 				</h2>
 				<p className={`float-right font-bold ${textColorType}`}>
-					${event.operation.amount}
+					${centsToDollars(event.operation.amount)}
 				</p>
 			</div>
 		</div>
