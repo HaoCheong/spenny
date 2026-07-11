@@ -8,7 +8,7 @@ BUCKETS = [
     {
         "name": "Bucket A for Storing",
         "description": "Bucket A for Andrew for storing",
-        "amount": 5000,
+        "amount": 500000,
         "variant": {
             "type": "STORE"
         }
@@ -16,7 +16,7 @@ BUCKETS = [
     {
         "name": "Bucket B is invisible",
         "description": "Bucket b for Bandrew but invisble",
-        "amount": 2000,
+        "amount": 200000,
         "variant": {
             "type": "INVSB"
         }
@@ -24,10 +24,10 @@ BUCKETS = [
     {
         "name": "Bucket C is Goals",
         "description": "Bucket c for Candrew for Goals",
-        "amount": 1000,
+        "amount": 100000,
         "variant": {
             "type": "GOALS",
-            "target": 5000
+            "target": 500000
         }
     }
 ]
@@ -45,7 +45,7 @@ EVENTS = [
         "operation": {
             "to_bucket_id": 2,
             "type": "MOVE",
-            "amount": 123
+            "amount": 12300
         }
     },
     {
@@ -59,7 +59,7 @@ EVENTS = [
         },
         "operation": {
             "type": "ADD",
-            "amount": 555
+            "amount": 55500
         }
     },
     {
@@ -73,7 +73,7 @@ EVENTS = [
         },
         "operation": {
             "type": "SUB",
-            "amount": 111
+            "amount": 11100
         }
     },
     {
@@ -87,7 +87,7 @@ EVENTS = [
         },
         "operation": {
             "type": "ADD",
-            "amount": 222
+            "amount": 22200
         }
     }
 ] 
