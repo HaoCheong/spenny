@@ -11,6 +11,7 @@ import Button from "../../Input/Button.jsx";
 import ListItems from "../../Input/ListItems.jsx";
 import ResponseAlert from "../../ResponseAlert.jsx";
 import DialogBase from "../DialogBase.jsx";
+import { dollarsToCents } from "../../../helpers/displayConverter.jsx";
 
 const EditBucketDialog = ({
 	isOpen,
@@ -33,7 +34,7 @@ const EditBucketDialog = ({
 		const edittedBucket = {
 			name: values.name,
 			description: values.description,
-			amount: values.amount,
+			amount: dollarsToCents(values.amount),
 			variant: {
 				type: values.variant.value,
 			},
@@ -256,7 +257,7 @@ const EditBucketDialog = ({
 													.name,
 												value: formik.values.variant
 													.value,
-												target: parseInt(
+												target: parseFloat(
 													e.target.value,
 												),
 											});

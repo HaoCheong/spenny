@@ -18,7 +18,7 @@ const EventAddInputs = ({ formik }) => {
 						id: formik.values.operation.id,
 						value: formik.values.operation.value,
 						name: formik.values.operation.name,
-						amount: parseInt(e.target.value),
+						amount: parseFloat(e.target.value),
 					});
 				}}
 				value={formik.values.operation?.amount ?? 0}
