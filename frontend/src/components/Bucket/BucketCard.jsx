@@ -158,9 +158,13 @@ const BucketCard = ({
 						className="flex flex-col gap-3 h-full"
 					>
 						{recentLogs.length !== 0 ? (
-							recentLogs.map((log, key) => {
-								return <BucketLogCard key={key} log={log} />;
-							})
+							recentLogs
+								.map((log, key) => {
+									return (
+										<BucketLogCard key={key} log={log} />
+									);
+								})
+								.reverse()
 						) : (
 							<SkeletonCard label="No logs found" />
 						)}

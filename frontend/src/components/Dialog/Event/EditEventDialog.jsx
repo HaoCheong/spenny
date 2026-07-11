@@ -105,19 +105,19 @@ const EditEventDialog = ({ isOpen, setIsOpen, bucket, buckets, event }) => {
 			case "ADD":
 				return {
 					type: operation.value,
-					amount: operation.amount,
+					amount: dollarsToCents(parseFloat(operation.amount)),
 				};
 			case "SUB":
 				return {
 					type: operation.value,
-					amount: operation.amount,
+					amount: dollarsToCents(parseFloat(operation.amount)),
 				};
 				break;
 			case "MOVE":
 				return {
 					to_bucket_id: operation.to_bucket.id,
 					type: operation.value,
-					amount: operation.amount,
+					amount: dollarsToCents(parseFloat(operation.amount)),
 				};
 				break;
 			case "MULT":
@@ -179,6 +179,31 @@ const EditEventDialog = ({ isOpen, setIsOpen, bucket, buckets, event }) => {
 	const EditEventValidationSchema = Yup.object().shape({
 		name: Yup.string().required("Event name is required"),
 		description: Yup.string().required("Event description is required"),
+		operation: Yup.object().shape({
+			value: Yup.string(),
+			amount: Yup.number()
+				// treat empty field as "missing" so .required fires instead of a cast error
+				.transform((val, orig) => (orig === "" ? undefined : val))
+				.when("value", {
+					is: (v) => ["ADD", "SUB", "MOVE"].includes(v),
+					then: (s) =>
+						s
+							.typeError("Amount must be a number")
+							.positive("Amount must be greater than 0")
+							.required("Amount is required"),
+					otherwise: (s) => s.notRequired(),
+				}),
+			percentage: Yup.number()
+				.transform((val, orig) => (orig === "" ? undefined : val))
+				.when("value", {
+					is: "MULT",
+					then: (s) =>
+						s
+							.typeError("Percentage must be a number")
+							.required("Percentage is required"),
+					otherwise: (s) => s.notRequired(),
+				}),
+		}),
 	});
 
 	const formik = useFormik({

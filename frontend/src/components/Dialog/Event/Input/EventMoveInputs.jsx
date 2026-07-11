@@ -17,7 +17,11 @@ const EventMoveInputs = ({ disabled = false, formik, buckets }) => {
 	};
 	return (
 		<>
-			<FieldLabel label="Amount to Transfer">
+			<FieldLabel
+				label="Amount to Transfer"
+				error={!!formik.errors.operation?.amount}
+				errorMsg={formik.errors.operation?.amount}
+			>
 				<Input
 					required
 					id="amount"
@@ -32,7 +36,7 @@ const EventMoveInputs = ({ disabled = false, formik, buckets }) => {
 							value: formik.values.operation.value,
 							name: formik.values.operation.name,
 							to_bucket: formik.values.operation.to_bucket,
-							amount: parseInt(e.target.value),
+							amount: e.target.value,
 						});
 					}}
 					value={formik.values.operation.amount ?? 0}

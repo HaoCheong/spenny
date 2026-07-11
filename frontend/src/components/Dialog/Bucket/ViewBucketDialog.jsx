@@ -9,6 +9,7 @@ import React from "react";
 import ViewEventDialog from "../Event/ViewEventDialog";
 import EditEventDialog from "../Event/EditEventDialog";
 import DeleteEventDialog from "../Event/DeleteEventDialog";
+import { centsToDollars } from "../../../helpers/displayConverter";
 
 const ViewBucketDialog = ({ isOpen, setIsOpen, buckets, bucket }) => {
 	const [isViewEventOpen, setIsViewEventOpen] = React.useState(false);
@@ -81,7 +82,7 @@ const ViewBucketDialog = ({ isOpen, setIsOpen, buckets, bucket }) => {
 									className="w-1/2 h-full flex items-center justify-center"
 								>
 									<p className="text-5xl text-spenny-text font-semibold p-3">
-										{bucket.amount}
+										{centsToDollars(bucket.amount)}
 									</p>
 								</div>
 								<Divider vertical />

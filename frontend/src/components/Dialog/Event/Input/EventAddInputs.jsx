@@ -4,7 +4,11 @@ import FieldLabel from "../../../FieldLabel";
 
 const EventAddInputs = ({ formik }) => {
 	return (
-		<FieldLabel label="Amount to Add">
+		<FieldLabel
+			label="Amount to Add"
+			error={!!formik.errors.operation?.amount}
+			errorMsg={formik.errors.operation?.amount}
+		>
 			<Input
 				required
 				id="amount"
@@ -18,10 +22,10 @@ const EventAddInputs = ({ formik }) => {
 						id: formik.values.operation.id,
 						value: formik.values.operation.value,
 						name: formik.values.operation.name,
-						amount: parseInt(e.target.value),
+						amount: e.target.value,
 					});
 				}}
-				value={formik.values.operation?.amount ?? 0}
+				value={formik.values.operation?.amount ?? ""}
 			/>
 		</FieldLabel>
 	);

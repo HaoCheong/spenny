@@ -34,4 +34,4 @@ class MultOperation(DirectMoneyOperation):
     percentage: float
 
     def apply(self, bucket: Bucket):
-        bucket.amount = bucket.amount * (1 + self.percentage)
+        bucket.amount = round(bucket.amount * (1 + self.percentage))
