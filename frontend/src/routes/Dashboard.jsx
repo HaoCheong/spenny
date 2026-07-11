@@ -35,6 +35,12 @@ const Dashboard = () => {
 		setIsAddBucketOpen(true);
 	};
 
+	const handleSyncUpdate = async () => {
+		// PFIX: Currently a hack for manual syncing
+		const data = await axiosRequest("POST", `${BACKEND_URL}/update`);
+		window.location.reload();
+	};
+
 	React.useEffect(() => {
 		fetchBuckets();
 	}, []);
@@ -93,6 +99,12 @@ const Dashboard = () => {
 						<Divider vertical />
 						<DisplayTotal buckets={buckets} />
 						<Divider vertical />
+						<Button
+							classStyle="w-1/8 text-xl"
+							classColor="rounded-xl border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
+							label="Sync"
+							onClick={handleSyncUpdate}
+						/>
 						<Button
 							classStyle="w-1/8 text-xl"
 							classColor="rounded-xl border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
