@@ -55,7 +55,7 @@ const Logs = () => {
 			"GET",
 			`${BACKEND_URL}/logs?skip=${
 				paginationModel.pageSize * paginationModel.page
-			}&limit=${paginationModel.pageSize}`
+			}&limit=${paginationModel.pageSize}`,
 		);
 
 		const newLogs = [...logs, ...data.data];
@@ -197,7 +197,7 @@ const Logs = () => {
 								type="date"
 								className={clsx(
 									"block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
 								onChange={(e) => {
 									setSearchDateRange({
@@ -211,7 +211,7 @@ const Logs = () => {
 								type="date"
 								className={clsx(
 									"block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
 								onChange={(e) => {
 									setSearchDateRange({
@@ -235,7 +235,7 @@ const Logs = () => {
 								<ListboxButton
 									className={clsx(
 										"flex items-center w-full h-full rounded-lg bg-white/5 p-5 text-left text-xl text-white",
-										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+										"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25",
 									)}
 								>
 									{searchBucket.name}
@@ -245,7 +245,7 @@ const Logs = () => {
 									transition
 									className={clsx(
 										"w-(--button-width) rounded-lg border border-white/5 bg-spenny-background p-1 [--anchor-gap:--spacing(1)] focus:outline-none",
-										"transition duration-100 ease-in-out data-closed:opacity-0"
+										"transition duration-100 ease-in-out data-closed:opacity-0",
 									)}
 								>
 									{buckets.map((bucket) => (
@@ -270,7 +270,7 @@ const Logs = () => {
 							<Input
 								className={clsx(
 									"block size-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm text-white",
-									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30"
+									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
 								onChange={(e) => {
 									setSearchText(e.target.value);
@@ -296,9 +296,6 @@ const Logs = () => {
 								id="log-header"
 								className="flex flex-row gap-3 w-full h-1/12"
 							>
-								<p className="flex items-center text-2xl font-bold w-2/27 h-[60px] ">
-									ID
-								</p>
 								<Divider vertical />
 								<p className="flex items-center text-2xl font-bold w-2/27 h-[60px] ">
 									Event
@@ -308,7 +305,7 @@ const Logs = () => {
 									Bucket
 								</p>
 								<Divider vertical />
-								<p className="flex items-center text-2xl font-bold w-4/27 h-[60px] ">
+								<p className="flex items-center text-2xl font-bold w-6/27 h-[60px] ">
 									Name
 								</p>
 								<Divider vertical />
