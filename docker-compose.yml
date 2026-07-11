@@ -54,7 +54,7 @@ services:
     image: ${FRONTEND_IMAGE_NAME}
     build:
       context: .
-      dockerfile: docker/backend/Dockerfile.demo
+      dockerfile: docker/frontend/Dockerfile.demo
     ports:
       - ${FRONTEND_PORT}:5173
     environment:
