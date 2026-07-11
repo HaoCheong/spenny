@@ -16,6 +16,7 @@ import EventMoveInputs from "./Event/Input/EventMoveInputs";
 import EventMultInputs from "./Event/Input/EventMultInputs";
 import EventSubInputs from "./Event/Input/EventSubInputs";
 import DialogBase from "./DialogBase";
+import { dollarsToCents } from "../../helpers/displayConverter";
 
 const ManualEntryDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 	const eventTypes = [
@@ -66,19 +67,19 @@ const ManualEntryDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 			case "ADD":
 				return {
 					type: operation.value,
-					amount: operation.amount,
+					amount: dollarsToCents(operation.amount),
 				};
 			case "SUB":
 				return {
 					type: operation.value,
-					amount: operation.amount,
+					amount: dollarsToCents(operation.amount),
 				};
 				break;
 			case "MOVE":
 				return {
 					to_bucket_id: operation.to_bucket.id,
 					type: operation.value,
-					amount: operation.amount,
+					amount: dollarsToCents(operation.amount),
 				};
 				break;
 			case "MULT":
