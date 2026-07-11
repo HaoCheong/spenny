@@ -4,7 +4,11 @@ import FieldLabel from "../../../FieldLabel";
 
 const EventSubInputs = ({ formik }) => {
 	return (
-		<FieldLabel label="Amount to Deduct">
+		<FieldLabel
+			label="Amount to Deduct"
+			error={!!formik.errors.operation?.amount}
+			errorMsg={formik.errors.operation?.amount}
+		>
 			<Input
 				required
 				id="amount"
@@ -19,7 +23,7 @@ const EventSubInputs = ({ formik }) => {
 						value: formik.values.operation.value,
 						name: formik.values.operation.name,
 						to_bucket: formik.values.operation.to_bucket,
-						amount: parseFloat(e.target.value),
+						amount: e.target.value,
 					});
 				}}
 				value={formik.values.operation.amount ?? 0}

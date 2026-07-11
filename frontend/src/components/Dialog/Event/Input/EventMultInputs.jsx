@@ -4,7 +4,11 @@ import FieldLabel from "../../../FieldLabel";
 
 const EventMultInputs = ({ formik }) => {
 	return (
-		<FieldLabel label="Amount to Multiply (%)">
+		<FieldLabel
+			label="Amount to Multiply (%)"
+			error={!!formik.errors.operation?.percentage}
+			errorMsg={formik.errors.operation?.percentage}
+		>
 			<Input
 				required
 				id="amount"
@@ -19,10 +23,10 @@ const EventMultInputs = ({ formik }) => {
 						value: formik.values.operation.value,
 						name: formik.values.operation.name,
 						to_bucket: formik.values.operation.to_bucket,
-						amount: parseFloat(e.target.value),
+						percentage: e.target.value,
 					});
 				}}
-				value={formik.values.operation.amount ?? 0}
+				value={formik.values.operation.percentage ?? 0}
 			/>
 		</FieldLabel>
 	);

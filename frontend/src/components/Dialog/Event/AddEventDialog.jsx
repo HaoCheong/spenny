@@ -105,19 +105,19 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 			case "ADD":
 				return {
 					type: operation.value,
-					amount: operation.amount,
+					amount: dollarsToCents(parseFloat(operation.amount)),
 				};
 			case "SUB":
 				return {
 					type: operation.value,
-					amount: operation.amount,
+					amount: dollarsToCents(parseFloat(operation.amount)),
 				};
 				break;
 			case "MOVE":
 				return {
 					to_bucket_id: operation.to_bucket.id,
 					type: operation.value,
-					amount: operation.amount,
+					amount: dollarsToCents(parseFloat(operation.amount)),
 				};
 				break;
 			case "MULT":
@@ -175,6 +175,31 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 	const AddEventValidationSchema = Yup.object().shape({
 		name: Yup.string().required("Event name is required"),
 		description: Yup.string().required("Event description is required"),
+		operation: Yup.object().shape({
+			value: Yup.string(),
+			amount: Yup.number()
+				// treat empty field as "missing" so .required fires instead of a cast error
+				.transform((val, orig) => (orig === "" ? undefined : val))
+				.when("value", {
+					is: (v) => ["ADD", "SUB", "MOVE"].includes(v),
+					then: (s) =>
+						s
+							.typeError("Amount must be a number")
+							.positive("Amount must be greater than 0")
+							.required("Amount is required"),
+					otherwise: (s) => s.notRequired(),
+				}),
+			percentage: Yup.number()
+				.transform((val, orig) => (orig === "" ? undefined : val))
+				.when("value", {
+					is: "MULT",
+					then: (s) =>
+						s
+							.typeError("Percentage must be a number")
+							.required("Percentage is required"),
+					otherwise: (s) => s.notRequired(),
+				}),
+		}),
 	});
 
 	const formik = useFormik({
@@ -235,7 +260,7 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 									"mt-2 w-full rounded-lg border-none bg-white/5 p-1.5 text-sm text-white",
 									"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/30",
 								)}
-								disableda
+								disabled
 								value={bucket.name}
 							/>
 						</FieldLabel>
