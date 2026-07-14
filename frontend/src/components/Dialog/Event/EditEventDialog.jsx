@@ -16,6 +16,7 @@ import EventCmvInputs from "./Input/EventCmvInputs";
 import EventMoveInputs from "./Input/EventMoveInputs";
 import EventMultInputs from "./Input/EventMultInputs";
 import EventSubInputs from "./Input/EventSubInputs";
+import { dollarsToCents } from "../../helpers/displayConverter";
 
 const EditEventDialog = ({ isOpen, setIsOpen, bucket, buckets, event }) => {
 	const eventTypes = [
