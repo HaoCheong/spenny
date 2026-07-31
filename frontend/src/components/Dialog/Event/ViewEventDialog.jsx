@@ -111,7 +111,17 @@ const ViewEventDialog = ({ isOpen, setIsOpen, buckets, bucket, event }) => {
 			(eventType) => eventType.value === event.operation?.type,
 		);
 
+		console.log("EVENT TYPE useEffect:", eventType);
 		console.log("VIEW EVENT DIALOG EVENT", event);
+
+		// PFIX: I feel like we should be populate on render
+		// PFIX: Terrible conditional
+		// PFIX: Currently showing in cent form. Need to update the input to use dollar. Automatically add the decimal point?
+		if (eventType.value === "MULT") {
+			eventType.amount = event.operation?.percentage;
+		} else {
+			eventType.amount = event.operation?.amount;
+		}
 		formik.setFieldValue("name", event.name);
 		formik.setFieldValue("description", event.name);
 		formik.setFieldValue("bucket_id", event.name);
