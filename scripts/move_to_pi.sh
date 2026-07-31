@@ -30,7 +30,7 @@ docker save $FRONTEND_IMAGE_NAME | ssh $PI_USER@$PI_HOST docker load
 echo "> Copy the docker compose"
 scp to_prod/docker-compose-prod.yml $PI_USER@$PI_HOST:$PI_DIR/docker-compose.yml
 echo "> Copy the env_file"
-scp $ENV_FILE $PI_USER@$PI_HOST:$PI_DIR/$ENV_FILE
+scp $ENV_FILE $PI_USER@$PI_HOST:$PI_DIR/prod.env
 
 # # 5. Start on Pi
-ssh $PI_USER@$PI_HOST "cd $PI_DIR && docker compose --env-file $ENV_FILE --profile live up -d"
+# ssh $PI_USER@$PI_HOST "cd $PI_DIR && docker compose --env-file $ENV_FILE --profile live up -d"
