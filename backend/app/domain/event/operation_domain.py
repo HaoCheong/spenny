@@ -9,6 +9,6 @@ from app.domain.event.money.direct_money_operations_domain import AddOperation, 
 from app.domain.event.money.transfer_money_operations_domain import CMVOperation, MoveOperation
 
 Operation = Annotated[
-    Union[MoveOperation, AddOperation, SubOperation, MultOperation, CMVOperation],
+    Union[ MoveOperation, MultOperation, AddOperation, SubOperation, CMVOperation],
     Field(discriminator="type")
 ]
