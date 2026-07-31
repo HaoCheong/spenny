@@ -124,7 +124,7 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 			case "MULT":
 				return {
 					type: operation.value,
-					percentage: operation.amount,
+					percentage: operation.percentage,
 				};
 				break;
 			case "CMV":
