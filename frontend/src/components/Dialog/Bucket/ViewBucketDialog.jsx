@@ -103,6 +103,10 @@ const ViewBucketDialog = ({ isOpen, setIsOpen, buckets, bucket }) => {
 								)}
 							>
 								{bucket.events?.map((event) => {
+									console.log(
+										"EVENTS from ViewBucketDialog",
+										event,
+									);
 									return (
 										<ViewBucketEventRow
 											setIsViewOpen={setIsViewEventOpen}
