@@ -114,6 +114,11 @@ const ViewEventDialog = ({ isOpen, setIsOpen, buckets, bucket, event }) => {
 		console.log("EVENT TYPE useEffect:", eventType);
 		console.log("VIEW EVENT DIALOG EVENT", event);
 
+		// PFIX: Terrible, do better
+		if (!eventType) {
+			return;
+		}
+
 		// PFIX: I feel like we should be populate on render
 		// PFIX: Terrible conditional
 		// PFIX: Currently showing in cent form. Need to update the input to use dollar. Automatically add the decimal point?
