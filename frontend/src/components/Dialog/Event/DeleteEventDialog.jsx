@@ -8,7 +8,7 @@ import Button from "../../Input/Button";
 import ResponseAlert from "../../ResponseAlert";
 import DialogBase from "../DialogBase";
 
-const DeleteEventDialog = ({ isOpen, setIsOpen, bucket, event }) => {
+const DeleteEventDialog = ({ isOpen, setIsOpen, bucket, event, setEvents }) => {
 	const [error, setError] = React.useState(false);
 	const [errorMsg, setErrorMsg] = React.useState("");
 
@@ -24,6 +24,8 @@ const DeleteEventDialog = ({ isOpen, setIsOpen, bucket, event }) => {
 		try {
 			console.log("EVENT", event);
 			await axiosRequest("DELETE", `${BACKEND_URL}/event/${event.id}`);
+
+			setEvents((prev) => prev.filter((e) => e.id !== event.id));
 
 			setAlertInfo({
 				isOpen: true,
