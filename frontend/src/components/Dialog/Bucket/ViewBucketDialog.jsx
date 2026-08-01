@@ -18,6 +18,12 @@ const ViewBucketDialog = ({ isOpen, setIsOpen, buckets, bucket }) => {
 
 	const [focusedEvent, setFocusedEvent] = React.useState({});
 
+	const [events, setEvents] = React.useState(bucket.events ?? []);
+
+	React.useEffect(() => {
+		setEvents(bucket.events ?? []);
+	}, [bucket]);
+
 	const handleClose = () => {
 		setIsOpen(false);
 	};
@@ -44,6 +50,7 @@ const ViewBucketDialog = ({ isOpen, setIsOpen, buckets, bucket }) => {
 					setIsOpen={setIsDeleteEventOpen}
 					bucket={bucket}
 					event={focusedEvent}
+					setEvents={setEvents}
 				/>
 				<DialogPanel
 					transition
@@ -102,7 +109,7 @@ const ViewBucketDialog = ({ isOpen, setIsOpen, buckets, bucket }) => {
 									"h-5/17 w-full p-3 border-solid border-5 border-spenny-accent-primary overflow-y-scroll flex flex-col gap-3 rounded-xl",
 								)}
 							>
-								{bucket.events?.map((event) => {
+								{events?.map((event) => {
 									console.log(
 										"EVENTS from ViewBucketDialog",
 										event,

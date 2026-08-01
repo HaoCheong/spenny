@@ -239,7 +239,7 @@ const EditEventDialog = ({ isOpen, setIsOpen, bucket, buckets, event }) => {
 		if (freq == undefined) {
 			return {
 				frequencyValue: 0,
-				frequencyType: {},
+				frequencyType: frequencyTypes[0],
 			};
 		}
 

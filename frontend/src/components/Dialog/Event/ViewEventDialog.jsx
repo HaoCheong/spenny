@@ -16,6 +16,7 @@ import EventCmvInputs from "./Input/EventCmvInputs";
 import EventMoveInputs from "./Input/EventMoveInputs";
 import EventMultInputs from "./Input/EventMultInputs";
 import EventSubInputs from "./Input/EventSubInputs";
+import { centsToDollars } from "../../../helpers/displayConverter";
 //PFIX: Could do a refactor, do we NEED to use formik?
 const ViewEventDialog = ({ isOpen, setIsOpen, buckets, bucket, event }) => {
 	const eventTypes = [
@@ -55,7 +56,7 @@ const ViewEventDialog = ({ isOpen, setIsOpen, buckets, bucket, event }) => {
 		if (freq == undefined) {
 			return {
 				frequencyValue: 0,
-				frequencyType: {},
+				frequencyItem: frequencyTypes[0],
 			};
 		}
 
@@ -111,9 +112,6 @@ const ViewEventDialog = ({ isOpen, setIsOpen, buckets, bucket, event }) => {
 			(eventType) => eventType.value === event.operation?.type,
 		);
 
-		console.log("EVENT TYPE useEffect:", eventType);
-		console.log("VIEW EVENT DIALOG EVENT", event);
-
 		// PFIX: Terrible, do better
 		if (!eventType) {
 			return;
@@ -125,7 +123,7 @@ const ViewEventDialog = ({ isOpen, setIsOpen, buckets, bucket, event }) => {
 		if (eventType.value === "MULT") {
 			eventType.amount = event.operation?.percentage;
 		} else {
-			eventType.amount = event.operation?.amount;
+			eventType.amount = centsToDollars(event.operation?.amount);
 		}
 		formik.setFieldValue("name", event.name);
 		formik.setFieldValue("description", event.name);
