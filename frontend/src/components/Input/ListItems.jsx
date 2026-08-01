@@ -9,7 +9,7 @@ import clsx from "clsx";
 const ListItems = ({ collection, onChange, formikItem, disabled = false }) => {
 	// Collection must be a minimal of {id: 0, name: "Display Name", value: "DB backend value"}
 	return (
-		<Listbox value={formikItem.id} onChange={onChange}>
+		<Listbox value={formikItem?.id} onChange={onChange}>
 			<ListboxButton
 				disabled={disabled}
 				className={clsx(
@@ -17,7 +17,7 @@ const ListItems = ({ collection, onChange, formikItem, disabled = false }) => {
 					"focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25",
 				)}
 			>
-				{formikItem.name}
+				{formikItem?.name}
 			</ListboxButton>
 			<ListboxOptions
 				anchor="bottom end"
