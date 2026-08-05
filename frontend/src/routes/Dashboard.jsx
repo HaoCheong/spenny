@@ -41,6 +41,10 @@ const Dashboard = () => {
 		window.location.reload();
 	};
 
+	const handleFeedback = () => {
+		window.location.href = "mailto:hao.cheong.dev@gmail.com";
+	};
+
 	React.useEffect(() => {
 		fetchBuckets();
 	}, []);
@@ -95,10 +99,16 @@ const Dashboard = () => {
 						classSize="h-1/8"
 						classStyle="flex flex-row items-center w-full gap-5"
 					>
-						<h1 className="w-5/8 text-5xl">Dashboard</h1>
+						<h1 className="w-4/8 text-5xl">Dashboard</h1>
 						<Divider vertical />
 						<DisplayTotal buckets={buckets} />
 						<Divider vertical />
+						<Button
+							classStyle="w-1/8 text-xl"
+							classColor="rounded-xl border-solid border-2 border-solid bg-spenny-accent-warning text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
+							label="Feedback"
+							onClick={handleFeedback}
+						/>
 						<Button
 							classStyle="w-1/8 text-xl"
 							classColor="rounded-xl border-solid border-2 border-solid bg-spenny-accent-primary text-black hover:bg-spenny-background hover:text-spenny-accent-primary"
