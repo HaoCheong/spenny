@@ -176,8 +176,12 @@ const ManualEntryDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 				type: "manual",
 			},
 		},
-		onSubmit: (values) => {
+		onSubmit: (values, { resetForm }) => {
 			handleSubmit(values);
+			resetForm();
+			setTimeout(() => {
+				setIsOpen(false);
+			}, 1500);
 		},
 	});
 
