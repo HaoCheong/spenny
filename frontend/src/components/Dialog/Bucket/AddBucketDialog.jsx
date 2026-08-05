@@ -89,8 +89,12 @@ const AddBucketDialog = ({ isOpen, setIsOpen, buckets, setBuckets }) => {
 			variant: variants[0],
 		},
 
-		onSubmit: (values) => {
+		onSubmit: (values, { resetForm }) => {
 			handleSubmit(values);
+			resetForm();
+			setTimeout(() => {
+				setIsOpen(false);
+			}, 1500);
 		},
 	});
 

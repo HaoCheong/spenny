@@ -217,8 +217,12 @@ const AddEventDialog = ({ isOpen, setIsOpen, bucket, buckets }) => {
 				next_trigger_date: new Date(),
 			},
 		},
-		onSubmit: (values) => {
+		onSubmit: (values, { resetForm }) => {
 			handleSubmit(values);
+			resetForm();
+			setTimeout(() => {
+				setIsOpen(false);
+			}, 1500);
 		},
 	});
 
