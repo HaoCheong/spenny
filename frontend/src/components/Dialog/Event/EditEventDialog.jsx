@@ -157,7 +157,7 @@ const EditEventDialog = ({ isOpen, setIsOpen, bucket, buckets, event }) => {
 		try {
 			const data = await axiosRequest(
 				"PATCH",
-				`${BACKEND_URL}/event/${bucket.id}`,
+				`${BACKEND_URL}/event/${event.id}`,
 				{
 					data: newEvent,
 				},
