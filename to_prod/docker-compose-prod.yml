@@ -1,6 +1,6 @@
 services:
 
-  backend_live:
+  backend_hao_live:
     container_name: ${BACKEND_CONTAINER_NAME}
     image: ${BACKEND_IMAGE_NAME}
     platform: linux/arm64
@@ -19,9 +19,9 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     profiles:
-    - live
+    - hao_live
 
-  frontend_live:
+  frontend_hao_live:
     container_name: ${FRONTEND_CONTAINER_NAME}
     image: ${FRONTEND_IMAGE_NAME}
     platform: linux/arm64
@@ -38,4 +38,44 @@ services:
     environment:
       - TZ=${FRONTEND_TIMEZONE}
     profiles:
-    - live
+    - hao_live
+
+  backend_yunshu_live:
+    container_name: ${BACKEND_CONTAINER_NAME}
+    image: ${BACKEND_IMAGE_NAME}
+    platform: linux/arm64
+    build:
+      context: ..
+      dockerfile: docker/backend/Dockerfile.live
+    ports:
+      - ${BACKEND_PORT}:8000
+    environment:
+      - SPENNY_DB_USER=${SPENNY_DB_USER}
+      - SPENNY_DB_PASS=${SPENNY_DB_PASS}
+      - SPENNY_DB_NAME=${SPENNY_DB_NAME}
+      - SPENNY_DB_HOST=${SPENNY_DB_HOST}
+      - SPENNY_DB_PORT=${SPENNY_DB_PORT}
+      - TZ=${BACKEND_TIMEZONE}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    profiles:
+    - yunshu_live
+
+  frontend_yunshu_live:
+    container_name: ${FRONTEND_CONTAINER_NAME}
+    image: ${FRONTEND_IMAGE_NAME}
+    platform: linux/arm64
+    build:
+      context: ..
+      dockerfile: docker/frontend/Dockerfile.live
+      args:
+        VITE_PROJECT_NAME: ${PROJECT_NAME}
+        VITE_BACKEND_URL: ${BACKEND_URL}
+        VITE_BACKEND_PATH: ${BACKEND_PATH}
+        VITE_PROJECT_VERSION: ${PROJECT_VERSION}
+    ports:
+      - ${FRONTEND_PORT}:80
+    environment:
+      - TZ=${FRONTEND_TIMEZONE}
+    profiles:
+    - yunshu_live

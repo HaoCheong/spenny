@@ -81,7 +81,7 @@ verify_image() {
 # Drop --no-cache once you trust the pipeline; it roughly triples build time and
 # the layer cache was never the cause of the stale deploys.
 echo "> Building the images locally"
-docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" --profile live build
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" --profile ${OWNER}_live build
 
 # Catch a missing `platform:` in the compose file before shipping a useless image.
 for IMG in "$BACKEND_IMAGE_NAME" "$FRONTEND_IMAGE_NAME"; do
@@ -127,7 +127,7 @@ ssh "$SSH" "mkdir -p '$PI_DIR'"
 echo "> Copy the docker compose"
 scp "$COMPOSE_FILE" "$SSH:$PI_DIR/docker-compose.yml"
 echo "> Copy the env_file"
-scp "$ENV_FILE" "$SSH:$PI_DIR/prod.env"
+scp "$ENV_FILE" "$SSH:$PI_DIR/${OWNER}_prod.env"
 
 # ---------------------------------------------------------------------------
 # 5. Start on Pi
@@ -137,10 +137,10 @@ scp "$ENV_FILE" "$SSH:$PI_DIR/prod.env"
 # interpolated the local env/<owner>_prod.env path into the remote command, so
 # Compose errored out and the previous containers just kept running.
 echo "> Starting on the Pi"
-ssh "$SSH" "cd '$PI_DIR' && docker compose --env-file prod.env --profile live up -d --force-recreate --remove-orphans"
+ssh "$SSH" "cd '$PI_DIR' && docker compose --env-file ${OWNER}_prod.env --profile ${OWNER}_live up -d --force-recreate --remove-orphans"
 
 echo "> Deployed. Running containers:"
-ssh "$SSH" "cd '$PI_DIR' && docker compose --env-file prod.env --profile live ps"
+ssh "$SSH" "cd '$PI_DIR' && docker compose --env-file ${OWNER}_prod.env --profile ${OWNER}_live ps"
 
 # Optional: reclaim space from the images this deploy orphaned.
-# ssh "$SSH" "docker image prune -f"
+# ssh "$SSH" "docker image prune -f" 
